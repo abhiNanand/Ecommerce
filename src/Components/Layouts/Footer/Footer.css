@@ -1,0 +1,202 @@
+/* Footer Container */
+.footer-container {
+    background-color: #111;
+    color: white;
+    padding: 40px 0;
+    width: 100%;
+}
+
+/* Footer Content Wrapper */
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+/* Each Section */
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+/* Headings */
+.footer-section h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+/* Paragraph Styling */
+.footer-section p {
+    font-size: 14px;
+    margin: 6px 0;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.footer-section p:hover {
+    opacity: 1;
+}
+
+/* Bottom Text */
+#bottom-text {
+    text-align: center;
+    color: rgb(106, 107, 100);
+    margin-top: 20px;
+}
+
+/* Input Box Container */
+.inputbox {
+
+    padding: 10px ;
+    background-color: black;
+    border: 2px solid white;
+    width: fit-content;
+    max-width: 300px; /* Prevents input from being too wide */
+}
+
+/* Input Field */
+.inputbox input {
+    /* flex: 1; Makes input take available space */
+    background-color: black;
+    border: none;
+    color: white;
+    outline: none;
+    font-size: 16px;
+    min-width: 0; /* Prevents flex issues */
+}
+
+/* Placeholder Text */
+.inputbox input::placeholder {
+    color: rgba(113, 113, 113, 0.7);
+}
+
+/* Button Styling */
+.subscribe-button {
+    background-color: black;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    align-items: center;
+}
+
+.subscribe-button img {
+    width: 24px;
+    height: 18px;
+}
+
+/* Download App Section */
+.download-app-container {
+    background-color: black;
+    width: fit-content;
+    max-width: 380px;
+    margin: auto;
+    text-align: center;
+}
+
+/* Heading */
+.download-heading {
+    margin-bottom: 10px;
+    color: white;
+}
+
+/* Subtitle */
+.download-subtext {
+    color: #838080;
+    margin-bottom: 15px;
+}
+
+/* Flex container for QR code & store buttons */
+.download-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap; /* Ensures responsiveness */
+}
+
+/* QR Code Styling */
+.qr-code img {
+    width: 100px;
+    height: auto;
+    max-width: 100%;
+}
+
+/* Store buttons container */
+.store-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; /* Reduce gap between buttons */
+}
+
+/* Buttons */
+.store-button {
+    background-color: black;
+    border: none;
+    cursor: pointer;
+    transition: opacity 0.3s;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    width: 135px; /* Set a fixed width */
+}
+
+/* Button hover effect */
+.store-button:hover {
+    opacity: 0.8;
+}
+
+/* Store button images */
+.store-button img {
+    width: 100%;
+    height: auto;
+    max-width: 135px;
+    display: block;
+}
+
+/* Social Media Buttons */
+.socialmedia {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.socialmedia button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.socialmedia img {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Responsive for smaller screens */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .download-content {
+        flex-direction: column;
+    }
+
+    .store-button img {
+        max-width: 120px;
+    }
+
+    .inputbox {
+        max-width: 90%;
+    }
+}
