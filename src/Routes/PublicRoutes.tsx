@@ -3,6 +3,8 @@ import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/Constants';
 import Dashboard from '../Views/Dashboard/Dashboard';
 import { CustomRouter } from './RootRoutes';
 
+// making changes;
+import Login from '../Views/Login/Login';
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
@@ -13,7 +15,7 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
     path: `${ROUTES_CONFIG.LOGIN.path}`,
     title: ROUTES_CONFIG.LOGIN.title,
-    element: '<Login />',
+    element: <Login />,
   },
   {
     path: '*',

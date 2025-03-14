@@ -1,0 +1,145 @@
+.navbar {
+  margin: 0;
+  background-color: #f9f8f8;
+  border-bottom: 2px solid #ccc;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 2rem;
+
+  &-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .brand {
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #000;
+      margin: 0;
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+
+    a {
+      text-decoration: none;
+      color: #333;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #666;
+      }
+    }
+  }
+
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: #f4f1f1;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    width: 300px;
+    transition: all 0.3s ease;
+
+    input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.3rem;
+
+      &::placeholder {
+        color: #999;
+      }
+    }
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      color: #666;
+      transition: color 0.3s ease;
+
+      &:hover {
+        color: #333;
+      }
+    }
+  }
+
+  .icons {
+    display: flex;
+    gap: 1.5rem;
+
+    button {
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      color: #333;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+
+      &:hover {
+        color: #666;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1rem;
+
+    &-container {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+
+    .nav-links {
+      display: none;
+    }
+
+    .search-box {
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .icons {
+      gap: 1rem;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .navbar {
+    .search-box {
+      width: auto;
+      padding: 0.5rem;
+
+      input {
+        display: none;
+      }
+
+      button {
+        margin: 0;
+      }
+    }
+  }
+}

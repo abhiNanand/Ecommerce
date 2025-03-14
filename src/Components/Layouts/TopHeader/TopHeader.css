@@ -1,32 +1,34 @@
 .top-header {
     display: flex;
-    justify-content: space-between;  
+    justify-content: space-between; /* Push elements to sides */
     align-items: center;
-    padding: 1px 20px;
+    padding: 8px 20px;
     background-color: black;
     color: white;
-    height: 50px;  
 }
+
 .announcement {
-    margin: 0;
+    flex: 1; /* Allow it to take available space */
+    text-align: center; /* Center text */
     font-size: 1rem;
-    text-align: center;
-     flex-grow: 1;  /* #check this*/
+}
+
+.language-selector {
+    flex-shrink: 0; /* Prevent shrinking */
 }
 
 .language-selector select {
     background-color: black;
     color: white;
-    border-color:black;
+    border: none;
     padding: 5px;
-    border-radius: 5px;
     cursor: pointer;
-    
 }
 
-/* #When clicking on dropbox border color becomes white to stop that i had used this.  */
-.language-selector select:focus{
-    border-color: black !important;
-    outline: none; /* Remove default focus outline */
-    box-shadow: none; /* Prevents glowing effect in some browsers */
+/* Responsive: Stack items on small screens */
+@media (max-width: 600px) {
+    .top-header {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
 }

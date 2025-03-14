@@ -1,0 +1,204 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* General Styles */
+.login-container {
+    max-width: 300px;
+    width: 80%;
+}
+
+/* Heading */
+.login-container h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    color: #333;
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+}
+
+.login-container p {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Input Fields */
+.input-group {
+    margin-bottom: 0.8rem;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    padding-left: 0;  /* Placeholder starts from the left */
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-color: rgb(192, 189, 189);
+    outline: none; /* Remove default focus outline */
+    transition: border 0.3s ease-in-out;
+}
+
+.login-container input::placeholder {
+    color: rgb(192, 187, 187);
+}
+
+.login-container input:focus {
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-color: rgb(155, 152, 152);
+}
+
+/* Button Group (for Login & Forgot Password buttons) */
+.button-group {
+    display: flex;
+    justify-content: space-between; /* Push buttons to opposite ends */
+    align-items: center;
+    gap: 10px; /* Responsive spacing between buttons */
+    width: 100%;
+}
+
+/* Login Button */
+.login-container #login-btn {
+    padding: 12px;
+    font-size: 1rem;
+    background-color: #e91515;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    flex: 1; /* Make it flexible */
+    text-align: center;
+}
+
+.login-container #login-btn:hover {
+    background-color: #9b1818;
+}
+
+/* Forgot Password Button */
+.login-container .forgot-password {
+    background: none;
+    border: none;
+    color: red;
+    cursor: pointer;
+    font-size: 0.9rem;
+    margin-top: 10px;
+    transition: color 0.3s;
+    flex: 1; /* Make it flexible */
+    text-align: center;
+}
+
+.login-container .forgot-password:hover {
+    color: darkred;
+}
+
+/* Success Message */
+.login-container .reset-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 500px) {
+    .login-container {
+        padding: 1.5rem;
+    }
+
+    .login-container h1 {
+        font-size: 1.7rem;
+    }
+
+    .login-container input, .login-container #login-btn {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+
+    .login-container .forgot-password {
+        font-size: 0.85rem;
+    }
+
+    /* On small screens, buttons stack vertically */
+    .button-group {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .login-container #login-btn, .login-container .forgot-password {
+        width: 100%; /* Full width buttons on small screens */
+    }
+}
+
+
+// button in singup form
+.singup-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 10px;
+}
+
+#create-btn, #google-btn {
+    width: 100%;  /* Ensure full width */
+    max-width: 100%;  /* Remove max-width restriction */
+    padding: 12px;
+    font-size: 1rem;
+   
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center; /* Ensure text remains centered */
+}
+
+#create-btn
+{
+    background-color: red;
+    margin-bottom: 0.5rem;
+}
+
+#google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#google-btn:hover {
+    background-color: #f5f5f5;
+}
+
+#google-img {
+    width: 20px;
+    height: 20px;
+}
+
+@media (max-width: 500px) {
+    .singup-btn {
+        gap: 8px;
+        width: 100%;
+    }
+    
+    #create-btn, #google-btn {
+        font-size: 0.9rem;
+        padding: 10px;
+    }
+    
+
+    #google-img {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+  
+  #go-to-login
+  {
+    text-align: center;
+    color:grey;
+    font-size: 0.85rem; 
+  }

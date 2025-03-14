@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <style>
+  .subscribe-form {
+    display: flex;
+    align-items: center; /* Align items vertically */
+    gap: 8px; /* Space between input and button */
+    width: 100%;
+}
+
+.subscribe-button {
+    background-color: black;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    align-items: center; /* Center image */
+    justify-content: center;
+    padding: 8px;
+}
+
+.subscribe-button img {
+    width: 24px;
+    height: 18px;
+}
+
+.inputbox {
+    padding: 10px;
+    background-color: black;
+    border: 2px solid white;
+    width: 100%;
+    max-width: 300px; /* Prevents input from being too wide */
+    display: flex;
+    justify-content: center;
+}
+
+/* Input Field */
+.inputbox input {
+    flex: 1; /* Makes input take available space */
+    background-color: black;
+    border: none;
+    color: white;
+    outline: none;
+    font-size: 16px;
+    padding: 8px;
+    min-width: 0; /* Prevents flex issues */
+}
+
+/* Responsive Design */
+@media (max-width: 400px) {
+    .inputbox {
+        max-width: 90%; /* Allows it to shrink on smaller screens */
+    }
+    .subscribe-form {
+        flex-direction: row;
+        gap: 4px;
+    }
+    .subscribe-button {
+        padding: 6px;
+    }
+}
+
+ </style>
+</head>
+<body>
+  <div className="inputbox">
+    <form className="subscribe-form">
+      <input type="email" placeholder="Enter your email" className="email-input" />
+      <button type="submit" className="subscribe-button">
+        <img src={sendIcon} alt="Send" />
+      </button>
+    </form>
+  </div>
+  
+</body>
+</html>

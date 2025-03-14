@@ -13,7 +13,6 @@ export default function Footer() {
   return (
     <footer className="footer-container">
       <div className="footer-content">
-        
         {/* Exclusive Section */}
         <div className="footer-section">
           <h3>Exclusive</h3>
@@ -22,7 +21,11 @@ export default function Footer() {
 
           <div className="inputbox">
             <form className="subscribe-form">
-              <input type="email" placeholder="Enter your email" className="email-input" />
+              <input
+                type="email"
+                placeholder="Enter your email"
+                className="email-input"
+              />
               <button type="submit" className="subscribe-button">
                 <img src={sendIcon} alt="Send" />
               </button>
@@ -67,10 +70,10 @@ export default function Footer() {
             </div>
 
             <div className="store-buttons">
-              <button className="store-button">
+              <button type="button" className="store-button">
                 <img src={googleplay} alt="Google Play Store" />
               </button>
-              <button className="store-button">
+              <button type="button" className="store-button">
                 <img src={applestore} alt="Apple Store" />
               </button>
             </div>
@@ -78,13 +81,20 @@ export default function Footer() {
 
           {/* Social Media Section */}
           <div className="socialmedia">
-            <button><img src={facebook} alt="Facebook" /></button>
-            <button><img src={twitter} alt="Twitter" /></button>
-            <button><img src={insta} alt="Instagram" /></button>
-            <button><img src={linkedin} alt="LinkedIn" /></button>
+            <button type="button">
+              <img src={facebook} alt="Facebook" />
+            </button>
+            <button type="button">
+              <img src={twitter} alt="Twitter" />
+            </button>
+            <button type="button">
+              <img src={insta} alt="Instagram" />
+            </button>
+            <button type="button">
+              <img src={linkedin} alt="LinkedIn" />
+            </button>
           </div>
         </div>
-
       </div>
 
       <p id="bottom-text"> ⓒ Copyright Rimel 2022. All rights reserved</p>
