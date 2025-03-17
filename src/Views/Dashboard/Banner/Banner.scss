@@ -1,0 +1,85 @@
+ /* Banner Container */
+.banner-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: auto;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+  
+  /* Banner Image */
+  .banner-image {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  /* Shop Now Button */
+  .shop-now-btn {
+    position: absolute;
+    bottom: 12%;
+    left: 8%;
+    display: flex;
+    align-items: center;
+    gap: 10px; // Adds space between text and arrow
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: 0.3s ease;
+  }
+  
+  .shop-now-btn span {
+    text-decoration: underline;
+    text-underline-offset: 3px; // Adjusts the underline position
+  }
+  .shop-now-btn:hover {
+    background-color: darkred;
+  }
+  
+  /* Dots Navigation */
+  .dots-container {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+  }
+  
+  .dot {
+    width: 12px;
+    height: 12px;
+    background-color: gray;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dot.active {
+    background-color: red;
+  }
+  
+  /* 📌 Responsive Styles */
+  @media (max-width: 768px) {
+    .banner-image {
+      max-height: 250px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .dot {
+      width: 14px;
+      height: 14px;
+    }
+  
+    .shop-now-btn {
+      bottom: 10%;
+      padding: 8px 16px;
+    }
+  }
+  
