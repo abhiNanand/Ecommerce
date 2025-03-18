@@ -16,6 +16,7 @@ import './Dashboard.scss';
 import { Link } from 'react-router-dom';
 import Banner from './Banner/Banner';
 import Sales from './Sales/Sales';
+import BrowseCategory from './BrowseCategroy/BrowseCategory';
 
 export default function Dashboard() {
   return (
@@ -39,9 +40,10 @@ export default function Dashboard() {
         <div className="banner-section">
           <Banner />
         </div>
-
       </div>
-      <Sales/>
+      <Sales />
+      <BrowseCategory/>
+     
     </div>
   );
 }
