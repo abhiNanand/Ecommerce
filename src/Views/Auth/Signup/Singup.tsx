@@ -5,7 +5,7 @@ import {
   updateProfile,
   signInWithPopup,
 } from 'firebase/auth';
-import { auth, googleProvider } from '../Login/firebase';
+import { auth, googleProvider } from '../../Login/firebase';
 
 import '../Login/Login.scss';
 import googleImg from './googleImg.png';

@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import Banner from './Banner/Banner';
 import Sales from './Sales/Sales';
 import BrowseCategory from './BrowseCategroy/BrowseCategory';
+import SalesItem from './Sales/SalesItem';
 
 export default function Dashboard() {
   return (
@@ -42,7 +43,9 @@ export default function Dashboard() {
         </div>
       </div>
       <Sales />
+      <SalesItem/>
       <BrowseCategory/>
+      
      
     </div>
   );

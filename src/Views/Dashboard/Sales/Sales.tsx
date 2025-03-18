@@ -1,12 +1,14 @@
 
 
-// import {ArrowRight , ArrowLeft} from 'lucide-react';
 
 import './Sales.scss';
-import { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
+ 
+
 
 
 export default function Sales() {
+
     const calculateTimeLeft = () => {
         const targetTime = new Date().setHours(23, 59, 59, 999);
         const now = new Date().getTime();
@@ -47,9 +49,6 @@ export default function Sales() {
 
     }, []);
 
-
-
-
     return (
 
         <div className="sales-section">
@@ -71,6 +70,7 @@ export default function Sales() {
                     </div>
                 )}
             </div>
+            
         </div>
     );
 }
