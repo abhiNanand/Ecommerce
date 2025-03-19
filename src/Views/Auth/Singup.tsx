@@ -5,7 +5,7 @@ import {
   updateProfile,
   signInWithPopup,
 } from 'firebase/auth';
-import { auth, googleProvider } from '../../Login/firebase';
+import { auth, googleProvider } from '../Login/firebase';
 
 import '../Login/Login.scss';
 import googleImg from './googleImg.png';
@@ -42,7 +42,7 @@ export default function Signup() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log('Google Sign-In User:', result.user);
-      navigate('/Home'); // Redirect to home after login
+      navigate('/'); // Redirect to home after login
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);

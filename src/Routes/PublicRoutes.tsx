@@ -5,6 +5,7 @@ import { CustomRouter } from './RootRoutes';
 
 // making changes;
 import Login from '../Views/Login/Login';
+import Signup from '../Views/Auth/Signup';
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
@@ -21,5 +22,10 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     path: '*',
     element: <Navigate to={WILDCARD_ROUTES.PUBLIC} />,
     title: 'Rendering wildcard',
+  },
+  {
+    path:`${ROUTES_CONFIG.SIGNUP.path}`,
+    element:<Signup/>,
+    title: ROUTES_CONFIG.SIGNUP.title,
   },
 ];

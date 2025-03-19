@@ -20,7 +20,7 @@ export default function SalesItem() {
       try {
         const response = await fetch("https://fakestoreapi.com/products");
         const data: Product[] = await response.json(); // Ensure TypeScript knows the expected data type
-        setProducts(data.slice(0, 20)); // Get only 10 products
+        setProducts(data.slice(0, 6)); // Get only 10 products
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {

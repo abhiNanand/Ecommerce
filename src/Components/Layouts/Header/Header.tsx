@@ -15,7 +15,7 @@ export default function Header() {
           <Link to={ROUTES.HOMEPAGE}>Home</Link>
           <a href="#contact">Contact</a>
           <a href="#about">About</a>
-          <Link to={ROUTES.LOGIN}>Login</Link>
+          <Link to={ROUTES.SIGNUP}>Signup</Link>
         </nav>
 
         <div className="search-box">
