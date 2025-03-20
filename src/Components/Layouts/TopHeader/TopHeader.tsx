@@ -1,4 +1,4 @@
-import './TopHeader.css';
+import './TopHeader.scss';
 
 export default function TopHeader() {
   return (

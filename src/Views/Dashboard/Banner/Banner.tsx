@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import bannerImg1 from './bannerImg1.png';
 import bannerImg2 from './bannerImg2.jpg';
 import bannerImg3 from './bannerImg3.jpg';
-import { ArrowRight } from 'lucide-react';
 
 const images = [
     { src: bannerImg1, link: '/shop' },
@@ -27,7 +26,7 @@ export default function Banner() {
         <div className="banner-container">
             <img src={images[currentIndex].src} alt="Banner" className="banner-image" />
             <Link to={images[currentIndex].link} className="shop-now-btn">
-                <span>Shop Now</span> <ArrowRight size={20} />
+                <span>Shop Now</span>
             </Link>
 
             <div className="dots-container">

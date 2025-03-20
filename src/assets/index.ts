@@ -12,6 +12,10 @@ const assets=
     },
     banners:{},
     products:[],
+    images:
+    {
+        jblBox:"/src/assets/image/jbl_boombox.png"
+    },
     
 }
 

@@ -17,7 +17,7 @@ const WILDCARD_ROUTES = {
 const ROUTES_CONFIG = {
   HOMEPAGE: {
     path: ROUTES.HOMEPAGE,
-    title: 'Master Plan',
+    title: 'Home',
   },
   LOGIN: {
     path: ROUTES.LOGIN,

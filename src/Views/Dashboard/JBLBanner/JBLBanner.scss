@@ -1,0 +1,93 @@
+.jbl-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: radial-gradient(circle at center, #111, #000);
+    padding: 50px;
+    border-radius: 10px;
+    color: white;
+    position: relative;
+  
+    &__content {
+      max-width: 50%;
+    }
+  
+    .category {
+      color: #00ff73;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+  
+    h2 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+  
+    &__timer {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+  
+      .timer-box {
+        background: white;
+        color: black;
+        padding: 10px;
+        border-radius: 48%;
+        text-align: center;
+        min-width: 60px;
+  
+        span {
+          font-size: 1.5rem;
+          font-weight: bold;
+          display: block;
+        }
+  
+        p {
+          font-size: 0.9rem;
+        }
+      }
+    }
+  
+    .buy-now {
+      background: #00ff73;
+      color: black;
+      font-size: 1.2rem;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+  
+      &:hover {
+        background: #00cc5e;
+      }
+    }
+  
+    &__image {
+      max-width: 50%;
+  
+      img {
+        width: 100%;
+        max-width: 500px;
+      }
+    }
+  
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+  
+      &__content {
+        max-width: 100%;
+      }
+  
+      &__image {
+        max-width: 100%;
+        img {
+          max-width: 300px;
+        }
+      }
+    }
+  }
+  

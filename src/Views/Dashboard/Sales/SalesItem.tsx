@@ -1,59 +1,59 @@
-import { useState, useEffect } from "react";
+import { useDemoApiQuery } from "../../../Services/Api/module/demoApi";
 import { Star } from "lucide-react";
-import "./SalesItem.scss"; // Import CSS
+import "./SalesItem.scss";
 
-// Define Product Type
 interface Product {
   id: number;
   title: string;
   price: number;
   image: string;
-  
+  rating: {
+    rate: number;
+    count: number;
+  };
 }
 
 export default function SalesItem() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const { data: products, error, isLoading } = useDemoApiQuery(null);
+ 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl font-semibold">Loading products...</p>
+      </div>
+    );
+  }
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch("https://fakestoreapi.com/products");
-        const data: Product[] = await response.json(); // Ensure TypeScript knows the expected data type
-        setProducts(data.slice(0, 6)); // Get only 10 products
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  if (loading) return <h1 className="loading">Loading...</h1>;
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl font-semibold text-red-600">Error loading products. Please try again later.</p>
+      </div>
+    );
+  }
 
   return (
-  
-    
-      <div className="products-grid">
-        {products.map((product) => (
-          <div key={product.id} className="product-card">
-            <img src={product.image} alt={product.title} className="product-image" />
-            <h3 className="product-title">{product.title}</h3>
-            <p className="product-price">${product.price}</p>
-            <div className="rating">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  size={16}
-                //   className={i <= Math.round(product.rate) ? "star filled" : "star"}
-                />
-              ))}
-            </div>
+    <div className="products-grid">
+      {products?.map((product: Product) => (
+        <div key={product.id} className="product-card">
+          <img src={product.image} alt={product.title} className="product-image" />
+          <h3 className="product-title">{product.title}</h3>
+          <p className="product-price">${product.price.toFixed(2)}</p>
+          <div className="rating">
+            {[...Array(5)].map((_, i) => (
+              <Star
+                key={i}
+                size={16}
+                className={i < Math.round(product.rating.rate) ? "star filled" : "star"}
+              />
+            ))}
+            <span className="text-sm text-gray-500 ml-2">({product.rating.count})</span>
           </div>
-        ))}
-      </div>
- 
+        </div>
+      ))}
+    </div>
   );
 }
+
+
+ 

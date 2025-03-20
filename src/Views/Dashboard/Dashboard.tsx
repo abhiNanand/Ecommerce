@@ -18,6 +18,8 @@ import Banner from './Banner/Banner';
 import Sales from './Sales/Sales';
 import BrowseCategory from './BrowseCategroy/BrowseCategory';
 import SalesItem from './Sales/SalesItem';
+import BestSelling  from './BestSellingProducts/BestSelling';
+import JblBanner from './JBLBanner/JBLBanner';
 
 export default function Dashboard() {
   return (
@@ -45,8 +47,10 @@ export default function Dashboard() {
       <Sales />
       <SalesItem/>
       <BrowseCategory/>
-      
-     
+      <BestSelling/>
+      <JblBanner/>
+       
+       
     </div>
   );
 }

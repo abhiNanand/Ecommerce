@@ -1,0 +1,64 @@
+// <section className="best-selling">
+//       <div className="best-selling-header">
+//         <div className="best-selling-highlight-bar"></div>
+//         <h3 className="best-selling-title">This Month</h3>
+//       </div>
+
+//       <div className="best-selling-subtitle">
+//         <h1>Best Selling Products</h1>
+//         <button type="button" className="best-selling-btn">View All</
+.best-selling
+{
+    display: flex;
+    flex-direction: column;
+    margin-top:5vh ;
+}
+
+
+.best-selling-header
+{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+
+.best-selling-title
+{
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: red;
+}
+
+.best-selling-highlight-bar
+{
+    background-color: red;
+    height: 3vh;
+    width: 1vw;
+    border-radius: 3px;
+}
+.best-selling-subtitle
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.best-selling-subtitle h1
+{
+    font-size: 2rem;
+    font-weight: bold;
+    margin: 1rem 0;
+    color: #333;
+}
+
+.best-selling-btn
+{
+    background-color: red;
+    padding:20px;
+    border-color: red;
+    border-style: solid;
+    border-radius:5px;
+    color:white;
+}
+
