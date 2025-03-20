@@ -6,6 +6,10 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { auth } from './firebase';
 
+// to send token and store it.
+import { useDispatch } from 'react-redux';
+import {updateAuthTokenRedux} from '../../Store/Common';
+
 import './Login.scss';
 
 export default function Login() {
@@ -13,6 +17,8 @@ export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [resetEmailSent, setResetEmailSent] = useState<boolean>(false);
+
+  const dispatch =  useDispatch();
 
  
   const onLogin = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -23,7 +29,16 @@ export default function Login() {
         email,
         password
       );
-      console.log(userCredential.user);
+
+       const user= userCredential.user;
+      const token = await user.getIdToken();//get firebase token
+       
+     
+      dispatch(updateAuthTokenRedux({token})); //store token in redux
+
+    
+
+      console.log("user data",userCredential);
       navigate('/'); // change this to your desired redirect path
     } catch (error) {
       if (error instanceof Error) {

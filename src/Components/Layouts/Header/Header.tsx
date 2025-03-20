@@ -1,16 +1,18 @@
 import { Search, Heart, ShoppingCart, User, ShoppingBag, CircleX, LogOut, Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged ,signOut} from 'firebase/auth';
 import { auth } from '../../../Views/Login/firebase';
 import './Header.scss';
+import { useDispatch } from 'react-redux';
+import { updateAuthTokenRedux } from '../../../Store/Common';
 
 export default function Header() {
-
+  const navigate= useNavigate()
   const [open, setOpen] = useState<boolean>(false);
   const [userName, setUserName] = useState<string | null>(null);
-
+  const dispatch= useDispatch()
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -27,7 +29,9 @@ export default function Header() {
    // Logout function
    const handleLogout = async () => {
     await signOut(auth);
+    dispatch(updateAuthTokenRedux({token:null}));
     setUserName(null);
+    navigate(ROUTES.HOMEPAGE)
   };
 
 
@@ -47,20 +51,19 @@ export default function Header() {
 
         <div className="search-box">
           <input type="text" placeholder="What are you looking for?" />
-          <button type="button" aria-label="Search">
+          <button type="button" className="search-box-btn" aria-label="Search">
             <Search size={20} />
           </button>
         </div>
 
         <div className="icons">
-          <button type="button" aria-label="Favorites">
+          <button type="button" className="icons-btn" aria-label="Favorites">
             <Heart size={24} />
           </button>
-          <button type="button" aria-label="Shopping Cart">
+          <button type="button" className="icons-btn" aria-label="Shopping Cart">
             <ShoppingCart size={24} />
           </button>
-
-          <div className="dropdown">
+          {userName &&  <div className="dropdown">
             <button
               type="button"
               className="dropdown-btn"
@@ -81,10 +84,13 @@ export default function Header() {
                 </button>
               </div>
             )}
-          </div>
+          </div> }
+         
+          
 {/* showing name if user exists */}
-{userName && <span className="username">Welcome, {userName}</span>}
+{userName && (  <span className="username">Welcome, {userName}</span> )}
         </div>
+        
       </div>
     </header>
   );
