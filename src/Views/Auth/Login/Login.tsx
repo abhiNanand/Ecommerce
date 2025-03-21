@@ -1,45 +1,39 @@
+//lib
 import React, { useState } from 'react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom';
-import { auth } from './firebase';
 
-// to send token and store it.
 import { useDispatch } from 'react-redux';
-import {updateAuthTokenRedux} from '../../Store/Common';
+//components
+//utils
+import { auth } from './firebase';
+import { updateAuthTokenRedux } from '../../../Store/Common';
 
+//styles
 import './Login.scss';
 
 export default function Login() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [resetEmailSent, setResetEmailSent] = useState<boolean>(false);
 
-  const dispatch =  useDispatch();
+  const dispatch = useDispatch();
 
- 
+
   const onLogin = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
-
-       const user= userCredential.user;
+      const user = userCredential.user;
       const token = await user.getIdToken();//get firebase token
-       
-     
-      dispatch(updateAuthTokenRedux({token})); //store token in redux
-
-    
-
-      console.log("user data",userCredential);
-      navigate('/'); // change this to your desired redirect path
+      dispatch(updateAuthTokenRedux({ token })); //store token in redux
+      console.log("user data", userCredential);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

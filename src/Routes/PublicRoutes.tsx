@@ -4,7 +4,7 @@ import Dashboard from '../Views/Dashboard/Dashboard';
 import { CustomRouter } from './RootRoutes';
 
 // making changes;
-import Login from '../Views/Login/Login';
+import Login from '../Views/Auth/Login/Login';
 import Signup from '../Views/Auth/Signup';
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [

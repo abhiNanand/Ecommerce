@@ -2,14 +2,13 @@ import './Banner.scss';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-import bannerImg1 from './bannerImg1.png';
-import bannerImg2 from './bannerImg2.jpg';
-import bannerImg3 from './bannerImg3.jpg';
+ 
+import assets  from '../../../../assets';
 
 const images = [
-    { src: bannerImg1, link: '/shop' },
-    { src: bannerImg2, link: '/shop' },
-    { src: bannerImg3, link: '/shop' }
+    {src:assets.images.banner1,link:'/shop'},
+    {src:assets.images.banner2,link:'/shop'},
+    {src:assets.images.banner3,link:'/shop'},
 ];
 
 export default function Banner() {
@@ -20,7 +19,7 @@ export default function Banner() {
             setCurrentIndex((prev) => (prev + 1) % images.length);
         }, 3000);
         return () => clearInterval(interval);
-    }, []);
+    }, [currentIndex]);
 
     return (
         <div className="banner-container">
@@ -30,7 +29,7 @@ export default function Banner() {
             </Link>
 
             <div className="dots-container">
-                {images.map((_, index) => (
+                {images?.map((_, index) => (
                     <div
                         key={index}
                         className={`dot ${index === currentIndex ? "active" : ""}`}

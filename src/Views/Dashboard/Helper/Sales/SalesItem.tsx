@@ -1,4 +1,4 @@
-import { useDemoApiQuery } from "../../../Services/Api/module/demoApi";
+import { useDemoApiQuery } from "../../../../Services/Api/module/demoApi";
 import { Star } from "lucide-react";
 import "./SalesItem.scss";
 

@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-  signInWithPopup,
-} from 'firebase/auth';
-import { auth, googleProvider } from '../Login/firebase';
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
+ 
+import { auth, googleProvider } from '../Login/firebase';
+import { updateAuthTokenRedux } from '../../../Store/Common';
+import assets from '../../../assets';
 import '../Login/Login.scss';
-import googleImg from './googleImg.png';
+
 
 export default function Signup() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [name, setName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -19,37 +22,36 @@ export default function Signup() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const { user } = userCredential;
 
       await updateProfile(user, { displayName: name });
-
+      toast.success('🎉 Account created successfully!');
       console.log('User created', user);
-      navigate('/login');
+      setTimeout(() => navigate('/login'), 3000);
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
+        toast.error('❌ Sign-up failed! Try again.');
       }
     }
   };
 
-  // for logging with google
+  // Google Sign-In
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      console.log('Google Sign-In User:', result.user);
-      navigate('/'); // Redirect to home after login
+      console.log('Google Sign-In User:', result.user.getIdToken);
+      const token =result.user.getIdToken();
+      dispatch(updateAuthTokenRedux({token}));
+      toast.success('🎉 Signed in with Google successfully!');
     } catch (error) {
       if (error instanceof Error) {
         console.log(error.message);
+        toast.error('❌ Google Sign-In failed! Try again.');
       }
     }
   };
-
   return (
     <div className="login-container">
       <h1>Create an account</h1>
@@ -89,21 +91,18 @@ export default function Signup() {
           />
         </div>
 
-        <button type="submit" id="create-btn">
-          Create Account
-        </button>
+        <button type="submit" id="create-btn">Create Account</button>
         <button type="button" id="google-btn" onClick={handleGoogleSignIn}>
-          <img id="google-img" src={googleImg} alt="Google" /> Sign up with
-          Google
+          <img id="google-img" src={assets.icon.googleImg} alt="Google" /> Sign up with Google
         </button>
       </form>
 
       <p id="go-to-login">
-        Already have an account?{' '}
-        <NavLink to="/login">
-          <u>Log in</u>
-        </NavLink>
+        Already have an account? <NavLink to="/login"><u>Log in</u></NavLink>
       </p>
+
+      {/* Toast Notifications Container */}
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </div>
   );
 }

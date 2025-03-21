@@ -1,31 +1,40 @@
 import { Search, Heart, ShoppingCart, User, ShoppingBag, CircleX, LogOut, Star } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../Shared/Constants';
 import { useState, useEffect } from 'react';
 import { onAuthStateChanged ,signOut} from 'firebase/auth';
-import { auth } from '../../../Views/Login/firebase';
-import './Header.scss';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 import { updateAuthTokenRedux } from '../../../Store/Common';
+import { auth } from '../../../Views/Auth/Login/firebase';
+import { ROUTES } from '../../../Shared/Constants';
+import { RootState } from '../../../Store';
+
+import './Header.scss';
 
 export default function Header() {
   const navigate= useNavigate()
   const [open, setOpen] = useState<boolean>(false);
   const [userName, setUserName] = useState<string | null>(null);
   const dispatch= useDispatch()
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserName(user.displayName || "User");
+        console.log("hello");
       }
       else {
         setUserName(null);
       }
     });
-
     return () => unsubscribe();
   }, []);
 
+
+  //check if logged in or not. 
+  const token = useSelector((state:RootState)=>state?.common?.token);
+  const isAuthenticated = !!token;
    // Logout function
    const handleLogout = async () => {
     await signOut(auth);
@@ -63,7 +72,7 @@ export default function Header() {
           <button type="button" className="icons-btn" aria-label="Shopping Cart">
             <ShoppingCart size={24} />
           </button>
-          {userName &&  <div className="dropdown">
+          {isAuthenticated &&  <div className="dropdown">
             <button
               type="button"
               className="dropdown-btn"
@@ -88,7 +97,7 @@ export default function Header() {
          
           
 {/* showing name if user exists */}
-{userName && (  <span className="username">Welcome, {userName}</span> )}
+{isAuthenticated && (  <span className="username">Welcome, {userName}</span> )}
         </div>
         
       </div>

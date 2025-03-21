@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import assets from "../../../assets";
+import assets from "../../../../assets";
 import "./JblBanner.scss";
 
 const JblBanner = () => {
