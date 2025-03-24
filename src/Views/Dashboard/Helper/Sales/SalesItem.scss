@@ -61,3 +61,36 @@
 .star.filled {
   color: #facc15;
 }
+
+.cart-btn
+{
+  margin-top: 1%;
+  background-color: #ff6f00;
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius: 8px;
+  cursor:pointer;
+  &:hover
+  {
+   background-color: #b05006;
+  }
+}
+.wishlist-btn
+{
+  background-color: transparent;
+  border: none;
+
+}
+ 
+
+// { 
+//   backgroundColor: '#ff6f00', 
+//   color: 'white', 
+//   border: 'none', 
+//   padding: '10px 16px', 
+//   borderRadius: '8px', 
+//   cursor: 'pointer', 
+//   fontSize: '16px', 
+//   margin: '5px 0' 
+// }

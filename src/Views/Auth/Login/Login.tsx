@@ -2,13 +2,13 @@
 import React, { useState } from 'react';
 import {
   signInWithEmailAndPassword,
-  sendPasswordResetEmail,
+  sendPasswordResetEmail, 
 } from 'firebase/auth';
 
 import { useDispatch } from 'react-redux';
 //components
 //utils
-import { auth } from './firebase';
+import { auth } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 
 //styles
@@ -21,7 +21,6 @@ export default function Login() {
 
   const dispatch = useDispatch();
 
-
   const onLogin = async (e: React.FormEvent<HTMLButtonElement>) => {
     e.preventDefault();
     try {
@@ -30,16 +29,22 @@ export default function Login() {
         email,
         password,
       );
+
+ 
+
+    
+
       const user = userCredential.user;
       const token = await user.getIdToken();//get firebase token
       dispatch(updateAuthTokenRedux({ token })); //store token in redux
-      console.log("user data", userCredential);
-    } catch (error) {
+     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
       }
     }
   };
+
+  
 
   // function to handle password reset
 

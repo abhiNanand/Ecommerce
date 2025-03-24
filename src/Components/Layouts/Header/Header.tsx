@@ -4,9 +4,9 @@ import { useState, useEffect } from 'react';
 import { onAuthStateChanged ,signOut} from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 
-
+import { ROUTES_CONFIG} from  '../../../Shared/Constants';
 import { updateAuthTokenRedux } from '../../../Store/Common';
-import { auth } from '../../../Views/Auth/Login/firebase';
+import { auth } from '../../../Services/firebase/firebase';
 import { ROUTES } from '../../../Shared/Constants';
 import { RootState } from '../../../Store';
 
@@ -22,7 +22,6 @@ export default function Header() {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserName(user.displayName || "User");
-        console.log("hello");
       }
       else {
         setUserName(null);
@@ -66,12 +65,12 @@ export default function Header() {
         </div>
 
         <div className="icons">
-          <button type="button" className="icons-btn" aria-label="Favorites">
+          <Link  to={ROUTES_CONFIG.WISHLIST.path} className="icons-btn" aria-label="Favorites">
             <Heart size={24} />
-          </button>
-          <button type="button" className="icons-btn" aria-label="Shopping Cart">
+          </Link>
+          <Link to={ROUTES_CONFIG.CART.path}  className="icons-btn" aria-label="Shopping Cart">
             <ShoppingCart size={24} />
-          </button>
+          </Link>
           {isAuthenticated &&  <div className="dropdown">
             <button
               type="button"
@@ -104,3 +103,14 @@ export default function Header() {
     </header>
   );
 }
+
+
+
+// updateProfile(user, { displayName: name })
+
+// This function updates the Firebase Authentication user's profile.
+
+// await user.reload()
+
+// After updating the profile, Firebase Authentication does not immediately update the user object in your app.
+// user.reload() refreshes the user object to reflect the latest updates from Firebase.

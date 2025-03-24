@@ -6,7 +6,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
  
-import { auth, googleProvider } from '../Login/firebase';
+import { auth, googleProvider } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
 import '../Login/Login.scss';

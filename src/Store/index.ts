@@ -16,6 +16,9 @@ import api from '../Services/Api/api';
 import common from './Common';
 import loader from './Loader';
 
+// import cartReducer from './Cart/CartSlice';
+// import wishlistReducer from './Wishlist/WishlistSlice';
+
 const rootPersistConfig = {
   key: 'root',
   storage,
@@ -24,6 +27,9 @@ const rootPersistConfig = {
 const reducers = combineReducers({
   common,
   loader,
+  // cart:cartReducer, //Added cart reducer here.
+  // wishlist:wishlistReducer,
+ 
   [api.reducerPath]: api.reducer,
 });
 

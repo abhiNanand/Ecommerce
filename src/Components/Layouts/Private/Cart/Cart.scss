@@ -1,0 +1,86 @@
+.cart
+{
+    display: flex;
+    flex-direction: column;
+    margin:5%;
+}
+
+.cartHeader
+{
+    display: flex;
+    justify-content: space-between;
+    background-color: antiquewhite;
+    padding:10px;
+    box-shadow: 5px;
+    margin-top:10px ;
+    margin-bottom:10px ;
+}
+
+.cart-shop-btn
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:10px ;
+}
+
+.cart-shop-btn button
+{
+    background-color: white;
+    padding:10px;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 3px;
+    cursor:pointer;
+    &:hover{
+        background-color: darkgray;
+    }
+}
+
+.couponCode-cartTotal
+{
+    display: flex;
+    justify-content: space-between;
+    margin-top:5%;
+}
+ 
+.cartTotal
+{
+    border-style: solid;
+    border-width: 2px;
+    align-items: center;
+    padding:10px;
+}
+
+.coupon button , .cartTotal button 
+{
+    background-color: red;
+    padding:10px;
+    border-radius: 2px;
+    color:white;
+    border:none;
+}
+
+.coupon input
+{
+    padding:8px;
+    margin-right:10px
+}
+
+.list-items
+{
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.dlt-item-btn
+{
+    background-color: transparent;
+    border:none;
+    cursor:pointer;
+
+    &:hover 
+    {
+         background-color: rgb(214, 206, 206);
+    }
+}
