@@ -1,86 +1,110 @@
-.cart
-{
-    display: flex;
-    flex-direction: column;
-    margin:5%;
+.cart-container {
+    max-width: 900px;
+    margin: auto;
+    padding: 20px;
 }
 
-.cartHeader
-{
-    display: flex;
-    justify-content: space-between;
-    background-color: antiquewhite;
-    padding:10px;
-    box-shadow: 5px;
-    margin-top:10px ;
-    margin-bottom:10px ;
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.cart-shop-btn
-{
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.cart-header,
+.cart-row {
     display: flex;
     justify-content: space-between;
-    margin-bottom:10px ;
-}
-
-.cart-shop-btn button
-{
-    background-color: white;
-    padding:10px;
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 3px;
-    cursor:pointer;
-    &:hover{
-        background-color: darkgray;
-    }
-}
-
-.couponCode-cartTotal
-{
-    display: flex;
-    justify-content: space-between;
-    margin-top:5%;
-}
- 
-.cartTotal
-{
-    border-style: solid;
-    border-width: 2px;
     align-items: center;
-    padding:10px;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
 }
 
-.coupon button , .cartTotal button 
-{
-    background-color: red;
-    padding:10px;
-    border-radius: 2px;
-    color:white;
-    border:none;
+.cart-header {
+    font-weight: bold;
+    background: #f8f8f8;
 }
 
-.coupon input
-{
-    padding:8px;
-    margin-right:10px
+.cart-image {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    margin-right: 10px;
 }
 
-.list-items
-{
+input[type="number"] {
+    width: 50px;
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: red;
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.cart-actions {
     display: flex;
     justify-content: space-between;
-
+    margin: 20px 0;
 }
 
-.dlt-item-btn
-{
-    background-color: transparent;
-    border:none;
-    cursor:pointer;
-
-    &:hover 
-    {
-         background-color: rgb(214, 206, 206);
+.cart-actions button {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background: white;
+    cursor: pointer;
+    &:hover {
+        background: #f0f0f0;
     }
+}
+
+.cart-summary {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.coupon-section {
+    display: flex;
+}
+
+.coupon-section input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    width: 150px;
+}
+
+.coupon-section button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.cart-total {
+    border: 2px solid #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+.cart-total button {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
 }

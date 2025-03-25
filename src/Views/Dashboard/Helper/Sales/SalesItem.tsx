@@ -2,22 +2,13 @@ import { useDemoApiQuery } from '../../../../Services/Api/module/demoApi';
 import { Star, Heart } from 'lucide-react';
 import { addToCart } from '../../../../Services/Cart/CartService';
 import { addToWishlist } from '../../../../Services/Wishlist/WishlistService';
-
+import { Product } from '../../../../Shared/Product';
 
 
 import './SalesItem.scss'
 
 
-interface Product {
-  id: string;
-  title: string;
-  price: number;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}
+
 
 export default function SalesItem() {
 
@@ -59,12 +50,12 @@ export default function SalesItem() {
                 key={i}
                 size={16}
                 className={
-                  i < Math.round(product.rating.rate) ? 'star filled' : 'star'
+                  i < Math.round(product.rating?.rate?? 0) ? 'star filled' : 'star'
                 }
               />
             ))}
             <span className="text-sm text-gray-500 ml-2">
-              ({product.rating.count})
+              ({product.rating?.count?? 0})
             </span>
           </div>
 
