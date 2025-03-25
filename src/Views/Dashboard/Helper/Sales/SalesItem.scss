@@ -7,6 +7,7 @@
 }
 
 .product-card {
+  position:relative;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
@@ -76,21 +77,15 @@
    background-color: #b05006;
   }
 }
-.wishlist-btn
+.add-wishlist-btn
 {
+  position:absolute;
   background-color: transparent;
   border: none;
-
+  cursor:pointer;
+  left:80%;
+  
 }
  
 
-// { 
-//   backgroundColor: '#ff6f00', 
-//   color: 'white', 
-//   border: 'none', 
-//   padding: '10px 16px', 
-//   borderRadius: '8px', 
-//   cursor: 'pointer', 
-//   fontSize: '16px', 
-//   margin: '5px 0' 
-// }
+ 

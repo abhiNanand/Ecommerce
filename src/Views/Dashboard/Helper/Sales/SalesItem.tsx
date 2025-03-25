@@ -1,9 +1,9 @@
 import { useDemoApiQuery } from '../../../../Services/Api/module/demoApi';
 import { Star, Heart } from 'lucide-react';
 import { addToCart } from '../../../../Services/Cart/CartService';
-import { addToWishlist } from '../../../../Services/Wishlist/WishlistService';
+import { addToWishlist} from '../../../../Services/Wishlist/WishlistService';
 import { Product } from '../../../../Shared/Product';
-
+import {useState} from 'react';
 
 import './SalesItem.scss'
 
@@ -12,6 +12,7 @@ import './SalesItem.scss'
 
 export default function SalesItem() {
 
+  const [liked,setLiked]=useState<string>('');
   const { data: products, error, isLoading } = useDemoApiQuery(null);
 
   if (isLoading) {
@@ -31,18 +32,30 @@ export default function SalesItem() {
       </div>
     );
   }
+ 
+  const handleWishlistClick=(product:Product)=>
+  {
+        
+    setLiked(product.id);
+    addToWishlist(product);
 
+  }
 
   return (
     <div className="products-grid">
+      
       {products?.map((product: Product) => (
         <div key={product.id} className="product-card">
+           <button className="add-wishlist-btn" onClick={() =>  handleWishlistClick(product)}> <Heart  color={liked==product.id ? "red" : "black"} // Change color
+          fill={liked==product.id ? "red" : "none"}    size={24} />
+      </button>
           <img
             src={product.image}
             alt={product.title}
             className="product-image"
           />
           <h3 className="product-title">{product.title}</h3>
+          <button className="cart-btn" onClick={() => addToCart(product)} >Add to Cart</button>
           <p className="product-price">${product.price.toFixed(2)}</p>
           <div className="rating">
             {[...Array(5)].map((_, i) => (
@@ -59,9 +72,9 @@ export default function SalesItem() {
             </span>
           </div>
 
-          <button className="cart-btn" onClick={() => addToCart(product)} >Add to Cart</button>
+         
           <br />
-          <button className="wishlist-btn" onClick={() => addToWishlist(product)}> <Heart size={24} /></button>
+         
         </div>
       ))}
     </div>

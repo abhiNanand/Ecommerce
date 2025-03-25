@@ -1,8 +1,8 @@
-import {  useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 import { getCartItems, removeFromCart } from "../../../../Services/Cart/CartService";
-import { auth ,db} from "../../../../Services/firebase/firebase";
-import {updateDoc,doc} from "firebase/firestore";
+import { auth, db } from "../../../../Services/firebase/firebase";
+import { updateDoc, doc } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { Trash } from 'lucide-react';
 import { Product } from '../../../../Shared/Product';
@@ -36,24 +36,22 @@ export default function Cart() {
         setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
     };
 
-    const handleQuantityChange = async(productId: string, newQuantity: number) => {
+    const handleQuantityChange = async (productId: string, newQuantity: number) => {
 
 
-        if(newQuantity<=0)
-        {
+        if (newQuantity <= 0) {
             await removeFromCart(productId);
-              setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
+            setCartItems((prevItems) => prevItems.filter((item) => item.id !== productId));
         }
-        else
-        {
-            const productRef =  doc (db,"cart",productId);
-            await updateDoc(productRef,{quantity:newQuantity});
+        else {
+            const productRef = doc(db, "cart", productId);
+            await updateDoc(productRef, { quantity: newQuantity });
 
-            setCartItems((prevItems)=>prevItems.map((item)=>item.id === productId?{...item,quantity:newQuantity}:item));
+            setCartItems((prevItems) => prevItems.map((item) => item.id === productId ? { ...item, quantity: newQuantity } : item));
 
         }
 
-         
+
     };
 
     const calculateTotal = () => {
@@ -61,11 +59,12 @@ export default function Cart() {
     };
 
     const navigate = useNavigate();
+    const location = useLocation();
     const returnHome = () => navigate('/');
 
     return (
         <div className="cart-container">
-            <h2>Shopping Cart</h2>
+            <p>Home{location.pathname}</p>
 
             <div className="cart-table">
                 <div className="cart-header">

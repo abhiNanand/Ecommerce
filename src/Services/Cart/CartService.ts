@@ -9,18 +9,12 @@ import {
   updateDoc,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebase';
-
-interface Product {
-  id: string;
-  title: string;
-  image: string;
-  price: number;
-  quantity?: number;
-}
-
+import { Product } from '../../Shared/Product';
+ 
 //add to cart in firestore
 export const addToCart = async (product: Product) => {
   const user = auth.currentUser; //get current user
+  console.log("addToCart:",typeof product.id);
   if (!user) {
     console.log('User not logged in ');
     return;
@@ -43,7 +37,7 @@ export const addToCart = async (product: Product) => {
       console.log('Updated quantity:', newQuantity);
     } else {
       await addDoc(cartRef, { userId: user.uid, ...product, quantity: 1 });
-      console.log('added to cart', product);
+      
     }
   } catch (error) {
     console.error('error adding to the cart:', error);
@@ -53,7 +47,8 @@ export const addToCart = async (product: Product) => {
 //delete from cart
 export const removeFromCart = async (productId: string) => {
   const user = auth.currentUser;
-
+  console.log("removeFromCart:",typeof productId);
+console.log(typeof productId);
   if (!user) {
     console.error('User not logged in!');
     return;
