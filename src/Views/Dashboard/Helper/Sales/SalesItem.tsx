@@ -141,7 +141,7 @@ export default function SalesItem() {
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
     }
-  };
+  };//
 
   return (
     <div className="products-grid">
