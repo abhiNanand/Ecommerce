@@ -24,8 +24,8 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     title: 'Rendering wildcard',
   },
   {
-    path:`${ROUTES_CONFIG.SIGNUP.path}`,
-    element:<Signup/>,
+    path: `${ROUTES_CONFIG.SIGNUP.path}`,
+    element: <Signup />,
     title: ROUTES_CONFIG.SIGNUP.title,
   },
 ];

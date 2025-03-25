@@ -1,25 +1,132 @@
-.wishlist
-{
-    display: flex;
-    flex-direction: column;
-    margin:5%;
-}
 
-.wishlist-top
-{
-    display: flex;
-    justify-content: space-between;
-}
 
-.wishlist-items
-{
-    display: flex;
-}
-.wishlist-item
-{
-    display: flex;
-    flex-direction: column;
-   
-}
-
- 
+.wishlist {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+  
+    &-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #eee;
+  
+      h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #1a1a1a;
+      }
+  
+      button {
+        background-color: #1a1a1a;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.2s;
+  
+        &:hover {
+          background-color: #333;
+        }
+      }
+    }
+  
+    &-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+  
+    &-item {
+      position: relative;
+      background: white;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s;
+  
+      &:hover {
+        transform: translateY(-4px);
+      }
+  
+      img {
+        width: 100%;
+        height: 200px;
+        object-fit: contain;
+        margin-bottom: 1rem;
+      }
+  
+      .title {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #1a1a1a;
+        margin: 0.5rem 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+  
+      .price {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0.5rem 0;
+      }
+  
+      .actions {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+  
+        button {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+          padding: 0.75rem;
+          border-radius: 0.5rem;
+          font-weight: 500;
+          transition: all 0.2s;
+  
+          &.cart-btn {
+            background-color: #1a1a1a;
+            color: white;
+  
+            &:hover {
+              background-color: #333;
+            }
+          }
+  
+          &.remove-btn {
+            background-color: #fee2e2;
+            color: #ef4444;
+  
+            &:hover {
+              background-color: #fecaca;
+            }
+          }
+        }
+      }
+    }
+  
+    .empty-state {
+      text-align: center;
+      padding: 4rem 2rem;
+  
+      h4 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 1rem;
+      }
+  
+      p {
+        color: #666;
+        margin-bottom: 2rem;
+      }
+    }
+  }

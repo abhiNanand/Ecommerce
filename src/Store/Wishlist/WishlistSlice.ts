@@ -1,4 +1,3 @@
-
 // import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 // interface Product
@@ -21,7 +20,7 @@
 //     name:'wishlist',
 //     initialState,
 //     reducers:{
-//         addToWishlist:(state,action:PayloadAction<Product>)=> 
+//         addToWishlist:(state,action:PayloadAction<Product>)=>
 //             {
 //                 state.items.push(action.payload)
 //             },

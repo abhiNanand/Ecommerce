@@ -6,9 +6,9 @@ const ROUTES = {
   LOGIN: '/login',
   REGISTER: '/register',
   ABOUT: '/about-us',
-  SIGNUP:'/signup',
-  CART:'/cart',
-  WISHLIST:'/wishlist'
+  SIGNUP: '/signup',
+  CART: '/cart',
+  WISHLIST: '/wishlist',
 };
 
 const WILDCARD_ROUTES = {
@@ -33,18 +33,17 @@ const ROUTES_CONFIG = {
     path: ROUTES.ABOUT,
     title: 'About us',
   },
-  SIGNUP:
-  {
+  SIGNUP: {
     path: ROUTES.SIGNUP,
-    title:'Signup',
+    title: 'Signup',
   },
-  CART:{
-    path:ROUTES.CART,
-    title:'Cart',
+  CART: {
+    path: ROUTES.CART,
+    title: 'Cart',
   },
-  WISHLIST:{
-    path:ROUTES.WISHLIST,
-    title:'WishList',
+  WISHLIST: {
+    path: ROUTES.WISHLIST,
+    title: 'WishList',
   },
 };
 

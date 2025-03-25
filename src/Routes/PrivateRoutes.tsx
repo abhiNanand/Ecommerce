@@ -13,18 +13,18 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.ABOUT.title,
   },
   {
-      path: ROUTES_CONFIG.HOMEPAGE.path,
-      element: <Dashboard />,
-      title: ROUTES_CONFIG.HOMEPAGE.title,
-    },
+    path: ROUTES_CONFIG.HOMEPAGE.path,
+    element: <Dashboard />,
+    title: ROUTES_CONFIG.HOMEPAGE.title,
+  },
   {
     path: ROUTES_CONFIG.WISHLIST.path,
-    element: <Wishlist/>,
+    element: <Wishlist />,
     title: ROUTES_CONFIG.WISHLIST.title,
   },
   {
     path: ROUTES_CONFIG.CART.path,
-    element: <Cart/>,
+    element: <Cart />,
     title: ROUTES_CONFIG.CART.title,
   },
   {

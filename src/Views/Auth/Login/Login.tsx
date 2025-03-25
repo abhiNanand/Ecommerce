@@ -1,17 +1,17 @@
-//lib
+// lib
 import React, { useState } from 'react';
 import {
   signInWithEmailAndPassword,
-  sendPasswordResetEmail, 
+  sendPasswordResetEmail,
 } from 'firebase/auth';
 
 import { useDispatch } from 'react-redux';
-//components
-//utils
+// components
+// utils
 import { auth } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 
-//styles
+// styles
 import './Login.scss';
 
 export default function Login() {
@@ -27,24 +27,18 @@ export default function Login() {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password,
+        password
       );
 
- 
-
-    
-
-      const user = userCredential.user;
-      const token = await user.getIdToken();//get firebase token
-      dispatch(updateAuthTokenRedux({ token })); //store token in redux
-     } catch (error) {
+      const { user } = userCredential;
+      const token = await user.getIdToken(); // get firebase token
+      dispatch(updateAuthTokenRedux({ token })); // store token in redux
+    } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
       }
     }
   };
-
-  
 
   // function to handle password reset
 

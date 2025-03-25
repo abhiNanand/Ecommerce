@@ -29,10 +29,10 @@ export default function Dashboard() {
         <div className="banner-categories">
           <h3>Categories</h3>
           <Link to="/womanFashion" className="category-link">
-            Women's Fashion
+            Women&apos;s Fashion
           </Link>
           <Link to="/mensFashion" className="category-link">
-            Men's Fashion
+            Men&apos;s Fashion
           </Link>
           <Link to="/electronics" className="category-link">
             Electronics

@@ -12,7 +12,3 @@ export const userApi = api.injectEndpoints({
 // We can use the Lazy Query as well for GET requests depends on our Requirements.
 // For POST request we will use mutations.
 export const { useDemoApiQuery } = userApi;
-
-
-
-

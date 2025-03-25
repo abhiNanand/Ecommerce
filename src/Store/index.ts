@@ -29,7 +29,7 @@ const reducers = combineReducers({
   loader,
   // cart:cartReducer, //Added cart reducer here.
   // wishlist:wishlistReducer,
- 
+
   [api.reducerPath]: api.reducer,
 });
 

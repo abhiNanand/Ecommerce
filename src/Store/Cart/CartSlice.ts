@@ -1,4 +1,3 @@
- 
 // this one is for add to cart item temporary.
 // we will use firebase to store items.
 
@@ -31,5 +30,3 @@
 
 // export const{addToCart} = cartSlice.actions;
 // export default cartSlice.reducer;
-
- 
