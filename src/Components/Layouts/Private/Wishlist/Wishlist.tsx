@@ -1,25 +1,20 @@
 import { useEffect, useState } from 'react';
+import {useNavigate} from "react-router-dom";
 import { ShoppingCart, Trash2, Heart } from 'lucide-react';
-import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '../../../../Services/firebase/firebase';
 import { Product } from '../../../../Shared/Product';
 import {
   getWishlistItems,
   removeFromWishlist,
 } from '../../../../Services/Wishlist/WishlistService';
+import {ROUTES} from '../../../../Shared/Constants';
 import { addToCart } from '../../../../Services/Cart/CartService';
+import {useAuth} from '../../../../Services/UserAuth';
 import './Wishlist.scss';
 
 export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
-  const [user, setUser] = useState<User | null>(auth.currentUser);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) =>
-      setUser(currentUser)
-    );
-    return () => unsubscribe();
-  }, []);
+  const {user}=useAuth();
+  const navigate=useNavigate();
 
   useEffect(() => {
     const fetchWishlistItems = async () => {
@@ -91,7 +86,7 @@ export default function Wishlist() {
 
       <div className="wishlist-items">
         {wishlistItems.map((item) => (
-          <div className="wishlist-item" key={item.id}>
+          <div className="wishlist-item" onClick={()=>navigate(ROUTES.PRODUCT_DETAILS,{state:{item}})} key={item.id}>
             <img src={item.image} alt={item.title} />
             <h3 className="title">{item.title}</h3>
             <p className="price">${item.price.toFixed(2)}</p>
@@ -100,7 +95,8 @@ export default function Wishlist() {
               <button
                 type="button"
                 className="cart-btn"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   addToCart(item);
                   handleDelete(item.id);
                 }}
@@ -111,7 +107,7 @@ export default function Wishlist() {
               <button
                 type="button"
                 className="remove-btn"
-                onClick={() => handleDelete(item.id)}
+                onClick={(e) => {e.stopPropagation();handleDelete(item.id);}}
               >
                 <Trash2 size={20} />
                 Remove

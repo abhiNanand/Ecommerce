@@ -6,6 +6,8 @@ import { CustomRouter } from './RootRoutes';
 // making changes;
 import Login from '../Views/Auth/Login/Login';
 import Signup from '../Views/Auth/Signup';
+import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
+ 
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
@@ -27,5 +29,10 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     path: `${ROUTES_CONFIG.SIGNUP.path}`,
     element: <Signup />,
     title: ROUTES_CONFIG.SIGNUP.title,
+  },
+  {
+    path:ROUTES_CONFIG.PRODUCT_DETAILS.path,
+    element:<ProductDetails/>,
+    title:ROUTES_CONFIG.PRODUCT_DETAILS.title,
   },
 ];

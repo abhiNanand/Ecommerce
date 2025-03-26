@@ -9,6 +9,7 @@ const ROUTES = {
   SIGNUP: '/signup',
   CART: '/cart',
   WISHLIST: '/wishlist',
+  PRODUCT_DETAILS:'/product_details',
 };
 
 const WILDCARD_ROUTES = {
@@ -45,6 +46,10 @@ const ROUTES_CONFIG = {
     path: ROUTES.WISHLIST,
     title: 'WishList',
   },
+  PRODUCT_DETAILS:{
+    path:ROUTES.PRODUCT_DETAILS,
+    title:'Details'
+  }
 };
 
 export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };

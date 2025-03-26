@@ -9,42 +9,29 @@ import {
   Star,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import {  signOut } from 'firebase/auth';
+import { useDispatch} from 'react-redux';
 
 import { ROUTES_CONFIG, ROUTES } from '../../../Shared/Constants';
-import { updateAuthTokenRedux } from '../../../Store/Common';
+import { logoutUser} from '../../../Store/Common';
 import { auth } from '../../../Services/firebase/firebase';
-import { RootState } from '../../../Store';
+import { useAuth} from '../../../Services/UserAuth';
 
 import './Header.scss';
 
 export default function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
-  const [userName, setUserName] = useState<string | null>(null);
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserName(user.displayName || 'User');
-      } else {
-        setUserName(null);
-      }
-    });
-    return () => unsubscribe();
-  }, []);
 
-  // check if logged in or not.
-  const token = useSelector((state: RootState) => state?.common?.token);
-  const isAuthenticated = !!token;
+
+   const { isAuthenticated, user } = useAuth();
   // Logout function
   const handleLogout = async () => {
     await signOut(auth);
-    dispatch(updateAuthTokenRedux({ token: null }));
-    setUserName(null);
+    dispatch(logoutUser());
     navigate(ROUTES.HOMEPAGE);
   };
 
@@ -126,7 +113,7 @@ export default function Header() {
 
           {/* showing name if user exists */}
           {isAuthenticated && (
-            <span className="username">Welcome, {userName}</span>
+            <span className="username">Welcome, {user?.displayName || 'User'}</span>
           )}
         </div>
       </div>

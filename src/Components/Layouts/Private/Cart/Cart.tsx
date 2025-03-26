@@ -1,27 +1,24 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { updateDoc, doc } from 'firebase/firestore';
-import { onAuthStateChanged, User } from 'firebase/auth';
 import { Trash } from 'lucide-react';
-import { auth, db } from '../../../../Services/firebase/firebase';
+import {db} from '../../../../Services/firebase/firebase';
 import {
   getCartItems,
   removeFromCart,
 } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
+import {useAuth} from '../../../../Services/UserAuth';
+import {ROUTES} from '../../../../Shared/Constants'
 import './Cart.scss';
+ 
+ 
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const [user, setUser] = useState<User | null>(auth.currentUser);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-    return () => unsubscribe();
-  }, []);
-
+  const {user}=useAuth();
+   
+ 
   useEffect(() => {
     const fetchCartItems = async () => {
       if (!user) {
@@ -71,7 +68,7 @@ export default function Cart() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const returnHome = () => navigate('/');
+  const returnHome = () => navigate(ROUTES.HOMEPAGE);
 
   return (
     <div className="cart-container">
@@ -91,7 +88,7 @@ export default function Cart() {
             <p>No items in the cart</p>
           ) : (
             cartItems.map((product) => (
-              <div className="cart-row" key={product.id}>
+              <div className="cart-row" key={product.id} onClick={()=>navigate(ROUTES.PRODUCT_DETAILS,{state:{product}})}>
                 <span>
                   <img
                     src={product.image}
@@ -105,6 +102,7 @@ export default function Cart() {
                     type="number"
                     min="1"
                     value={product.quantity}
+                    onClick={(event)=>event.stopPropagation()}
                     onChange={(e) =>
                       handleQuantityChange(product.id, Number(e.target.value))
                     }
@@ -117,7 +115,7 @@ export default function Cart() {
                   <button
                     type="button"
                     className="delete-btn"
-                    onClick={() => handleRemoveItem(product.id)}
+                    onClick={(event) => {event.stopPropagation();handleRemoveItem(product.id)}}
                   >
                     <Trash size={20} />
                   </button>

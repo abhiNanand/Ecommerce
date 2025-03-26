@@ -32,7 +32,8 @@ export default function Login() {
 
       const { user } = userCredential;
       const token = await user.getIdToken(); // get firebase token
-      dispatch(updateAuthTokenRedux({ token })); // store token in redux
+      dispatch(updateAuthTokenRedux({ token,           user: { displayName: user.displayName, email: user.email },
+      })); // store token in redux
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

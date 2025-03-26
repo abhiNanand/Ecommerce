@@ -48,8 +48,8 @@ export default function Signup() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       // console.log('Google Sign-In User:', result.user.getIdToken);
-      const token = result.user.getIdToken();
-      dispatch(updateAuthTokenRedux({ token }));
+      const token = await result.user.getIdToken();
+      dispatch(updateAuthTokenRedux({ token,user:{displayName:result.user.displayName,email:result.user.email} }));
       toast.success('🎉 Signed in with Google successfully!');
     } catch (error) {
       if (error instanceof Error) {

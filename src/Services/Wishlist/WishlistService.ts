@@ -13,6 +13,7 @@ import { Product } from '../../Shared/Product';
 // add to wishlist in firestore
 export const addToWishlist = async (product: Product) => {
   const user = auth.currentUser; // get current user
+
   // console.log('addToWishlist:', typeof product.id);
   if (!user) {
     // console.log('User not logged in ');
@@ -20,7 +21,7 @@ export const addToWishlist = async (product: Product) => {
   }
   try {
     const wishlistRef = collection(db, 'wishlist');
-    await addDoc(wishlistRef, { userId: user.uid, ...product, quantity: 1 });
+    await addDoc(wishlistRef, { userEmail: user.email, ...product, quantity: 1 });
   } catch (error) {
     console.error('error adding to the cart:', error);
   }
@@ -52,7 +53,7 @@ export const getWishlistItems = async (): Promise<Product[]> => {
   try {
     const q = query(
       collection(db, 'wishlist'),
-      where('userId', '==', user.uid)
+      where('userEmail', '==', user.email)
     );
     const querySnapshot = await getDocs(q);
 

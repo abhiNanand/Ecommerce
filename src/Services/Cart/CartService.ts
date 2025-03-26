@@ -15,6 +15,7 @@ import { Product } from '../../Shared/Product';
 export const addToCart = async (product: Product) => {
   const user = auth.currentUser; // get current user
   // console.log('addToCart:', typeof product.id);
+
   if (!user) {
     // console.log('User not logged in ');
     return;
@@ -23,7 +24,7 @@ export const addToCart = async (product: Product) => {
     const cartRef = collection(db, 'cart');
     const q = query(
       cartRef,
-      where('userId', '==', user.uid),
+      where('userEmail', '==', user.email),
       where('id', '==', product.id)
     );
     const querySnapshot = await getDocs(q);
@@ -36,7 +37,7 @@ export const addToCart = async (product: Product) => {
       await updateDoc(docRef, { quantity: newQuantity });
       // console.log('Updated quantity:', newQuantity);
     } else {
-      await addDoc(cartRef, { userId: user.uid, ...product, quantity: 1 });
+      await addDoc(cartRef, { userEmail: user.email, ...product, quantity: 1 });
     }
   } catch (error) {
     console.error('error adding to the cart:', error);
@@ -69,7 +70,10 @@ export const getCartItems = async (): Promise<Product[]> => {
   }
 
   try {
-    const q = query(collection(db, 'cart'), where('userId', '==', user.uid));
+    const q = query(
+      collection(db, 'cart'),
+      where('userEmail', '==', user.email)
+    );
     const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map((cartDo) => {
