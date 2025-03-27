@@ -1,12 +1,4 @@
-import sendIcon from './send.svg';
-import applestore from './applestore.png';
-import facebook from './facebook.png';
-import googleplay from './googleplay.png';
-import insta from './insta.png';
-import linkedin from './linkedin.png';
-import Qrcode from './Qrcode.png';
-import twitter from './twitter.png';
-
+ import assets from '../../../assets';
 import './Footer.css';
 
 export default function Footer() {
@@ -27,7 +19,7 @@ export default function Footer() {
                 className="email-input"
               />
               <button type="submit" className="subscribe-button">
-                <img src={sendIcon} alt="Send" />
+                <img src={assets.images.send} alt="Send" />
               </button>
             </form>
           </div>
@@ -66,15 +58,15 @@ export default function Footer() {
 
           <div className="download-content">
             <div className="qr-code">
-              <img src={Qrcode} alt="QR Code" />
+              <img src={assets.images.qrcode} alt="QR Code" />
             </div>
 
             <div className="store-buttons">
               <button type="button" className="store-button">
-                <img src={googleplay} alt="Google Play Store" />
+                <img src={assets.images.googleplay} alt="Google Play Store" />
               </button>
               <button type="button" className="store-button">
-                <img src={applestore} alt="Apple Store" />
+                <img src={assets.images.applestore} alt="Apple Store" />
               </button>
             </div>
           </div>
@@ -82,16 +74,16 @@ export default function Footer() {
           {/* Social Media Section */}
           <div className="socialmedia">
             <button type="button">
-              <img src={facebook} alt="Facebook" />
+              <img src={assets.images.facebook} alt="Facebook" />
             </button>
             <button type="button">
-              <img src={twitter} alt="Twitter" />
+              <img src={assets.images.twitter} alt="Twitter" />
             </button>
             <button type="button">
-              <img src={insta} alt="Instagram" />
+              <img src={assets.images.insta} alt="Instagram" />
             </button>
             <button type="button">
-              <img src={linkedin} alt="LinkedIn" />
+              <img src={assets.images.linkedin} alt="LinkedIn" />
             </button>
           </div>
         </div>

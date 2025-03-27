@@ -84,6 +84,8 @@ export const getCartItems = async (): Promise<Product[]> => {
         image: data.image ?? '',
         price: data.price ?? 0,
         quantity: data.quantity ?? 1,
+        description:data.description??'',
+        category:data.category??'',
       };
     });
   } catch (error) {

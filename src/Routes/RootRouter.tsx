@@ -1,15 +1,14 @@
-import { useSelector } from 'react-redux';
 import { useRoutes } from 'react-router-dom';
 import DocumentTitle from './DocumentTitle';
 import { authenticatedRoutes, guestRoutes } from './config';
 import AppLayout from '../Components/Layouts/AppLayout';
-import type { RootState } from '../Store';
+import { useAuth } from '../Services/UserAuth'
+
 
 function RootRouter() {
   const guest = useRoutes(guestRoutes);
   const authenticated = useRoutes(authenticatedRoutes);
-  const token = useSelector((state: RootState) => state?.common?.token);
-  const isAuthenticated = !!token;
+  const { isAuthenticated, token } = useAuth();
   return (
     <>
       <DocumentTitle isAuthenticated={isAuthenticated} />
@@ -21,4 +20,4 @@ function RootRouter() {
 }
 
 export default RootRouter;
- 
+

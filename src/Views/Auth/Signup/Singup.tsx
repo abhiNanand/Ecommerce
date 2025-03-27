@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 import { auth, googleProvider } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
+import { ROUTES } from '../../../Shared/Constants';
 import '../Login/Login.scss';
 
 export default function Signup() {
@@ -34,7 +35,7 @@ export default function Signup() {
       await updateProfile(user, { displayName: name });
       toast.success('🎉 Account created successfully!');
       // console.log('User created', user);
-      setTimeout(() => navigate('/login'), 3000);
+      setTimeout(() => navigate(ROUTES.LOGIN), 3000);
     } catch (error) {
       if (error instanceof Error) {
         // console.log(error.message);
@@ -108,7 +109,7 @@ export default function Signup() {
 
       <p id="go-to-login">
         Already have an account?{' '}
-        <NavLink to="/login">
+        <NavLink to={ROUTES.LOGIN}>
           <u>Log in</u>
         </NavLink>
       </p>
