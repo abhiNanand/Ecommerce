@@ -9,13 +9,12 @@ const ROUTES = {
   SIGNUP: '/signup',
   CART: '/cart',
   WISHLIST: '/wishlist',
-  PRODUCT_DETAILS:'/product_details',
+  // PRODUCT_DETAILS:'/product_details',   
+  PRODUCT_DETAILS:'/product/:productId', 
+  WILDCARD:'*' ,
 };
 
-const WILDCARD_ROUTES = {
-  PUBLIC: ROUTES.LOGIN,
-  PRIVATE: ROUTES.HOMEPAGE,
-};
+ 
 
 const ROUTES_CONFIG = {
   HOMEPAGE: {
@@ -49,7 +48,11 @@ const ROUTES_CONFIG = {
   PRODUCT_DETAILS:{
     path:ROUTES.PRODUCT_DETAILS,
     title:'Details'
+  },
+  WILDCARD:{
+    path:ROUTES.WILDCARD,
+    title:'404 Error'
   }
 };
 
-export { ROUTES, WILDCARD_ROUTES, ROUTES_CONFIG };
+export { ROUTES,ROUTES_CONFIG };

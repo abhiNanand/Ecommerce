@@ -23,6 +23,7 @@ const assets = {
     qrcode:'src/assets/image/Qrcode.png',
     send:'src/assets/vector/send.svg',
     twitter:'src/assets/image/twitter.png',
+    shopping:'src/assets/image/shopping.png',
   },
 };
 

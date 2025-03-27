@@ -11,7 +11,7 @@ import {
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
 
-// add to cart in firestore
+//1. add to cart in firestore
 export const addToCart = async (product: Product) => {
   const user = auth.currentUser; // get current user
   // console.log('addToCart:', typeof product.id);
@@ -44,11 +44,10 @@ export const addToCart = async (product: Product) => {
   }
 };
 
-// delete from cart
+//2. delete from cart
 export const removeFromCart = async (productId: string) => {
   const user = auth.currentUser;
-  console.log('removeFromCart:', typeof productId);
-  // console.log(typeof productId);
+
   if (!user) {
     console.error('User not logged in!');
     return;
@@ -61,9 +60,10 @@ export const removeFromCart = async (productId: string) => {
   }
 };
 
-// Fetch only the logged-in user's cart items
+//3. Fetch only the logged-in user's cart items
 export const getCartItems = async (): Promise<Product[]> => {
   const user = auth.currentUser; // Get current user
+
   if (!user) {
     console.error('User not logged in!');
     return [];
@@ -77,15 +77,16 @@ export const getCartItems = async (): Promise<Product[]> => {
     const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map((cartDo) => {
-      const data = cartDo.data() as Product; // Explicitly cast data to Product
+      const data = cartDo.data() as Product; 
+        
       return {
-        id: cartDo.id, // Ensure id is a string
+        id: data.id,  
         title: data.title ?? '', // Use Nullish Coalescing (??) instead of ||
         image: data.image ?? '',
         price: data.price ?? 0,
         quantity: data.quantity ?? 1,
-        description:data.description??'',
-        category:data.category??'',
+        description: data.description ?? '',
+        category: data.category ?? '',
       };
     });
   } catch (error) {

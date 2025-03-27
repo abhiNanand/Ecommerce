@@ -1,5 +1,5 @@
-import { Navigate } from 'react-router-dom';
-import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/Constants';
+ 
+import { ROUTES_CONFIG } from '../Shared/Constants';
 import Dashboard from '../Views/Dashboard/Dashboard';
 import { CustomRouter } from './RootRoutes';
 
@@ -7,6 +7,7 @@ import { CustomRouter } from './RootRoutes';
 import Login from '../Views/Auth/Login/Login';
 import Signup from '../Views/Auth/Signup';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
+import Error from '../Components/Layouts/ErrorPage/Error';
  
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
@@ -21,9 +22,9 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     element: <Login />,
   },
   {
-    path: '*',
-    element: <Navigate to={WILDCARD_ROUTES.PUBLIC} />,
-    title: 'Rendering wildcard',
+    path: ROUTES_CONFIG.WILDCARD.path,
+    element: <Error/>,
+    title: ROUTES_CONFIG.WILDCARD.title,
   },
   {
     path: `${ROUTES_CONFIG.SIGNUP.path}`,

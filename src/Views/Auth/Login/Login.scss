@@ -2,10 +2,36 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 /* General Styles */
-.login-container {
-    max-width: 300px;
-    width: 80%;
+.login-signup-container {
+    
+     display:flex;
+     justify-content: space-around;
+     margin:5% 5% 5% 0;
+     align-items: center;
 }
+ .login-container
+ {
+max-width: 300px;
+    width: 80%;
+ }
+
+ .shop-img-container {
+    width: 100%;  
+    max-width: 800px; 
+    overflow: hidden;  
+    display: flex;
+    justify-content: center;  
+    align-items: center;  
+    margin-right:3%;
+    margin-left:0;
+  
+    img {
+      width: 100%; // Makes the image responsive
+      height: auto; // Maintains aspect ratio
+      object-fit: cover; // Ensures proper resizing
+    }
+  }
+  
 
 /* Heading */
 .login-container h1 {

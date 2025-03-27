@@ -1,10 +1,10 @@
-import { Navigate } from 'react-router-dom';
-import { ROUTES_CONFIG, WILDCARD_ROUTES } from '../Shared/Constants';
+import { ROUTES_CONFIG  } from '../Shared/Constants';
 import { CustomRouter } from './RootRoutes';
 import Dashboard from '../Views/Dashboard';
 import Cart from '../Components/Layouts/Private/Cart/Cart';
 import Wishlist from '../Components/Layouts/Private/Wishlist/Wishlist';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
+import Error from '../Components/Layouts/ErrorPage/Error';
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   {
@@ -27,10 +27,10 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     element: <Cart />,
     title: ROUTES_CONFIG.CART.title,
   },
-  {
-    path: '*',
-    element: <Navigate to={WILDCARD_ROUTES.PRIVATE} />,
-    title: 'Rendering wildcard',
+ {
+    path: ROUTES_CONFIG.WILDCARD.path,
+    element: <Error/>,
+    title: ROUTES_CONFIG.WILDCARD.title,
   },
   {
       path:ROUTES_CONFIG.PRODUCT_DETAILS.path,

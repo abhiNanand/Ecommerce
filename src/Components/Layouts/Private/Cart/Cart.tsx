@@ -11,13 +11,13 @@ import { Product } from '../../../../Shared/Product';
 import {useAuth} from '../../../../Services/UserAuth';
 import {ROUTES} from '../../../../Shared/Constants'
 import './Cart.scss';
- 
+
  
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const {user}=useAuth();
-   
+ 
  
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -26,9 +26,13 @@ export default function Cart() {
         return;
       }
       const items = await getCartItems();
+       
       setCartItems(items);
     };
     fetchCartItems();
+
+    
+    
   }, [user]);
 
   const handleRemoveItem = async (productId: string) => {
@@ -88,7 +92,9 @@ export default function Cart() {
             <p>No items in the cart</p>
           ) : (
             cartItems.map((product) => (
-              <div className="cart-row" key={product.id} onClick={()=>navigate(ROUTES.PRODUCT_DETAILS,{state:{product}})}>
+             
+              <div className="cart-row" key={product.id} onClick={()=>navigate(`/products/${product.id}`)}>
+                 <p>{product.id}</p>
                 <span>
                   <img
                     src={product.image}

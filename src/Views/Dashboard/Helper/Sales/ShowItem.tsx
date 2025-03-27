@@ -1,60 +1,29 @@
- 
+
 
 import { Star, Heart } from 'lucide-react';
-import { useState  } from 'react';
-// import { useDemoApiQuery } from '../../../../Services/Api/module/demoApi';
-import { useDemoApiQuery  } from '../../../../Services/Api/module/demoApi';
+import { useState } from 'react';
+ 
 import { addToCart } from '../../../../Services/Cart/CartService';
 import {
   addToWishlist,
   removeFromWishlist,
-  
+
 } from '../../../../Services/Wishlist/WishlistService';
 import { Product } from '../../../../Shared/Product';
-// import { useAuth } from '../../../../Services/UserAuth';
-import './SalesItem.scss';
-import {useNavigate} from 'react-router-dom';
-import { ROUTES } from '../../../../Shared/Constants';
 
-export default function SalesItem() {
+import './ShowItem.scss';
+import { useNavigate } from 'react-router-dom';
+
+interface SalesItemProps {
+  products: Product[]; // Expecting an array of Product
+}
+
+export default function SalesItem({products}:SalesItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
-  const { data: products, error, isLoading } =  useDemoApiQuery(null);
-  const navigate =  useNavigate();
-//  const {isAuthenticated}=useAuth();
+ 
+  const navigate = useNavigate();
 
 
-//   useEffect(() => {
-//     const loadWishlistState = async () => {
-//       if(!isAuthenticated)
-//         return;
-//       try {
-//         const wishlistItems = await getWishlistItems();
-//         setLikedItems(new Set(wishlistItems.map((item) => item.id)));
-//       } catch (error) {
-//         console.error('Error loading wishlist state:', error);
-//       }
-//     };
-   
-//     loadWishlistState();
-//   }, [isAuthenticated]);
-
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl font-semibold">Loading products...</p>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl font-semibold text-red-600">
-          Error loading products. Please try again later.
-        </p>
-      </div>
-    );
-  }
 
   const handleWishlistClick = async (product: Product) => {
     try {
@@ -79,11 +48,11 @@ export default function SalesItem() {
   return (
     <div className="products-grid">
       {products?.map((product: Product) => (
-        <div key={product.id} className="product-card" onClick={()=>navigate(ROUTES.PRODUCT_DETAILS,{state:{product}})}>
+        <div key={product.id} className="product-card" onClick={() => navigate(`/product/${product.id}`)}>
           <button
             type="button"
             className="add-wishlist-btn"
-            onClick={(event) =>{ event.stopPropagation(); handleWishlistClick(product);}}
+            onClick={(event) => { event.stopPropagation(); handleWishlistClick(product); }}
           >
             <Heart
               color={likedItems.has(product.id) ? 'red' : 'black'}
@@ -100,7 +69,7 @@ export default function SalesItem() {
           <button
             className="cart-btn"
             type="button"
-            onClick={(event) => {event.stopPropagation();addToCart(product);}}
+            onClick={(event) => { event.stopPropagation(); addToCart(product); }}
           >
             Add to Cart
           </button>

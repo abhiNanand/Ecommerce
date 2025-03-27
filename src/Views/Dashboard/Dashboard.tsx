@@ -17,11 +17,33 @@ import { Link } from 'react-router-dom';
 import Banner from './Helper/Banner/Banner';
 import Sales from './Helper/Sales/Sales';
 import BrowseCategory from './Helper/BrowseCategroy/BrowseCategory';
-import SalesItem from './Helper/Sales/SalesItem';
+import ShowItem from './Helper/Sales/ShowItem';
+import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
 
 export default function Dashboard() {
+ 
+  const { data: products, error, isLoading } = useGetProductQuery(null);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl font-semibold">Loading products...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-xl font-semibold text-red-600">
+          Error loading products. Please try again later.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="dashboard">
       <div className="top-banner">
@@ -63,9 +85,10 @@ export default function Dashboard() {
         </div>
       </div>
       <Sales />
-      <SalesItem />
+      <ShowItem products={products} />
       <BrowseCategory />
       <BestSelling />
+      <ShowItem products={products} />
       <JblBanner />
     </div>
   );

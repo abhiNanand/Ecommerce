@@ -6,10 +6,13 @@ import {
 } from 'firebase/auth';
 
 import { useDispatch } from 'react-redux';
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from '../../../Shared/Constants'
 // components
 // utils
 import { auth } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
+import assets from '../../../assets';
 
 // styles
 import './Login.scss';
@@ -18,7 +21,7 @@ export default function Login() {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [resetEmailSent, setResetEmailSent] = useState<boolean>(false);
-
+  const navigate=useNavigate();
   const dispatch = useDispatch();
 
   const onLogin = async (e: React.FormEvent<HTMLButtonElement>) => {
@@ -35,6 +38,8 @@ export default function Login() {
       dispatch(updateAuthTokenRedux({
         token, user: { displayName: user.displayName, email: user.email },
       })); // store token in redux
+    
+      navigate(ROUTES.HOMEPAGE);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -58,6 +63,10 @@ export default function Login() {
     }
   };
   return (
+    <div className="login-signup-container">
+    <div className="shop-img-container">
+    <img src={assets.images.shopping}/>
+    </div>
     <div className="login-container">
       <h1>Log in to Exclusive</h1>
       <p>Enter your details below</p>
@@ -101,6 +110,7 @@ export default function Login() {
       {resetEmailSent && (
         <p className="reset-message">Reset email sent! Check your inbox.</p>
       )}
+    </div>
     </div>
   );
 }

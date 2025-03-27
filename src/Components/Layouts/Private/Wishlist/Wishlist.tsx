@@ -6,7 +6,6 @@ import {
   getWishlistItems,
   removeFromWishlist,
 } from '../../../../Services/Wishlist/WishlistService';
-import {ROUTES} from '../../../../Shared/Constants';
 import { addToCart } from '../../../../Services/Cart/CartService';
 import {useAuth} from '../../../../Services/UserAuth';
 import './Wishlist.scss';
@@ -86,7 +85,7 @@ export default function Wishlist() {
 
       <div className="wishlist-items">
         {wishlistItems.map((item) => (
-          <div className="wishlist-item" onClick={()=>navigate(ROUTES.PRODUCT_DETAILS,{state:{item}})} key={item.id}>
+          <div className="wishlist-item" onClick={()=> navigate(`/product/${item.id}`)} key={item.id}>
             <img src={item.image} alt={item.title} />
             <h3 className="title">{item.title}</h3>
             <p className="price">${item.price.toFixed(2)}</p>

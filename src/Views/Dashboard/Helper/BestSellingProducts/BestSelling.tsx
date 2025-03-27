@@ -1,4 +1,4 @@
-import SalesItem from '../Sales/SalesItem';
+// import SalesItem from '../Sales/SalesItem';
 import './BestSelling.scss';
 
 export default function BestSelling() {
@@ -16,7 +16,7 @@ export default function BestSelling() {
         </button>
       </div>
 
-      <SalesItem />
+      {/* <SalesItem /> */}
     </section>
   );
 }

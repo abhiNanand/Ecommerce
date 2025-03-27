@@ -13,6 +13,8 @@ import { auth, googleProvider } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
 import { ROUTES } from '../../../Shared/Constants';
+ 
+
 import '../Login/Login.scss';
 
 export default function Signup() {
@@ -52,6 +54,7 @@ export default function Signup() {
       const token = await result.user.getIdToken();
       dispatch(updateAuthTokenRedux({ token,user:{displayName:result.user.displayName,email:result.user.email} }));
       toast.success('🎉 Signed in with Google successfully!');
+      setTimeout(()=>navigate(ROUTES.HOMEPAGE),2000);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -60,7 +63,13 @@ export default function Signup() {
     }
   };
   return (
+    <div className="login-signup-container">
+      <div className="shop-img-container">
+      <img src={assets.images.shopping}/>
+      </div>
+      
     <div className="login-container">
+     
       <h1>Create an account</h1>
       <p>Enter your details below</p>
 
@@ -116,6 +125,7 @@ export default function Signup() {
 
       {/* Toast Notifications Container */}
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+    </div>
     </div>
   );
 }

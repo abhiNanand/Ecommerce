@@ -44,9 +44,9 @@ export default function Header() {
 
         <nav className="nav-links">
           <Link to={ROUTES.HOMEPAGE}>Home</Link>
-          <a href="#contact">Contact</a>
-          <a href="#about">About</a>
-          <Link to={ROUTES.SIGNUP}>Signup</Link>
+          <Link to="/contact">Contact</Link>
+          <Link to="/about">About</Link>
+        {!isAuthenticated &&  <Link to={ROUTES.SIGNUP}>Signup</Link> } 
         </nav>
 
         <div className="search-box">
