@@ -1,4 +1,5 @@
 import { useParams } from "react-router-dom";
+import { Heart, ShoppingCart } from "lucide-react";
 import {
   useGetProductByIdQuery,
   useGetProductByCategoryQuery,
@@ -6,18 +7,16 @@ import {
 import "./ProductDetails.scss";
 import ShowItem from "../../../Views/Dashboard/Helper/Sales/ShowItem";
 
-
 const ProductDetails = () => {
-  console.log("details page is opening");
   const { productId } = useParams();
   const { data: product, error: productError, isLoading: productLoading } = useGetProductByIdQuery(productId);
- 
-  const category:string = product?.category;
+
+  const category: string = product?.category;
   const {
     data: relatedProducts,
     error: relatedError,
     isLoading: relatedLoading,
-  } = useGetProductByCategoryQuery(category); // Skip query if category is undefined
+  } = useGetProductByCategoryQuery(category);
 
   if (productError) {
     console.log(productError);
@@ -33,21 +32,24 @@ const ProductDetails = () => {
   }
 
   return (
-    <>
+    <div className="product-page">
       <div className="product-details">
         <div className="product-img">
-          <img
-            src={product.image}
-            alt={product.title}
-            height="100px"
-            width="100px"
-          />
+          <img src={product.image} alt={product.title} className="product-image" />
         </div>
-        <div className="productDetails">
-          <h1>{product.title}</h1>
-          <p>{product.description}</p>
-          <p>Price: ${product.price}</p>
-          <p>Category: {product.category}</p>
+        <div className="product-info">
+          <h1 className="product-title">{product.title}</h1>
+          <p className="product-description">{product.description}</p>
+          <p className="product-price">Price: <span>${product.price}</span></p>
+          <p className="product-category">Category: {product.category}</p>
+          <div className="product-actions">
+            <button className="buy-now">
+              <ShoppingCart size={20} /> Buy Now
+            </button>
+            <button className="wishlist">
+              <Heart size={20} /> Wishlist
+            </button>
+          </div>
         </div>
       </div>
 
@@ -68,7 +70,7 @@ const ProductDetails = () => {
           <p>No related products found.</p>
         )}
       </div>
-    </>
+    </div>
   );
 };
 
