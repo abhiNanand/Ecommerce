@@ -81,6 +81,7 @@ export const getCartItems = async (): Promise<Product[]> => {
         
       return {
         id: data.id,  
+        firebase_id:cartDo.id,
         title: data.title ?? '', // Use Nullish Coalescing (??) instead of ||
         image: data.image ?? '',
         price: data.price ?? 0,

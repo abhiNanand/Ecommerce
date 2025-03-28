@@ -35,10 +35,10 @@ export default function Cart() {
     
   }, [user]);
 
-  const handleRemoveItem = async (productId: string) => {
-    await removeFromCart(productId);
+  const handleRemoveItem = async (product:any) => {
+    await removeFromCart(product.firebase_id);
     setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== productId)
+      prevItems.filter((item) => item.id !== product.id)
     );
   };
 
@@ -121,7 +121,7 @@ export default function Cart() {
                   <button
                     type="button"
                     className="delete-btn"
-                    onClick={(event) => {event.stopPropagation();handleRemoveItem(product.id)}}
+                    onClick={(event) => {event.stopPropagation();handleRemoveItem(product)}}
                   >
                     <Trash size={20} />
                   </button>

@@ -27,17 +27,17 @@ export default function Wishlist() {
     fetchWishlistItems();
   }, [user]);
 
-  const handleDelete = async (itemId: string) => {
-    await removeFromWishlist(itemId);
+  const handleDelete = async (item:any) => {
+    await removeFromWishlist(item.firebase_id);
     setWishlistItems((prevItems) =>
-      prevItems.filter((product) => product.id !== itemId)
+      prevItems.filter((product) => product.id !== item.id)
     );
   };
   const handleMoveAllToBag = async () => {
     await Promise.all(
       wishlistItems.map(async (item) => {
         await addToCart(item);
-        await handleDelete(item.id);
+        await handleDelete(item);
       })
     );
   };
@@ -106,7 +106,7 @@ export default function Wishlist() {
               <button
                 type="button"
                 className="remove-btn"
-                onClick={(e) => {e.stopPropagation();handleDelete(item.id);}}
+                onClick={(e) => {e.stopPropagation();handleDelete(item);}}
               >
                 <Trash2 size={20} />
                 Remove

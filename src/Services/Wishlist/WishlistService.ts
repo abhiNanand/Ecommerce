@@ -21,8 +21,6 @@ export const addToWishlist = async (product: Product) => {
     await addDoc(wishlistRef, { userEmail: user.email, ...product, quantity: 1 });
   } 
    
-
-
   catch (error) {
     console.error('error adding to the cart:', error);
   }
@@ -59,8 +57,9 @@ export const getWishlistItems = async (): Promise<Product[]> => {
 
     return querySnapshot.docs.map((doc) => {
       const data = doc.data() as Product;
-      return {
-        id: data.id,  
+       return {
+        id: data.id, 
+        firebase_id:doc.id,
         title: data.title ?? '', // Use Nullish Coalescing (??) instead of ||
         image: data.image ?? '',
         price: data.price ?? 0,
