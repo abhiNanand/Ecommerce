@@ -14,10 +14,8 @@ import { Product } from '../../Shared/Product';
 //1. add to cart in firestore
 export const addToCart = async (product: Product) => {
   const user = auth.currentUser; // get current user
-  // console.log('addToCart:', typeof product.id);
-
   if (!user) {
-    // console.log('User not logged in ');
+     console.log('In cart section- User not logged in ');
     return;
   }
   try {
@@ -45,7 +43,7 @@ export const addToCart = async (product: Product) => {
 };
 
 //2. delete from cart
-export const removeFromCart = async (productId: string) => {
+export const removeFromCart = async (firebaseId: string) => {
   const user = auth.currentUser;
 
   if (!user) {
@@ -54,7 +52,7 @@ export const removeFromCart = async (productId: string) => {
   }
 
   try {
-    await deleteDoc(doc(db, 'cart', productId)); // delete item by its Firestore ID
+    await deleteDoc(doc(db, 'cart', firebaseId)); // delete item by its Firestore ID
   } catch (error) {
     console.error('Error removing item from cart:', error);
   }
@@ -76,12 +74,12 @@ export const getCartItems = async (): Promise<Product[]> => {
     );
     const querySnapshot = await getDocs(q);
 
-    return querySnapshot.docs.map((cartDo) => {
-      const data = cartDo.data() as Product; 
+    return querySnapshot.docs.map((cartDoc) => {
+      const data = cartDoc.data() as Product; 
         
       return {
         id: data.id,  
-        firebase_id:cartDo.id,
+        firebaseId:cartDoc.id,
         title: data.title ?? '', // Use Nullish Coalescing (??) instead of ||
         image: data.image ?? '',
         price: data.price ?? 0,

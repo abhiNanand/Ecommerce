@@ -43,21 +43,21 @@ export default function Cart() {
   };
 
   const handleQuantityChange = async (
-    productId: string,
+    product: any,
     newQuantity: number
   ) => {
     if (newQuantity <= 0) {
-      await removeFromCart(productId);
+      await removeFromCart(product.firebaseId);
       setCartItems((prevItems) =>
-        prevItems.filter((item) => item.id !== productId)
+        prevItems.filter((item) => item.id !== product.id)
       );
     } else {
-      const productRef = doc(db, 'cart', productId);
+      const productRef = doc(db, 'cart', product.firebaseId);
       await updateDoc(productRef, { quantity: newQuantity });
 
       setCartItems((prevItems) =>
         prevItems.map((item) =>
-          item.id === productId ? { ...item, quantity: newQuantity } : item
+          item.id === product.id ? { ...item, quantity: newQuantity } : item
         )
       );
     }
@@ -110,7 +110,7 @@ export default function Cart() {
                     value={product.quantity}
                     onClick={(event)=>event.stopPropagation()}
                     onChange={(e) =>
-                      handleQuantityChange(product.id, Number(e.target.value))
+                      handleQuantityChange(product, Number(e.target.value))
                     }
                   />
                 </span>

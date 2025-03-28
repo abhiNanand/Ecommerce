@@ -59,7 +59,7 @@ export const getWishlistItems = async (): Promise<Product[]> => {
       const data = doc.data() as Product;
        return {
         id: data.id, 
-        firebase_id:doc.id,
+        firebaseId:doc.id,
         title: data.title ?? '', // Use Nullish Coalescing (??) instead of ||
         image: data.image ?? '',
         price: data.price ?? 0,

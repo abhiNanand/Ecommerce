@@ -28,7 +28,7 @@ export default function Wishlist() {
   }, [user]);
 
   const handleDelete = async (item:any) => {
-    await removeFromWishlist(item.firebase_id);
+    await removeFromWishlist(item.firebaseId);
     setWishlistItems((prevItems) =>
       prevItems.filter((product) => product.id !== item.id)
     );
@@ -97,7 +97,7 @@ export default function Wishlist() {
                 onClick={(e) => {
                   e.stopPropagation();
                   addToCart(item);
-                  handleDelete(item.id);
+                  handleDelete(item);
                 }}
               >
                 <ShoppingCart size={20} />
