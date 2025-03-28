@@ -4,3 +4,25 @@
     justify-content: space-around;
     margin:5%;
 }
+
+ .relatedItem-header
+ {
+    display:flex;
+    gap: 5px;
+    align-items: center;
+    margin-left:5%;
+ 
+ }
+.relatedItem-highlighter 
+{
+    background-color: red;
+    height: 3vh;
+    width: 1vw;
+    border-radius: 3px;
+}
+.relatedItem-subtitle
+{
+    font-size: 1rem;
+    font-weight: 600;
+    color:red;
+}

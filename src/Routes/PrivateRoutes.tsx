@@ -3,8 +3,9 @@ import { CustomRouter } from './RootRoutes';
 import Dashboard from '../Views/Dashboard';
 import Cart from '../Components/Layouts/Private/Cart/Cart';
 import Wishlist from '../Components/Layouts/Private/Wishlist/Wishlist';
-import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
 import Error from '../Components/Layouts/ErrorPage/Error';
+import Category from '../Components/Layouts/Categories/Category';
+import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   {
@@ -33,8 +34,13 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.WILDCARD.title,
   },
   {
-      path:ROUTES_CONFIG.PRODUCT_DETAILS.path,
-      element:<ProductDetails/>,
-      title:ROUTES_CONFIG.PRODUCT_DETAILS.title,
+    path:ROUTES_CONFIG.PRODUCT_DETAILS.path,
+    element:<ProductDetails/>,
+    title:ROUTES_CONFIG.PRODUCT_DETAILS.title,
+  },
+  {
+      path:ROUTES_CONFIG.CATEGORY.path,
+      element:<Category/>,
+      title:ROUTES_CONFIG.CATEGORY.title,
     },
 ];

@@ -2,7 +2,7 @@
 
 import { Star, Heart } from 'lucide-react';
 import { useState } from 'react';
- 
+
 import { addToCart } from '../../../../Services/Cart/CartService';
 import {
   addToWishlist,
@@ -15,16 +15,13 @@ import './ShowItem.scss';
 import { useNavigate } from 'react-router-dom';
 
 interface SalesItemProps {
-  products: Product[]; // Expecting an array of Product
+  products: Product[];
 }
 
-export default function SalesItem({products}:SalesItemProps) {
+export default function SalesItem({ products }: SalesItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
- 
+
   const navigate = useNavigate();
-
-
-
   const handleWishlistClick = async (product: Product) => {
     try {
       const isLiked = likedItems.has(product.id);

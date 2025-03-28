@@ -6,6 +6,7 @@ export interface Product {
   description:string;
   category:string,
   quantity?: number;
+  firebaseId?:string;
   rating?: {
     rate: number;
     count: number;

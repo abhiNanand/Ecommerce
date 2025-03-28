@@ -6,11 +6,13 @@ import {
 import "./ProductDetails.scss";
 import ShowItem from "../../../Views/Dashboard/Helper/Sales/ShowItem";
 
+
 const ProductDetails = () => {
+  console.log("details page is opening");
   const { productId } = useParams();
   const { data: product, error: productError, isLoading: productLoading } = useGetProductByIdQuery(productId);
  
-  const category = product?.category;
+  const category:string = product?.category;
   const {
     data: relatedProducts,
     error: relatedError,

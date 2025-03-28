@@ -21,9 +21,10 @@ import ShowItem from './Helper/Sales/ShowItem';
 import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
+ 
 
 export default function Dashboard() {
- 
+  
   const { data: products, error, isLoading } = useGetProductQuery(null);
 
   if (isLoading) {
@@ -50,31 +51,31 @@ export default function Dashboard() {
         {/* Sidebar Categories */}
         <div className="banner-categories">
           <h3>Categories</h3>
-          <Link to="/womanFashion" className="category-link">
+          <Link to="/category/women's clothing" className="category-link">
             Women&apos;s Fashion
           </Link>
-          <Link to="/mensFashion" className="category-link">
+          <Link to="/category/men's clothing" className="category-link">
             Men&apos;s Fashion
           </Link>
-          <Link to="/electronics" className="category-link">
+          <Link to="/category/electronics" className="category-link">
             Electronics
           </Link>
-          <Link to="/medicine" className="category-link">
+          <Link to="/category/medicine" className="category-link">
             Medicine
           </Link>
-          <Link to="/home-lifestyle" className="category-link">
+          <Link to="/category/home-lifestyle" className="category-link">
             Home & Lifestyle
           </Link>
-          <Link to="/sports-outdoor" className="category-link">
+          <Link to="/category/sports-outdoor" className="category-link">
             Sports & Outdoor
           </Link>
-          <Link to="/baby-toys" className="category-link">
+          <Link to="/category/baby-toys" className="category-link">
             Baby & Toys
           </Link>
-          <Link to="/groceries-pets" className="category-link">
+          <Link to="/category/groceries-pets" className="category-link">
             Groceries & Pets
           </Link>
-          <Link to="/health-beauty" className="category-link">
+          <Link to="/category/health-beauty" className="category-link">
             Health & Beauty
           </Link>
         </div>

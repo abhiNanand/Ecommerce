@@ -8,10 +8,10 @@ const ROUTES = {
   ABOUT: '/about-us',
   SIGNUP: '/signup',
   CART: '/cart',
-  WISHLIST: '/wishlist',
-  // PRODUCT_DETAILS:'/product_details',   
+  WISHLIST: '/wishlist',  
   PRODUCT_DETAILS:'/product/:productId', 
   WILDCARD:'*' ,
+  CATEGORY:'/category/:category',
 };
 
  
@@ -52,6 +52,10 @@ const ROUTES_CONFIG = {
   WILDCARD:{
     path:ROUTES.WILDCARD,
     title:'404 Error'
+  },
+  CATEGORY:{
+    path:ROUTES.CATEGORY,
+    title:'category'
   }
 };
 

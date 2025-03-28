@@ -4,6 +4,7 @@ import Dashboard from '../Views/Dashboard/Dashboard';
 import { CustomRouter } from './RootRoutes';
 
 // making changes;
+import Category from '../Components/Layouts/Categories/Category';
 import Login from '../Views/Auth/Login/Login';
 import Signup from '../Views/Auth/Signup';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
@@ -35,5 +36,10 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     path:ROUTES_CONFIG.PRODUCT_DETAILS.path,
     element:<ProductDetails/>,
     title:ROUTES_CONFIG.PRODUCT_DETAILS.title,
+  },
+  {
+    path:ROUTES_CONFIG.CATEGORY.path,
+    element:<Category/>,
+    title:ROUTES_CONFIG.CATEGORY.title,
   },
 ];

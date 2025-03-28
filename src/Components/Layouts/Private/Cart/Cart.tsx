@@ -36,7 +36,7 @@ export default function Cart() {
   }, [user]);
 
   const handleRemoveItem = async (product:any) => {
-    await removeFromCart(product.firebase_id);
+    await removeFromCart(product.firebaseId);
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.id !== product.id)
     );
@@ -93,8 +93,7 @@ export default function Cart() {
           ) : (
             cartItems.map((product) => (
              
-              <div className="cart-row" key={product.id} onClick={()=>navigate(`/products/${product.id}`)}>
-                 <p>{product.id}</p>
+              <div className="cart-row" key={product.id} onClick={()=>navigate(`/product/${product.id}`)}>
                 <span>
                   <img
                     src={product.image}
