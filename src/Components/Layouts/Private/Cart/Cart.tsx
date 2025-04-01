@@ -9,7 +9,7 @@ import {
 } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import {useAuth} from '../../../../Services/UserAuth';
-import {ROUTES} from '../../../../Shared/Constants'
+import {ROUTES} from '../../../../Shared/Constants';
 import './Cart.scss';
 
  
@@ -29,11 +29,9 @@ export default function Cart() {
        
       setCartItems(items);
     };
+   
     fetchCartItems();
-
-    
-    
-  }, [user]);
+  },[user]);
 
   const handleRemoveItem = async (product:any) => {
     await removeFromCart(product.firebaseId);
@@ -148,7 +146,7 @@ export default function Cart() {
           <p>Subtotal: ₹{calculateTotal().toFixed(2)}</p>
           <p>Shipping: Free</p>
           <p>Total: ₹{calculateTotal().toFixed(2)}</p>
-          <button type="button">Proceed to Checkout</button>
+          <button type="button" onClick={()=>navigate(ROUTES.CHECKOUT)}>Proceed to Checkout</button>
         </div>
       </div>
     </div>

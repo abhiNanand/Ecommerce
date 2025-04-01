@@ -12,6 +12,8 @@ const ROUTES = {
   PRODUCT_DETAILS:'/product/:productId', 
   WILDCARD:'*' ,
   CATEGORY:'/category/:category',
+  ACCOUNT:'/account',
+  CHECKOUT:'/cart/checkout',
 };
 
  
@@ -56,7 +58,17 @@ const ROUTES_CONFIG = {
   CATEGORY:{
     path:ROUTES.CATEGORY,
     title:'category'
-  }
+  },
+  ACCOUNT:
+  {
+    path:ROUTES.ACCOUNT,
+    title:'account details'
+  },
+  CHECKOUT:
+  {
+     path:ROUTES.CHECKOUT,
+    title:'checkout',
+  },
 };
 
 export { ROUTES,ROUTES_CONFIG };

@@ -22,7 +22,7 @@ export const addToWishlist = async (product: Product) => {
   } 
    
   catch (error) {
-    console.error('error adding to the cart:', error);
+    console.error('error adding to the wishlist:', error);
   }
 };
 // delete wishlist in Firestore
@@ -42,7 +42,9 @@ export const removeFromWishlist = async (productId: string) => {
 
 // Fetch wishlist on login
 export const getWishlistItems = async (): Promise<Product[]> => {
+
   const user = auth.currentUser;
+   
   if (!user) {
     console.error('user not logged in!');
     return [];
@@ -60,7 +62,7 @@ export const getWishlistItems = async (): Promise<Product[]> => {
        return {
         id: data.id, 
         firebaseId:doc.id,
-        title: data.title ?? '', // Use Nullish Coalescing (??) instead of ||
+        title: data.title ?? '',  
         image: data.image ?? '',
         price: data.price ?? 0,
         quantity: data.quantity ?? 1,

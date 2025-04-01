@@ -24,8 +24,9 @@ export default function Wishlist() {
       const items = await getWishlistItems();
       setWishlistItems(items);
     };
+      
     fetchWishlistItems();
-  }, [user]);
+  });
 
   const handleDelete = async (item:any) => {
     await removeFromWishlist(item.firebaseId);

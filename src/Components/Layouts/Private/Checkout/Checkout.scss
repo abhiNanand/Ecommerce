@@ -1,0 +1,91 @@
+.checkout-container
+{
+    display: flex;
+    justify-content: space-around;
+    margin:5%;
+}
+.billing h1
+{
+font-family: inter;
+word-spacing: 4%;
+}
+
+.checkout-container sup
+{
+    color:red
+}
+
+.billing-form
+{
+    display: flex;
+    flex-direction: column;
+
+}
+
+.billing-form-label
+{
+    color: rgb(179, 176, 176);  
+}
+
+.billing-form input
+{
+background-color: rgb(179, 176, 176);
+border:none
+}
+
+.checkout-cart-items
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.checkout-cart-item
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom:5%;
+}
+
+.checkout-subtotal, .checkout-total, .checkout-shipping
+{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5%;
+}
+hr{
+    margin-bottom: 5%;
+}
+
+.checkout-payment
+{
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.placeorder-btn
+{
+    background-color: red;
+    color:white;
+    border:none;
+    border-radius:3px ;
+    width:fit-content;
+    padding:10px;
+    margin-top:5%;
+}
+
+.coupon-section input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    width: 150px;
+    margin-right:10;
+}
+
+.coupon-section button
+  {
+    background: red;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}

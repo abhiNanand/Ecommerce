@@ -61,7 +61,7 @@ export const removeFromCart = async (firebaseId: string) => {
 //3. Fetch only the logged-in user's cart items
 export const getCartItems = async (): Promise<Product[]> => {
   const user = auth.currentUser; // Get current user
-
+//  console.log("hi")
   if (!user) {
     console.error('User not logged in!');
     return [];
@@ -80,7 +80,7 @@ export const getCartItems = async (): Promise<Product[]> => {
       return {
         id: data.id,  
         firebaseId:cartDoc.id,
-        title: data.title ?? '', // Use Nullish Coalescing (??) instead of ||
+        title: data.title ?? '',  
         image: data.image ?? '',
         price: data.price ?? 0,
         quantity: data.quantity ?? 1,
@@ -93,3 +93,6 @@ export const getCartItems = async (): Promise<Product[]> => {
     return [];
   }
 };
+
+// The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
+

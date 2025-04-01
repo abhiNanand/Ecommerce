@@ -6,6 +6,7 @@ import Wishlist from '../Components/Layouts/Private/Wishlist/Wishlist';
 import Error from '../Components/Layouts/ErrorPage/Error';
 import Category from '../Components/Layouts/Categories/Category';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
+import Checkout from '../Components/Layouts/Private/Checkout/Checkout';
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   {
@@ -42,5 +43,10 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
       path:ROUTES_CONFIG.CATEGORY.path,
       element:<Category/>,
       title:ROUTES_CONFIG.CATEGORY.title,
+    },
+    {
+      path:ROUTES_CONFIG.CHECKOUT.path,
+      element:<Checkout/>,
+      title:ROUTES_CONFIG.CHECKOUT.title,
     },
 ];

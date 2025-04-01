@@ -78,6 +78,7 @@ export default function Header() {
                 className="dropdown-btn"
                 aria-label="account"
                 onClick={() => setOpen(!open)}
+                onBlur={() => {setTimeout(()=>setOpen(false),200)}}
               >
                 <User size={24} />
               </button>
@@ -104,7 +105,7 @@ export default function Header() {
                     type="button"
                     className="logout-btn"
                   >
-                    <LogOut size={24} /> Logout
+                    <LogOut size={24}/>  <span className="logout-title">Logout</span>
                   </button>
                 </div>
               )}

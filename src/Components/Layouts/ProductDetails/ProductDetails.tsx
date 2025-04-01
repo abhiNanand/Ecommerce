@@ -6,6 +6,12 @@ import {
 } from "../../../Services/Api/module/demoApi";
 import "./ProductDetails.scss";
 import ShowItem from "../../../Views/Dashboard/Helper/Sales/ShowItem";
+// import { addToCart , removeFromCart} from "../../../Services/Cart/CartService";
+import { addToCart } from "../../../Services/Cart/CartService";
+import { addToWishlist  } from "../../../Services/Wishlist/WishlistService";
+// import { updateDoc, doc } from 'firebase/firestore';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -31,6 +37,26 @@ const ProductDetails = () => {
     return <p>No product data available.</p>;
   }
 
+    // const handleWishlistClick = async (product: Product) => {
+    //   try {
+    //     const isLiked = likedItems.has(product.id);
+  
+    //     if (isLiked) {
+    //       await removeFromWishlist(product.id);
+    //       setLikedItems((prev) => {
+    //         const newSet = new Set(prev);
+    //         newSet.delete(product.id);
+    //         return newSet;
+    //       });
+    //     } else {
+    //       await addToWishlist(product);
+    //       setLikedItems((prev) => new Set([...prev, product.id]));
+    //     }
+    //   } catch (wishListError) {
+    //     console.error('Error handling wishlist action:', wishListError);
+    //   }
+    // };
+
   return (
     <div className="product-page">
       <div className="product-details">
@@ -43,11 +69,13 @@ const ProductDetails = () => {
           <p className="product-price">Price: <span>${product.price}</span></p>
           <p className="product-category">Category: {product.category}</p>
           <div className="product-actions">
-            <button className="buy-now">
-              <ShoppingCart size={20} /> Buy Now
+
+            <button type="button" className="pd-cart" onClick={()=>{addToCart(product);toast.success('Added to Cart!');}}><ShoppingCart size={20}/> Add to Cart </button>
+            <button type="button" className="buy-now">
+               Buy Now
             </button>
-            <button className="wishlist">
-              <Heart size={20} /> Wishlist
+            <button type="button" onClick={()=>{addToWishlist(product);toast.success('Added to Wishlist!')}} className="pd-wishlist"  >
+              <Heart size={20} />
             </button>
           </div>
         </div>
@@ -69,6 +97,7 @@ const ProductDetails = () => {
         ) : (
           <p>No related products found.</p>
         )}
+         <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
       </div>
     </div>
   );

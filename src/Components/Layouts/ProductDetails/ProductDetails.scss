@@ -68,15 +68,14 @@
           align-items: center;
           justify-content: center;
           gap: 0.5rem;
-          padding: 0.75rem 1.5rem; // Reduced padding for smaller buttons
+          padding: 0.75rem 1.5rem;  
           border-radius: 6px;
-          font-size: 0.9rem; // Slightly smaller font
+          font-size: 0.9rem;  
           cursor: pointer;
           transition: all 0.3s ease;
-          min-width: 120px; // Ensures buttons have consistent width
-  
+           
           &:hover {
-            transform: translateY(-2px);
+          
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
           }
   
@@ -85,16 +84,20 @@
           }
         }
   
-        .buy-now {
-          background-color: #007bff;
+      .pd-cart,  .buy-now {
+          background-color: #DB4444;
           color: #fff;
           border: none;
+          height:5vh;
         }
   
-        .wishlist {
+        .pd-wishlist {
           background-color: #fff;
-          color: #e44d26;
-          border: 1px solid #e44d26;
+          height:5vh;
+          border: 1px solid;
+          border-color: rgb(190, 188, 188);
+          
+          
         }
       }
     }
@@ -143,9 +146,9 @@
           gap: 0.75rem;
   
           button {
-            padding: 0.6rem 1rem;
-            font-size: 0.85rem;
-            min-width: 100px;
+            // padding: 0.6rem 1rem;
+            // font-size: 0.85rem;
+            // min-width: 100px;
           }
         }
       }

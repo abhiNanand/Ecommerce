@@ -1,18 +1,21 @@
 
 
 import { Star, Heart } from 'lucide-react';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 
 import { addToCart } from '../../../../Services/Cart/CartService';
 import {
   addToWishlist,
-  removeFromWishlist,
+  getWishlistItems
 
 } from '../../../../Services/Wishlist/WishlistService';
 import { Product } from '../../../../Shared/Product';
 
 import './ShowItem.scss';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
+import DeleteFromWishlist from './helper/deleteFromWishlist';
 
 interface SalesItemProps {
   products: Product[];
@@ -20,22 +23,35 @@ interface SalesItemProps {
 
 export default function SalesItem({ products }: SalesItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
-
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const fetchWishlist = async () => {
+      const wishlist = await getWishlistItems();
+      const likedProductIds = new Set(wishlist.map((item) => item.id)); // Assuming 'id' is unique
+      setLikedItems(likedProductIds);
+    };
+
+    fetchWishlist();
+  }, []);
+
   const handleWishlistClick = async (product: Product) => {
     try {
       const isLiked = likedItems.has(product.id);
 
       if (isLiked) {
-        await removeFromWishlist(product.id);
+      await  DeleteFromWishlist(product);
         setLikedItems((prev) => {
           const newSet = new Set(prev);
           newSet.delete(product.id);
           return newSet;
         });
+        toast.success('Removed from Wishlist!');
       } else {
         await addToWishlist(product);
         setLikedItems((prev) => new Set([...prev, product.id]));
+        toast.success('Added to Wishlist!');
       }
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
@@ -43,7 +59,11 @@ export default function SalesItem({ products }: SalesItemProps) {
   };//
 
   return (
+    <>
+ <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
+   
     <div className="products-grid">
+     
       {products?.map((product: Product) => (
         <div key={product.id} className="product-card" onClick={() => navigate(`/product/${product.id}`)}>
           <button
@@ -66,7 +86,7 @@ export default function SalesItem({ products }: SalesItemProps) {
           <button
             className="cart-btn"
             type="button"
-            onClick={(event) => { event.stopPropagation(); addToCart(product); }}
+            onClick={(event) => { event.stopPropagation(); addToCart(product); toast.success('Added to Cart!')}}
           >
             Add to Cart
           </button>
@@ -89,6 +109,8 @@ export default function SalesItem({ products }: SalesItemProps) {
           </div>
         </div>
       ))}
+        
     </div>
+    </>
   );
 }
