@@ -6,8 +6,8 @@ import {
   signInWithPopup,
 } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
+import {  toast } from 'react-toastify';
+ 
 
 import { auth, googleProvider } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
@@ -124,7 +124,7 @@ export default function Signup() {
       </p>
 
       {/* Toast Notifications Container */}
-      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
+     
     </div>
     </div>
   );

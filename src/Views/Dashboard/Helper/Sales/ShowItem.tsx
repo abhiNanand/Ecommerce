@@ -13,7 +13,7 @@ import { Product } from '../../../../Shared/Product';
 
 import './ShowItem.scss';
 import { useNavigate } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 import DeleteFromWishlist from './helper/deleteFromWishlist';
 
@@ -23,6 +23,7 @@ interface SalesItemProps {
 
 export default function SalesItem({ products }: SalesItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
+  const [index,setIndex]=useState<number>(5);
   const navigate = useNavigate();
 
 
@@ -47,11 +48,16 @@ export default function SalesItem({ products }: SalesItemProps) {
           newSet.delete(product.id);
           return newSet;
         });
-        toast.success('Removed from Wishlist!');
+      
+        toast.success('Removed from Wishlist!', {
+          position: "top-left"
+        });
       } else {
         await addToWishlist(product);
         setLikedItems((prev) => new Set([...prev, product.id]));
-        toast.success('Added to Wishlist!');
+        console.log("working");
+        
+        toast.warn('Added to Wishlist!');
       }
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
@@ -60,11 +66,11 @@ export default function SalesItem({ products }: SalesItemProps) {
 
   return (
     <>
- <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
+ 
    
     <div className="products-grid">
      
-      {products?.map((product: Product) => (
+      {products.slice(0,index)?.map((product: Product) => (
         <div key={product.id} className="product-card" onClick={() => navigate(`/product/${product.id}`)}>
           <button
             type="button"
@@ -107,10 +113,13 @@ export default function SalesItem({ products }: SalesItemProps) {
               ({product.rating?.count ?? 0})
             </span>
           </div>
+          
         </div>
       ))}
-        
+       
     </div>
+    {index==products.length?<button className="view-all-btn" onClick={()=>setIndex(5)}>View Less Products</button>:<button className="view-all-btn" onClick={()=>setIndex(products.length)}>View All Products</button>   }
+    
     </>
   );
 }

@@ -10,7 +10,7 @@ import ShowItem from "../../../Views/Dashboard/Helper/Sales/ShowItem";
 import { addToCart } from "../../../Services/Cart/CartService";
 import { addToWishlist  } from "../../../Services/Wishlist/WishlistService";
 // import { updateDoc, doc } from 'firebase/firestore';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 
 const ProductDetails = () => {
@@ -97,7 +97,7 @@ const ProductDetails = () => {
         ) : (
           <p>No related products found.</p>
         )}
-         <ToastContainer position="top-right" autoClose={2000} hideProgressBar />
+       
       </div>
     </div>
   );

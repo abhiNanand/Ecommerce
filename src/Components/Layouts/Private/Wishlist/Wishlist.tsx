@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ShoppingCart, Trash2, Heart } from 'lucide-react';
 import { Product } from '../../../../Shared/Product';
 import {
@@ -7,13 +7,13 @@ import {
   removeFromWishlist,
 } from '../../../../Services/Wishlist/WishlistService';
 import { addToCart } from '../../../../Services/Cart/CartService';
-import {useAuth} from '../../../../Services/UserAuth';
+import { useAuth } from '../../../../Services/UserAuth';
 import './Wishlist.scss';
 
 export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
-  const {user}=useAuth();
-  const navigate=useNavigate();
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchWishlistItems = async () => {
@@ -24,11 +24,11 @@ export default function Wishlist() {
       const items = await getWishlistItems();
       setWishlistItems(items);
     };
-      
-    fetchWishlistItems();
-  });
 
-  const handleDelete = async (item:any) => {
+    fetchWishlistItems();
+  }, [user]);
+
+  const handleDelete = async (item: any) => {
     await removeFromWishlist(item.firebaseId);
     setWishlistItems((prevItems) =>
       prevItems.filter((product) => product.id !== item.id)
@@ -86,7 +86,7 @@ export default function Wishlist() {
 
       <div className="wishlist-items">
         {wishlistItems.map((item) => (
-          <div className="wishlist-item" onClick={()=> navigate(`/product/${item.id}`)} key={item.id}>
+          <div className="wishlist-item" onClick={() => navigate(`/product/${item.id}`)} key={item.id}>
             <img src={item.image} alt={item.title} />
             <h3 className="title">{item.title}</h3>
             <p className="price">${item.price.toFixed(2)}</p>
@@ -107,7 +107,7 @@ export default function Wishlist() {
               <button
                 type="button"
                 className="remove-btn"
-                onClick={(e) => {e.stopPropagation();handleDelete(item);}}
+                onClick={(e) => { e.stopPropagation(); handleDelete(item); }}
               >
                 <Trash2 size={20} />
                 Remove

@@ -78,7 +78,7 @@ export default function Header() {
                 className="dropdown-btn"
                 aria-label="account"
                 onClick={() => setOpen(!open)}
-                onBlur={() => {setTimeout(()=>setOpen(false),200)}}
+                onBlur={() => {setTimeout(()=>setOpen(false),1000)}}
               >
                 <User size={24} />
               </button>
