@@ -2,23 +2,20 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { updateDoc, doc } from 'firebase/firestore';
 import { Trash } from 'lucide-react';
-import {db} from '../../../../Services/firebase/firebase';
+import { db } from '../../../../Services/firebase/firebase';
 import {
   getCartItems,
   removeFromCart,
 } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
-import {useAuth} from '../../../../Services/UserAuth';
-import {ROUTES} from '../../../../Shared/Constants';
+import { useAuth } from '../../../../Services/UserAuth';
+import { ROUTES } from '../../../../Shared/Constants';
 import './Cart.scss';
-
- 
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
-  const {user}=useAuth();
- 
- 
+  const { user } = useAuth();
+
   useEffect(() => {
     const fetchCartItems = async () => {
       if (!user) {
@@ -26,24 +23,21 @@ export default function Cart() {
         return;
       }
       const items = await getCartItems();
-       
+
       setCartItems(items);
     };
-   
-    fetchCartItems();
-  },[user]);
 
-  const handleRemoveItem = async (product:any) => {
+    fetchCartItems();
+  }, [user]);
+
+  const handleRemoveItem = async (product: any) => {
     await removeFromCart(product.firebaseId);
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.id !== product.id)
     );
   };
 
-  const handleQuantityChange = async (
-    product: any,
-    newQuantity: number
-  ) => {
+  const handleQuantityChange = async (product: any, newQuantity: number) => {
     if (newQuantity <= 0) {
       await removeFromCart(product.firebaseId);
       setCartItems((prevItems) =>
@@ -90,8 +84,13 @@ export default function Cart() {
             <p>No items in the cart</p>
           ) : (
             cartItems.map((product) => (
-             
-              <div className="cart-row" key={product.id} onClick={()=>navigate(`/product/${product.id}`)}>
+              <div
+                className="cart-row"
+                key={product.id}
+                role="button"
+                tabIndex={0}
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
                 <span>
                   <img
                     src={product.image}
@@ -105,7 +104,7 @@ export default function Cart() {
                     type="number"
                     min="1"
                     value={product.quantity}
-                    onClick={(event)=>event.stopPropagation()}
+                    onClick={(event) => event.stopPropagation()}
                     onChange={(e) =>
                       handleQuantityChange(product, Number(e.target.value))
                     }
@@ -118,7 +117,10 @@ export default function Cart() {
                   <button
                     type="button"
                     className="delete-btn"
-                    onClick={(event) => {event.stopPropagation();handleRemoveItem(product)}}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleRemoveItem(product);
+                    }}
                   >
                     <Trash size={20} />
                   </button>
@@ -146,9 +148,15 @@ export default function Cart() {
           <p>Subtotal: ₹{calculateTotal().toFixed(2)}</p>
           <p>Shipping: Free</p>
           <p>Total: ₹{calculateTotal().toFixed(2)}</p>
-          <button type="button" onClick={()=>navigate(ROUTES.CHECKOUT)}>Proceed to Checkout</button>
+          <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
+            Proceed to Checkout
+          </button>
         </div>
       </div>
     </div>
   );
 }
+
+// warning you're getting is because <div> is a non-interactive element, but you're using onClick on it. This makes it inaccessible for keyboard users, as they won't be able to activate it using the Enter or Space keys.
+// solution add role="button" and tabIndex="0":
+// tabIndex="0" allows an element to be focusable using the Tab key, making it accessible for keyboard navigation.

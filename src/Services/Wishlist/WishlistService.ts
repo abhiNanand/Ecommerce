@@ -13,15 +13,17 @@ import { Product } from '../../Shared/Product';
 // add to wishlist in firestore
 export const addToWishlist = async (product: Product) => {
   const user = auth.currentUser; // get current user
-   if (!user) {
-     return;
+  if (!user) {
+    return;
   }
   try {
     const wishlistRef = collection(db, 'wishlist');
-    await addDoc(wishlistRef, { userEmail: user.email, ...product, quantity: 1 });
-  } 
-   
-  catch (error) {
+    await addDoc(wishlistRef, {
+      userEmail: user.email,
+      ...product,
+      quantity: 1,
+    });
+  } catch (error) {
     console.error('error adding to the wishlist:', error);
   }
 };
@@ -34,7 +36,7 @@ export const removeFromWishlist = async (productId: string) => {
   }
   try {
     console.log(productId);
-    await deleteDoc(doc(db, 'wishlist', productId));  
+    await deleteDoc(doc(db, 'wishlist', productId));
   } catch (error) {
     console.error('Error removing item from wishlist:', error);
   }
@@ -42,9 +44,8 @@ export const removeFromWishlist = async (productId: string) => {
 
 // Fetch wishlist on login
 export const getWishlistItems = async (): Promise<Product[]> => {
-
   const user = auth.currentUser;
-   
+
   if (!user) {
     console.error('user not logged in!');
     return [];
@@ -59,15 +60,15 @@ export const getWishlistItems = async (): Promise<Product[]> => {
 
     return querySnapshot.docs.map((doc) => {
       const data = doc.data() as Product;
-       return {
-        id: data.id, 
-        firebaseId:doc.id,
-        title: data.title ?? '',  
+      return {
+        id: data.id,
+        firebaseId: doc.id,
+        title: data.title ?? '',
         image: data.image ?? '',
         price: data.price ?? 0,
         quantity: data.quantity ?? 1,
-        description:data.description??'',
-        category:data.category??'',
+        description: data.description ?? '',
+        category: data.category ?? '',
       };
     });
   } catch (error) {

@@ -84,26 +84,17 @@
     height: 18px;
 }
 
-.inputbox {
+ 
+
+/* Input Field */
+.inputbox input {
     padding: 10px;
     background-color: black;
     border: 2px solid white;
     width: 85%;
-    max-width: 300px; /* Prevents input from being too wide */
+    max-width: 300px;  
     display: flex;
     justify-content: center;
-}
-
-/* Input Field */
-.inputbox input {
-    flex: 1; /* Makes input take available space */
-    background-color: black;
-    border: none;
-    color: white;
-    outline: none;
-    font-size: 16px;
-    padding: 8px;
-    min-width: 0; /* Prevents flex issues */
 }
 
 /* Responsive Design */

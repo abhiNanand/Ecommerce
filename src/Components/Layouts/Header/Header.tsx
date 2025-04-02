@@ -10,24 +10,22 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import {  signOut } from 'firebase/auth';
-import { useDispatch} from 'react-redux';
+import { signOut } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
 
 import { ROUTES_CONFIG, ROUTES } from '../../../Shared/Constants';
-import { logoutUser} from '../../../Store/Common';
+import { logoutUser } from '../../../Store/Common';
 import { auth } from '../../../Services/firebase/firebase';
-import { useAuth} from '../../../Services/UserAuth';
+import { useAuth } from '../../../Services/UserAuth';
 
 import './Header.scss';
 
 export default function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
-   const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-
-
-   const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   // Logout function
   const handleLogout = async () => {
     await signOut(auth);
@@ -46,7 +44,7 @@ export default function Header() {
           <Link to={ROUTES.HOMEPAGE}>Home</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/about">About</Link>
-        {!isAuthenticated &&  <Link to={ROUTES.SIGNUP}>Signup</Link> } 
+          {!isAuthenticated && <Link to={ROUTES.SIGNUP}>Signup</Link>}
         </nav>
 
         <div className="search-box">
@@ -78,7 +76,9 @@ export default function Header() {
                 className="dropdown-btn"
                 aria-label="account"
                 onClick={() => setOpen(!open)}
-                onBlur={() => {setTimeout(()=>setOpen(false),500)}}
+                onBlur={() => {
+                  setTimeout(() => setOpen(false), 500);
+                }}
               >
                 <User size={24} />
               </button>
@@ -105,16 +105,18 @@ export default function Header() {
                     type="button"
                     className="logout-btn"
                   >
-                    <LogOut size={24}/>  <span className="logout-title">Logout</span>
+                    <LogOut size={24} />{' '}
+                    <span className="logout-title">Logout</span>
                   </button>
                 </div>
               )}
             </div>
           )}
 
-          
           {isAuthenticated && (
-            <span className="username">Welcome, {user?.displayName || 'User'}</span>
+            <span className="username">
+              Welcome, {user?.displayName ?? 'User'}
+            </span>
           )}
         </div>
       </div>

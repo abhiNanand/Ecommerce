@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 // import { browserLocalPersistence, getAuth, GoogleAuthProvider, setPersistence } from 'firebase/auth';
-import {   getAuth, GoogleAuthProvider  } from 'firebase/auth';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 import { getFirestore } from 'firebase/firestore';
 

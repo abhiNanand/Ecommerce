@@ -3,10 +3,10 @@ export interface Product {
   title: string;
   price: number;
   image: string;
-  description:string;
-  category:string,
+  description: string;
+  category: string;
   quantity?: number;
-  firebaseId?:string;
+  firebaseId?: string;
   rating?: {
     rate: number;
     count: number;

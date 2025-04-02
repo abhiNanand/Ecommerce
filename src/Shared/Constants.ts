@@ -1,9 +1,7 @@
-
-
 const STRING: string = 'Test';
 export { STRING };
 
-//Profile,Cancel,Return,Payment,Address
+// Profile,Cancel,Return,Payment,Address
 const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
@@ -90,9 +88,9 @@ const ROUTES_CONFIG = {
   ADDRESS: {
     path: ROUTES.ADDRESS,
   },
-  CONTACT:{
-    path:ROUTES.CONTACT,
-    title:'contact',
+  CONTACT: {
+    path: ROUTES.CONTACT,
+    title: 'contact',
   },
 };
 export { ROUTES, ROUTES_CONFIG };

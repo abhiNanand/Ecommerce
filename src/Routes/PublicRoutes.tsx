@@ -1,4 +1,3 @@
-
 import { ROUTES_CONFIG } from '../Shared/Constants';
 import Dashboard from '../Views/Dashboard/Dashboard';
 import { CustomRouter } from './RootRoutes';

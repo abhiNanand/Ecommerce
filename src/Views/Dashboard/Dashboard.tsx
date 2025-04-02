@@ -21,10 +21,8 @@ import ShowItem from './Helper/Sales/ShowItem';
 import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
- 
 
 export default function Dashboard() {
-  
   const { data: products, error, isLoading } = useGetProductQuery(null);
 
   if (isLoading) {

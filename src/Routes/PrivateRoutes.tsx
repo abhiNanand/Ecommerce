@@ -7,7 +7,12 @@ import Error from '../Components/Layouts/ErrorPage/Error';
 import Category from '../Components/Layouts/Categories/Category';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
 import Checkout from '../Components/Layouts/Private/Checkout/Checkout';
-import Myaccount, { Cancel, Return, Payment, Address } from '../Components/Layouts/Private/Account/MyAccount';
+import Myaccount, {
+  Cancel,
+  Return,
+  Payment,
+  Address,
+} from '../Components/Layouts/Private/Account/MyAccount';
 import Profile from '../Components/Layouts/Private/Account/Profile/Profile';
 import Contact from '../Components/Layouts/Contact/Contact';
 // eslint-disable-next-line import/prefer-default-export
@@ -56,22 +61,17 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.ACCOUNT.path,
     element: <Myaccount />,
     children: [
-      { index: true, element: <Profile /> }, { path: ROUTES_CONFIG.CANCLE.path, element: <Cancel /> }, { path: ROUTES_CONFIG.RETURN.path, element: <Return /> }, { path: ROUTES_CONFIG.PAYMENT.path, element: <Payment /> }, { path: ROUTES_CONFIG.ADDRESS.path, element: <Address /> }
+      { index: true, element: <Profile /> },
+      { path: ROUTES_CONFIG.CANCLE.path, element: <Cancel /> },
+      { path: ROUTES_CONFIG.RETURN.path, element: <Return /> },
+      { path: ROUTES_CONFIG.PAYMENT.path, element: <Payment /> },
+      { path: ROUTES_CONFIG.ADDRESS.path, element: <Address /> },
     ],
     title: ROUTES_CONFIG.ACCOUNT.title,
   },
   {
     path: ROUTES_CONFIG.CONTACT.path,
     element: <Contact />,
-    title:ROUTES_CONFIG.CONTACT.title,
+    title: ROUTES_CONFIG.CONTACT.title,
   },
 ];
-
-
-
-
-
-
-
-
-

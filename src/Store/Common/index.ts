@@ -2,12 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
   token: string | null;
-  user:  { displayName:string|null, email:string | null} | null;
+  user: { displayName: string | null; email: string | null } | null;
 }
 
 const initialState: AuthState = {
   token: null,
-  user: null ,
+  user: null,
 };
 
 const common = createSlice({

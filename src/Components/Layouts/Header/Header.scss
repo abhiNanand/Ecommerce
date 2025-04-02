@@ -5,14 +5,11 @@
   width: 100%;
   height: 70px;
   display: flex;
-   
   align-items: center;
   justify-content: center;
   padding: 0 2rem;
-  
-  box-sizing: border-box;  
-  overflow: hidden;  
-
+  box-sizing: border-box;
+  overflow: visible; // ✅ Ensure dropdown is not clipped
 
   &-container {
     display: flex;
@@ -69,9 +66,8 @@
         color: #999;
       }
     }
-
-
   }
+
   .search-box-btn, .icons-btn {
     background: none;
     border: none;
@@ -86,77 +82,73 @@
       color: #333;
     }
   }
+
   .icons {
     display: flex;
     gap: 1.5rem;
+    position: relative; // ✅ Ensures dropdown positions correctly
+    z-index: 999; // Ensures it's above most elements
   }
 }
- 
-.dropdown
-{
-  position:relative; // it keep button in a place. 
 
+.dropdown {
+  position: relative; // ✅ Ensures correct positioning
+  z-index: 1000;
 }
 
-.dropdown-btn
-{
-  background:none;
-  border:none;
-  cursor:pointer;
-  color:#333;
+.dropdown-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #333;
   transition: color 0.3s ease;
   display: flex;
   align-items: center;
 }
 
- 
-.dropdown-content
-{
+.dropdown-content {
   position: absolute;
-  top:100%;
-  right:0;
+  top: 100%;
+  right: 0;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   min-width: 200px;
   padding: 0.5rem;
   display: flex;
   flex-direction: column;
-  background: rgba(83, 82, 82, 0.809); // Semi-transparent grey
-  backdrop-filter: blur(10px); // Adds a subtle blur effect
-
+  background: rgba(83, 82, 82, 0.809);
+  backdrop-filter: blur(10px);
   color: white;
-  z-index: 1000;
-}
-.dropdown-content a
-{
- text-decoration: none;
- color: white;
- padding: 10px;
- display: flex;
- align-items: center;
- gap: 8px;
- transition: background-color 0.3s ease;
-
- &:hover {
-   background-color: #f60e0e;}
+  z-index: 1001; // ✅ Ensure it's above other elements
 }
 
-.logout-btn
-{
-   all:unset;
-   padding:10px;
-   cursor: pointer;
-   display: flex;
-   align-items: center;
- gap:5px;
- 
-   &:hover
-   {
+.dropdown-content a {
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f60e0e;
+  }
+}
+
+.logout-btn {
+  all: unset;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  &:hover {
     background-color: red;
-   }
+  }
 }
- 
- 
+
 @media (max-width: 768px) {
   .navbar {
     padding: 0 1rem;
@@ -181,9 +173,6 @@
     }
   }
 }
-
-
-
 
 @media (max-width: 500px) {
   .navbar {

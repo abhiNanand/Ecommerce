@@ -11,11 +11,11 @@ import {
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
 
-//1. add to cart in firestore
+// 1. add to cart in firestore
 export const addToCart = async (product: Product) => {
   const user = auth.currentUser; // get current user
   if (!user) {
-     console.log('In cart section- User not logged in ');
+    console.log('In cart section- User not logged in ');
     return;
   }
   try {
@@ -33,7 +33,6 @@ export const addToCart = async (product: Product) => {
       const newQuantity = (existingData.quantity || 1) + 1;
 
       await updateDoc(docRef, { quantity: newQuantity });
-      // console.log('Updated quantity:', newQuantity);
     } else {
       await addDoc(cartRef, { userEmail: user.email, ...product, quantity: 1 });
     }
@@ -42,7 +41,7 @@ export const addToCart = async (product: Product) => {
   }
 };
 
-//2. delete from cart
+// 2. delete from cart
 export const removeFromCart = async (firebaseId: string) => {
   const user = auth.currentUser;
 
@@ -58,10 +57,10 @@ export const removeFromCart = async (firebaseId: string) => {
   }
 };
 
-//3. Fetch only the logged-in user's cart items
+// 3. Fetch only the logged-in user's cart items
 export const getCartItems = async (): Promise<Product[]> => {
   const user = auth.currentUser; // Get current user
-//  console.log("hi")
+  //  console.log("hi")
   if (!user) {
     console.error('User not logged in!');
     return [];
@@ -75,12 +74,12 @@ export const getCartItems = async (): Promise<Product[]> => {
     const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map((cartDoc) => {
-      const data = cartDoc.data() as Product; 
-        
+      const data = cartDoc.data() as Product;
+
       return {
-        id: data.id,  
-        firebaseId:cartDoc.id,
-        title: data.title ?? '',  
+        id: data.id,
+        firebaseId: cartDoc.id,
+        title: data.title ?? '',
         image: data.image ?? '',
         price: data.price ?? 0,
         quantity: data.quantity ?? 1,
@@ -95,4 +94,3 @@ export const getCartItems = async (): Promise<Product[]> => {
 };
 
 // The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
-
