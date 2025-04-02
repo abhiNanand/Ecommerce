@@ -11,6 +11,8 @@ const assets = {
     visa:'src/assets/icon/visa.png',
     mastercard:'src/assets/icon/mastercard.png',
     nagad:'src/assets/icon/nagad.png',
+    call:'src/assets/icon/call.png',
+    message:'src/assets/icon/message.png',
   },
   banners: {},
   products: {},

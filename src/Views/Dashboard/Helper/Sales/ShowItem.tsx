@@ -85,6 +85,7 @@ export default function SalesItem({ products }: SalesItemProps) {
           </button>
           <img
             src={product.image}
+            
             alt={product.title}
             className="product-image"
           />

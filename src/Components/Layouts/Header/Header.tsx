@@ -78,14 +78,14 @@ export default function Header() {
                 className="dropdown-btn"
                 aria-label="account"
                 onClick={() => setOpen(!open)}
-                onBlur={() => {setTimeout(()=>setOpen(false),1000)}}
+                onBlur={() => {setTimeout(()=>setOpen(false),500)}}
               >
                 <User size={24} />
               </button>
 
               {open && (
                 <div className="dropdown-content">
-                  <Link to="">
+                  <Link to={ROUTES.ACCOUNT}>
                     <User size={24} /> Manage My Account
                   </Link>
                   <Link to="">
@@ -112,7 +112,7 @@ export default function Header() {
             </div>
           )}
 
-          {/* showing name if user exists */}
+          
           {isAuthenticated && (
             <span className="username">Welcome, {user?.displayName || 'User'}</span>
           )}

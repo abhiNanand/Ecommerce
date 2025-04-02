@@ -1,0 +1,81 @@
+.myaccount-container {
+    display: flex;
+    flex-direction: column;
+    margin: 3% auto;
+    max-width: 900px;
+    padding: 20px;
+  }
+  
+  .myaccount-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .breadcrumb {
+    font-weight: 500;
+    color: #888;
+  }
+  
+  .user-name {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .myaccount-content {
+    display: flex;
+    gap: 20px;
+    margin-top: 20px;
+  }
+  
+  .myaccount-sidebar {
+    flex: 1;
+    max-width: 250px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #f9f9f9;
+  }
+  
+  .myaccount-sidebar h3 {
+    font-size: 16px;
+     
+    margin-bottom: 10px;
+  }
+  
+  .nav-link {
+    display: block;
+    color: #555;
+    font-size: 14px;
+    padding: 8px 0;
+    text-decoration: none;
+    border-bottom: 1px solid #eee;
+  }
+  
+ 
+  .nav-link.active {
+    color: #d9534f;
+    font-weight: bold;
+  }
+  
+  .myaccount-main {
+    flex: 2;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    min-height: 300px;
+  }
+  
+  @media (max-width: 768px) {
+    .myaccount-content {
+      flex-direction: column;
+    }
+  
+    .myaccount-sidebar {
+      max-width: 100%;
+    }
+  }
+  

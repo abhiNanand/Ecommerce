@@ -1,6 +1,9 @@
+
+
 const STRING: string = 'Test';
 export { STRING };
 
+//Profile,Cancel,Return,Payment,Address
 const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
@@ -8,15 +11,19 @@ const ROUTES = {
   ABOUT: '/about-us',
   SIGNUP: '/signup',
   CART: '/cart',
-  WISHLIST: '/wishlist',  
-  PRODUCT_DETAILS:'/product/:productId', 
-  WILDCARD:'*' ,
-  CATEGORY:'/category/:category',
-  ACCOUNT:'/account',
-  CHECKOUT:'/cart/checkout',
+  WISHLIST: '/wishlist',
+  PRODUCT_DETAILS: '/product/:productId',
+  WILDCARD: '*',
+  CATEGORY: '/category/:category',
+  ACCOUNT: '/account',
+  CHECKOUT: '/cart/checkout',
+  PROFILE: 'profile',
+  CANCLE: 'cancel',
+  RETURN: 'return',
+  PAYMENT: 'payment',
+  ADDRESS: 'address',
+  CONTACT: 'contact',
 };
-
- 
 
 const ROUTES_CONFIG = {
   HOMEPAGE: {
@@ -47,28 +54,45 @@ const ROUTES_CONFIG = {
     path: ROUTES.WISHLIST,
     title: 'WishList',
   },
-  PRODUCT_DETAILS:{
-    path:ROUTES.PRODUCT_DETAILS,
-    title:'Details'
+  PRODUCT_DETAILS: {
+    path: ROUTES.PRODUCT_DETAILS,
+    title: 'Details',
   },
-  WILDCARD:{
-    path:ROUTES.WILDCARD,
-    title:'404 Error'
+  WILDCARD: {
+    path: ROUTES.WILDCARD,
+    title: '404 Error',
   },
-  CATEGORY:{
-    path:ROUTES.CATEGORY,
-    title:'category'
+  CATEGORY: {
+    path: ROUTES.CATEGORY,
+    title: 'category',
   },
-  ACCOUNT:
-  {
-    path:ROUTES.ACCOUNT,
-    title:'account details'
+  ACCOUNT: {
+    path: ROUTES.ACCOUNT,
+    title: 'account details',
   },
-  CHECKOUT:
-  {
-     path:ROUTES.CHECKOUT,
-    title:'checkout',
+  CHECKOUT: {
+    path: ROUTES.CHECKOUT,
+    title: 'checkout',
+  },
+
+  PROFILE: {
+    path: ROUTES.PROFILE,
+  },
+  CANCLE: {
+    path: ROUTES.CANCLE,
+  },
+  RETURN: {
+    path: ROUTES.RETURN,
+  },
+  PAYMENT: {
+    path: ROUTES.PAYMENT,
+  },
+  ADDRESS: {
+    path: ROUTES.ADDRESS,
+  },
+  CONTACT:{
+    path:ROUTES.CONTACT,
+    title:'contact',
   },
 };
-
-export { ROUTES,ROUTES_CONFIG };
+export { ROUTES, ROUTES_CONFIG };

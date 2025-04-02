@@ -1,0 +1,119 @@
+import assets from "../../../assets";
+import "./Contact.scss";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+export default function Contact() {
+    const formik = useFormik({
+        initialValues: {
+            firstname: "",
+            email: "",
+            phone: "",
+            message: "",
+        },
+        validationSchema: Yup.object({
+            firstname: Yup.string().max(15, "Must be 15 characters or less").required("Required"),
+            email: Yup.string().email("Invalid email address").required("Required"),
+            phone: Yup.string()
+                .matches(/^\d{10}$/, "Phone number must be 10 digits")
+                .required("Required"),
+            message: Yup.string().max(50, "Must be 50 characters or less").required("Required"),
+        }),
+        onSubmit: (values) => {
+            alert(JSON.stringify(values, null, 2));
+        },
+    });
+
+    return (
+        <div className="contact-container">
+            <p className="breadcrumb">
+                Home / <span>Contact</span>
+            </p>
+
+            <div className="contact-wrapper">
+                <div className="contact-info">
+                    <div className="info-box">
+                        <img src={assets.icon.call} alt="Call Icon" />
+                        <div>
+                            <h4>Call To Us</h4>
+                            <p>We are available 24/7, 7 days a week.</p>
+                            <p className="phone">Phone: +917091400186</p>
+                        </div>
+                    </div>
+                    <hr />
+                    <div className="info-box">
+                        <img src={assets.icon.message} alt="Message Icon" />
+                        <div>
+                            <h4>Write To Us</h4>
+                            <p>Fill out our form and we will contact you within 24 hours.</p>
+                            <p>Emails: customer@exclusive.com</p>
+                            <p>Email: support@exclusive.com</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div className="contact-form">
+                    <div className="input-group">
+                        <form onSubmit={formik.handleSubmit}>
+
+                            <input
+                                name="firstname"
+                                type="text"
+                                placeholder="Your Name*"
+                                value={formik.values.firstname}
+                                onChange={formik.handleChange}
+
+                            />
+                            {formik.errors.firstname && (
+                                <div className="error">{formik.errors.firstname}</div>
+                            )}
+
+
+                            <input
+                                name="email"
+                                type="email"
+                                placeholder="Your Email*"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+
+                            />
+                            {formik.errors.email && (
+                                <div className="error">{formik.errors.email}</div>
+                            )}
+
+
+                            <input
+                                name="phone"
+                                type="text"
+                                placeholder="Your Phone*"
+                                value={formik.values.phone}
+                                onChange={formik.handleChange}
+
+                            />
+                            {formik.errors.phone && (
+                                <div className="error">{formik.errors.phone}</div>
+                            )}
+
+                            {/* Message Input */}
+                            <textarea
+                                name="message"
+                                placeholder="Your Message*"
+                                value={formik.values.message}
+                                onChange={formik.handleChange}
+
+                            />
+                            {formik.errors.message && (
+                                <div className="error">{formik.errors.message}</div>
+                            )}
+
+                            <button type="submit" className="send-button">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+}

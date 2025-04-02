@@ -1,4 +1,4 @@
- 
+
 import { ROUTES_CONFIG } from '../Shared/Constants';
 import Dashboard from '../Views/Dashboard/Dashboard';
 import { CustomRouter } from './RootRoutes';
@@ -9,7 +9,8 @@ import Login from '../Views/Auth/Login/Login';
 import Signup from '../Views/Auth/Signup';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
 import Error from '../Components/Layouts/ErrorPage/Error';
- 
+import Contact from '../Components/Layouts/Contact/Contact';
+
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
@@ -24,7 +25,7 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
   },
   {
     path: ROUTES_CONFIG.WILDCARD.path,
-    element: <Error/>,
+    element: <Error />,
     title: ROUTES_CONFIG.WILDCARD.title,
   },
   {
@@ -33,13 +34,18 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.SIGNUP.title,
   },
   {
-    path:ROUTES_CONFIG.PRODUCT_DETAILS.path,
-    element:<ProductDetails/>,
-    title:ROUTES_CONFIG.PRODUCT_DETAILS.title,
+    path: ROUTES_CONFIG.PRODUCT_DETAILS.path,
+    element: <ProductDetails />,
+    title: ROUTES_CONFIG.PRODUCT_DETAILS.title,
   },
   {
-    path:ROUTES_CONFIG.CATEGORY.path,
-    element:<Category/>,
-    title:ROUTES_CONFIG.CATEGORY.title,
+    path: ROUTES_CONFIG.CATEGORY.path,
+    element: <Category />,
+    title: ROUTES_CONFIG.CATEGORY.title,
+  },
+  {
+    path: ROUTES_CONFIG.CONTACT.path,
+    element: <Contact />,
+    title: ROUTES_CONFIG.CONTACT.title,
   },
 ];

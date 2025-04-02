@@ -3,7 +3,7 @@ import assets from '../../../../assets';
 import './JblBanner.scss';
 
 function JblBanner() {
-  const targetDate = new Date('2025-03-25T23:59:59');
+  const targetDate = new Date('2025-08-25T23:59:59');
   targetDate.setDate(targetDate.getDate() + 5);
 
   const calculateTimeLeft = () => {
