@@ -33,9 +33,7 @@
  
        await updateDoc(docRef, { quantity: newQuantity });
      } else {
-       const newWishlistItem={...product,quantity:1,};
-       const newWishlistRef=doc(wishlistRef);
-       await setDoc(newWishlistRef,newWishlistItem);
+      await setDoc(doc(wishlistRef),{ ...product, quantity: 1 });
      }
    } catch (error) {
      console.error('error adding to the wishlist:', error);

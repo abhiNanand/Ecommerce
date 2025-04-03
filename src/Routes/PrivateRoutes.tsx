@@ -15,11 +15,12 @@ import Myaccount, {
 } from '../Components/Layouts/Private/Account/MyAccount';
 import Profile from '../Components/Layouts/Private/Account/Profile/Profile';
 import Contact from '../Components/Layouts/Contact/Contact';
+import About from '../Components/Layouts/About/About';
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   {
     path: ROUTES_CONFIG.ABOUT.path,
-    element: '<ABOUT />',
+    element: <About/>,
     title: ROUTES_CONFIG.ABOUT.title,
   },
   {

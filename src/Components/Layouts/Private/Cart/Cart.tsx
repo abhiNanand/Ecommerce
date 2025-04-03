@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import {  useNavigate,Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { Trash } from 'lucide-react';
@@ -79,12 +79,12 @@ export default function Cart() {
   };
 
   const navigate = useNavigate();
-  const location = useLocation();
+   
   const returnHome = () => navigate(ROUTES.HOMEPAGE);
 
   return (
     <div className="cart-container">
-      <p>Home{location.pathname}</p>
+       <span> <Link to={ROUTES.HOMEPAGE}>HOME</Link> / About</span>
 
       <div className="cart-table">
         <div className="cart-header">

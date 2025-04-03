@@ -6,7 +6,7 @@ const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
   REGISTER: '/register',
-  ABOUT: '/about-us',
+  ABOUT: '/about',
   SIGNUP: '/signup',
   CART: '/cart',
   WISHLIST: '/wishlist',

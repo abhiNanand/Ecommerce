@@ -13,6 +13,13 @@ const assets = {
     nagad: 'src/assets/icon/nagad.png',
     call: 'src/assets/icon/call.png',
     message: 'src/assets/icon/message.png',
+    activeSeller:'src/assets/icon/active sellers.png',
+    activeCustomber:'src/assets/icon/activeCustomber.png',
+    grossSale:'src/assets/icon/grossSale.png',
+    productionSale:'src/assets/icon/productionSale.png',
+    delivery:'src/assets/icon/delivery.png',
+    guarantee:'src/assets/icon/guarantee.png',
+    service:'src/assets/icon/service.png',
   },
   banners: {},
   products: {},
@@ -30,6 +37,7 @@ const assets = {
     send: 'src/assets/vector/send.svg',
     twitter: 'src/assets/image/twitter.png',
     shopping: 'src/assets/image/shopping.png',
+    aboutImg:'src/assets/image/aboutImg.png',
   },
 };
 

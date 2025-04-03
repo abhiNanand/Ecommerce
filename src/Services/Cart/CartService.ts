@@ -33,9 +33,7 @@ export const addToCart = async (product: Product) => {
 
       await updateDoc(docRef, { quantity: newQuantity });
     } else {
-      const newCartItem={...product,quantity:1,};
-      const newCartRef=doc(cartRef);
-      await setDoc(newCartRef,newCartItem);
+      await setDoc(doc(cartRef), { ...product, quantity: 1 });
     }
   } catch (error) {
     console.error('error adding to the cart:', error);
@@ -100,3 +98,39 @@ export const getCartItems = async (): Promise<Product[]> => {
 };
 
 // The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
+
+
+/*
+1. collection: The collection function in Firebase Firestore is used to get a reference to a collection in a Firestore database.
+collection(firestoreInstance, path)
+
+eg.
+const cartRef = collection(db, `users/${user.uid}/cart`);
+
+
+2.doc(cartRef)
+doc(cartRef) creates a new document reference inside the cart collection with a randomly generated unique ID.setDoc writes product data into that document.
+
+3.setDoc: setDoc is a Firestore function that writes data to the specified document.If the document exists, it overwrites the existing data. If the document does not exist, it creates a new document.
+
+wait setDoc(doc(cartRef), { ...product, quantity: 1 });
+Creates a new document inside the cart collection.
+
+Assigns it a unique auto-generated ID.
+
+Stores all properties of product, plus a quantity field set to 1.
+
+4.query: Creates a Firestore query with optional filters.
+const q = query(cartRef, where('id', '==', product.id));
+Queries the cart collection to check if a product with the same id already exists.
+
+where:Filters documents based on a condition.
+
+
+5. getDocs(queryRef)
+Fetches all documents that match a given query inside a collection.
+
+6.updateDoc(docRef, data): Updates fields inside an existing Firestore document. 
+await updateDoc(docRef, { quantity: newQuantity });
+
+*/

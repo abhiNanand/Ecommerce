@@ -9,7 +9,7 @@ import Signup from '../Views/Auth/Signup';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
 import Error from '../Components/Layouts/ErrorPage/Error';
 import Contact from '../Components/Layouts/Contact/Contact';
-
+import About from '../Components/Layouts/About/About';
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
@@ -46,5 +46,10 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.CONTACT.path,
     element: <Contact />,
     title: ROUTES_CONFIG.CONTACT.title,
+  },
+  {
+    path: ROUTES_CONFIG.ABOUT.path,
+    element: <About />,
+    title: ROUTES_CONFIG.ABOUT.title,
   },
 ];
