@@ -1,6 +1,6 @@
 import {
   collection,
-  addDoc,
+  setDoc,
   getDocs,
   query,
   where,
@@ -13,16 +13,15 @@ import { Product } from '../../Shared/Product';
 
 // 1. add to cart in firestore
 export const addToCart = async (product: Product) => {
-  const user = auth.currentUser; // get current user
+  const user = auth.currentUser;  
   if (!user) {
     console.log('In cart section- User not logged in ');
     return;
   }
   try {
-    const cartRef = collection(db, 'cart');
+    const cartRef = collection(db, `users/${user.uid}/cart`);
     const q = query(
       cartRef,
-      where('userEmail', '==', user.email),
       where('id', '==', product.id)
     );
     const querySnapshot = await getDocs(q);
@@ -34,7 +33,9 @@ export const addToCart = async (product: Product) => {
 
       await updateDoc(docRef, { quantity: newQuantity });
     } else {
-      await addDoc(cartRef, { userEmail: user.email, ...product, quantity: 1 });
+      const newCartItem={...product,quantity:1,};
+      const newCartRef=doc(cartRef);
+      await setDoc(newCartRef,newCartItem);
     }
   } catch (error) {
     console.error('error adding to the cart:', error);
@@ -42,7 +43,7 @@ export const addToCart = async (product: Product) => {
 };
 
 // 2. delete from cart
-export const removeFromCart = async (firebaseId: string) => {
+export const removeFromCart = async (ProductId: string) => {
   const user = auth.currentUser;
 
   if (!user) {
@@ -51,7 +52,17 @@ export const removeFromCart = async (firebaseId: string) => {
   }
 
   try {
-    await deleteDoc(doc(db, 'cart', firebaseId)); // delete item by its Firestore ID
+
+    const cartRef =  collection(db,`users/${user.uid}/cart`);
+    const q= query(cartRef,where('id','==',ProductId));
+    const querySnapshot = await getDocs(q);
+
+    if(!querySnapshot.empty)
+    {
+      const docRef = querySnapshot.docs[0].ref;
+      await deleteDoc(docRef);
+    }
+
   } catch (error) {
     console.error('Error removing item from cart:', error);
   }
@@ -59,26 +70,21 @@ export const removeFromCart = async (firebaseId: string) => {
 
 // 3. Fetch only the logged-in user's cart items
 export const getCartItems = async (): Promise<Product[]> => {
-  const user = auth.currentUser; // Get current user
-  //  console.log("hi")
+  const user = auth.currentUser;  
   if (!user) {
     console.error('User not logged in!');
     return [];
   }
 
   try {
-    const q = query(
-      collection(db, 'cart'),
-      where('userEmail', '==', user.email)
-    );
-    const querySnapshot = await getDocs(q);
+    const cartRef =  collection(db,`users/${user.uid}/cart`);
+    const querySnapshot=await getDocs(cartRef);
 
     return querySnapshot.docs.map((cartDoc) => {
       const data = cartDoc.data() as Product;
 
       return {
         id: data.id,
-        firebaseId: cartDoc.id,
         title: data.title ?? '',
         image: data.image ?? '',
         price: data.price ?? 0,

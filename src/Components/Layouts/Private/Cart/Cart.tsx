@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { updateDoc, doc } from 'firebase/firestore';
+import { updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { Trash } from 'lucide-react';
-import { db } from '../../../../Services/firebase/firebase';
+import { db, auth } from '../../../../Services/firebase/firebase';
 import {
   getCartItems,
   removeFromCart,
@@ -31,27 +31,43 @@ export default function Cart() {
   }, [user]);
 
   const handleRemoveItem = async (product: any) => {
-    await removeFromCart(product.firebaseId);
+    await removeFromCart(product.id);
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.id !== product.id)
     );
   };
 
   const handleQuantityChange = async (product: any, newQuantity: number) => {
+
+    const user = auth.currentUser;
+    if (!user) {
+      console.error('User not logged in!');
+      return;
+    }
+    const cartRef = collection(db, `users/${user.uid}/cart`);
     if (newQuantity <= 0) {
-      await removeFromCart(product.firebaseId);
+      await removeFromCart(product.id);
       setCartItems((prevItems) =>
         prevItems.filter((item) => item.id !== product.id)
       );
     } else {
-      const productRef = doc(db, 'cart', product.firebaseId);
-      await updateDoc(productRef, { quantity: newQuantity });
 
-      setCartItems((prevItems) =>
-        prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: newQuantity } : item
-        )
-      );
+      try {
+        const q = query(cartRef, where('id', '==', product.id));
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          const docRef = querySnapshot.docs[0].ref;
+          await updateDoc(docRef, { quantity: newQuantity });
+        }
+        setCartItems((prevItems) =>
+          prevItems.map((item) =>
+            item.id === product.id ? { ...item, quantity: newQuantity } : item
+          )
+        );
+      }
+      catch (error) {
+        console.error('error updating quantity', error);
+      }
     }
   };
 

@@ -5,6 +5,7 @@ import { addToCart } from '../../../../Services/Cart/CartService';
 import {
   addToWishlist,
   getWishlistItems,
+  removeFromWishlist,
 } from '../../../../Services/Wishlist/WishlistService';
 import { Product } from '../../../../Shared/Product';
 
@@ -12,7 +13,7 @@ import './ShowItem.scss';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
-import DeleteFromWishlist from './helper/deleteFromWishlist';
+ 
 
 interface SalesItemProps {
   products: Product[];
@@ -38,7 +39,7 @@ export default function SalesItem({ products }: SalesItemProps) {
       const isLiked = likedItems.has(product.id);
 
       if (isLiked) {
-        await DeleteFromWishlist(product);
+        await removeFromWishlist(product.id);
         setLikedItems((prev) => {
           const newSet = new Set(prev);
           newSet.delete(product.id);

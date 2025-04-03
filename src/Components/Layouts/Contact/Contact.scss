@@ -62,21 +62,22 @@ hr {
     border-radius: 8px;
 }
 
-.input-group {
+.inputs-group {
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
 }
 
-.input-group input {
+.inputs-group input {
     flex: 1;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background: #f7f7f7;
+     
 }
 
-textarea {
+.inputs-group textarea {
     width: 96%;
     height: 100px;
     margin-top: 10px;
@@ -112,7 +113,7 @@ textarea:focus
         flex-direction: column;
     }
 
-    .input-group {
+    .inputs-group {
         flex-direction: column;
     }
 }

@@ -3,16 +3,27 @@ import './Contact.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import {db} from '../../../Services/firebase/firebase';
+import {collection,addDoc,serverTimestamp} from 'firebase/firestore';
+
+interface FormValues{
+    name:string,
+    email:string,
+    phone:string,
+    message:string,
+}
+
+
 export default function Contact() {
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues: {
-      firstname: '',
+      name: '',
       email: '',
       phone: '',
       message: '',
     },
     validationSchema: Yup.object({
-      firstname: Yup.string()
+      name: Yup.string()
         .max(15, 'Must be 15 characters or less')
         .required('Required'),
       email: Yup.string().email('Invalid email address').required('Required'),
@@ -23,8 +34,16 @@ export default function Contact() {
         .max(50, 'Must be 50 characters or less')
         .required('Required'),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async(values:FormValues,{resetForm}) => {
+       await addDoc(collection(db,"message"),{
+       name:values.name,
+       email:values.email,
+       phone:values.phone,
+       message:values.message,
+       createdAt:serverTimestamp(),
+       });
+       alert("Message send successfully! We will contact you soon")
+       resetForm({ values: { name: '', email: '', phone: '', message: '' } });
     },
   });
 
@@ -57,17 +76,17 @@ export default function Contact() {
         </div>
 
         <div className="contact-form">
-          <div className="input-group">
+          <div className="inputs-group">
             <form onSubmit={formik.handleSubmit}>
               <input
-                name="firstname"
+                name="name"
                 type="text"
                 placeholder="Your Name*"
-                value={formik.values.firstname}
+                value={formik.values.name}
                 onChange={formik.handleChange}
               />
-              {formik.errors.firstname && (
-                <div className="error">{formik.errors.firstname}</div>
+              {formik.errors.name && (
+                <div className="error">{formik.errors.name}</div>
               )}
 
               <input
@@ -113,3 +132,6 @@ export default function Contact() {
     </div>
   );
 }
+
+
+ 

@@ -8,13 +8,12 @@ import {
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
-// components
-// utils
+ 
 import { auth } from '../../../Services/firebase/firebase';
+
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
-
-// styles
+ 
 import './Login.scss';
 
 export default function Login() {
