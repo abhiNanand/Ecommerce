@@ -9,7 +9,11 @@ export default function MyAccount() {
   return (
     <div className="myaccount-container">
       <div className="myaccount-header">
-        <p className="breadcrumb">Home / My Account</p>
+        <p className="breadcrumb">
+          
+          <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
+          <NavLink to={ROUTES.ACCOUNT}> Account</NavLink>
+           </p>
         <p className="user-name">{user?.displayName ?? ''}</p>
       </div>
 

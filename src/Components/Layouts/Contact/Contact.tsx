@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 
 import {db} from '../../../Services/firebase/firebase';
 import {collection,addDoc,serverTimestamp} from 'firebase/firestore';
+import { NavLink } from 'react-router-dom';
+import {ROUTES} from '../../../Shared/Constants'
 
 interface FormValues{
     name:string,
@@ -49,9 +51,11 @@ export default function Contact() {
 
   return (
     <div className="contact-container">
-      <p className="breadcrumb">
-        Home / <span>Contact</span>
-      </p>
+        <p className="breadcrumb">
+          
+          <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
+          <NavLink to={ROUTES.ACCOUNT}> Contact</NavLink>
+           </p>
 
       <div className="contact-wrapper">
         <div className="contact-info">

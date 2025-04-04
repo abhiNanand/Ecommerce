@@ -1,5 +1,5 @@
 import './About.scss';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
 import assets from '../../../assets';
 import { Instagram, Twitter, Linkedin,CircleDollarSign } from 'lucide-react';
@@ -18,7 +18,7 @@ export default function About() {
 
         //  const interval =   setInterval(()=>{setIndex((index+3)<=6 ? index+3:0) },3000);
         //     return () => clearInterval(interval);
-        const interval = setTimeout(() => { setIndex((index + 3) <= 6 ? index + 3 : 0);}, 2000);
+        const interval = setTimeout(() => { setIndex((index + 3) <= 6 ? index + 3 : 0);}, 3000);
 
         return () => clearTimeout(interval);
         //isko agar nhi lagayenge tho v sahi chalega magar agar kisi button kr click kr ke index change karenge tho yha ka set timeout ka v chalega fir v c h . iseley usko clear timeout karna jauri hai .
@@ -26,7 +26,11 @@ export default function About() {
 
     return (
         <div className="about-container">
-            <span> <Link to={ROUTES.HOMEPAGE}>HOME</Link> / About</span>
+            <p className="breadcrumb">
+                     
+                     <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
+                     <NavLink to={ROUTES.ACCOUNT}> About</NavLink>
+                      </p>
             <div className="about-header">
                 <div className="about-details">
                     <h1>Our Story</h1>

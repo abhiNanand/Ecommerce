@@ -14,7 +14,8 @@
     color: #666;
   }
   
-  .breadcrumb {
+  .breadcrumb a{
+    text-decoration: none;
     font-weight: 500;
     color: #888;
   }

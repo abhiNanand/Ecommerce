@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
+// import assets from '../../../../assets/index';
 
 export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
@@ -22,6 +23,12 @@ export default function Checkout() {
 
   return (
     <div className="checkout-container">
+              {/* <img src={assets.icon.mastercard}  alt="payment" width="37px" height="37px"/>
+              <img src={assets.icon.visa} alt="payment"  width="37px" height="37px"/>
+              <img src={assets.icon.nagad} alt="payment" width="37px" height="37px"/>
+              <img src={assets.icon.rupay} alt="payment" width="37px" height="37px"/> */}
+
+
       <div className="billing">
         <h1>Billing Details</h1>
         <div className="billing-form">
@@ -105,10 +112,10 @@ export default function Checkout() {
         </div>
         <div className="checkout-payment">
           <form>
-            <input id="radio" type="radio" value="Bank" />
-            <label htmlFor="radio">Bank</label>
-            <br />
-            <input id="cash" type="radio" value="cash" />
+            <input id="bank" type="radio"  name="payment" value="Bank" />
+            <label htmlFor="bank">Bank </label> 
+             
+            <input id="cash" type="radio" name="payment" value="cash" />
             <label htmlFor="cash"> Cash on delivery</label>
           </form>
           <div className="coupon-section">
