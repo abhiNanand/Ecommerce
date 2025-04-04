@@ -25,6 +25,11 @@
     cursor: pointer;
 }
 
+select:focus
+{
+    outline: none;
+}
+
 /* Responsive: Stack items on small screens */
 @media (max-width: 600px) {
     .top-header {

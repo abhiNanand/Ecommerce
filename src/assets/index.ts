@@ -20,6 +20,7 @@ const assets = {
     delivery:'src/assets/icon/delivery.png',
     guarantee:'src/assets/icon/guarantee.png',
     service:'src/assets/icon/service.png',
+    circleDollar:'src/assets/icon/circleDollar.svg',
   },
   banners: {},
   products: {},
@@ -38,6 +39,18 @@ const assets = {
     twitter: 'src/assets/image/twitter.png',
     shopping: 'src/assets/image/shopping.png',
     aboutImg:'src/assets/image/aboutImg.png',
+  },
+  profile:{
+    accountant:'src/assets/profile/accountant.png',
+    contentwriter:'src/assets/profile/contentwriter.png',
+    designer:'src/assets/profile/designer.png',
+    designLead:'src/assets/profile/designLead.PNG',
+    director:'src/assets/profile/director.png',
+    founder:'src/assets/profile/founder.png',
+    marketingManager:'src/assets/profile/marketingManager.png',
+    salesManager:'src/assets/profile/salesManager.png',
+    techLead:'src/assets/profile/techLead.png',
+    tester:'src/assets/profile/tester.png',
   },
 };
 
