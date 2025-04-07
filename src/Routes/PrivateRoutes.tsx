@@ -16,6 +16,7 @@ import Myaccount, {
 import Profile from '../Components/Layouts/Private/Account/Profile/Profile';
 import Contact from '../Components/Layouts/Contact/Contact';
 import About from '../Components/Layouts/About/About';
+import Shop from '../Components/Layouts/Shop/Shop';
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   {
@@ -74,5 +75,10 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.CONTACT.path,
     element: <Contact />,
     title: ROUTES_CONFIG.CONTACT.title,
+  },
+  {
+    path:ROUTES_CONFIG.SHOP.path,
+    element:<Shop/>,
+    title:ROUTES_CONFIG.SHOP.title,
   },
 ];

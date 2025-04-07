@@ -1,12 +1,21 @@
+declare global {
+  interface Window {
+    ethereum?: any;
+  }
+}
+
 import './Checkout.scss';
 import { useState, useEffect } from 'react';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
+import { payWithCrypto } from '../../../../Services/Payment/PaymentServices';
+
 // import assets from '../../../../assets/index';
 
 export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [paymentStatus,setPaymentStatus]=useState<string>('');
   const { user } = useAuth();
 
   useEffect(() => {
@@ -20,6 +29,23 @@ export default function Checkout() {
     };
     fetchCartItems();
   }, [user]);
+
+
+
+  const calculateTotal = ():number =>{
+   return cartItems.reduce((total,product)=> total + product.price *(product.quantity??1),0);
+  };
+
+  const handleCryptoPayment = async () => {
+    try {
+      setPaymentStatus("Processing payment...");
+      const total = calculateTotal();
+      const tx = await payWithCrypto(total.toString()); // ETH value as string
+      setPaymentStatus('✅ Payment Successful!\nTx Hash: ' + tx.hash);
+    } catch (err: any) {
+      setPaymentStatus('❌ Payment Failed: ' + err.message);
+    }
+  };
 
   return (
     <div className="checkout-container">
@@ -97,8 +123,8 @@ export default function Checkout() {
           ))}
         </div>
         <div className="checkout-subtotal">
-          <p>Subtotal:</p>
-          <span>$total</span>
+          <p>Subtotal: ₹{calculateTotal().toFixed(2)}</p>
+          <span>$total: ₹{calculateTotal().toFixed(2)}</span>
         </div>
         <hr />
         <div className="checkout-shipping">
@@ -111,18 +137,15 @@ export default function Checkout() {
           <span>$total</span>
         </div>
         <div className="checkout-payment">
-          <form>
-            <input id="bank" type="radio"  name="payment" value="Bank" />
-            <label htmlFor="bank">Bank </label> 
-             
-            <input id="cash" type="radio" name="payment" value="cash" />
-            <label htmlFor="cash"> Cash on delivery</label>
-          </form>
+        <button type="button" onClick={handleCryptoPayment} className="placeorder-btn">
+            Pay with MetaMask
+          </button>
+          {paymentStatus && <p className="payment-status">{paymentStatus}</p>}
           <div className="coupon-section">
             <input type="text" placeholder="Coupon Code" />
             <button type="button">Apply Coupon</button>
           </div>
-          <button type="button" className="placeorder-btn">
+          <button type="button" className="placeorder-btn"  >
             Place Order
           </button>
         </div>
@@ -130,3 +153,6 @@ export default function Checkout() {
     </div>
   );
 }
+
+
+ 

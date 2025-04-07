@@ -21,6 +21,7 @@ const ROUTES = {
   PAYMENT: 'payment',
   ADDRESS: 'address',
   CONTACT: 'contact',
+  SHOP:'shop',
 };
 
 const ROUTES_CONFIG = {
@@ -92,5 +93,10 @@ const ROUTES_CONFIG = {
     path: ROUTES.CONTACT,
     title: 'contact',
   },
+  SHOP:
+  {
+    path:ROUTES.SHOP,
+    title:'shop'
+  }
 };
 export { ROUTES, ROUTES_CONFIG };

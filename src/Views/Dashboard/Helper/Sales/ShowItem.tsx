@@ -52,7 +52,7 @@ export default function SalesItem({ products }: SalesItemProps) {
       } else {
         await addToWishlist(product);
         setLikedItems((prev) => new Set([...prev, product.id]));
-        console.log('working');
+     
 
         toast.warn('Added to Wishlist!');
       }

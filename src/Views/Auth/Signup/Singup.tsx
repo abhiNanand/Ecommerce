@@ -74,7 +74,7 @@ export default function Signup() {
       //first checking if user is exist or not
       const userRef= doc(db,"users",user.uid);
       const userSnap=await getDoc(userRef);
-console.log("hi");
+ 
       if(!userSnap.exists())
       {
         console.log("wi");
@@ -85,10 +85,7 @@ console.log("hi");
             displayName:user.displayName || "anonymous",
           });
       }
-
-    
-
-      setTimeout(() => navigate(ROUTES.HOMEPAGE), 2000);
+       navigate(ROUTES.HOMEPAGE); 
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

@@ -71,12 +71,9 @@ export default function Cart() {
     }
   };
 
-  const calculateTotal = () => {
-    return cartItems.reduce(
-      (total, product) => total + product.price * (product.quantity ?? 1),
-      0
-    );
-  };
+  const calculateTotal = ():number =>{
+    return cartItems.reduce((total,product)=> total + product.price *(product.quantity??1),0);
+   };
 
   const navigate = useNavigate();
    
