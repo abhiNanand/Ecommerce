@@ -135,17 +135,4 @@ export default function Shop() {
 }
 
 
-{/* <button
-              type="button"
-              className="add-wishlist-btn"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleWishlistClick(product);
-              }}
-            >
-              <Heart
-                color={likedItems.has(product.id) ? 'red' : 'black'}
-                fill={likedItems.has(product.id) ? 'red' : 'none'}
-                size={24}
-              />
-            </button> */}
+ 

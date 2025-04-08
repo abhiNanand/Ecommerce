@@ -23,6 +23,7 @@ import './Header.scss';
 export default function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
+  const [searchQuery,setSearchQuery]=useState<string>('');
   const dispatch = useDispatch();
 
   const { isAuthenticated, user } = useAuth();
@@ -33,6 +34,13 @@ export default function Header() {
     navigate(ROUTES.HOMEPAGE);
   };
 
+  const handleSearch= ()=>{
+     if(searchQuery.trim() !== '')
+     {
+      navigate(`/search/${searchQuery.trim()}`);
+      
+     }
+  };
   return (
     <header className="navbar">
       <div className="navbar-container">
@@ -48,8 +56,14 @@ export default function Header() {
         </nav>
 
         <div className="search-box">
-          <input type="text" placeholder="What are you looking for?" />
-          <button type="button" className="search-box-btn" aria-label="Search">
+          <input type="text" placeholder="What are you looking for?"
+          onChange={(e)=>setSearchQuery(e.target.value)}
+          onKeyDown={(e)=>e.key==="Enter" && handleSearch()}
+          />
+          {/* {searchQuery.length>0 && (<div> {searchQuery} </div> )} */}
+          <button type="button" className="search-box-btn" aria-label="Search"
+          onClick={()=>handleSearch()}
+           >
             <Search size={20} />
           </button>
         </div>

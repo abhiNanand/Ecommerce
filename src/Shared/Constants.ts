@@ -22,6 +22,7 @@ const ROUTES = {
   ADDRESS: 'address',
   CONTACT: 'contact',
   SHOP:'shop',
+  SEARCH:'/search/:query'
 };
 
 const ROUTES_CONFIG = {
@@ -97,6 +98,11 @@ const ROUTES_CONFIG = {
   {
     path:ROUTES.SHOP,
     title:'shop'
+  },
+  SEARCH:
+  {
+    path:ROUTES.SEARCH,
+    title:'search'
   }
 };
 export { ROUTES, ROUTES_CONFIG };

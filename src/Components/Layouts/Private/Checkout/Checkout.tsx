@@ -10,11 +10,17 @@ import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
 import { payWithCrypto } from '../../../../Services/Payment/PaymentServices';
+import CheckoutForm from './CheckoutForm';
 
-// import assets from '../../../../assets/index';
+
+
 
 export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
+  const [address,setAddress] = useState<string>('');
+  
+  // const [openForm,setOpenForm]=useState<boolean>(true);
+
   const [paymentStatus,setPaymentStatus]=useState<string>('');
   const { user } = useAuth();
 
@@ -29,6 +35,8 @@ export default function Checkout() {
     };
     fetchCartItems();
   }, [user]);
+
+
 
 
 
@@ -49,64 +57,15 @@ export default function Checkout() {
 
   return (
     <div className="checkout-container">
-              {/* <img src={assets.icon.mastercard}  alt="payment" width="37px" height="37px"/>
-              <img src={assets.icon.visa} alt="payment"  width="37px" height="37px"/>
-              <img src={assets.icon.nagad} alt="payment" width="37px" height="37px"/>
-              <img src={assets.icon.rupay} alt="payment" width="37px" height="37px"/> */}
+              
 
 
       <div className="billing">
         <h1>Billing Details</h1>
-        <div className="billing-form">
-          <form>
-            <label htmlFor="firstname">
-              First Name<sup>*</sup>
-            </label>
-            <br />
-            <input type="text" id="firstname" />
-            <br />
-            <label htmlFor="companyname">
-              Company Name<sup>*</sup>
-            </label>
-            <br />
-            <input type="text" id="companyname" />
-            <br />
-            <label htmlFor="streetaddress">
-              streetaddress<sup>*</sup>
-            </label>
-            <br />
-            <input type="text" id="streetaddress" />
-            <br />
-            <label htmlFor="apartment">Apartment,floor,etc.(optional)</label>
-            <br />
-            <input type="text" id="apartment" />
-            <br />
-            <label htmlFor="towncity">
-              Town/City<sup>*</sup>
-            </label>
-            <br />
-            <input type="text" id="towncity" />
-            <br />
-            <label htmlFor="phonenumber">
-              Phone Number<sup>*</sup>
-            </label>
-            <br />
-            <input type="text" id="phonenumber" />
-            <br />
-            <label htmlFor="emailaddress">
-              Email Address<sup>*</sup>
-            </label>
-            <br />
-            <input type="text" id="emailaddress" />
-            <br />
-          </form>
-        </div>
-        <form>
-          <input type="checkbox" id="billing-checkbox" />
-          <label htmlFor="billing-checkbox">
-            save this information for faster check-out next time
-          </label>
-        </form>
+       <CheckoutForm/>
+         <div >
+          <p>user Address:{address}</p>
+         </div>
       </div>
       <div className="checkout-cart-items">
         <div className="show-cart-item">
