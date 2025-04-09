@@ -1,4 +1,4 @@
-import {  useNavigate,NavLink} from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { Trash } from 'lucide-react';
@@ -71,25 +71,25 @@ export default function Cart() {
     }
   };
 
-  const calculateTotal = ():number =>{
-    return cartItems.reduce((total,product)=> total + product.price *(product.quantity??1),0);
-   };
+  const calculateTotal = (): number => {
+    return cartItems.reduce((total, product) => total + product.price * (product.quantity ?? 1), 0);
+  };
 
   const navigate = useNavigate();
-   
+
   const returnHome = () => navigate(ROUTES.HOMEPAGE);
 
   return (
     <div className="cart-container">
       <p className="breadcrumb">
-          
-          <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-          <NavLink to={ROUTES.ACCOUNT}> Account</NavLink>
+
+        <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
+        <NavLink to={ROUTES.ACCOUNT}> Account</NavLink>
       </p>
-       <img src={assets.icon.mastercard}  alt="payment" width="37px" height="37px"/>
-              <img src={assets.icon.visa} alt="payment"  width="37px" height="37px"/>
-              <img src={assets.icon.nagad} alt="payment" width="37px" height="37px"/>
-              <img src={assets.icon.rupay} alt="payment" width="37px" height="37px"/>
+      <img src={assets.icon.mastercard} alt="payment" width="37px" height="37px" />
+      <img src={assets.icon.visa} alt="payment" width="37px" height="37px" />
+      <img src={assets.icon.nagad} alt="payment" width="37px" height="37px" />
+      <img src={assets.icon.rupay} alt="payment" width="37px" height="37px" />
 
       <div className="cart-table">
         <div className="cart-header">

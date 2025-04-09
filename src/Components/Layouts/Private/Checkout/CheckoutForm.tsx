@@ -2,110 +2,245 @@
 
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import {useState,useEffect} from 'react';
+import { addAddress , getAddress,Address} from '../../../../Services/Address/Address';
+import { useAuth } from '../../../../Services/UserAuth';
 import './Checkout.scss';
-// import {db} from '../../../../Services/firebase/firebase';
-// import {addDoc,collection}
+ 
 
 interface FormValues {
   name: string,
   companyName: string,
-  streetaddress: string,
+  streetAddress: string,
   apartment: string,
   town: string,
   phoneNumber: string,
   emailAddress: string,
 }
 
-export default function CheckoutForm()
-{
+export default function CheckoutForm() {
+
+  const [address,setAddress]=useState<Address[]>([]);
+  const [open,setOpen]=useState<boolean>(true);
+  const { user } = useAuth();
+
+   
+  useEffect(()=>{
+
+    const fetchAddress = async()=>{
+      if(!user)
+      {
+        setAddress([]);
+        return;
+      }
+      const addresses=await getAddress();
+      setAddress(addresses);
+    
+      if(addresses.length === 0)
+      {
+         setOpen(false);
+      }
+    };  
+    fetchAddress();
+
+  },[user]);
+
   const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
       companyName: '',
-      streetaddress: '',
+      streetAddress: '',
       apartment: '',
       town: '',
       phoneNumber: '',
       emailAddress: '',
     },
+
     validationSchema: Yup.object({
       name: Yup.string()
         .max(15, 'Must be 15 characters or less')
         .required('Required'),
 
-      compnayName: Yup.string()
+      companyName: Yup.string()
         .max(15, 'Must be 15 characters or less')
         .required('Required'),
 
-      streetaddress: Yup.string().max(30, 'Must be 15 characters or less')
-        .required('Required'),
+      streetAddress: Yup.string().max(30, 'Must be 30 characters or less'),
 
-      apartment: Yup.string().max(30, 'Must be 15 characters or less')
+      apartment: Yup.string().max(30, 'Must be 30 characters or less')
         .required('Required'),
 
       town: Yup.string().max(30, 'Must be 30 character or less').required('Required'),
 
-      phoneNumber: Yup.string().matches(/^\d{10}$)/, 'Phone number must have 10 digits').required('Required'),
+      phoneNumber: Yup.string().matches(/^\d{10}$/, 'Phone number must have 10 digits').required('Required'),
 
-      email: Yup.string().email('Invalid email address').required('Required'),
-
-      // onSubmit:async(values:FormValues,{resetForm}=>{
-
-      // }),
+      emailAddress: Yup.string().email('Invalid email address').required('Required'),
     }),
+    onSubmit: async (values, { resetForm }) => {
+       addAddress(values);
+       setOpen(true);
+      resetForm({
+        values: {
+          name: '',
+          companyName: '',
+          streetAddress: '',
+          apartment: '',
+          town: '',
+          phoneNumber: '',
+          emailAddress: '',
+        }
+      });
+    }
   });
 
 
   return (
-  <>
-   <div className="billing-form">
+
+    <div className="billing-form">
+    {open? (
+      <div className="select-address">
+      <h3>Select Address</h3>
       <form>
-        <label htmlFor="firstname">
+        {address.map((value, index) => (
+          <div className="address-option" key={value.firebaseId}>
+            <input
+              type="radio"
+              name="selectedAddress"
+              value={index}
+              id={`address-${index}`}
+            />
+            <label htmlFor={`address-${index}`}>
+              <strong>{value.name}</strong>, {value.companyName}, {value.streetAddress}, 
+              {value?.apartment ?? ''}, {value.town}, {value.phoneNumber}, {value.emailAddress}
+            </label>
+          </div>
+        ))}
+      </form>
+    
+      <button className="placeorder-btn" onClick={() => setOpen(false)}>
+        Add Another Address
+      </button>
+    </div>
+    
+    ):( <form onSubmit={formik.handleSubmit}>
+        <label htmlFor="name">
           First Name<sup>*</sup>
         </label>
         <br />
-        <input type="text" id="firstname" />
+        <input type="text" id="name"  name= "name"  value={formik.values.name} onChange={formik.handleChange}/>
         <br />
-        <label htmlFor="companyname">
+        {formik.errors.name && <div className="error">{formik.errors.name}</div>}
+       
+        <label htmlFor="companyName">
           Company Name<sup>*</sup>
         </label>
         <br />
-        <input type="text" id="companyname" />
+        <input type="text" id="companyName" name="companyName"   value={formik.values.companyName} onChange={formik.handleChange}/>
         <br />
-        <label htmlFor="streetaddress">
-          streetaddress<sup>*</sup>
+        {formik.errors.companyName && <div className="error">{formik.errors.companyName}</div>}
+
+        <label htmlFor="streetAddress">
+          Street Address<sup>*</sup>
         </label>
         <br />
-        <input type="text" id="streetaddress" />
+        <input type="text" id="streetAddress"  name="streetAddress"  value={formik.values.streetAddress} onChange={formik.handleChange}/>
         <br />
+        {formik.errors.streetAddress && <div className="error">{formik.errors.streetAddress}</div>}
+
         <label htmlFor="apartment">Apartment,floor,etc.(optional)</label>
         <br />
-        <input type="text" id="apartment" />
+        <input type="text" id="apartment"  name="apartment"  value={formik.values.apartment} onChange={formik.handleChange}/>
         <br />
-        <label htmlFor="towncity">
+        {formik.errors.apartment && <div className="error">{formik.errors.apartment}</div>}
+
+        <label htmlFor="town">
           Town/City<sup>*</sup>
         </label>
         <br />
-        <input type="text" id="towncity" />
+        <input type="text" id="town" name="town"  value={formik.values.town} onChange={formik.handleChange}/>
         <br />
-        <label htmlFor="phonenumber">
+        {formik.errors.town && <div className="error">{formik.errors.town}</div>}
+
+        <label htmlFor="phoneNumber">
           Phone Number<sup>*</sup>
         </label>
         <br />
-        <input type="text" id="phonenumber" />
+        <input type="text" id="phoneNumber"  name="phoneNumber"  value={formik.values.phoneNumber} onChange={formik.handleChange}/>
         <br />
-        <label htmlFor="emailaddress">
+        {formik.errors.phoneNumber && <div className="error">{formik.errors.phoneNumber}</div>}
+
+        <label htmlFor="emailAddress">
           Email Address<sup>*</sup>
         </label>
         <br />
-        <input type="text" id="emailaddress" />
+        <input type="text" id="emailAddress" name="emailAddress"  value={formik.values.emailAddress} onChange={formik.handleChange}/>
         <br />
-        <input type="checkbox" id="billing-checkbox" />
+        {formik.errors.emailAddress && <div className="error">{formik.errors.emailAddress}</div>}
+
+        <input type="checkbox" id="billing-checkbox" onChange={(e) => { if(e.target.checked) formik.handleSubmit() }} />
         <label htmlFor="billing-checkbox">
           save this information for faster check-out next time
         </label>
-      </form>
+      </form>) }
+     
     </div>
-  </>
   );
 }
+
+
+
+//note
+/*
+
+1.id ka kaam hai label aur input ko visually aur semantically connect karna.
+2.name attribute ka kya jarurat hai. 
+
+Socho tumhare paas ek object hai:
+ 
+initialValues: {
+  name: '',
+  emailAddress: '',
+}
+Ab Formik expect karta hai ki input fields kuch is tarah se hon:
+<input name="name" />          // Yeh `initialValues.name` se link hoga
+<input name="emailAddress" />  // Yeh `initialValues.emailAddress` se link hoga
+*/
+
+
+ 
+
+
+ 
+ 
+ 
+
+//   return (
+//     <div className="billing-form">
+//       {!open ? (
+//         <>
+//           <div className="address-list">
+//             <h3>Select a delivery address:</h3>
+//             {address.map((value, index) => (
+//               <div key={value.firebaseId} className="address-item">
+//                 {address.length > 1 && (
+//                   <input
+//                     type="radio"
+//                     name="selectedAddress"
+//                     checked={selectedAddress === value.firebaseId}
+//                     onChange={() => setSelectedAddress(value.firebaseId!)}
+//                   />
+//                 )}
+//                 <label>
+//                   <p>
+//                     {value.name}, {value.companyName}, {value.streetAddress},{' '}
+//                     {value?.apartment ?? ''}, {value.town}, {value.phoneNumber}, {value.emailAddress}
+//                   </p>
+//                 </label>
+//               </div>
+//             ))}
+//           </div>
+//           <button className="placeorder-btn" onClick={() => setOpen(true)}>
+//             Add Another Address
+//           </button>
+//         </>
+ 

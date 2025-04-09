@@ -23,7 +23,7 @@ import './Header.scss';
 export default function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
-  const [searchQuery,setSearchQuery]=useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
 
   const { isAuthenticated, user } = useAuth();
@@ -34,12 +34,11 @@ export default function Header() {
     navigate(ROUTES.HOMEPAGE);
   };
 
-  const handleSearch= ()=>{
-     if(searchQuery.trim() !== '')
-     {
+  const handleSearch = () => {
+    if (searchQuery.trim() !== '') {
       navigate(`/search/${searchQuery.trim()}`);
-      
-     }
+    }
+
   };
   return (
     <header className="navbar">
@@ -55,15 +54,15 @@ export default function Header() {
           {!isAuthenticated && <Link to={ROUTES.SIGNUP}>Signup</Link>}
         </nav>
 
-        <div className="search-box">
-          <input type="text" placeholder="What are you looking for?"
-          onChange={(e)=>setSearchQuery(e.target.value)}
-          onKeyDown={(e)=>e.key==="Enter" && handleSearch()}
+        <div className="search-box" onBlur={() => setSearchQuery('')}>
+          <input type="text" placeholder="What are you looking for?" value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
           {/* {searchQuery.length>0 && (<div> {searchQuery} </div> )} */}
           <button type="button" className="search-box-btn" aria-label="Search"
-          onClick={()=>handleSearch()}
-           >
+            onClick={() => handleSearch()}
+          >
             <Search size={20} />
           </button>
         </div>

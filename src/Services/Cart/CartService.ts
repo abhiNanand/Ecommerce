@@ -133,4 +133,6 @@ Fetches all documents that match a given query inside a collection.
 6.updateDoc(docRef, data): Updates fields inside an existing Firestore document. 
 await updateDoc(docRef, { quantity: newQuantity });
 
+8.add doc and setdoc ka difference dekh lo
+
 */
