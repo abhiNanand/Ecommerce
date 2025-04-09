@@ -15,18 +15,19 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import api from '../Services/Api/api';
 import common from './Common';
 import loader from './Loader';
-
+import addressReducer from './Address/AddressSlice';
 // import cartReducer from './Cart/CartSlice';
 // import wishlistReducer from './Wishlist/WishlistSlice';
 
 const rootPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['common'],
+  whitelist: ['common','address'],
 };
 const reducers = combineReducers({
   common,
   loader,
+  address:addressReducer,
   // cart:cartReducer, //Added cart reducer here.
   // wishlist:wishlistReducer,
 
