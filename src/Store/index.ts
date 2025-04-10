@@ -22,7 +22,7 @@ import addressReducer from './Address/AddressSlice';
 const rootPersistConfig = {
   key: 'root',
   storage,
-  whitelist: ['common','address'],
+  whitelist: ['common'],
 };
 const reducers = combineReducers({
   common,

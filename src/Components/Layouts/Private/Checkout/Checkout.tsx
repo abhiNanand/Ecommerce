@@ -3,16 +3,20 @@
 //     ethereum?: any;
 //   }
 // }
-
+// import { payWithCrypto } from '../../../../Services/Payment/PaymentServices';
 import './Checkout.scss';
 import { useState, useEffect } from 'react';
+import {useSelector,useDispatch} from 'react-redux';
+import { removePreviousAddress } from '../../../../Store/Address/AddressSlice';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
-// import { payWithCrypto } from '../../../../Services/Payment/PaymentServices';
 import CheckoutForm from './CheckoutForm';
 import {useNavigate} from 'react-router-dom';
 import {ROUTES} from '../../../../Shared/Constants';
+import { RootState } from '../../../../Store';
+import { addToOrderHistory } from '../../../../Services/Order/order';
+
 
 
 
@@ -21,10 +25,10 @@ export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [coupean,setCoupean] = useState<string>('');
   const [open,setOpen] = useState<boolean>(false);
+  const address = useSelector((state:RootState)=>state.address);
+  const dispatch=useDispatch();
   //  const [address,setAddress] = useState<string>('');
-  
   // const [openForm,setOpenForm]=useState<boolean>(true);
-
   // const [paymentStatus,setPaymentStatus]=useState<string>('');
   const navigate=useNavigate();
   const { user } = useAuth();
@@ -59,6 +63,19 @@ export default function Checkout() {
     }
     setCoupean('');
   };
+
+  const placeOrderClick = async()=>
+  {
+       if(address.name.trim()=='')
+       {
+        alert("please select/add address");
+        return;
+       }
+      
+       addToOrderHistory(cartItems,address);
+       dispatch(removePreviousAddress());
+       setOpen(true);
+  }
 
   // const handleCryptoPayment = async () => {
   //   try {
@@ -120,7 +137,7 @@ export default function Checkout() {
             <input type="text" placeholder="Coupon Code" onChange={(e)=>setCoupean(e.target.value)} value={coupean}/>
             <button type="button" onClick={()=>handleButtonClick()}>Apply Coupon</button>
           </div>
-          <button type="button" className="placeorder-btn" onClick={()=>{ /*addProducts ordered and addresses*/setOpen(true); }} >
+          <button type="button" className="placeorder-btn" onClick={()=>placeOrderClick()} >
             Place Order
           </button>
         </div>

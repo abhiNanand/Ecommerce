@@ -156,14 +156,10 @@ export default function Cart() {
         <button type="button" onClick={returnHome}>
           Return to Shop
         </button>
-        <button>Update Cart</button>
+        
       </div>
 
       <div className="cart-summary">
-        <div className="coupon-section">
-          <input type="text" placeholder="Coupon Code" />
-          <button type="button">Apply Coupon</button>
-        </div>
         <div className="cart-total">
           <h3>Cart Total</h3>
           <p>Subtotal: ₹{calculateTotal().toFixed(2)}</p>

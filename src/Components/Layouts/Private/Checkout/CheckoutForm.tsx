@@ -5,6 +5,8 @@ import * as Yup from 'yup';
 import {useState,useEffect} from 'react';
 import { addAddress , getAddress,Address} from '../../../../Services/Address/Address';
 import { useAuth } from '../../../../Services/UserAuth';
+import {useDispatch} from 'react-redux';
+import {updateAddress,removePreviousAddress} from '../../../../Store/Address/AddressSlice' ;
 import './Checkout.scss';
  
 
@@ -43,7 +45,7 @@ export default function CheckoutForm() {
     };  
     fetchAddress();
 
-  },[user]);
+  },[open]);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -91,9 +93,18 @@ export default function CheckoutForm() {
         }
       });
     }
-  });
-
-
+  }); 
+ const dispatch =  useDispatch();
+ const handleRadioClick = (value:Address)=>{
+         dispatch(removePreviousAddress());
+         dispatch(updateAddress({name: value.name,
+          companyName:  value.companyName,
+          streetAddress:  value.streetAddress,
+          apartment:  value.apartment,
+          town:  value.town,
+          phoneNumber:  value.phoneNumber,
+          emailAddress:  value.emailAddress,}))
+ }
   return (
 
     <div className="billing-form">
@@ -108,6 +119,7 @@ export default function CheckoutForm() {
               name="selectedAddress"
               value={index}
               id={`address-${index}`}
+              onClick={()=>handleRadioClick(value)}
             />
             <label htmlFor={`address-${index}`}>
               <strong>{value.name}</strong>, {value.companyName}, {value.streetAddress}, 
@@ -211,36 +223,4 @@ Ab Formik expect karta hai ki input fields kuch is tarah se hon:
 
 
  
- 
- 
-
-//   return (
-//     <div className="billing-form">
-//       {!open ? (
-//         <>
-//           <div className="address-list">
-//             <h3>Select a delivery address:</h3>
-//             {address.map((value, index) => (
-//               <div key={value.firebaseId} className="address-item">
-//                 {address.length > 1 && (
-//                   <input
-//                     type="radio"
-//                     name="selectedAddress"
-//                     checked={selectedAddress === value.firebaseId}
-//                     onChange={() => setSelectedAddress(value.firebaseId!)}
-//                   />
-//                 )}
-//                 <label>
-//                   <p>
-//                     {value.name}, {value.companyName}, {value.streetAddress},{' '}
-//                     {value?.apartment ?? ''}, {value.town}, {value.phoneNumber}, {value.emailAddress}
-//                   </p>
-//                 </label>
-//               </div>
-//             ))}
-//           </div>
-//           <button className="placeorder-btn" onClick={() => setOpen(true)}>
-//             Add Another Address
-//           </button>
-//         </>
  
