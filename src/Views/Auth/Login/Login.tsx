@@ -31,15 +31,16 @@ export default function Login() {
         email,
         password
       );
-
+      console.log("Cred::",userCredential);
       const { user } = userCredential;
-      const token = await user.getIdToken(); // get firebase token
+      const token = await user.getIdToken();  
+    
       dispatch(
         updateAuthTokenRedux({
           token,
           user: { displayName: user.displayName, email: user.email },
         })
-      ); // store token in redux
+      );  
 
       navigate(ROUTES.HOMEPAGE);
     } catch (error) {

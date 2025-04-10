@@ -12,8 +12,8 @@ import { Product } from '../../../../Shared/Product';
 import './ShowItem.scss';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
- 
+import 'react-toastify/dist/ReactToastify.css'; 
+import { useAuth } from '../../../../Services/UserAuth';
 
 interface SalesItemProps {
   products: Product[];
@@ -23,6 +23,7 @@ export default function SalesItem({ products }: SalesItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [index, setIndex] = useState<number>(5);
   const navigate = useNavigate();
+  const {user}=useAuth();
 
   useEffect(() => {
     const fetchWishlist = async () => {
@@ -30,7 +31,8 @@ export default function SalesItem({ products }: SalesItemProps) {
       const likedProductIds = new Set(wishlist.map((item) => item.id)); // Assuming 'id' is unique
       setLikedItems(likedProductIds);
     };
-
+     
+    if(user)
     fetchWishlist();
   }, []);
 
