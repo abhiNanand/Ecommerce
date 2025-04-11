@@ -75,8 +75,8 @@ hr {
   flex-direction: column;
 }
 
-.placeorder-btn {
-  background-color: red;
+.placeorder-btn , .wallet-btn {
+  background-color: rgb(243, 3, 3);
   color: white;
   border: none;
   border-radius: 3px;
@@ -84,6 +84,10 @@ hr {
   padding: 10px;
   margin-top: 5%;
   cursor: pointer;
+}
+
+.wallet-btn{
+  margin-bottom: 1%;
 }
 
 .coupon-section input {

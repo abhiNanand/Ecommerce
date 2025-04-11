@@ -165,9 +165,10 @@ export default function Cart() {
           <p>Subtotal: ₹{calculateTotal().toFixed(2)}</p>
           <p>Shipping: Free</p>
           <p>Total: ₹{calculateTotal().toFixed(2)}</p>
-          <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
+          {(cartItems.length!=0) && (<button type="button" onClick={() =>  navigate(ROUTES.CHECKOUT)}>
             Proceed to Checkout
-          </button>
+          </button>)}
+          
         </div>
       </div>
     </div>

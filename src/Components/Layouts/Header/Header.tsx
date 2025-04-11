@@ -59,7 +59,7 @@ export default function Header() {
             onChange={(e) => setSearchQuery(e.target.value)}
             onKeyDown={(e) => e.key === "Enter" && handleSearch()}
           />
-          {/* {searchQuery.length>0 && (<div> {searchQuery} </div> )} */}
+           
           <button type="button" className="search-box-btn" aria-label="Search"
             onClick={() => handleSearch()}
           >
@@ -101,15 +101,15 @@ export default function Header() {
                   <Link to={ROUTES.ACCOUNT}>
                     <User size={24} /> Manage My Account
                   </Link>
-                  <Link to="">
+                  <Link to="/order">
                     <ShoppingBag size={24} />
                     My Orders
                   </Link>
-                  <Link to="">
+                  <Link to="/cancellation">
                     <CircleX size={24} />
                     My Cancellations
                   </Link>
-                  <Link to="">
+                  <Link to="/review">
                     <Star size={24} />
                     My Reviews
                   </Link>

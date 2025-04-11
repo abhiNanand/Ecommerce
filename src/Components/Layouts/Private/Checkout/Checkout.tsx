@@ -169,17 +169,17 @@ import { ROUTES } from '../../../../Shared/Constants';
 import { RootState } from '../../../../Store';
 import { addToOrderHistory } from '../../../../Services/Order/order';
 
-// import {useAppKit} from "@reown/appkit/react";
+ import {useAppKit} from "@reown/appkit/react";
 
 export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [coupean, setCoupean] = useState<string>('');
-  const [open, setOpen] = useState<boolean>(false);
+  const [openn, setOpenn] = useState<boolean>(false);
   const address = useSelector((state: RootState) => state.address);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useAuth();
-  // const {openWallet} = useAppKit();
+   const {open} = useAppKit();
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -215,7 +215,7 @@ export default function Checkout() {
 
     addToOrderHistory(cartItems, address);
     dispatch(removePreviousAddress());
-    setOpen(true);
+    setOpenn(true);
   }
 
   return (
@@ -255,8 +255,8 @@ export default function Checkout() {
           <span>${calculateTotal().toFixed(2)}</span>
         </div>
         <div className="checkout-payment">
-          <appkit-button />
-          {/* <button onClick={()=>openWallet()}>Connet Wallet</button> */}
+           
+          <button type="button" className="wallet-btn" onClick={()=>open()}>Connet Wallet</button>
           <div className="coupon-section">
             <input type="text" placeholder="Coupon Code" onChange={(e) => setCoupean(e.target.value)} value={coupean} />
             <button type="button" onClick={() => handleButtonClick()}>Apply Coupon</button>
@@ -266,12 +266,12 @@ export default function Checkout() {
           </button>
         </div>
       </div>
-      {open && (
+      {openn && (
         <div className="place-order-container">
           <div className="place-order">
             <h2>Order Placed</h2>
             <p>Your order has been successfully placed!</p>
-            <button className="place-order-btn" onClick={() => { navigate(ROUTES.HOMEPAGE); setOpen(false) }}>Continue Shopping</button>
+            <button className="place-order-btn" onClick={() => { navigate(ROUTES.HOMEPAGE); setOpenn(false) }}>Continue Shopping</button>
           </div>
         </div>)}
     </div>
