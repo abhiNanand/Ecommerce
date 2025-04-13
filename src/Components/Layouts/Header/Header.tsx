@@ -51,7 +51,7 @@ export default function Header() {
           <Link to={ROUTES.HOMEPAGE}>Home</Link>
           <Link to="/contact">Contact</Link>
           <Link to="/about">About</Link>
-          {!isAuthenticated && <Link to={ROUTES.SIGNUP}>Signup</Link>}
+          {!isAuthenticated && <Link to={ROUTES.LOGIN}>Login</Link>}
         </nav>
 
         <div className="search-box" onBlur={() => setSearchQuery('')}>

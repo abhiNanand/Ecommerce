@@ -8,30 +8,18 @@
 }
 
 .announcement {
-    flex: 1; /* Allow it to take available space */
-    text-align: center; /* Center text */
+    flex: 1; 
+    text-align: center; 
     font-size: 1rem;
 }
-
-.language-selector {
-    flex-shrink: 0; /* Prevent shrinking */
-}
-
-.language-selector select {
-    background-color: black;
-    color: white;
-    border: none;
-    padding: 5px;
-    cursor: pointer;
-}
+ 
 
 select:focus
 {
     outline: none;
 }
 
-/* Responsive: Stack items on small screens */
-@media (max-width: 600px) {
+ @media (max-width: 600px) {
     .top-header {
         flex-direction: row;
         flex-wrap: wrap;

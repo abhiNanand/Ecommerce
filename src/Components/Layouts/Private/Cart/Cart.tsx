@@ -16,6 +16,17 @@ export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const { user } = useAuth();
 
+  if (!user) {
+    return (
+      <div className="wishlist">
+        <div className="empty-state">
+          <h4>Please sign in to view your cart</h4>
+          <p>Sign in to sync your  across all devices.</p>
+        </div>
+      </div>
+    );
+  }
+
   useEffect(() => {
     const fetchCartItems = async () => {
       if (!user) {

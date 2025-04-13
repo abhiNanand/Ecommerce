@@ -8,12 +8,12 @@ import {
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
- 
+import { Link } from 'react-router-dom';
 import { auth } from '../../../Services/firebase/firebase';
 
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
- 
+
 import './Login.scss';
 
 export default function Login() {
@@ -31,16 +31,16 @@ export default function Login() {
         email,
         password
       );
-      console.log("Cred::",userCredential);
+      console.log('Cred::', userCredential);
       const { user } = userCredential;
-      const token = await user.getIdToken();  
-    
+      const token = await user.getIdToken();
+
       dispatch(
         updateAuthTokenRedux({
           token,
           user: { displayName: user.displayName, email: user.email },
         })
-      );  
+      );
 
       navigate(ROUTES.HOMEPAGE);
     } catch (error) {
@@ -110,6 +110,9 @@ export default function Login() {
             </button>
           </div>
         </form>
+        <p>
+              Don't have account? <Link to={ROUTES.SIGNUP}>Signup</Link>
+            </p>
         {resetEmailSent && (
           <p className="reset-message">Reset email sent! Check your inbox.</p>
         )}

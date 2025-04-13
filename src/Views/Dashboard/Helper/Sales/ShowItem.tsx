@@ -28,7 +28,7 @@ export default function SalesItem({ products }: SalesItemProps) {
   useEffect(() => {
     const fetchWishlist = async () => {
       const wishlist = await getWishlistItems();
-      const likedProductIds = new Set(wishlist.map((item) => item.id)); // Assuming 'id' is unique
+      const likedProductIds = new Set(wishlist.map((item) => item.id));  
       setLikedItems(likedProductIds);
     };
      
@@ -38,6 +38,11 @@ export default function SalesItem({ products }: SalesItemProps) {
 
   const handleWishlistClick = async (product: Product) => {
     try {
+      if(!user)
+      {
+           toast.error('Please Login!');
+           return;
+      }
       const isLiked = likedItems.has(product.id);
 
       if (isLiked) {
@@ -49,14 +54,15 @@ export default function SalesItem({ products }: SalesItemProps) {
         });
 
         toast.success('Removed from Wishlist!', {
-          position: 'top-left',
+          position: 'top-right',
         });
-      } else {
+      } 
+      else {
         await addToWishlist(product);
         setLikedItems((prev) => new Set([...prev, product.id]));
      
 
-        toast.warn('Added to Wishlist!');
+        toast.success('Added to Wishlist!');
       }
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
@@ -99,8 +105,10 @@ export default function SalesItem({ products }: SalesItemProps) {
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
-                addToCart(product);
-                toast.success('Added to Cart!');
+                if(user)
+               {addToCart(product); toast.success('Added to Cart!');}
+                else
+                toast.error('Please Login!');
               }}
             >
               Add to Cart
