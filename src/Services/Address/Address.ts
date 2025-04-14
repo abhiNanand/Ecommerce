@@ -1,4 +1,3 @@
-import { db, auth } from '../firebase/firebase';
 import {
   setDoc,
   collection,
@@ -6,6 +5,7 @@ import {
   getDocs,
   deleteDoc,
 } from 'firebase/firestore';
+import { db, auth } from '../firebase/firebase';
 
 export interface Address {
   firebaseId?: string;
@@ -18,7 +18,7 @@ export interface Address {
   emailAddress: string;
 }
 
-//adding address to firestore
+// adding address to firestore
 export const addAddress = async (values: Address): Promise<void> => {
   const user = auth.currentUser;
   if (!user) {
@@ -33,7 +33,7 @@ export const addAddress = async (values: Address): Promise<void> => {
   }
 };
 
-//fetching address from firestore
+// fetching address from firestore
 export const getAddress = async (): Promise<Address[]> => {
   const user = auth.currentUser;
   if (!user) {
@@ -64,8 +64,8 @@ export const getAddress = async (): Promise<Address[]> => {
   }
 };
 
-//deleting address
-//firebaseId se delte krna easy parega q ki direct address se delte krna hota tho hamare pass koi id nhi hai addresss ki tho where laga pr ek key ki value match karna parta
+// deleting address
+// firebaseId se delte krna easy parega q ki direct address se delte krna hota tho hamare pass koi id nhi hai addresss ki tho where laga pr ek key ki value match karna parta
 export const removeAddress = async (firebaseId: string): Promise<void> => {
   const user = auth.currentUser;
   if (!user) {
@@ -77,6 +77,5 @@ export const removeAddress = async (firebaseId: string): Promise<void> => {
     await deleteDoc(addressRef);
   } catch {
     console.log('error in deleting address');
-    return;
   }
 };

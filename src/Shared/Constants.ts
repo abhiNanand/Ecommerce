@@ -1,7 +1,6 @@
 const STRING: string = 'Test';
 export { STRING };
 
-// Profile,Cancel,Return,Payment,Address
 const ROUTES = {
   HOMEPAGE: '/',
   LOGIN: '/login',
@@ -16,13 +15,11 @@ const ROUTES = {
   ACCOUNT: '/account',
   CHECKOUT: '/cart/checkout',
   PROFILE: 'profile',
-  CANCLE: 'cancel',
-  RETURN: 'return',
-  PAYMENT: 'payment',
   ADDRESS: 'address',
   CONTACT: 'contact',
-  SHOP:'shop',
-  SEARCH:'/search/:query'
+  SHOP: 'shop',
+  SEARCH: '/search/:query',
+  ORDER: '/order',
 };
 
 const ROUTES_CONFIG = {
@@ -78,15 +75,6 @@ const ROUTES_CONFIG = {
   PROFILE: {
     path: ROUTES.PROFILE,
   },
-  CANCLE: {
-    path: ROUTES.CANCLE,
-  },
-  RETURN: {
-    path: ROUTES.RETURN,
-  },
-  PAYMENT: {
-    path: ROUTES.PAYMENT,
-  },
   ADDRESS: {
     path: ROUTES.ADDRESS,
   },
@@ -94,15 +82,17 @@ const ROUTES_CONFIG = {
     path: ROUTES.CONTACT,
     title: 'contact',
   },
-  SHOP:
-  {
-    path:ROUTES.SHOP,
-    title:'shop'
+  SHOP: {
+    path: ROUTES.SHOP,
+    title: 'shop',
   },
-  SEARCH:
-  {
-    path:ROUTES.SEARCH,
-    title:'search'
-  }
+  SEARCH: {
+    path: ROUTES.SEARCH,
+    title: 'search',
+  },
+  ORDER: {
+    path: ROUTES.ORDER,
+    title: 'order',
+  },
 };
 export { ROUTES, ROUTES_CONFIG };

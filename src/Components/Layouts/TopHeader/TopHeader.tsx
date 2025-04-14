@@ -1,6 +1,7 @@
 import './TopHeader.scss';
 import { Link } from 'react-router-dom';
-import {ROUTES} from '../../../Shared/Constants'
+import { ROUTES } from '../../../Shared/Constants';
+
 export default function TopHeader() {
   return (
     <div className="top-header">

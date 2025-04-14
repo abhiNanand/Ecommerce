@@ -18,6 +18,7 @@
     "@reown/appkit": "^1.7.2",
     "@reown/appkit-adapter-ethers": "^1.7.2",
     "@reown/appkit-wallet-button": "^1.7.2",
+    "ether": "^0.0.9",
     "ethers": "^6.13.5",
     "firebase": "^11.4.0",
     "formik": "^2.4.6",

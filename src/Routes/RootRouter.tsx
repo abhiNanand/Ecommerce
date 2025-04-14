@@ -8,10 +8,14 @@ import Admin from '../Components/AdminPage/Admin';
 function RootRouter() {
   const guest = useRoutes(guestRoutes);
   const authenticated = useRoutes(authenticatedRoutes);
-  const { isAuthenticated ,user,token } = useAuth();
-  if(user?.email==="abhishekanand7091@gmail.com")
-  {
-     return(<> <Admin/> </>)
+  const { isAuthenticated, user, token } = useAuth();
+  if (user?.email === 'abhishekanand7091@gmail.com') {
+    return (
+      <>
+        {' '}
+        <Admin />{' '}
+      </>
+    );
   }
   return (
     <>

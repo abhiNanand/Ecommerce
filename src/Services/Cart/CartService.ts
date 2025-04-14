@@ -13,17 +13,14 @@ import { Product } from '../../Shared/Product';
 
 // 1. add to cart in firestore
 export const addToCart = async (product: Product) => {
-  const user = auth.currentUser;  
+  const user = auth.currentUser;
   if (!user) {
     console.log('In cart section- User not logged in ');
     return;
   }
   try {
     const cartRef = collection(db, `users/${user.uid}/cart`);
-    const q = query(
-      cartRef,
-      where('id', '==', product.id)
-    );
+    const q = query(cartRef, where('id', '==', product.id));
     const querySnapshot = await getDocs(q);
 
     if (!querySnapshot.empty) {
@@ -50,17 +47,14 @@ export const removeFromCart = async (ProductId: string) => {
   }
 
   try {
-
-    const cartRef =  collection(db,`users/${user.uid}/cart`);
-    const q= query(cartRef,where('id','==',ProductId));
+    const cartRef = collection(db, `users/${user.uid}/cart`);
+    const q = query(cartRef, where('id', '==', ProductId));
     const querySnapshot = await getDocs(q);
 
-    if(!querySnapshot.empty)
-    {
+    if (!querySnapshot.empty) {
       const docRef = querySnapshot.docs[0].ref;
       await deleteDoc(docRef);
     }
-
   } catch (error) {
     console.error('Error removing item from cart:', error);
   }
@@ -68,15 +62,15 @@ export const removeFromCart = async (ProductId: string) => {
 
 // 3. Fetch only the logged-in user's cart items
 export const getCartItems = async (): Promise<Product[]> => {
-  const user = auth.currentUser;  
+  const user = auth.currentUser;
   if (!user) {
     console.error('User not logged in!');
     return [];
   }
 
   try {
-    const cartRef =  collection(db,`users/${user.uid}/cart`);
-    const querySnapshot=await getDocs(cartRef);
+    const cartRef = collection(db, `users/${user.uid}/cart`);
+    const querySnapshot = await getDocs(cartRef);
 
     return querySnapshot.docs.map((cartDoc) => {
       const data = cartDoc.data() as Product;
@@ -98,7 +92,6 @@ export const getCartItems = async (): Promise<Product[]> => {
 };
 
 // The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
-
 
 /*
 1. collection: The collection function in Firebase Firestore is used to get a reference to a collection in a Firestore database.

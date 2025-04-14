@@ -25,12 +25,14 @@
     margin-bottom: 12px;
 }
 
- .footer-section p {
+ .footer-section a {
+    text-decoration: none;
     font-size: 14px;
     margin: 6px 0;
     opacity: 0.8;
     cursor: pointer;
     transition: opacity 0.3s ease;
+    color:white;
 }
 
 .footer-section p:hover {

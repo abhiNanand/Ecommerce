@@ -1,7 +1,14 @@
 import { useNavigate, NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
+import {
+  updateDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from 'firebase/firestore';
 import { Trash } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
 import { db, auth } from '../../../../Services/firebase/firebase';
 import {
   getCartItems,
@@ -12,16 +19,22 @@ import { useAuth } from '../../../../Services/UserAuth';
 import { ROUTES } from '../../../../Shared/Constants';
 import './Cart.scss';
 import assets from '../../../../assets';
+
+import { updateCartItem } from '../../../../Store/Item/total_item_slice';
+import { RootState } from '../../../../Store';
+
 export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const { user } = useAuth();
+  const dispatch = useDispatch();
+  const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
 
   if (!user) {
     return (
       <div className="wishlist">
         <div className="empty-state">
           <h4>Please sign in to view your cart</h4>
-          <p>Sign in to sync your  across all devices.</p>
+          <p>Sign in to sync your across all devices.</p>
         </div>
       </div>
     );
@@ -34,10 +47,8 @@ export default function Cart() {
         return;
       }
       const items = await getCartItems();
-
       setCartItems(items);
     };
-
     fetchCartItems();
   }, [user]);
 
@@ -49,55 +60,47 @@ export default function Cart() {
   };
 
   const handleQuantityChange = async (product: any, newQuantity: number) => {
-
     const user = auth.currentUser;
-    if (!user) {
-      console.error('User not logged in!');
-      return;
-    }
-    const cartRef = collection(db, `users/${user.uid}/cart`);
-    if (newQuantity <= 0) {
-      await removeFromCart(product.id);
+    const cartRef = collection(db, `users/${user?.uid}/cart`);
+    try {
+      const q = query(cartRef, where('id', '==', product.id));
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const docRef = querySnapshot.docs[0].ref;
+        await updateDoc(docRef, { quantity: newQuantity });
+      }
       setCartItems((prevItems) =>
-        prevItems.filter((item) => item.id !== product.id)
+        prevItems.map((item) =>
+          item.id === product.id ? { ...item, quantity: newQuantity } : item
+        )
       );
-    } else {
-
-      try {
-        const q = query(cartRef, where('id', '==', product.id));
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          const docRef = querySnapshot.docs[0].ref;
-          await updateDoc(docRef, { quantity: newQuantity });
-        }
-        setCartItems((prevItems) =>
-          prevItems.map((item) =>
-            item.id === product.id ? { ...item, quantity: newQuantity } : item
-          )
-        );
-      }
-      catch (error) {
-        console.error('error updating quantity', error);
-      }
+    } catch (error) {
+      console.error('error updating quantity', error);
     }
   };
 
   const calculateTotal = (): number => {
-    return cartItems.reduce((total, product) => total + product.price * (product.quantity ?? 1), 0);
+    return cartItems.reduce(
+      (total, product) => total + product.price * (product.quantity ?? 1),
+      0
+    );
   };
 
   const navigate = useNavigate();
-
   const returnHome = () => navigate(ROUTES.HOMEPAGE);
 
   return (
     <div className="cart-container">
       <p className="breadcrumb">
-
         <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
         <NavLink to={ROUTES.ACCOUNT}> Account</NavLink>
       </p>
-      <img src={assets.icon.mastercard} alt="payment" width="37px" height="37px" />
+      <img
+        src={assets.icon.mastercard}
+        alt="payment"
+        width="37px"
+        height="37px"
+      />
       <img src={assets.icon.visa} alt="payment" width="37px" height="37px" />
       <img src={assets.icon.nagad} alt="payment" width="37px" height="37px" />
       <img src={assets.icon.rupay} alt="payment" width="37px" height="37px" />
@@ -108,7 +111,6 @@ export default function Cart() {
           <span>Price</span>
           <span>Quantity</span>
           <span>Subtotal</span>
-          <span>Remove</span>
         </div>
 
         <div className="cart-items">
@@ -121,42 +123,65 @@ export default function Cart() {
                 key={product.id}
                 role="button"
                 tabIndex={0}
-                onClick={() => navigate(`/product/${product.id}`)}
               >
                 <span>
                   <img
                     src={product.image}
                     alt={product.title}
                     className="cart-image"
+                    onClick={() => navigate(`/product/${product.id}`)}
                   />
                 </span>
                 <span>₹{product.price}</span>
+
                 <span>
+                  {product.quantity == 1 ? (
+                    <button
+                      type="button"
+                      className="delete-btn"
+                      onClick={() => {
+                        handleRemoveItem(product);
+                        dispatch(updateCartItem(cartCount - 1));
+                      }}
+                    >
+                      <Trash size={20} />
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        handleQuantityChange(
+                          product,
+                          (product.quantity ?? 1) - 1
+                        );
+                        dispatch(updateCartItem(cartCount - 1));
+                      }}
+                    >
+                      -
+                    </button>
+                  )}
+
                   <input
                     type="number"
                     min="1"
                     value={product.quantity}
-                    onClick={(event) => event.stopPropagation()}
-                    onChange={(e) =>
-                      handleQuantityChange(product, Number(e.target.value))
-                    }
+                    disabled
                   />
+                  <button
+                    onClick={() => {
+                      handleQuantityChange(
+                        product,
+                        (product.quantity ?? 1) + 1
+                      );
+                      dispatch(updateCartItem(cartCount + 1));
+                    }}
+                  >
+                    +
+                  </button>
                 </span>
                 <span>
                   ₹{(product.price * (product.quantity ?? 1)).toFixed(2)}
                 </span>
-                <span>
-                  <button
-                    type="button"
-                    className="delete-btn"
-                    onClick={(event) => {
-                      event.stopPropagation();
-                      handleRemoveItem(product);
-                    }}
-                  >
-                    <Trash size={20} />
-                  </button>
-                </span>
+                <span />
               </div>
             ))
           )}
@@ -167,7 +192,6 @@ export default function Cart() {
         <button type="button" onClick={returnHome}>
           Return to Shop
         </button>
-        
       </div>
 
       <div className="cart-summary">
@@ -176,10 +200,11 @@ export default function Cart() {
           <p>Subtotal: ₹{calculateTotal().toFixed(2)}</p>
           <p>Shipping: Free</p>
           <p>Total: ₹{calculateTotal().toFixed(2)}</p>
-          {(cartItems.length!=0) && (<button type="button" onClick={() =>  navigate(ROUTES.CHECKOUT)}>
-            Proceed to Checkout
-          </button>)}
-          
+          {cartItems.length != 0 && (
+            <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
+              Proceed to Checkout
+            </button>
+          )}
         </div>
       </div>
     </div>

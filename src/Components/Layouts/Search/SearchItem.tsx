@@ -1,13 +1,13 @@
-import { useParams, useNavigate } from "react-router-dom";
-import { useGetProductQuery } from "../../../Services/Api/module/demoApi";
-import { Product } from "../../../Shared/Product";
-import { Star } from "lucide-react";
-import { addToCart } from "../../../Services/Cart/CartService";
-import { toast } from "react-toastify";
+import { useParams, useNavigate } from 'react-router-dom';
+import { Star } from 'lucide-react';
+import { toast } from 'react-toastify';
+import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
+import { Product } from '../../../Shared/Product';
+import { addToCart } from '../../../Services/Cart/CartService';
 
 export default function SearchItem() {
   const { query } = useParams();
-  
+
   const { data: products, error, isLoading } = useGetProductQuery(null);
   const navigate = useNavigate();
 
@@ -26,11 +26,10 @@ export default function SearchItem() {
 
   return (
     <div className="show-searched-products">
-   
       <h2 className="text-2xl mb-4">
         Showing results for: <strong>{query}</strong>
       </h2>
-  
+
       {filteredProducts && filteredProducts.length > 0 ? (
         <div className="products-grid">
           {filteredProducts.map((product: Product) => (
@@ -53,7 +52,7 @@ export default function SearchItem() {
                 onClick={(event) => {
                   event.stopPropagation();
                   addToCart(product);
-                  toast.success("Added to Cart!");
+                  toast.success('Added to Cart!');
                 }}
               >
                 Add to Cart
@@ -66,8 +65,8 @@ export default function SearchItem() {
                     size={16}
                     className={
                       i < Math.round(product.rating?.rate ?? 0)
-                        ? "star filled"
-                        : "star"
+                        ? 'star filled'
+                        : 'star'
                     }
                   />
                 ))}
@@ -84,4 +83,3 @@ export default function SearchItem() {
     </div>
   );
 }
- 

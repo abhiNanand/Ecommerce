@@ -6,9 +6,9 @@ import {
 } from 'firebase/auth';
 
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
-import { Link } from 'react-router-dom';
+
 import { auth } from '../../../Services/firebase/firebase';
 
 import { updateAuthTokenRedux } from '../../../Store/Common';
@@ -111,8 +111,8 @@ export default function Login() {
           </div>
         </form>
         <p>
-              Don't have account? <Link to={ROUTES.SIGNUP}>Signup</Link>
-            </p>
+          Don't have account? <Link to={ROUTES.SIGNUP}>Signup</Link>
+        </p>
         {resetEmailSent && (
           <p className="reset-message">Reset email sent! Check your inbox.</p>
         )}

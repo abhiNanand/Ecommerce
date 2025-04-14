@@ -1,6 +1,7 @@
 import { Star, Heart } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
+import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../../../Services/Cart/CartService';
 import {
   addToWishlist,
@@ -12,8 +13,13 @@ import { Product } from '../../../../Shared/Product';
 import './ShowItem.scss';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../../../Services/UserAuth';
+import {
+  updateCartItem,
+  updateWishlistItem,
+} from '../../../../Store/Item/total_item_slice';
+import { RootState } from '../../../../Store/index';
 
 interface SalesItemProps {
   products: Product[];
@@ -23,30 +29,35 @@ export default function SalesItem({ products }: SalesItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [index, setIndex] = useState<number>(5);
   const navigate = useNavigate();
-  const {user}=useAuth();
+  const { user } = useAuth();
+
+  const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
+  const wishlistCount = useSelector(
+    (state: RootState) => state.item.noOfWishlistItem
+  );
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchWishlist = async () => {
       const wishlist = await getWishlistItems();
-      const likedProductIds = new Set(wishlist.map((item) => item.id));  
+      const likedProductIds = new Set(wishlist.map((item) => item.id));
       setLikedItems(likedProductIds);
     };
-     
-    if(user)
-    fetchWishlist();
+
+    if (user) fetchWishlist();
   }, []);
 
   const handleWishlistClick = async (product: Product) => {
     try {
-      if(!user)
-      {
-           toast.error('Please Login!');
-           return;
+      if (!user) {
+        toast.error('Please Login!');
+        return;
       }
       const isLiked = likedItems.has(product.id);
 
       if (isLiked) {
         await removeFromWishlist(product.id);
+        dispatch(updateWishlistItem(wishlistCount - 1));
         setLikedItems((prev) => {
           const newSet = new Set(prev);
           newSet.delete(product.id);
@@ -56,11 +67,10 @@ export default function SalesItem({ products }: SalesItemProps) {
         toast.success('Removed from Wishlist!', {
           position: 'top-right',
         });
-      } 
-      else {
+      } else {
         await addToWishlist(product);
+        dispatch(updateWishlistItem(wishlistCount + 1));
         setLikedItems((prev) => new Set([...prev, product.id]));
-     
 
         toast.success('Added to Wishlist!');
       }
@@ -105,10 +115,11 @@ export default function SalesItem({ products }: SalesItemProps) {
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
-                if(user)
-               {addToCart(product); toast.success('Added to Cart!');}
-                else
-                toast.error('Please Login!');
+                if (user) {
+                  addToCart(product);
+                  toast.success('Added to Cart!');
+                  dispatch(updateCartItem(cartCount + 1));
+                } else toast.error('Please Login!');
               }}
             >
               Add to Cart
@@ -134,7 +145,11 @@ export default function SalesItem({ products }: SalesItemProps) {
         ))}
       </div>
       {index === products.length ? (
-        <button type="button" className="view-all-btn" onClick={() => setIndex(5)}>
+        <button
+          type="button"
+          className="view-all-btn"
+          onClick={() => setIndex(5)}
+        >
           View Less Products
         </button>
       ) : (

@@ -7,22 +7,19 @@ import Error from '../Components/Layouts/ErrorPage/Error';
 import Category from '../Components/Layouts/Categories/Category';
 import ProductDetails from '../Components/Layouts/ProductDetails/ProductDetails';
 import Checkout from '../Components/Layouts/Private/Checkout/Checkout';
-import Myaccount, {
-  Cancel,
-  Return,
-  Payment,
-  Address,
-} from '../Components/Layouts/Private/Account/MyAccount';
+import Myaccount from '../Components/Layouts/Private/Account/MyAccount';
+import Address from '../Components/Layouts/Private/Account/Address/Address';
 import Profile from '../Components/Layouts/Private/Account/Profile/Profile';
 import Contact from '../Components/Layouts/Contact/Contact';
 import About from '../Components/Layouts/About/About';
 import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
+import Order from '../Components/Layouts/Private/Order/Order';
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   {
     path: ROUTES_CONFIG.ABOUT.path,
-    element: <About/>,
+    element: <About />,
     title: ROUTES_CONFIG.ABOUT.title,
   },
   {
@@ -65,9 +62,6 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     element: <Myaccount />,
     children: [
       { index: true, element: <Profile /> },
-      { path: ROUTES_CONFIG.CANCLE.path, element: <Cancel /> },
-      { path: ROUTES_CONFIG.RETURN.path, element: <Return /> },
-      { path: ROUTES_CONFIG.PAYMENT.path, element: <Payment /> },
       { path: ROUTES_CONFIG.ADDRESS.path, element: <Address /> },
     ],
     title: ROUTES_CONFIG.ACCOUNT.title,
@@ -78,13 +72,18 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     title: ROUTES_CONFIG.CONTACT.title,
   },
   {
-    path:ROUTES_CONFIG.SHOP.path,
-    element:<Shop/>,
-    title:ROUTES_CONFIG.SHOP.title,
+    path: ROUTES_CONFIG.SHOP.path,
+    element: <Shop />,
+    title: ROUTES_CONFIG.SHOP.title,
   },
   {
-path:ROUTES_CONFIG.SEARCH.path,
-element:<SearchItem/>,
-title:ROUTES_CONFIG.SEARCH.title,
+    path: ROUTES_CONFIG.SEARCH.path,
+    element: <SearchItem />,
+    title: ROUTES_CONFIG.SEARCH.title,
+  },
+  {
+    path: ROUTES_CONFIG.ORDER.path,
+    element: <Order />,
+    title: ROUTES_CONFIG.ORDER.path,
   },
 ];

@@ -1,11 +1,14 @@
 import assets from '../../../assets';
-import './Footer.css';
+import './Footer.scss';
+import { ROUTES } from '../../../Shared/Constants';
+import { useAuth } from '../../../Services/UserAuth';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
+  const { isAuthenticated } = useAuth();
   return (
     <footer className="footer-container">
       <div className="footer-content">
-       
         <div className="footer-section">
           <h3>Exclusive</h3>
           <p>Subscribe</p>
@@ -25,7 +28,6 @@ export default function Footer() {
           </div>
         </div>
 
- 
         <div className="footer-section">
           <h3>Support</h3>
           <p>111 Bijoy Sarani, Dhaka, DH 1515, Bangladesh.</p>
@@ -33,24 +35,29 @@ export default function Footer() {
           <p>Phone: +88015-88888-9999</p>
         </div>
 
- 
         <div className="footer-section">
           <h3>Account</h3>
-          <p>My Account</p>
-          <p>Login/Register</p>
-          <p>Cart</p>
-          <p>Wishlist</p>
-          <p>Shop</p>
+          {isAuthenticated ? (
+            <Link to={ROUTES.ACCOUNT}>My Account</Link>
+          ) : (
+            <Link to={ROUTES.LOGIN}>Login/Register</Link>
+          )}
+          <br />
+          <Link to={ROUTES.CART}>Cart</Link>
+          <br />
+          <Link to={ROUTES.WISHLIST}>Wishlist</Link>
+          <br />
+          <Link to={ROUTES.SHOP}>Shop</Link>
+          <br />
         </div>
 
-   
         <div className="footer-section">
           <h3>Quick Links</h3>
           <p>Privacy Policy</p>
           <p>Terms of Use</p>
           <p>FAQs</p>
         </div>
- 
+
         <div className="download-app-container">
           <h2 className="download-heading">Download App</h2>
           <p className="download-subtext">Save $3 with App New User Only</p>
@@ -70,7 +77,6 @@ export default function Footer() {
             </div>
           </div>
 
-     
           <div className="socialmedia">
             <button type="button">
               <img src={assets.images.facebook} alt="Facebook" />

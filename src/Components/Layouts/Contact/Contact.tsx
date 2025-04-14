@@ -3,18 +3,17 @@ import './Contact.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import {db} from '../../../Services/firebase/firebase';
-import {collection,addDoc,serverTimestamp} from 'firebase/firestore';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { NavLink } from 'react-router-dom';
-import {ROUTES} from '../../../Shared/Constants'
+import { db } from '../../../Services/firebase/firebase';
+import { ROUTES } from '../../../Shared/Constants';
 
-interface FormValues{
-    name:string,
-    email:string,
-    phone:string,
-    message:string,
+interface FormValues {
+  name: string;
+  email: string;
+  phone: string;
+  message: string;
 }
-
 
 export default function Contact() {
   const formik = useFormik<FormValues>({
@@ -36,26 +35,25 @@ export default function Contact() {
         .max(50, 'Must be 50 characters or less')
         .required('Required'),
     }),
-    onSubmit: async(values:FormValues,{resetForm}) => {
-       await addDoc(collection(db,"message"),{
-       name:values.name,
-       email:values.email,
-       phone:values.phone,
-       message:values.message,
-       createdAt:serverTimestamp(),
-       });
-       alert("Message send successfully! We will contact you soon")
-       resetForm({ values: { name: '', email: '', phone: '', message: '' } });
+    onSubmit: async (values: FormValues, { resetForm }) => {
+      await addDoc(collection(db, 'message'), {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        message: values.message,
+        createdAt: serverTimestamp(),
+      });
+      alert('Message send successfully! We will contact you soon');
+      resetForm({ values: { name: '', email: '', phone: '', message: '' } });
     },
   });
 
   return (
     <div className="contact-container">
-        <p className="breadcrumb">
-          
-          <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-          <NavLink to={ROUTES.ACCOUNT}> Contact</NavLink>
-           </p>
+      <p className="breadcrumb">
+        <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
+        <NavLink to={ROUTES.ACCOUNT}> Contact</NavLink>
+      </p>
 
       <div className="contact-wrapper">
         <div className="contact-info">
@@ -89,7 +87,7 @@ export default function Contact() {
                 value={formik.values.name}
                 onChange={formik.handleChange}
               />
-              {formik.errors.name && (
+              {formik.touched.name && formik.errors.name && (
                 <div className="error">{formik.errors.name}</div>
               )}
 
@@ -100,7 +98,7 @@ export default function Contact() {
                 value={formik.values.email}
                 onChange={formik.handleChange}
               />
-              {formik.errors.email && (
+              {formik.touched.email && formik.errors.email && (
                 <div className="error">{formik.errors.email}</div>
               )}
 
@@ -111,7 +109,7 @@ export default function Contact() {
                 value={formik.values.phone}
                 onChange={formik.handleChange}
               />
-              {formik.errors.phone && (
+              {formik.touched.phone && formik.errors.phone && (
                 <div className="error">{formik.errors.phone}</div>
               )}
 
@@ -122,7 +120,7 @@ export default function Contact() {
                 value={formik.values.message}
                 onChange={formik.handleChange}
               />
-              {formik.errors.message && (
+              {formik.touched.message && formik.errors.message && (
                 <div className="error">{formik.errors.message}</div>
               )}
 
@@ -136,6 +134,3 @@ export default function Contact() {
     </div>
   );
 }
-
-
- 

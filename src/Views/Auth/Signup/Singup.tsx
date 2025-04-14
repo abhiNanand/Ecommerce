@@ -8,8 +8,8 @@ import {
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 
-import { auth, googleProvider,db } from '../../../Services/firebase/firebase';
-import {doc,setDoc,getDoc} from 'firebase/firestore';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
 
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
@@ -37,14 +37,13 @@ export default function Signup() {
       await updateProfile(user, { displayName: name });
       toast.success('🎉 Account created successfully!');
 
-      //storing user in firebase
-      await setDoc(doc(db,"users",user.uid),
-    {
-      uid:user.uid,
-      email:user.email,
-      displayName:name,
-    });
-     
+      // storing user in firebase
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        email: user.email,
+        displayName: name,
+      });
+
       setTimeout(() => navigate(ROUTES.LOGIN), 3000);
     } catch (error) {
       if (error instanceof Error) {
@@ -58,7 +57,7 @@ export default function Signup() {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const token = await result.user.getIdToken();
-      const user=result.user;
+      const { user } = result;
       dispatch(
         updateAuthTokenRedux({
           token,
@@ -69,23 +68,21 @@ export default function Signup() {
         })
       );
       toast.success('🎉 Signed in with Google successfully!');
- 
-      //storing in firestore
-      //first checking if user is exist or not
-      const userRef= doc(db,"users",user.uid);
-      const userSnap=await getDoc(userRef);
- 
-      if(!userSnap.exists())
-      {
-        console.log("wi");
-           await setDoc(doc(db,"users",user.uid),
-          {
-            uid:user.uid,
-            email:user.email,
-            displayName:user.displayName || "anonymous",
-          });
+
+      // storing in firestore
+      // first checking if user is exist or not
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        console.log('wi');
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName || 'anonymous',
+        });
       }
-       navigate(ROUTES.HOMEPAGE); 
+      navigate(ROUTES.HOMEPAGE);
     } catch (error) {
       if (error instanceof Error) {
         console.error(error.message);

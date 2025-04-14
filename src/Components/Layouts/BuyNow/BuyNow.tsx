@@ -1,7 +1,1 @@
-
-
-export default function BuyNow()
-{
-
-  
-}
+export default function BuyNow() {}

@@ -1,8 +1,8 @@
+import { setDoc, collection, doc, getDocs } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebase';
-import { setDoc, collection, doc } from 'firebase/firestore';
 import { Product } from '../../Shared/Product';
 import { Address } from '../Address/Address';
-//add order history
+// add order history
 
 export const addToOrderHistory = async (
   product: Product[],
@@ -23,30 +23,43 @@ export const addToOrderHistory = async (
     });
   } catch {
     console.log("can't update orders");
-    return;
   }
 };
 
-// //fetch order
-// export const fetchOrders=async()=>{
+// fetch order history
 
-//     const user=auth.currentUser;
-//     if(!user)
-//     {
-//         console.log("user not found");
-//         return;
-//     }
+interface OrderData {
+  id: string;
+  products: Product[];
+  address: Address;
+  date: Date;
+}
 
-//     try{
-//         const orderRef=collection(db,`users/${user.uid}/orders`);
-//     }
-//     catch
-//     {
-//         return [];
-//     }
+export const fetchOrders = async (): Promise<OrderData[]> => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.log('User not found');
+    return [];
+  }
 
-// };
+  try {
+    const orderRef = collection(db, `users/${user.uid}/orders`);
+    const querySnapshot = await getDocs(orderRef);
 
+    return querySnapshot.docs.map((orderDoc) => {
+      const data = orderDoc.data();
+      return {
+        id: orderDoc.id,
+        products: data.products,
+        address: data.orderedAt,
+        date: data.date.toDate ? data.date.toDate() : new Date(data.date),
+      };
+    });
+  } catch (error) {
+    console.log('Error fetching orders:', error);
+    return [];
+  }
+};
 // Services/Order/order.ts
 // import { db, auth } from '../firebase/firebase';
 // import { collection, getDocs } from 'firebase/firestore';

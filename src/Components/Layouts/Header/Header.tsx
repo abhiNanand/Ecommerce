@@ -4,19 +4,25 @@ import {
   ShoppingCart,
   User,
   ShoppingBag,
-  CircleX,
   LogOut,
-  Star,
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { ROUTES_CONFIG, ROUTES } from '../../../Shared/Constants';
 import { logoutUser } from '../../../Store/Common';
 import { auth } from '../../../Services/firebase/firebase';
 import { useAuth } from '../../../Services/UserAuth';
+
+import { getCartItems } from '../../../Services/Cart/CartService';
+import { getWishlistItems } from '../../../Services/Wishlist/WishlistService';
+import {
+  updateCartItem,
+  updateWishlistItem,
+} from '../../../Store/Item/total_item_slice';
+import { RootState } from '../../../Store';
 
 import './Header.scss';
 
@@ -25,9 +31,29 @@ export default function Header() {
   const [open, setOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
-
   const { isAuthenticated, user } = useAuth();
-  // Logout function
+
+  const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
+  const wishlistCount = useSelector(
+    (state: RootState) => state.item.noOfWishlistItem
+  );
+
+  useEffect(() => {
+    const fetchItemCounts = async () => {
+      if (!isAuthenticated) return;
+
+      const wishlistItems = await getWishlistItems();
+      const cartItems = await getCartItems();
+      const totalQuantity = cartItems.reduce(
+        (acc, item) => acc + (item.quantity || 1),
+        0
+      );
+      dispatch(updateCartItem(totalQuantity));
+      dispatch(updateWishlistItem(wishlistItems.length));
+    };
+
+    fetchItemCounts();
+  }, [user]);
   const handleLogout = async () => {
     await signOut(auth);
     dispatch(logoutUser());
@@ -38,8 +64,8 @@ export default function Header() {
     if (searchQuery.trim() !== '') {
       navigate(`/search/${searchQuery.trim()}`);
     }
-
   };
+
   return (
     <header className="navbar">
       <div className="navbar-container">
@@ -55,12 +81,17 @@ export default function Header() {
         </nav>
 
         <div className="search-box" onBlur={() => setSearchQuery('')}>
-          <input type="text" placeholder="What are you looking for?" value={searchQuery}
+          <input
+            type="text"
+            placeholder="What are you looking for?"
+            value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
           />
-           
-          <button type="button" className="search-box-btn" aria-label="Search"
+          <button
+            type="button"
+            className="search-box-btn"
+            aria-label="Search"
             onClick={() => handleSearch()}
           >
             <Search size={20} />
@@ -74,6 +105,9 @@ export default function Header() {
             aria-label="Favorites"
           >
             <Heart size={24} />
+            {wishlistCount > 0 && isAuthenticated && (
+              <span className="badge">{wishlistCount}</span>
+            )}
           </Link>
           <Link
             to={ROUTES_CONFIG.CART.path}
@@ -81,6 +115,9 @@ export default function Header() {
             aria-label="Shopping Cart"
           >
             <ShoppingCart size={24} />
+            {cartCount > 0 && isAuthenticated && (
+              <span className="badge">{cartCount}</span>
+            )}
           </Link>
           {isAuthenticated && (
             <div className="dropdown">
@@ -104,14 +141,6 @@ export default function Header() {
                   <Link to="/order">
                     <ShoppingBag size={24} />
                     My Orders
-                  </Link>
-                  <Link to="/cancellation">
-                    <CircleX size={24} />
-                    My Cancellations
-                  </Link>
-                  <Link to="/review">
-                    <Star size={24} />
-                    My Reviews
                   </Link>
                   <button
                     onClick={handleLogout}

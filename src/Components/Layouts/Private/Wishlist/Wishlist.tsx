@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Trash2, Heart } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Product } from '../../../../Shared/Product';
 import {
   getWishlistItems,
@@ -10,10 +11,21 @@ import { addToCart } from '../../../../Services/Cart/CartService';
 import { useAuth } from '../../../../Services/UserAuth';
 import './Wishlist.scss';
 
+import {
+  updateCartItem,
+  updateWishlistItem,
+} from '../../../../Store/Item/total_item_slice';
+import { RootState } from '../../../../Store/index';
+
 export default function Wishlist() {
   const [wishlistItems, setWishlistItems] = useState<Product[]>([]);
   const { user } = useAuth();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
+  const wishlistCount = useSelector(
+    (state: RootState) => state.item.noOfWishlistItem
+  );
 
   useEffect(() => {
     const fetchWishlistItems = async () => {
@@ -30,17 +42,22 @@ export default function Wishlist() {
 
   const handleDelete = async (item: any) => {
     await removeFromWishlist(item.id);
+    dispatch(updateWishlistItem(wishlistCount - 1));
     setWishlistItems((prevItems) =>
       prevItems.filter((product) => product.id !== item.id)
     );
   };
   const handleMoveAllToBag = async () => {
+    let i = 0;
     await Promise.all(
       wishlistItems.map(async (item) => {
         await addToCart(item);
         await handleDelete(item);
+        i++;
       })
     );
+    dispatch(updateWishlistItem(wishlistCount - i));
+    dispatch(updateCartItem(cartCount + i));
   };
   // avoid using await inside loop . performance issue is there.
   //   const handleMoveAllToBag = async () => {
