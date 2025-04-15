@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import assets from '../../../../assets';
-import './JblBanner.scss';
+import './JBLBanner.scss';
 
 function JblBanner() {
   const navigate = useNavigate();
