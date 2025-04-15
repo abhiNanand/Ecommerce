@@ -23,6 +23,6 @@
   "include": [
     ".eslintrc.cjs",
     "src"
-  ],
+, "src/assets"  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -51,8 +51,8 @@ export default function Header() {
       dispatch(updateCartItem(totalQuantity));
       dispatch(updateWishlistItem(wishlistItems.length));
     };
-
-    fetchItemCounts();
+    
+    setTimeout(()=>fetchItemCounts(),500);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai
   }, [user]);
   const handleLogout = async () => {
     await signOut(auth);
@@ -174,3 +174,6 @@ export default function Header() {
 
 // After updating the profile, Firebase Authentication does not immediately update the user object in your app.
 // user.reload() refreshes the user object to reflect the latest updates from Firebase.
+
+
+//    setTimeout(()=>fetchItemCounts(),1000);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai

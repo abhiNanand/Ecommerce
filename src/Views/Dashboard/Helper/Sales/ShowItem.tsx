@@ -41,7 +41,7 @@ export default function SalesItem({ products }: SalesItemProps) {
     const fetchWishlist = async () => {
       const wishlist = await getWishlistItems();
       const likedProductIds = new Set(wishlist.map((item) => item.id));
-      setLikedItems(likedProductIds);
+      setTimeout(()=>setLikedItems(likedProductIds),500);
     };
 
     if (user) fetchWishlist();

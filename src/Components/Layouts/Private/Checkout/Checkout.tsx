@@ -22,7 +22,7 @@ export default function Checkout() {
       const items = await getCartItems();
       setCartItems(items);
     };
-    fetchCartItems();
+    setTimeout(()=>fetchCartItems(),500);
   }, [user]);
 
   const calculateTotal = (): number => {

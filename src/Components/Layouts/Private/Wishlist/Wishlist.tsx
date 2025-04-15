@@ -34,7 +34,8 @@ export default function Wishlist() {
         return;
       }
       const items = await getWishlistItems();
-      setWishlistItems(items);
+      setTimeout(()=>setWishlistItems(items),500);
+      
     };
 
     fetchWishlistItems();

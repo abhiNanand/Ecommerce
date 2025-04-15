@@ -49,7 +49,8 @@ export default function Cart() {
       const items = await getCartItems();
       setCartItems(items);
     };
-    fetchCartItems();
+    setTimeout(()=>fetchCartItems(),500);
+    
   }, [user]);
 
   const handleRemoveItem = async (product: any) => {

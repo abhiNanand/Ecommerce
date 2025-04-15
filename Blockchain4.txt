@@ -30,3 +30,42 @@ Payments	Send/receive ETH/USDT automatically
 NFT Minting	Buy NFT → get ownership
 Voting	Vote submit → store on-chain
 E-commerce	User pays crypto → order confirmed
+
+
+
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../Services/firebase";useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+    setUser(firebaseUser);
+  });
+
+  return () => unsubscribe();
+}, []);const [user, setUser] = useState(null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
