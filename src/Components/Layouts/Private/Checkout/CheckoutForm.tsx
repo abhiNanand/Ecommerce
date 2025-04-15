@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import { ArrowLeft } from 'lucide-react';
 import {
   addAddress,
   getAddress,
@@ -142,8 +143,13 @@ export default function CheckoutForm() {
         </div>
       ) : (
         <form onSubmit={formik.handleSubmit}>
+          <button onClick={() => setOpen(true)}>
+            {' '}
+            <ArrowLeft size={14} />{' '}
+          </button>
+          <br />
           <label htmlFor="name">
-            First Name<sup>*</sup>
+            Full Name<sup>*</sup>
           </label>
           <br />
           <input

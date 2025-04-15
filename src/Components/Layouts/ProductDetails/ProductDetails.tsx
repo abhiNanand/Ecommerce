@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -10,7 +10,6 @@ import { useAuth } from '../../../Services/UserAuth';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 import { addToCart } from '../../../Services/Cart/CartService';
 import { toast } from 'react-toastify';
-
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
 
@@ -18,6 +17,7 @@ function ProductDetails() {
   const { productId } = useParams();
   const { user } = useAuth();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const {
     data: product,
@@ -77,7 +77,17 @@ function ProductDetails() {
             >
               <ShoppingCart size={20} /> Add to Cart{' '}
             </button>
-            <button type="button" className="buy-now">
+            <button
+              type="button"
+              className="buy-now"
+              onClick={() => {
+                if (user) {
+                  navigate(`/buy/${productId}`);
+                } else {
+                  toast.error('Please Login!');
+                }
+              }}
+            >
               Buy Now
             </button>
           </div>

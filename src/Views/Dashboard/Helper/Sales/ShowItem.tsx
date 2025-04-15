@@ -1,6 +1,7 @@
 import { Star, Heart } from 'lucide-react';
 import { useState, useEffect } from 'react';
-
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../../../Services/Cart/CartService';
 import {
@@ -11,8 +12,8 @@ import {
 import { Product } from '../../../../Shared/Product';
 
 import './ShowItem.scss';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
+
 import { useAuth } from '../../../../Services/UserAuth';
 import {
   updateCartItem,
@@ -44,7 +45,7 @@ export default function SalesItem({ products }: SalesItemProps) {
     };
 
     if (user) fetchWishlist();
-  }, []);
+  }, [user]);
 
   const handleWishlistClick = async (product: Product) => {
     try {
@@ -85,8 +86,6 @@ export default function SalesItem({ products }: SalesItemProps) {
           <div
             key={product.id}
             className="product-card"
-            role="button"
-            tabIndex={0}
             onClick={() => navigate(`/product/${product.id}`)}
           >
             <button
@@ -143,7 +142,7 @@ export default function SalesItem({ products }: SalesItemProps) {
           </div>
         ))}
       </div>
-      {index === products.length ? (
+      {index > 5 && (
         <button
           type="button"
           className="view-all-btn"
@@ -151,8 +150,11 @@ export default function SalesItem({ products }: SalesItemProps) {
         >
           View Less Products
         </button>
-      ) : (
+      )}
+
+      {index < products.length && (
         <button
+        type="button"
           className="view-all-btn"
           onClick={() => setIndex(products.length)}
         >

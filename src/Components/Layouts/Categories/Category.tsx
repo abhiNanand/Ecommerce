@@ -30,6 +30,9 @@ export default function Category() {
         <Link to="/category/electronics" className="category-link">
           Electronics
         </Link>
+        <Link to="/category/jewelery" className="category-link">
+          Jewelery
+        </Link>
       </div>
       <div>
         <h1>{category}</h1>

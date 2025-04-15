@@ -111,7 +111,7 @@ export default function Login() {
           </div>
         </form>
         <p>
-          Don't have account? <Link to={ROUTES.SIGNUP}>Signup</Link>
+          Dongt't have account? <Link to={ROUTES.SIGNUP}>Signup</Link>
         </p>
         {resetEmailSent && (
           <p className="reset-message">Reset email sent! Check your inbox.</p>

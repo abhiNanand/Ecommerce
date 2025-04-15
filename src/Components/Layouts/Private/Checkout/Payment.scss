@@ -78,20 +78,7 @@ $border-radius: 12px;
       background-color: $dark-gray;
     }
   }
-
-  .spinner {
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-  }
-
-  @keyframes spin {
-    0% { transform: rotate(0); }
-    100% { transform: rotate(360deg); }
-  }
+ 
 
   .transaction-info {
     margin: 1.5rem 0;

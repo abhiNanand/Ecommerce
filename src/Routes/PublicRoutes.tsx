@@ -14,6 +14,7 @@ import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
 import Wishlist from '../Components/Layouts/Private/Wishlist/Wishlist';
 import Cart from '../Components/Layouts/Private/Cart/Cart';
+import BuyNow from '../Components/Layouts/BuyNow/BuyNow';
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
   {
@@ -75,5 +76,10 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     path: ROUTES_CONFIG.CART.path,
     element: <Cart />,
     title: ROUTES_CONFIG.CART.title,
+  },
+  {
+    path: ROUTES_CONFIG.BUY.path,
+    element: <BuyNow />,
+    title: ROUTES_CONFIG.BUY.title,
   },
 ];

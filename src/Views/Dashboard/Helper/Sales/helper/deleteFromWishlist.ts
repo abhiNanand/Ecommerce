@@ -13,13 +13,11 @@ export default async function DeleteFromWishlist(item: Product) {
     );
 
     if (!wishlistItem) {
-      alert('item not found in wishlist');
       return;
     }
 
     // Check if firebaseId is defined
     if (!wishlistItem.firebaseId) {
-      alert('Item does not have a firebaseId');
       return;
     }
     await removeFromWishlist(wishlistItem.firebaseId);

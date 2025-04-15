@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import assets from '../../../../assets';
 import './JblBanner.scss';
 
 function JblBanner() {
+  const navigate = useNavigate();
   const targetDate = new Date('2025-08-25T23:59:59');
   targetDate.setDate(targetDate.getDate() + 5);
 
@@ -62,7 +64,11 @@ function JblBanner() {
             <p>Seconds</p>
           </div>
         </div>
-        <button className="buy-now" type="button">
+        <button
+          className="buy-now"
+          type="button"
+          onClick={() => navigate(`/buy/${12}`)}
+        >
           Buy Now!
         </button>
       </div>

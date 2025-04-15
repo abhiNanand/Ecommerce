@@ -21,10 +21,12 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-await setPersistence(auth, browserLocalPersistence);
+(async () => {
+  await setPersistence(auth, browserLocalPersistence);
+})();
+
 export const googleProvider = new GoogleAuthProvider();
 
-// Initialize Firestore
 export const db = getFirestore(app);
 
 export default app;

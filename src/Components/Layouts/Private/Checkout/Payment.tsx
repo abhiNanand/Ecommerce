@@ -108,7 +108,7 @@ function Payment({ Items }: SalesItemProps) {
           onClick={sendPayment}
           disabled={isProcessing}
         >
-          {isProcessing ? <p className="spinner"> Processing...</p> : 'Pay'}
+          {isProcessing ? <p> Processing...</p> : 'Pay'}
         </button>
       )}
 
@@ -163,24 +163,3 @@ function Payment({ Items }: SalesItemProps) {
 }
 
 export default Payment;
-
-// </div>
-
-/*
-      {openn && (
-        <div className="place-order-container">
-          <div className="place-order">
-            <h2>Order Placed</h2>
-            <p>Your order has been successfully placed!</p>
-            <button
-              className="place-order-btn"
-              onClick={() => {
-                navigate(ROUTES.HOMEPAGE);
-                setOpenn(false);
-              }}
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </div>
-      )} */

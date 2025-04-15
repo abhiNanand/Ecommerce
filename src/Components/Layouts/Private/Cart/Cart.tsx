@@ -118,12 +118,7 @@ export default function Cart() {
             <p>No items in the cart</p>
           ) : (
             cartItems.map((product) => (
-              <div
-                className="cart-row"
-                key={product.id}
-                role="button"
-                tabIndex={0}
-              >
+              <div className="cart-row" key={product.id}>
                 <span>
                   <img
                     src={product.image}
