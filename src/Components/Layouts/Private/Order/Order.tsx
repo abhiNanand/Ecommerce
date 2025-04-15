@@ -26,7 +26,7 @@ export default function Order() {
 
   return (
     <div className="order-page">
-      <h2> Order</h2>
+      <h2>Your Order</h2>
       {orders.length === 0 ? (
         <p>No orders found.</p>
       ) : (

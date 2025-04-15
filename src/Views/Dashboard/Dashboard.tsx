@@ -46,7 +46,6 @@ export default function Dashboard() {
   return (
     <div className="dashboard">
       <div className="top-banner">
-        {/* Sidebar Categories */}
         <div className="banner-categories">
           <h3>Categories</h3>
           <Link to="/category/women's clothing" className="category-link">
@@ -58,23 +57,8 @@ export default function Dashboard() {
           <Link to="/category/electronics" className="category-link">
             Electronics
           </Link>
-          <Link to="/category/medicine" className="category-link">
-            Medicine
-          </Link>
-          <Link to="/category/home-lifestyle" className="category-link">
-            Home & Lifestyle
-          </Link>
-          <Link to="/category/sports-outdoor" className="category-link">
-            Sports & Outdoor
-          </Link>
-          <Link to="/category/baby-toys" className="category-link">
-            Baby & Toys
-          </Link>
-          <Link to="/category/groceries-pets" className="category-link">
-            Groceries & Pets
-          </Link>
-          <Link to="/category/health-beauty" className="category-link">
-            Health & Beauty
+          <Link to="/category/jewelery" className="category-link">
+            Jewelery
           </Link>
         </div>
 

@@ -13,7 +13,6 @@ import { Product } from '../../../../Shared/Product';
 import './ShowItem.scss';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useAuth } from '../../../../Services/UserAuth';
 import {
   updateCartItem,

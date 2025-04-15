@@ -1,14 +1,31 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 import { ethers } from 'ethers';
-import './Payment.scss';
+import { RootState } from '../../../../Store';
+import { addToOrderHistory } from '../../../../Services/Order/order';
+import { removePreviousAddress } from '../../../../Store/Address/AddressSlice';
+import { ROUTES } from '../../../../Shared/Constants';
 
-const Payment: React.FC = () => {
+import './Payment.scss';
+import { Product } from '../../../../Shared/Product';
+
+interface SalesItemProps {
+  Items: Product[];
+}
+
+function Payment({ Items }: SalesItemProps) {
   const [account, setAccount] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [paymentStatus, setPaymentStatus] = useState<
     'success' | 'failure' | null
   >(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const address = useSelector((state: RootState) => state.address);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const connectWallet = async (): Promise<void> => {
     if ((window as any).ethereum) {
@@ -37,7 +54,10 @@ const Payment: React.FC = () => {
       alert('Please connect your wallet first');
       return;
     }
-
+    if (address.name.trim() == '') {
+      toast.error('address not selected');
+      return;
+    }
     setIsProcessing(true);
     setPaymentStatus(null);
     setTransactionHash('');
@@ -60,6 +80,9 @@ const Payment: React.FC = () => {
 
       setTransactionHash(transaction.hash);
       setPaymentStatus('success');
+      addToOrderHistory(Items, address);
+      dispatch(removePreviousAddress());
+      setTimeout(() => setOpen(true), 2000);
     } catch (err) {
       console.error('Transaction failed:', err);
       setPaymentStatus('failure');
@@ -85,14 +108,7 @@ const Payment: React.FC = () => {
           onClick={sendPayment}
           disabled={isProcessing}
         >
-          {isProcessing ? (
-            <>
-              <span className="spinner" />
-              Processing...
-            </>
-          ) : (
-            'Send 0.0001 ETH'
-          )}
+          {isProcessing ? <p className="spinner"> Processing...</p> : 'Pay'}
         </button>
       )}
 
@@ -116,8 +132,55 @@ const Payment: React.FC = () => {
             : '❌ Payment failed. Please try again.'}
         </div>
       )}
+
+      {open && (
+        <div className="place-order-container">
+          <div className="place-order">
+            <h2>Order Confirmed</h2>
+            <p>Your order will be placed successfully!</p>
+            <button
+              type="button"
+              className="place-order-btn"
+              onClick={() => navigate(ROUTES.ORDER)}
+            >
+              View Order
+            </button>
+            <br />
+            <button
+              className="place-order-btn"
+              onClick={() => {
+                navigate(ROUTES.HOMEPAGE);
+                setOpen(false);
+              }}
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
-};
+}
 
 export default Payment;
+
+// </div>
+
+/*
+      {openn && (
+        <div className="place-order-container">
+          <div className="place-order">
+            <h2>Order Placed</h2>
+            <p>Your order has been successfully placed!</p>
+            <button
+              className="place-order-btn"
+              onClick={() => {
+                navigate(ROUTES.HOMEPAGE);
+                setOpenn(false);
+              }}
+            >
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      )} */

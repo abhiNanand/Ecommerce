@@ -40,13 +40,12 @@
     color: red;
   }
   
-  /* Banner Section */
-  .banner-section {
+   .banner-section {
     width: 100%;
+    margin-top:2%;
   }
   
-  /* 📌 Responsive Styles */
-  @media (max-width: 768px) {
+   @media (max-width: 768px) {
     .top-banner {
       flex-direction: column;
       align-items: center;

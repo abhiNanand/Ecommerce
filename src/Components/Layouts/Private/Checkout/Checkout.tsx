@@ -1,24 +1,16 @@
 import './Checkout.scss';
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { removePreviousAddress } from '../../../../Store/Address/AddressSlice';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
 import CheckoutForm from './CheckoutForm';
-import { ROUTES } from '../../../../Shared/Constants';
-import { RootState } from '../../../../Store';
-import { addToOrderHistory } from '../../../../Services/Order/order';
+
 import Payment from './Payment';
 
 export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [coupean, setCoupean] = useState<string>('');
-  const [openn, setOpenn] = useState<boolean>(false);
-  const address = useSelector((state: RootState) => state.address);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+
   const { user } = useAuth();
 
   useEffect(() => {
@@ -46,17 +38,6 @@ export default function Checkout() {
       alert('enter a valid token');
     }
     setCoupean('');
-  };
-
-  const placeOrderClick = async () => {
-    if (address.name.trim() == '') {
-      alert('please select/add address');
-      return;
-    }
-
-    addToOrderHistory(cartItems, address);
-    dispatch(removePreviousAddress());
-    setOpenn(true);
   };
 
   return (
@@ -94,7 +75,6 @@ export default function Checkout() {
           <span>${calculateTotal().toFixed(2)}</span>
         </div>
         <div className="checkout-payment">
-          <Payment />
           <div className="coupon-section">
             <input
               type="text"
@@ -106,32 +86,9 @@ export default function Checkout() {
               Apply Coupon
             </button>
           </div>
-          <button
-            type="button"
-            className="placeorder-btn"
-            onClick={() => placeOrderClick()}
-          >
-            Place Order
-          </button>
+          <Payment Items={cartItems} />
         </div>
       </div>
-      {openn && (
-        <div className="place-order-container">
-          <div className="place-order">
-            <h2>Order Placed</h2>
-            <p>Your order has been successfully placed!</p>
-            <button
-              className="place-order-btn"
-              onClick={() => {
-                navigate(ROUTES.HOMEPAGE);
-                setOpenn(false);
-              }}
-            >
-              Continue Shopping
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

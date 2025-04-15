@@ -10,7 +10,6 @@ import { useAuth } from '../../../Services/UserAuth';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 import { addToCart } from '../../../Services/Cart/CartService';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
