@@ -3,12 +3,15 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../../Services/Api/module/demoApi';
 import CheckoutForm from '../Private/Checkout/CheckoutForm';
+import {toast} from 'react-toastify';
 
 import Payment from '../Private/Checkout/Payment';
 
 export default function BuyNow() {
   const [coupean, setCoupean] = useState<string>('');
   const { productId } = useParams();
+  const [discount,setDiscount]=useState<number>(0);
+  const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false); 
 
   const {
     data: product,
@@ -29,9 +32,20 @@ export default function BuyNow() {
   }
 
   const handleButtonClick = () => {
-    if (coupean.trim() === '') alert('please enter a valid token');
+
+    if (coupean== 'SAVE20')
+    {
+      if(isCouponApplied)
+      {
+        toast.error("coupean already applied on this purchase");
+        return;
+      }
+      toast.success("Congrats $20 OFF");
+      setDiscount(20);
+      setIsCouponApplied(true);
+    }
     else {
-      alert('enter a valid token');
+      toast.error('enter a valid token');
     }
     setCoupean('');
   };
@@ -56,7 +70,7 @@ export default function BuyNow() {
           </div>
         </div>
         <div className="checkout-subtotal">
-          <p>Subtotal: ${product.price}</p>
+          <p>Subtotal: ${(product.price).toFixed(2)}</p>
         </div>
         <hr />
         <div className="checkout-shipping">
@@ -66,7 +80,7 @@ export default function BuyNow() {
         <hr />
         <div className="checkout-total">
           <p>Total</p>
-          <span>${product.price}</span>
+          <span>${(product.price - discount).toFixed(2)}</span>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">

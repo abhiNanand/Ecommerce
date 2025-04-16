@@ -2,6 +2,7 @@ import assets from '../../../assets';
 import './Contact.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { toast } from 'react-toastify';
 
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { NavLink } from 'react-router-dom';
@@ -43,8 +44,8 @@ export default function Contact() {
         message: values.message,
         createdAt: serverTimestamp(),
       });
-      alert('Message send successfully! We will contact you soon');
-      resetForm({ values: { name: '', email: '', phone: '', message: '' } });
+      toast('Message send successfully! We will contact you soon');
+      resetForm();
     },
   });
 

@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
+import { toast } from 'react-toastify';
 import CheckoutForm from './CheckoutForm';
 
 import Payment from './Payment';
@@ -10,6 +11,8 @@ import Payment from './Payment';
 export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [coupean, setCoupean] = useState<string>('');
+  const [discount,setDiscount]=useState<number>(0);
+  const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false); 
 
   const { user } = useAuth();
 
@@ -33,9 +36,20 @@ export default function Checkout() {
   };
 
   const handleButtonClick = () => {
-    if (coupean.trim() === '') alert('please enter a valid token');
+
+    if (coupean== 'SAVE20')
+    {
+      if(isCouponApplied)
+      {
+        toast.error("coupean already applied on this purchase");
+        return;
+      }
+      toast.success("Congrats $20 OFF");
+      setDiscount(20);
+      setIsCouponApplied(true);
+    }
     else {
-      alert('enter a valid token');
+      toast.error('enter a valid token');
     }
     setCoupean('');
   };
@@ -72,7 +86,7 @@ export default function Checkout() {
         <hr />
         <div className="checkout-total">
           <p>Total</p>
-          <span>${calculateTotal().toFixed(2)}</span>
+          <span>${(calculateTotal() - discount).toFixed(2) }</span>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">

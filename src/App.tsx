@@ -21,7 +21,7 @@ const router = createBrowserRouter(
 function App() {
   return (
     <Provider store={store}>
-      <ToastContainer autoClose={500} limit={2} />
+      <ToastContainer autoClose={1500} limit={2} />
       <PersistGate persistor={persistor}>
         <HelmetProvider>
           <RouterProvider router={router} />

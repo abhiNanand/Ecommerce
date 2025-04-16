@@ -80,6 +80,7 @@ max-width: 300px;
     align-items: center;
     gap: 10px; /* Responsive spacing between buttons */
     width: 100%;
+    margin-bottom: 2%;
 }
 
 /* Login Button */
@@ -147,6 +148,7 @@ max-width: 300px;
     .button-group {
         flex-direction: column;
         gap: 15px;
+        
     }
 
     .login-container #login-btn, .login-container .forgot-password {

@@ -15,6 +15,7 @@ import {
 } from '../../../../Store/Address/AddressSlice';
 import './Checkout.scss';
 
+
 interface FormValues {
   name: string;
   companyName: string;
@@ -253,6 +254,7 @@ export default function CheckoutForm() {
             name="emailAddress"
             value={formik.values.emailAddress}
             onChange={formik.handleChange}
+           
           />
           <br />
           {formik.touched.emailAddress && formik.errors.emailAddress && (
@@ -264,7 +266,9 @@ export default function CheckoutForm() {
             id="billing-checkbox"
             onChange={(e) => {
               if (e.target.checked) formik.handleSubmit();
+             
             }}
+            checked={false}
           />
           <label htmlFor="billing-checkbox">
             save this information for faster check-out next time

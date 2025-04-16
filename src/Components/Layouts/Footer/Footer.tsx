@@ -9,7 +9,7 @@ export default function Footer() {
   return (
     <footer className="footer-container">
       <div className="footer-content">
-        <div className="footer-section">
+        {/* <div className="footer-section">
           <h3>Exclusive</h3>
           <p>Subscribe</p>
           <p>Get 10% off your first order</p>
@@ -26,7 +26,7 @@ export default function Footer() {
               </button>
             </form>
           </div>
-        </div>
+        </div> */}
 
         <div className="footer-section">
           <h3>Support</h3>
@@ -53,9 +53,9 @@ export default function Footer() {
 
         <div className="footer-section">
           <h3>Quick Links</h3>
-          <p>Privacy Policy</p>
-          <p>Terms of Use</p>
-          <p>FAQs</p>
+          <Link to={ROUTES.BROWSE}>Privacy Policy</Link><br />
+          <Link to={ROUTES.BROWSE}>Terms of Use</Link><br />
+          <Link to={ROUTES.BROWSE}>FAQs</Link><br />
         </div>
 
         <div className="download-app-container">

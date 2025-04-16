@@ -4,13 +4,17 @@ import { useState } from 'react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  signInWithPopup,
 } from 'firebase/auth';
+import {doc,setDoc,getDoc} from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
-import { auth } from '../../../Services/firebase/firebase';
+import { auth,googleProvider,db } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
+import {toast} from 'react-toastify';
+import { SpinnerLoader } from '../../Dashboard/Loaders/Loaders';
 import './Login.scss';
 
 interface FormValues {
@@ -22,6 +26,7 @@ export default function Login() {
   const [resetEmailSent, setResetEmailSent] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [loading,setLoading]=useState<boolean>(false);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -75,9 +80,43 @@ export default function Login() {
     }
   };
 
+  const handleGoogleSignIn=async()=>{
+   try{
+    const result = await signInWithPopup(auth,googleProvider);
+    const {user} = result;
+    const token = await user.getIdToken();
+
+    dispatch(updateAuthTokenRedux({token,user:{
+      displayName:user.displayName,
+      email:user.email,
+    },}));
+
+    const userRef = doc(db,'users',user.uid);
+    const userSnap= await getDoc(userRef);
+
+    if(!userSnap.exists())
+    {
+      await setDoc(userRef,{
+        uid:user.uid,
+        email:user.email,
+        displayName:user.displayName ?? 'Anonymous',
+      });
+    }
+      toast.success('🎉 Signed in with Google successfully!');
+      navigate(ROUTES.HOMEPAGE);
+
+   }
+   catch (error: any) {
+         console.error(error.message);
+         toast.error('❌ Google Sign-In failed! Try again.');
+       }
+  }
+ 
   return (
     <div className="login-signup-container">
-      <div className="shop-img-container">
+      {loading?(      <div className="loader">
+         <SpinnerLoader/>
+      </div>):(<> <div className="shop-img-container">
         <img src={assets.images.shopping} alt="shopping_image" />
       </div>
 
@@ -128,6 +167,9 @@ export default function Login() {
               Forgot Password?
             </button>
           </div>
+          <button type="button" id="google-btn" onClick={()=>{setLoading(true);handleGoogleSignIn();}}>
+            <img id="google-img" src={assets.icon.googleImg} alt="Google"/> Sign up with Google
+          </button>
         </form>
 
         <p>
@@ -137,7 +179,8 @@ export default function Login() {
         {resetEmailSent && (
           <p className="reset-message">Reset email sent! Check your inbox.</p>
         )}
-      </div>
+      </div></>)}
+     
     </div>
   );
 }

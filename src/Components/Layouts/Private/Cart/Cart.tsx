@@ -117,7 +117,7 @@ export default function Cart() {
                     onClick={() => navigate(`/product/${product.id}`)}
                   />
                 </span>
-                <span>₹{product.price}</span>
+                <span>${product.price}</span>
 
                 <span>
                   {product.quantity == 1 ? (
@@ -164,7 +164,7 @@ export default function Cart() {
                   </button>
                 </span>
                 <span>
-                  ₹{(product.price * (product.quantity ?? 1)).toFixed(2)}
+                  ${(product.price * (product.quantity ?? 1)).toFixed(2)}
                 </span>
                 <span />
               </div>
@@ -182,9 +182,9 @@ export default function Cart() {
       <div className="cart-summary">
         <div className="cart-total">
           <h3>Cart Total</h3>
-          <p>Subtotal: ₹{calculateTotal().toFixed(2)}</p>
+          <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
           <p>Shipping: Free</p>
-          <p>Total: ₹{calculateTotal().toFixed(2)}</p>
+          <p>Total: ${calculateTotal().toFixed(2)}</p>
           {cartItems.length != 0 && (
             <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
               Proceed to Checkout

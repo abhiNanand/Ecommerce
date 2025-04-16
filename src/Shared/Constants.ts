@@ -21,6 +21,7 @@ const ROUTES = {
   SEARCH: '/search/:query',
   ORDER: '/order',
   BUY: '/buy/:productId',
+  BROWSE:'/browse',
 };
 
 const ROUTES_CONFIG = {
@@ -98,6 +99,10 @@ const ROUTES_CONFIG = {
   BUY: {
     path: ROUTES.BUY,
     title: 'buyproduct',
+  },
+  BROWSE:{
+    path:ROUTES.BROWSE,
+    title:'product'
   },
 };
 export { ROUTES, ROUTES_CONFIG };
