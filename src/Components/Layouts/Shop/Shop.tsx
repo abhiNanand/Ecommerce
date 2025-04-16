@@ -13,6 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store/index';
 import { useAuth } from '../../../Services/UserAuth';
+import { SpinnerLoader } from '../../../Views/Dashboard/Loaders/Loaders';
 
 export default function Shop() {
   const { user } = useAuth();
@@ -28,7 +29,13 @@ export default function Shop() {
   const [maxPrice, setMaxPrice] = useState<number>(Infinity);
 
   if (error) return <h2>Error loading products</h2>;
-  if (isLoading) return <h2>Loading...</h2>;
+  if (isLoading){
+      return (
+        <div className="loader">
+           <SpinnerLoader/>
+        </div>
+      );
+    }
 
   // Handlers
   const handleCategoryChange = (category: string) => {

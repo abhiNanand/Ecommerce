@@ -82,7 +82,9 @@ function Payment({ Items }: SalesItemProps) {
       setPaymentStatus('success');
       addToOrderHistory(Items, address);
       dispatch(removePreviousAddress());
+
       setTimeout(() => setOpen(true), 2000);
+  
     } catch (err) {
       console.error('Transaction failed:', err);
       setPaymentStatus('failure');

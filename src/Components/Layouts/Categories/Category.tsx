@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
-
+import { RippleLoader} from '../../../Views/Dashboard/Loaders/Loaders';
 import './Category.scss';
 
 export default function Category() {
@@ -13,7 +13,14 @@ export default function Category() {
     isLoading,
   } = useGetProductByCategoryQuery(category);
 
-  if (isLoading) return <p>Loading related products...</p>;
+  if (isLoading){
+      return (
+        <div className="loader">
+           <RippleLoader/>
+        </div>
+      );
+    }
+    
   if (error) return <p>Error loading related products.</p>;
   if (relatedProducts?.length === 0) return <p>No related products found.</p>;
 

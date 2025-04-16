@@ -12,6 +12,7 @@ import { addToCart } from '../../../Services/Cart/CartService';
 import { toast } from 'react-toastify';
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
+import { RippleLoader} from '../../../Views/Dashboard/Loaders/Loaders';
 
 function ProductDetails() {
   const { productId } = useParams();
@@ -36,8 +37,12 @@ function ProductDetails() {
     return <h1>Error loading product</h1>;
   }
 
-  if (productLoading) {
-    return <h1>Loading...</h1>;
+  if (productLoading ){
+    return (
+      <div className="loader">
+         <RippleLoader/>
+      </div>
+    );
   }
 
   if (!product) {
@@ -101,7 +106,9 @@ function ProductDetails() {
         </div>
 
         {relatedLoading ? (
-          <p>Loading related products...</p>
+         <div className="loader">
+         <RippleLoader/>
+      </div>
         ) : relatedError ? (
           <p>Error loading related products.</p>
         ) : relatedProducts?.length ? (

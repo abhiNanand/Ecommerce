@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { Product } from '../../../Shared/Product';
 import { addToCart } from '../../../Services/Cart/CartService';
+import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
 
 export default function SearchItem() {
   const { query } = useParams();
@@ -12,7 +13,13 @@ export default function SearchItem() {
   const navigate = useNavigate();
 
   if (!query) return <div>No search query provided</div>;
-  if (isLoading) return <h1>Loading...</h1>;
+   if (isLoading){
+        return (
+          <div className="loader">
+             <RippleLoader/>
+          </div>
+        );
+      }
   if (error) return <h1>Error in loading items</h1>;
 
   const lowerQuery = query.toLowerCase();

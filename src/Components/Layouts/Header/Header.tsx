@@ -6,7 +6,7 @@ import {
   ShoppingBag,
   LogOut,
 } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate ,useLocation} from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,6 +37,13 @@ export default function Header() {
   const wishlistCount = useSelector(
     (state: RootState) => state.item.noOfWishlistItem
   );
+  const location = useLocation();
+
+  useEffect(() => {
+    const isSearchPage =  location.pathname.startsWith('/search');
+    if(!isSearchPage)
+      setSearchQuery('');
+  }, [location.pathname]);
 
   useEffect(() => {
     const fetchItemCounts = async () => {
@@ -70,7 +77,8 @@ export default function Header() {
     <header className="navbar">
       <div className="navbar-container">
         <div className="brand">
-          <h1>Exclusive</h1>
+
+          <Link to={ROUTES.SHOP}>EXCLUSIVE</Link>
         </div>
 
         <nav className="nav-links">
@@ -79,8 +87,8 @@ export default function Header() {
           <Link to="/about">About</Link>
           {!isAuthenticated && <Link to={ROUTES.LOGIN}>Login</Link>}
         </nav>
-
-        <div className="search-box" onBlur={() => setSearchQuery('')}>
+        {/* onBlur={() => setSearchQuery('')} */}
+        <div className="search-box">
           <input
             type="text"
             placeholder="What are you looking for?"

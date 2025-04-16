@@ -1,7 +1,11 @@
 import './BrowseCategory.scss';
 import assets from '../../../../assets';
+import {useNavigate} from 'react-router-dom';
 
 export default function BrowseCategory() {
+
+  const navigate = useNavigate();
+
   const categories = [
     { name: 'Phone', icon: assets.icon.cellPhone },
     { name: 'Computer', icon: assets.icon.computer },
@@ -10,7 +14,7 @@ export default function BrowseCategory() {
     { name: 'Headphone', icon: assets.icon.headPhone },
     { name: 'Gamepad', icon: assets.icon.gamepad },
   ];
-
+  
   return (
     <div className="browse-category-container">
       <div className="category-header">
@@ -20,7 +24,7 @@ export default function BrowseCategory() {
       <h1 className="category-subtitle">Browse By Category</h1>
       <div className="category-grid">
         {categories.map((item) => (
-          <div className="category-item" key={item.name}>
+          <div className="category-item" key={item.name} onClick={()=>navigate(`/browse/${item.name}`)} >
             <img src={item.icon} alt={item.name} className="category-icon" />
             <p className="category-label">{item.name}</p>
           </div>

@@ -18,7 +18,6 @@ import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
 import { ROUTES } from '../../../../Shared/Constants';
 import './Cart.scss';
-import assets from '../../../../assets';
 
 import { updateCartItem } from '../../../../Store/Item/total_item_slice';
 import { RootState } from '../../../../Store';
@@ -96,16 +95,6 @@ export default function Cart() {
         <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
         <NavLink to={ROUTES.ACCOUNT}> Account</NavLink>
       </p>
-      <img
-        src={assets.icon.mastercard}
-        alt="payment"
-        width="37px"
-        height="37px"
-      />
-      <img src={assets.icon.visa} alt="payment" width="37px" height="37px" />
-      <img src={assets.icon.nagad} alt="payment" width="37px" height="37px" />
-      <img src={assets.icon.rupay} alt="payment" width="37px" height="37px" />
-
       <div className="cart-table">
         <div className="cart-header">
           <span>Product</span>

@@ -42,6 +42,7 @@ import accountant from './profile/accountant.png';
 import contentwriter from './profile/contentwriter.png';
 import designer from './profile/designer.png';
 import designLead from './profile/designLead.png';
+
 import director from './profile/director.png';
 import founder from './profile/founder.png';
 import marketingManager from './profile/marketingManager.png';

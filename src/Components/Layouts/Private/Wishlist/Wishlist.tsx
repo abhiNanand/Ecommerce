@@ -33,8 +33,13 @@ export default function Wishlist() {
         setWishlistItems([]);
         return;
       }
-      const items = await getWishlistItems();
-      setTimeout(()=>setWishlistItems(items),500);
+      const fetchWishlistItems = async()=>
+      {
+        const items = await getWishlistItems();
+        setWishlistItems(items);
+      }
+     
+      setTimeout(()=>fetchWishlistItems(),500);
       
     };
 
@@ -60,13 +65,7 @@ export default function Wishlist() {
     dispatch(updateWishlistItem(wishlistCount - i));
     dispatch(updateCartItem(cartCount + i));
   };
-  // avoid using await inside loop . performance issue is there.
-  //   const handleMoveAllToBag = async () => {
-  //     for (const item of wishlistItems) {
-  //       await addToCart(item);
-  //       await handleDelete(item.id);
-  //     }
-  //   };
+
 
   if (!user) {
     return (

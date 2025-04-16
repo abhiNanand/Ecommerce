@@ -21,22 +21,23 @@ import ShowItem from './Helper/Sales/ShowItem';
 import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
+import { SpinnerLoader } from './Loaders/Loaders';
 
 export default function Dashboard() {
   const { data: products, error, isLoading } = useGetProductQuery(null);
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl font-semibold">Loading products...</p>
+      <div className="loader">
+         <SpinnerLoader/>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <p className="text-xl font-semibold text-red-600">
+      <div>
+        <p>
           Error loading products. Please try again later.
         </p>
       </div>

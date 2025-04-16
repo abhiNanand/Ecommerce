@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import {
   createUserWithEmailAndPassword,
   updateProfile,
@@ -7,139 +8,152 @@ import {
 } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-
 import { doc, setDoc, getDoc } from 'firebase/firestore';
-import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
 
+import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
 import { ROUTES } from '../../../Shared/Constants';
 
 import '../Login/Login.scss';
 
+interface FormValues {
+  name: string;
+  email: string;
+  password: string;
+}
+
 export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const { user } = userCredential;
+  const formik = useFormik<FormValues>({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required('Name is required'),
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+        const { user } = userCredential;
 
-      await updateProfile(user, { displayName: name });
-      toast.success('🎉 Account created successfully!');
+        await updateProfile(user, { displayName: values.name });
 
-      // storing user in firebase
-      await setDoc(doc(db, 'users', user.uid), {
-        uid: user.uid,
-        email: user.email,
-        displayName: name,
-      });
+        await setDoc(doc(db, 'users', user.uid), {
+          uid: user.uid,
+          email: user.email,
+          displayName: values.name,
+        });
 
-      setTimeout(() => navigate(ROUTES.LOGIN), 3000);
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error('❌ Sign-up failed! Try again.');
+        toast.success('🎉 Account created successfully!');
+        resetForm();
+        setTimeout(() => navigate(ROUTES.LOGIN), 2000);
+      } catch (error: any) {
+        if (error.code === 'auth/email-already-in-use') {
+          toast.error('❌ Email already in use');
+        } else {
+          toast.error('❌ Sign-up failed. Please try again.');
+          console.error(error.message);
+        }
       }
-    }
-  };
+    },
+  });
 
-  // Google Sign-In
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
-      const token = await result.user.getIdToken();
       const { user } = result;
+      const token = await user.getIdToken();
+
       dispatch(
         updateAuthTokenRedux({
           token,
           user: {
-            displayName: result.user.displayName,
-            email: result.user.email,
+            displayName: user.displayName,
+            email: user.email,
           },
         })
       );
-      toast.success('🎉 Signed in with Google successfully!');
 
-      // storing in firestore
-      // first checking if user is exist or not
+      // Checking if user already exists in Firestore
       const userRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
-        console.log('wi');
-        await setDoc(doc(db, 'users', user.uid), {
+        await setDoc(userRef, {
           uid: user.uid,
           email: user.email,
-          displayName: user.displayName || 'anonymous',
+          displayName: user.displayName ?? 'Anonymous',
         });
       }
+
+      toast.success('🎉 Signed in with Google successfully!');
       navigate(ROUTES.HOMEPAGE);
-    } catch (error) {
-      if (error instanceof Error) {
-        console.error(error.message);
-        toast.error('❌ Google Sign-In failed! Try again.');
-      }
+    } catch (error: any) {
+      console.error(error.message);
+      toast.error('❌ Google Sign-In failed! Try again.');
     }
   };
+
   return (
     <div className="login-signup-container">
       <div className="shop-img-container">
-        <img src={assets.images.shopping} alt="shopping image" />
+        <img src={assets.images.shopping} alt="shoppingImage" />
       </div>
 
       <div className="login-container">
         <h1>Create an account</h1>
         <p>Enter your details below</p>
 
-        <form onSubmit={onSubmit}>
+        <form onSubmit={formik.handleSubmit}>
           <div className="input-group">
             <input
               id="name"
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
               placeholder="Name"
+              {...formik.getFieldProps('name')}
             />
+            {formik.touched.name && formik.errors.name && (
+              <div className="error-text">{formik.errors.name}</div>
+            )}
           </div>
 
           <div className="input-group">
             <input
-              id="email-address"
+              id="email"
               type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
               placeholder="Email address"
+              {...formik.getFieldProps('email')}
             />
+            {formik.touched.email && formik.errors.email && (
+              <div className="error-text">{formik.errors.email}</div>
+            )}
           </div>
 
           <div className="input-group">
             <input
               id="password"
               type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
               placeholder="Password"
+              {...formik.getFieldProps('password')}
             />
+            {formik.touched.password && formik.errors.password && (
+              <div className="error-text">{formik.errors.password}</div>
+            )}
           </div>
 
           <button type="submit" id="create-btn">
             Create Account
           </button>
+
           <button type="button" id="google-btn" onClick={handleGoogleSignIn}>
-            <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
-            Sign up with Google
+            <img id="google-img" src={assets.icon.googleImg} alt="Google" /> Sign up with Google
           </button>
         </form>
 
@@ -149,8 +163,6 @@ export default function Signup() {
             <u>Log in</u>
           </NavLink>
         </p>
-
-        {/* Toast Notifications Container */}
       </div>
     </div>
   );
