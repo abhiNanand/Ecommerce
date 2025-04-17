@@ -1,6 +1,7 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate,useLocation } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import {
   useGetProductByIdQuery,
   useGetProductByCategoryQuery,
@@ -20,11 +21,16 @@ function ProductDetails() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
+  const {pathname}=useLocation();
+
+  useEffect(()=>window.scrollTo(0,0),[pathname]);
   const {
     data: product,
     error: productError,
     isLoading: productLoading,
   } = useGetProductByIdQuery(productId);
+
+  
 
   const category: string = product?.category;
   const {

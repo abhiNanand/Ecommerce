@@ -1,4 +1,4 @@
- 
+
 
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -6,7 +6,7 @@ import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { addToCart } from '../../../Services/Cart/CartService';
 import 'react-toastify/dist/ReactToastify.css';
 import { Product } from '../../../Shared/Product';
-import { Star } from 'lucide-react';
+import  Star  from '../../../Views/Dashboard/Helper/Stars/Star';
 import './Shop.scss';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -29,13 +29,13 @@ export default function Shop() {
   const [maxPrice, setMaxPrice] = useState<number>(Infinity);
 
   if (error) return <h2>Error loading products</h2>;
-  if (isLoading){
-      return (
-        <div className="loader">
-           <SpinnerLoader/>
-        </div>
-      );
-    }
+  if (isLoading) {
+    return (
+      <div className="loader">
+        <SpinnerLoader />
+      </div>
+    );
+  }
 
   // Handlers
   const handleCategoryChange = (category: string) => {
@@ -93,22 +93,14 @@ export default function Shop() {
             onChange={() => handleCategoryChange('electronics')}
           />
           <label htmlFor="electronics">Electronics</label>
+          <br/>
+          
         </form>
 
         <h3>Customer Reviews</h3>
-        <form>
-          {[1, 2, 3, 4, 5].map((star) => (
-            <div key={star}>
-              <input
-                type="checkbox"
-                id={`${star}star`}
-                onChange={() => handleRatingChange(star)}
-              />
-              <label htmlFor={`${star}star`}>{star} Star</label>
-            </div>
-          ))}
-        </form>
-
+        <button  onClick={() => handleRatingChange(4)}> <Star rating={4} productId='rating-filter'/> & up
+        </button>
+       
         <h3>Price</h3>
         <form>
           <label htmlFor="min">Min:</label>
@@ -164,17 +156,7 @@ export default function Shop() {
               </button>
               <p className="product-price">${product.price.toFixed(2)}</p>
               <div className="rating">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={`${product.id}-${i}`}
-                    size={16}
-                    className={
-                      i < Math.round(product.rating?.rate ?? 0)
-                        ? 'star filled'
-                        : 'star'
-                    }
-                  />
-                ))}
+                <Star rating={product.rating?.rate} productId={product.id} />
                 <span className="text-sm text-gray-500 ml-2">
                   ({product.rating?.count ?? 0})
                 </span>

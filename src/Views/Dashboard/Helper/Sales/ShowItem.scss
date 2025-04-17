@@ -51,18 +51,8 @@
 
 .rating {
   display: flex;
-  justify-content: center;
+    justify-content: center;
   align-items: center;
-  gap: 2px;
-  margin-top: 10px;
-}
-
-.star {
-  color: #d1d5db;
-}
-
-.star.filled {
-  color: #facc15;
 }
 
 .cart-btn

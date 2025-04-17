@@ -9,7 +9,7 @@ import {
 } from 'lucide-react';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { signOut } from 'firebase/auth';
+import { signOut,onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ROUTES_CONFIG, ROUTES } from '../../../Shared/Constants';
@@ -25,6 +25,8 @@ import {
 } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
 import './Header.scss';
+ 
+ 
 
 export default function Header() {
   const navigate = useNavigate();
@@ -44,24 +46,47 @@ export default function Header() {
     const isSearchPage = location.pathname.startsWith('/search');
     if (!isSearchPage)
       setSearchQuery('');
+    
   }, [location.pathname]);
 
+
   useEffect(() => {
-    const fetchItemCounts = async () => {
-      if (!isAuthenticated) return;
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        await currentUser.reload();  
+        const wishlistItems = await getWishlistItems();
+        const cartItems = await getCartItems();
+        const totalQuantity = cartItems.reduce(
+          (acc, item) => acc + (item.quantity ?? 1),
+          0
+        );
+        dispatch(updateCartItem(totalQuantity));
+        dispatch(updateWishlistItem(wishlistItems.length));
+      } else {
+        dispatch(updateCartItem(0));
+        dispatch(updateWishlistItem(0));
+      }
+    });
 
-      const wishlistItems = await getWishlistItems();
-      const cartItems = await getCartItems();
-      const totalQuantity = cartItems.reduce(
-        (acc, item) => acc + (item.quantity ?? 1),
-        0
-      );
-      dispatch(updateCartItem(totalQuantity));
-      dispatch(updateWishlistItem(wishlistItems.length));
-    };
-
-    setTimeout(() => fetchItemCounts(), 500);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai
+    return () => unsubscribe(); // cleanup
   }, [user]);
+
+  // useEffect(() => {
+  //   const fetchItemCounts = async () => {
+  //     if (!isAuthenticated) return;
+
+  //     const wishlistItems = await getWishlistItems();
+  //     const cartItems = await getCartItems();
+  //     const totalQuantity = cartItems.reduce(
+  //       (acc, item) => acc + (item.quantity ?? 1),
+  //       0
+  //     );
+  //     dispatch(updateCartItem(totalQuantity));
+  //     dispatch(updateWishlistItem(wishlistItems.length));
+  //   };
+
+  //   fetchItemCounts();
+  // }, [user]);
   const handleLogout = async () => {
     await signOut(auth);
     dispatch(logoutUser());

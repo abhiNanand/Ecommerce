@@ -1,15 +1,20 @@
-import { Star, Heart } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Heart } from 'lucide-react';
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../../../../Services/Cart/CartService';
+import Star from '../Stars/Star';
 import {
   addToWishlist,
   getWishlistItems,
   removeFromWishlist,
 } from '../../../../Services/Wishlist/WishlistService';
 import { Product } from '../../../../Shared/Product';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../../../Services/firebase/firebase';
+
+//import { getCartItems } from '../../../../Services/Cart/CartService';
 
 import './ShowItem.scss';
 
@@ -20,14 +25,18 @@ import {
   updateWishlistItem,
 } from '../../../../Store/Item/total_item_slice';
 import { RootState } from '../../../../Store/index';
+import { ROUTES } from '../../../../Shared/Constants';
 
 interface SalesItemProps {
   products: Product[];
 }
 
+const LIMIT = 5;
+
 export default function SalesItem({ products }: SalesItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
-  const [index, setIndex] = useState<number>(5);
+  
+  const [index, setIndex] = useState<number>(LIMIT);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -37,15 +46,22 @@ export default function SalesItem({ products }: SalesItemProps) {
   );
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const fetchWishlist = async () => {
-      const wishlist = await getWishlistItems();
-      const likedProductIds = new Set(wishlist.map((item) => item.id));
-      setTimeout(()=>setLikedItems(likedProductIds),500);
-    };
+ 
 
-    if (user) fetchWishlist();
-  }, [user]);
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          await currentUser.reload();  
+          const wishlist = await getWishlistItems();
+        const likedProductIds = new Set(wishlist.map((item) => item.id));
+        setLikedItems(likedProductIds)
+        }
+      });
+  
+      return () => unsubscribe(); // cleanup
+    }, [user]);
+
+
 
   const handleWishlistClick = async (product: Product) => {
     try {
@@ -79,14 +95,22 @@ export default function SalesItem({ products }: SalesItemProps) {
     }
   }; //
 
+  const productsToShow = useMemo(() => {
+     if(index === LIMIT){
+       return products.slice(0,LIMIT);
+      }else{
+       return products;
+     }
+  }, [products, index])
+
   return (
     <>
       <div className="products-grid">
-        {products.slice(0, index)?.map((product: Product) => (
+        {productsToShow?.map((product: Product) => (
           <div
             key={product.id}
             className="product-card"
-            onClick={() => navigate(`/product/${product.id}`)}
+            onClick={() => navigate(ROUTES.PRODUCT_DETAILS.replace(':productId', product.id))}
           >
             <button
               type="button"
@@ -124,17 +148,7 @@ export default function SalesItem({ products }: SalesItemProps) {
             </button>
             <p className="product-price">${product.price.toFixed(2)}</p>
             <div className="rating">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={`${product.id}-${i}`}
-                  size={16}
-                  className={
-                    i < Math.round(product.rating?.rate ?? 0)
-                      ? 'star filled'
-                      : 'star'
-                  }
-                />
-              ))}
+              <Star rating={product.rating?.rate} productId={product.id}/>
               <span className="text-sm text-gray-500 ml-2">
                 ({product.rating?.count ?? 0})
               </span>
@@ -142,11 +156,11 @@ export default function SalesItem({ products }: SalesItemProps) {
           </div>
         ))}
       </div>
-      {index > 5 && (
+      {index > LIMIT && (
         <button
           type="button"
           className="view-all-btn"
-          onClick={() => setIndex(5)}
+          onClick={() => setIndex(LIMIT)}
         >
           View Less Products
         </button>

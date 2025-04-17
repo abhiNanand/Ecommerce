@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
 import { fetchOrders } from '../../../../Services/Order/order';
 import './Order.scss';
 import { Product } from '../../../../Shared/Product';
 import { Address } from '../../../../Services/Address/Address';
- 
+import {auth} from '../../../../Services/firebase/firebase';
 interface OrderData {
   id: string;
   products: Product[];
@@ -16,15 +17,21 @@ interface OrderData {
 export default function Order() {
   const [orders, setOrders] = useState<OrderData[]>([]);
 
-  useEffect(() => {
-    const getOrders = async () => {
-      const data = await fetchOrders();
-      if (data) {
-        setOrders(data);
-      }
-    };
-    getOrders();
-  }, []);
+
+      useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+          if (currentUser) {
+            await currentUser.reload();
+            const data = await fetchOrders();
+            setOrders(data);
+          }
+          else {
+            setOrders([]);
+          }
+        });
+        return ()=>unsubscribe();
+      }, []);
+
 
 
 

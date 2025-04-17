@@ -49,7 +49,7 @@ export default function Checkout() {
       setIsCouponApplied(true);
     }
     else {
-      toast.error('enter a valid token');
+      toast.error('Coupean not found');
     }
     setCoupean('');
   };
@@ -77,6 +77,7 @@ export default function Checkout() {
         </div>
         <div className="checkout-subtotal">
           <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
+          {isCouponApplied&&(<> <p>discount:${discount}</p> <button type="button" onClick={()=>{setIsCouponApplied(false);setDiscount(0);}}>Remove</button></>)}
         </div>
         <hr />
         <div className="checkout-shipping">

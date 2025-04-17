@@ -12,20 +12,25 @@
 //   );
 // }
 
-import './Dashboard.scss';
 import { Link } from 'react-router-dom';
+
 import Banner from './Helper/Banner/Banner';
 import Sales from './Helper/Sales/Sales';
 import BrowseCategory from './Helper/BrowseCategroy/BrowseCategory';
 import ShowItem from './Helper/Sales/ShowItem';
-import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
 import { SpinnerLoader } from './Loaders/Loaders';
 
+import { useGetProductQuery } from '../../Services/Api/module/demoApi';
+
+ 
+
+import './Dashboard.scss';
+
 export default function Dashboard() {
   const { data: products, error, isLoading } = useGetProductQuery(null);
-
+ 
   if (isLoading) {
     return (
       <div className="loader">
@@ -53,7 +58,7 @@ export default function Dashboard() {
             Women&apos;s Fashion
           </Link>
           <Link to="/category/men's clothing" className="category-link">
-            Men&apos;s Fashion
+            {`Men's Fashion`}
           </Link>
           <Link to="/category/electronics" className="category-link">
             Electronics

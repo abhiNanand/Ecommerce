@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import Star from '../../../Views/Dashboard/Helper/Stars/Star';
 import { toast } from 'react-toastify';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { Product } from '../../../Shared/Product';
@@ -13,13 +13,13 @@ export default function SearchItem() {
   const navigate = useNavigate();
 
   if (!query) return <div>No search query provided</div>;
-   if (isLoading){
-        return (
-          <div className="loader">
-             <RippleLoader/>
-          </div>
-        );
-      }
+  if (isLoading) {
+    return (
+      <div className="loader">
+        <RippleLoader />
+      </div>
+    );
+  }
   if (error) return <h1>Error in loading items</h1>;
 
   const lowerQuery = query.toLowerCase();
@@ -66,17 +66,7 @@ export default function SearchItem() {
               </button>
               <p className="product-price">${product.price.toFixed(2)}</p>
               <div className="rating">
-                {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={`${product.id}-${i}`}
-                    size={16}
-                    className={
-                      i < Math.round(product.rating?.rate ?? 0)
-                        ? 'star filled'
-                        : 'star'
-                    }
-                  />
-                ))}
+                <Star rating={product.rating?.rate} productId={product.id} />
                 <span className="text-sm text-gray-500 ml-2">
                   ({product.rating?.count ?? 0})
                 </span>

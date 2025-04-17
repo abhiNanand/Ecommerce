@@ -44,7 +44,7 @@ export default function Contact() {
         message: values.message,
         createdAt: serverTimestamp(),
       });
-      toast('Message send successfully! We will contact you soon');
+      toast('Message sent successfully! We will contact you soon');
       resetForm();
     },
   });

@@ -34,7 +34,7 @@ export default function Banner() {
         {images?.map((item, index) => (
           <div
             role="button"
-            tabIndex={0}
+            tabIndex={index}
             key={item.src}
             className={`dot ${index === currentIndex ? 'active' : ''}`}
             onClick={() => setCurrentIndex(index)}

@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingCart, Trash2, Heart } from 'lucide-react';
+import { onAuthStateChanged } from 'firebase/auth'
 import { useSelector, useDispatch } from 'react-redux';
+import {  auth } from '../../../../Services/firebase/firebase';
 import { Product } from '../../../../Shared/Product';
 import {
   getWishlistItems,
@@ -27,24 +29,20 @@ export default function Wishlist() {
     (state: RootState) => state.item.noOfWishlistItem
   );
 
-  useEffect(() => {
-    const fetchWishlistItems = async () => {
-      if (!user) {
-        setWishlistItems([]);
-        return;
-      }
-      const fetchWishlistItems = async()=>
-      {
-        const items = await getWishlistItems();
-        setWishlistItems(items);
-      }
-     
-      setTimeout(()=>fetchWishlistItems(),500);
-      
-    };
-
-    fetchWishlistItems();
-  }, [user]);
+    useEffect(() => {
+      const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+        if (currentUser) {
+          await currentUser.reload();
+          const wishlistItems = await getWishlistItems();
+          setWishlistItems(wishlistItems);
+        }
+        else {
+          setWishlistItems([]);
+        }
+      });
+      return ()=>unsubscribe();
+    }, [user]);
+  
 
   const handleDelete = async (item: any) => {
     await removeFromWishlist(item.id);
@@ -64,6 +62,7 @@ export default function Wishlist() {
     );
     dispatch(updateWishlistItem(wishlistCount - i));
     dispatch(updateCartItem(cartCount + i));
+    
   };
 
 
@@ -121,6 +120,7 @@ export default function Wishlist() {
                 onClick={(e) => {
                   e.stopPropagation();
                   addToCart(item);
+                  dispatch(updateCartItem(cartCount + 1));
                   handleDelete(item);
                 }}
               >

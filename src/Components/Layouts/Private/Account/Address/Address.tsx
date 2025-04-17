@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import  { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../../../../Services/firebase/firebase';
 import './Address.scss';
 import {
   getAddress,
@@ -6,16 +8,24 @@ import {
 } from '../../../../../Services/Address/Address';
 import type { Address } from '../../../../../Services/Address/Address';
 
-const Address: React.FC = () => {
+const Address = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);
 
-  useEffect(() => {
-    const fetchAddresses = async () => {
-      const result = await getAddress();
+
+        useEffect(() => {
+          const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+              await currentUser.reload();
+              const result = await getAddress();
       setAddresses(result);
-    };
-    fetchAddresses();
-  }, []);
+            }
+            else {
+              setAddresses([]);
+            }
+          });
+          return ()=>unsubscribe();
+        }, []);
+  
 
   const handleDelete = async (id: string | undefined) => {
     if (!id) return;
