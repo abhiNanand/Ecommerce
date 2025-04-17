@@ -21,17 +21,7 @@ export default function MyAccount() {
           <NavLink to={ROUTES.ADDRESS} className="nav-link">
             Address Book
           </NavLink>
-          <NavLink to={ROUTES.ORDER} className="nav-link">
-            My Orders
-          </NavLink>
-          <NavLink to={ROUTES.CART} className="nav-link">
-            View Cart
-          </NavLink>
-          <NavLink to={ROUTES.WISHLIST} className="nav-link">
-            View Wishlist
-          </NavLink>
         </nav>
-
         <div className="myaccount-main">
           <Outlet />
         </div>

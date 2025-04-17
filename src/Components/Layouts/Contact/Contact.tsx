@@ -72,8 +72,7 @@ export default function Contact() {
             <div>
               <h4>Write To Us</h4>
               <p>Fill out our form and we will contact you within 24 hours.</p>
-              <p>Emails: customer@exclusive.com</p>
-              <p>Email: support@exclusive.com</p>
+              <p>Email: customer@exclusive.com, support@exclusive.com </p>
             </div>
           </div>
         </div>

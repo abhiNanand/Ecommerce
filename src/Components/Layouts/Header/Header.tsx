@@ -5,8 +5,9 @@ import {
   User,
   ShoppingBag,
   LogOut,
+
 } from 'lucide-react';
-import { Link, useNavigate ,useLocation} from 'react-router-dom';
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { signOut } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,12 +24,12 @@ import {
   updateWishlistItem,
 } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
-
 import './Header.scss';
 
 export default function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
+  const [openLogout, setOpenLogout] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useAuth();
@@ -40,8 +41,8 @@ export default function Header() {
   const location = useLocation();
 
   useEffect(() => {
-    const isSearchPage =  location.pathname.startsWith('/search');
-    if(!isSearchPage)
+    const isSearchPage = location.pathname.startsWith('/search');
+    if (!isSearchPage)
       setSearchQuery('');
   }, [location.pathname]);
 
@@ -52,14 +53,14 @@ export default function Header() {
       const wishlistItems = await getWishlistItems();
       const cartItems = await getCartItems();
       const totalQuantity = cartItems.reduce(
-        (acc, item) => acc + (item.quantity || 1),
+        (acc, item) => acc + (item.quantity ?? 1),
         0
       );
       dispatch(updateCartItem(totalQuantity));
       dispatch(updateWishlistItem(wishlistItems.length));
     };
-    
-    setTimeout(()=>fetchItemCounts(),500);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai
+
+    setTimeout(() => fetchItemCounts(), 500);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai
   }, [user]);
   const handleLogout = async () => {
     await signOut(auth);
@@ -82,10 +83,10 @@ export default function Header() {
         </div>
 
         <nav className="nav-links">
-          <Link to={ROUTES.HOMEPAGE}>Home</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/about">About</Link>
-          {!isAuthenticated && <Link to={ROUTES.LOGIN}>Login</Link>}
+          <NavLink className="header-nav-link" to={ROUTES.HOMEPAGE}>Home</NavLink>
+          <NavLink className="header-nav-link" to="/contact">Contact</NavLink>
+          <NavLink className="header-nav-link" to="/about">About</NavLink>
+          {!isAuthenticated && <NavLink className="header-nav-link" to={ROUTES.LOGIN}>Login</NavLink>}
         </nav>
         {/* onBlur={() => setSearchQuery('')} */}
         <div className="search-box">
@@ -151,9 +152,9 @@ export default function Header() {
                     My Orders
                   </Link>
                   <button
-                    onClick={handleLogout}
                     type="button"
                     className="logout-btn"
+                    onClick={() => setOpenLogout(true)}
                   >
                     <LogOut size={24} />{' '}
                     <span className="logout-title">Logout</span>
@@ -170,6 +171,17 @@ export default function Header() {
           )}
         </div>
       </div>
+      {openLogout && (<div className="logout-confirm-container">
+        <div>
+               
+          <div  className="logout-confirm">
+          <h3>Do you want to Logout?</h3>
+          <button className="confirm-logout" onClick={() => { handleLogout(); setOpenLogout(false); }}>Yes</button>
+            <button className="cancel-logout" onClick={() => setOpenLogout(false)}>No</button>
+          </div>
+        </div>
+
+      </div>)}
     </header>
   );
 }
@@ -185,3 +197,9 @@ export default function Header() {
 
 
 //    setTimeout(()=>fetchItemCounts(),1000);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai
+
+
+
+
+
+

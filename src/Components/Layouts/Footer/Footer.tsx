@@ -68,26 +68,26 @@ export default function Footer() {
             </div>
 
             <div className="store-buttons">
-              <button type="button" className="store-button">
+              <button type="button" className="store-button" onClick={()=> window.open('https://play.google.com/store/apps/details?id=com.shopify.mobile&pcampaignid=web_share', '_blank')}>
                 <img src={assets.images.googleplay} alt="Google Play Store" />
               </button>
-              <button type="button" className="store-button">
+              <button type="button" className="store-button" onClick={()=> window.open('https://apps.apple.com/in/app/shopify-ecommerce-business/id371294472', '_blank')}>
                 <img src={assets.images.applestore} alt="Apple Store" />
               </button>
             </div>
           </div>
 
           <div className="socialmedia">
-            <button type="button">
+            <button type="button" onClick={()=> window.open('https://www.facebook.com/ChicmicAU', '_blank')}>
               <img src={assets.images.facebook} alt="Facebook" />
             </button>
-            <button type="button">
+            <button type="button" onClick={()=> window.open('https://x.com/Chic_Mic', '_blank')}>
               <img src={assets.images.twitter} alt="Twitter" />
             </button>
-            <button type="button">
+            <button type="button" onClick={()=> window.open('https://www.instagram.com/chicmic.in', '_blank')}>
               <img src={assets.images.insta} alt="Instagram" />
             </button>
-            <button type="button">
+            <button type="button" onClick={()=> window.open('https://www.linkedin.com/company/chicmicstudios', '_blank')}>
               <img src={assets.images.linkedin} alt="LinkedIn" />
             </button>
           </div>

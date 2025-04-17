@@ -11,6 +11,8 @@ interface OrderData {
   date: Date;
 }
 
+
+
 export default function Order() {
   const [orders, setOrders] = useState<OrderData[]>([]);
 
@@ -23,6 +25,14 @@ export default function Order() {
     };
     getOrders();
   }, []);
+
+
+
+  const calculateTotal=(order:OrderData):number=>
+{
+  return order.products.reduce((total,product)=>total+(product.price *( product.quantity??1)),0)
+}
+
 
   return (
     <div className="order-page">
@@ -45,6 +55,7 @@ export default function Order() {
                   <br />
                   Phone: {order.address.phoneNumber}
                 </p>
+                <h3>Total:{calculateTotal(order).toFixed(2)}</h3>
               </div>
               <div className="product-list">
                 {order.products.map((product) => (

@@ -167,7 +167,7 @@ export default function CheckoutForm() {
           )}
 
           <label htmlFor="companyName">
-            Company Name (optional)<sup>*</sup>
+            Company Name (optional)
           </label>
           <br />
           <input
