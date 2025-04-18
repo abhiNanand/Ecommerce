@@ -41,7 +41,7 @@ import aboutImg from './image/aboutImg.png';
 import accountant from './profile/accountant.png';
 import contentwriter from './profile/contentwriter.png';
 import designer from './profile/designer.png';
-import designLead from './profile/designLead.png';
+import teamlead from './profile/teamlead.png';
 
 import director from './profile/director.png';
 import founder from './profile/founder.png';
@@ -96,7 +96,7 @@ const assets = {
     accountant,
     contentwriter,
     designer,
-    designLead,
+    teamlead,
     director,
     founder,
     marketingManager,

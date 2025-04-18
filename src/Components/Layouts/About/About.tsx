@@ -14,7 +14,7 @@ const imgArr = [
   assets.profile.marketingManager,
   assets.profile.salesManager,
   assets.profile.techLead,
-  assets.profile.designLead,
+  assets.profile.teamlead,
 ];
 
 export default function About() {
