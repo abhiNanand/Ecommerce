@@ -11,11 +11,11 @@ import { ROUTES } from '../../../../Shared/Constants';
 import './Payment.scss';
 import { Product } from '../../../../Shared/Product';
 
-interface SalesItemProps {
+interface ItemProps {
   Items: Product[];
 }
 
-function Payment({ Items }: SalesItemProps) {
+function Payment({ Items }: ItemProps) {
   const [account, setAccount] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);

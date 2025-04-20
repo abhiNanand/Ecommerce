@@ -95,7 +95,7 @@ export default function Wishlist() {
         <h3>My Wishlist ({wishlistItems.length} items)</h3>
         {wishlistItems.length > 0 && (
           <button type="button" onClick={handleMoveAllToBag}>
-            Move All to Bag
+            Move All to Cart
           </button>
         )}
       </div>
@@ -125,7 +125,7 @@ export default function Wishlist() {
                 }}
               >
                 <ShoppingCart size={20} />
-                Move to Bag
+                Move to Cart
               </button>
               <button
                 type="button"

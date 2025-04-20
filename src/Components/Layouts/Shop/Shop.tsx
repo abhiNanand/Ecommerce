@@ -1,25 +1,17 @@
 
 
 import { useState } from 'react';
-import { toast } from 'react-toastify';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
-import { addToCart } from '../../../Services/Cart/CartService';
 import 'react-toastify/dist/ReactToastify.css';
 import { Product } from '../../../Shared/Product';
 import  Star  from '../../../Views/Dashboard/Helper/Stars/Star';
 import './Shop.scss';
-import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { updateCartItem } from '../../../Store/Item/total_item_slice';
-import { RootState } from '../../../Store/index';
-import { useAuth } from '../../../Services/UserAuth';
+
 import { SpinnerLoader } from '../../../Views/Dashboard/Loaders/Loaders';
+import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 
 export default function Shop() {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
+
   const { data: products, error, isLoading } = useGetProductQuery(null);
 
   // Filters
@@ -37,7 +29,7 @@ export default function Shop() {
     );
   }
 
-  // Handlers
+
   const handleCategoryChange = (category: string) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
@@ -94,12 +86,22 @@ export default function Shop() {
           />
           <label htmlFor="electronics">Electronics</label>
           <br/>
+
+          <input
+            type="checkbox"
+            id="jewelery"
+            onChange={() => handleCategoryChange('jewelery')}
+          />
+          <label htmlFor="jewelery">Jewelery</label>
+          <br/>
           
         </form>
 
         <h3>Customer Reviews</h3>
-        <button  onClick={() => handleRatingChange(4)}> <Star rating={4} productId='rating-filter'/> & up
-        </button>
+        <input type="checkbox" id="rating" onChange={()=>handleRatingChange(4)}/>
+        <label htmlFor='rating'> <Star rating={4} productId='rating-filter'/> & above </label>
+        
+        
        
         <h3>Price</h3>
         <form>
@@ -122,48 +124,10 @@ export default function Shop() {
       </div>
 
       <div className="filtered-products">
-        <div className="products-grid">
           {filteredProducts?.length === 0 && (
             <p>No products match the selected filters.</p>
           )}
-          {filteredProducts?.map((product: Product) => (
-            <div
-              key={product.id}
-              className="product-card"
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/product/${product.id}`)}
-            >
-              <img
-                src={product.image}
-                alt={product.title}
-                className="product-image"
-              />
-              <h3 className="product-title">{product.title}</h3>
-              <button
-                className="cart-btn"
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  if (user) {
-                    addToCart(product);
-                    toast.success('Added to Cart!');
-                    dispatch(updateCartItem(cartCount + 1));
-                  } else toast.error('Please Login!');
-                }}
-              >
-                Add to Cart
-              </button>
-              <p className="product-price">${product.price.toFixed(2)}</p>
-              <div className="rating">
-                <Star rating={product.rating?.rate} productId={product.id} />
-                <span className="text-sm text-gray-500 ml-2">
-                  ({product.rating?.count ?? 0})
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+          <ShowItem products={filteredProducts}/>
       </div>
     </div>
   );

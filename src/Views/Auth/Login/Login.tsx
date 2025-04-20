@@ -86,10 +86,12 @@ export default function Login() {
     const {user} = result;
     const token = await user.getIdToken();
 
-    dispatch(updateAuthTokenRedux({token,user:{
-      displayName:user.displayName,
-      email:user.email,
-    },}));
+      navigate(ROUTES.HOMEPAGE);
+      toast.success('🎉 Signed in with Google successfully!');
+      dispatch(updateAuthTokenRedux({token,user:{
+        displayName:user.displayName,
+        email:user.email,
+      },}));
 
     const userRef = doc(db,'users',user.uid);
     const userSnap= await getDoc(userRef);
@@ -102,12 +104,11 @@ export default function Login() {
         displayName:user.displayName ?? 'Anonymous',
       });
     }
-      toast.success('🎉 Signed in with Google successfully!');
-      navigate(ROUTES.HOMEPAGE);
 
    }
    catch (error: any) {
          console.error(error.message);
+         setLoading(false);
          toast.error('❌ Google Sign-In failed! Try again.');
        }
   }

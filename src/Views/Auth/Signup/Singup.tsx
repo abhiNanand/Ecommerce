@@ -56,7 +56,7 @@ export default function Signup() {
         setTimeout(() => navigate(ROUTES.LOGIN), 2000);
       } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
-          toast.error('❌ Email already in use');
+          toast.error('❌ User already exist');
         } else {
           toast.error('❌ Sign-up failed. Please try again.');
           console.error(error.message);
@@ -65,41 +65,38 @@ export default function Signup() {
     },
   });
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const { user } = result;
-      const token = await user.getIdToken();
-
-      dispatch(
-        updateAuthTokenRedux({
-          token,
-          user: {
-            displayName: user.displayName,
-            email: user.email,
-          },
-        })
-      );
-
-      // Checking if user already exists in Firestore
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName ?? 'Anonymous',
-        });
-      }
-
-      toast.success('🎉 Signed in with Google successfully!');
-      navigate(ROUTES.HOMEPAGE);
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error('❌ Google Sign-In failed! Try again.');
+  const handleGoogleSignIn=async()=>{
+    try{
+     const result = await signInWithPopup(auth,googleProvider);
+     const {user} = result;
+     const token = await user.getIdToken();
+ 
+       navigate(ROUTES.HOMEPAGE);
+       toast.success('🎉 Signed in with Google successfully!');
+       dispatch(updateAuthTokenRedux({token,user:{
+         displayName:user.displayName,
+         email:user.email,
+       },}));
+ 
+     const userRef = doc(db,'users',user.uid);
+     const userSnap= await getDoc(userRef);
+ 
+     if(!userSnap.exists())
+     {
+       await setDoc(userRef,{
+         uid:user.uid,
+         email:user.email,
+         displayName:user.displayName ?? 'Anonymous',
+       });
+     }
+ 
     }
-  };
+    catch (error: any) {
+          console.error(error.message);
+          
+          toast.error('❌ Google Sign-In failed! Try again.');
+        }
+   }
 
   return (
     <div className="login-signup-container">

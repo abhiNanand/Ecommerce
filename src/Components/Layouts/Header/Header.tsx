@@ -71,22 +71,7 @@ export default function Header() {
     return () => unsubscribe(); // cleanup
   }, [user]);
 
-  // useEffect(() => {
-  //   const fetchItemCounts = async () => {
-  //     if (!isAuthenticated) return;
 
-  //     const wishlistItems = await getWishlistItems();
-  //     const cartItems = await getCartItems();
-  //     const totalQuantity = cartItems.reduce(
-  //       (acc, item) => acc + (item.quantity ?? 1),
-  //       0
-  //     );
-  //     dispatch(updateCartItem(totalQuantity));
-  //     dispatch(updateWishlistItem(wishlistItems.length));
-  //   };
-
-  //   fetchItemCounts();
-  // }, [user]);
   const handleLogout = async () => {
     await signOut(auth);
     dispatch(logoutUser());
@@ -200,7 +185,7 @@ export default function Header() {
         <div>
                
           <div  className="logout-confirm">
-          <h3>Do you want to Logout?</h3>
+          <h3>Are you sure you want to log out?</h3>
           <button className="confirm-logout" onClick={() => { handleLogout(); setOpenLogout(false); }}>Yes</button>
             <button className="cancel-logout" onClick={() => setOpenLogout(false)}>No</button>
           </div>

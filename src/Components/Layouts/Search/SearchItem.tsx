@@ -1,16 +1,13 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import Star from '../../../Views/Dashboard/Helper/Stars/Star';
-import { toast } from 'react-toastify';
+import { useParams} from 'react-router-dom';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { Product } from '../../../Shared/Product';
-import { addToCart } from '../../../Services/Cart/CartService';
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
+import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 
 export default function SearchItem() {
   const { query } = useParams();
 
   const { data: products, error, isLoading } = useGetProductQuery(null);
-  const navigate = useNavigate();
 
   if (!query) return <div>No search query provided</div>;
   if (isLoading) {
@@ -38,43 +35,7 @@ export default function SearchItem() {
       </h2>
 
       {filteredProducts && filteredProducts.length > 0 ? (
-        <div className="products-grid">
-          {filteredProducts.map((product: Product) => (
-            <div
-              key={product.id}
-              className="product-card"
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/product/${product.id}`)}
-            >
-              <img
-                src={product.image}
-                alt={product.title}
-                className="product-image"
-              />
-              <h3 className="product-title">{product.title}</h3>
-              <button
-                className="cart-btn"
-                type="button"
-                onClick={(event) => {
-                  event.stopPropagation();
-                  addToCart(product);
-                  toast.success('Added to Cart!');
-                }}
-              >
-                Add to Cart
-              </button>
-              <p className="product-price">${product.price.toFixed(2)}</p>
-              <div className="rating">
-                <Star rating={product.rating?.rate} productId={product.id} />
-                <span className="text-sm text-gray-500 ml-2">
-                  ({product.rating?.count ?? 0})
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
-      ) : (
+        <ShowItem products={filteredProducts}  />    ) : (
         <p>No results found.</p>
       )}
     </div>
