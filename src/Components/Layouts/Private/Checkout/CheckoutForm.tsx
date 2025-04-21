@@ -138,7 +138,7 @@ export default function CheckoutForm() {
             ))}
           </form>
 
-          <button className="placeorder-btn" onClick={() => setOpen(false)}>
+          <button className="placeorder-btn" onClick={() => { formik.resetForm();setOpen(false);}}>
             Add Another Address
           </button>
         </div>
@@ -233,11 +233,16 @@ export default function CheckoutForm() {
           </label>
           <br />
           <input
-            type="text"
+            type="tel"
             id="phoneNumber"
             name="phoneNumber"
             value={formik.values.phoneNumber}
-            onChange={formik.handleChange}
+            onChange={(e) => {
+              const input = e.target.value.replace(/\D/g, ''); 
+              if (input.length <= 10) {
+                formik.setFieldValue('phoneNumber', input);
+              }}
+            }
           />
           <br />
           {formik.touched.phoneNumber && formik.errors.phoneNumber && (

@@ -24,7 +24,7 @@ function App() {
 
   return (
     <Provider store={store}>
-      <ToastContainer autoClose={1500} limit={5} />
+      <ToastContainer autoClose={1500} limit={8} />
       <PersistGate persistor={persistor}>
         <HelmetProvider>
           <RouterProvider router={router} />

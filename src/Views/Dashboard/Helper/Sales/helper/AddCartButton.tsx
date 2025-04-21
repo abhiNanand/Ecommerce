@@ -9,7 +9,9 @@ import { addToCart, removeFromCart } from "../../../../../Services/Cart/CartServ
 import { updateDoc, collection, query, where, getDocs } from 'firebase/firestore';
 import { auth, db } from '../../../../../Services/firebase/firebase';
 import { useState, useEffect } from "react";
-
+import {useNavigate} from 'react-router-dom';
+import {ROUTES} from '../../../../../Shared/Constants';
+import '../ShowItem.scss';
 interface CartButtonProps {
   cartItems: Map<string, number>;
   product: Product;
@@ -20,6 +22,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
   const dispatch = useDispatch();
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const { user } = useAuth();
+  const navigate=useNavigate();
 
   useEffect(() => {
     setTotal(cartItems.get(product.id) ?? 0);
@@ -61,7 +64,8 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
   const handleAddToCart = async (event: React.MouseEvent) => {
     event.stopPropagation();
     if (!user) {
-      toast.error('Please Login!');
+      toast.error('Please Login to Add Item to Cart');
+      navigate(ROUTES.LOGIN);
       return;
     }
     
@@ -80,52 +84,59 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
   return (
     <>
       {total > 0 ? (
-        <div className="quantity-control">
-          {total === 1 ? (
-            <button
-              type="button"
-              className="delete-btn"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleRemoveItem(product);
-                dispatch(updateCartItem(cartCount - 1));
-              }}
-            >
-              <Trash size={20} />
-            </button>
-          ) : (
-            <button
-              onClick={(event) => {
-                event.stopPropagation();
-                handleQuantityChange(product, total - 1);
-                dispatch(updateCartItem(cartCount - 1));
-              }}
-            >
-              -
-            </button>
-          )}
-          
-          <input id="cart-quantity" value={total} readOnly />
-          
-          <button
-            onClick={(event) => {
-              event.stopPropagation();
-              handleQuantityChange(product, total + 1);
-              dispatch(updateCartItem(cartCount + 1));
-            }}
-          >
-            +
-          </button>
-        </div>
-      ) : (
-        <button
-          className="cart-btn"
-          type="button"
-          onClick={handleAddToCart}
-        >
-          Add to Cart
-        </button>
-      )}
-    </>
+  <div className="cart-quantity-controls">
+    {total === 1 ? (
+      <button
+        type="button"
+        className="cart-delete-btn"
+        onClick={(event) => {
+          event.stopPropagation();
+          handleRemoveItem(product);
+          dispatch(updateCartItem(cartCount - 1));
+        }}
+      >
+        <Trash size={20} />
+      </button>
+    ) : (
+      <button
+        className="cart-btn-minus"
+        onClick={(event) => {
+          event.stopPropagation();
+          handleQuantityChange(product, total - 1);
+          dispatch(updateCartItem(cartCount - 1));
+        }}
+      >
+        -
+      </button>
+    )}
+
+    <input
+      id="cart-quantity"
+      className="cart-quantity-display"
+      value={total}
+      readOnly
+    />
+
+    <button
+      className="cart-btn-plus"
+      onClick={(event) => {
+        event.stopPropagation();
+        handleQuantityChange(product, total + 1);
+        dispatch(updateCartItem(cartCount + 1));
+      }}
+    >
+      +
+    </button>
+  </div>
+) : (
+  <button
+    className="cart-add-btn"
+    type="button"
+    onClick={handleAddToCart}
+  >
+    Add to Cart
+  </button>
+)}
+   </>
   );
 }

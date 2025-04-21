@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 import {doc,setDoc,getDoc} from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link,useLocation } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
 import { auth,googleProvider,db } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
@@ -28,6 +28,11 @@ export default function Login() {
   const dispatch = useDispatch();
   const [loading,setLoading]=useState<boolean>(false);
 
+
+    const {pathname}=useLocation();
+  
+    useEffect(()=>window.scrollTo(0,0),[pathname]);
+
   const formik = useFormik<FormValues>({
     initialValues: {
       email: '',
@@ -46,15 +51,14 @@ export default function Login() {
         );
         const { user } = userCredential;
         const token = await user.getIdToken();
-
+        navigate(ROUTES.HOMEPAGE);
         dispatch(
           updateAuthTokenRedux({
             token,
             user: { displayName: user.displayName, email: user.email },
           })
         );
-
-        navigate(ROUTES.HOMEPAGE);
+        
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

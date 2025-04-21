@@ -1,6 +1,6 @@
 import { useParams, useNavigate,useLocation } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
-import { useSelector, useDispatch } from 'react-redux';
+// import { ShoppingCart } from 'lucide-react';
+// import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import {
   useGetProductByIdQuery,
@@ -9,18 +9,18 @@ import {
 import './ProductDetails.scss';
 import { useAuth } from '../../../Services/UserAuth';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
-import { addToCart } from '../../../Services/Cart/CartService';
+// import { addToCart } from '../../../Services/Cart/CartService';
 import { toast } from 'react-toastify';
-import { updateCartItem } from '../../../Store/Item/total_item_slice';
-import { RootState } from '../../../Store';
+// import { updateCartItem } from '../../../Store/Item/total_item_slice';
+// import { RootState } from '../../../Store';
 import { RippleLoader} from '../../../Views/Dashboard/Loaders/Loaders';
 
 function ProductDetails() {
   const { productId } = useParams();
   const { user } = useAuth();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
-  const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
+  // const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const {pathname}=useLocation();
 
   useEffect(()=>window.scrollTo(0,0),[pathname]);
@@ -73,7 +73,7 @@ function ProductDetails() {
           </p>
           <p className="product-category">Category: {product.category}</p>
           <div className="product-actions">
-            <button
+            {/* <button
               type="button"
               className="pd-cart"
               onClick={() => {
@@ -87,7 +87,7 @@ function ProductDetails() {
               }}
             >
               <ShoppingCart size={20} /> Add to Cart{' '}
-            </button>
+            </button> */}
             <button
               type="button"
               className="buy-now"

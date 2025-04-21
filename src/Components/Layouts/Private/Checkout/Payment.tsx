@@ -31,27 +31,24 @@ function Payment({ Items }: ItemProps) {
     if ((window as any).ethereum) {
       try {
         const provider = new ethers.BrowserProvider((window as any).ethereum);
+        await provider.send('wallet_requestPermissions', [{ eth_accounts: {} }]);
+
         const accounts: string[] = await provider.send(
           'eth_requestAccounts',
           []
         );
         setAccount(accounts[0]);
       } catch (err) {
-        console.error('Failed to connect wallet:', err);
-        alert(
-          `Failed to connect wallet: ${
-            err instanceof Error ? err.message : String(err)
-          }`
-        );
+        toast.error('Failed to connect wallet:');
       }
     } else {
-      alert('MetaMask not found! Please install it first.');
+      toast.error('MetaMask not found! Please install it first.');
     }
   };
 
   const sendPayment = async (): Promise<void> => {
     if (!account) {
-      alert('Please connect your wallet first');
+      toast.warning('Please connect your wallet first');
       return;
     }
     if (address.name.trim() == '') {
@@ -93,16 +90,21 @@ function Payment({ Items }: ItemProps) {
     }
   };
 
+  const handleDisconnect = () => {
+    setAccount(null);
+    toast.info('Wallet disconnected');
+  };
+  
   return (
     <div className="payment-gateway">
       <button
-        className={`connect-button ${account ? 'connected' : ''}`}
-        onClick={connectWallet}
-      >
-        {account
-          ? `Connected: ${account.slice(0, 6)}...${account.slice(-4)}`
-          : 'Connect Wallet'}
-      </button>
+  className={`connect-button ${account ? 'connected' : ''}`}
+  onClick={account ? handleDisconnect : connectWallet}
+>
+  {account
+    ?  `Disconnect`
+    : 'Connect Wallet'}
+</button>
 
       {account && (
         <button

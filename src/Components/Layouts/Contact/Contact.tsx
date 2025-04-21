@@ -104,10 +104,15 @@ export default function Contact() {
 
               <input
                 name="phone"
-                type="text"
+                type="tel"
                 placeholder="Your Phone*"
                 value={formik.values.phone}
-                onChange={formik.handleChange}
+                onChange={(e) => {
+                  const input = e.target.value.replace(/\D/g, ''); 
+                  if (input.length <= 10) {
+                    formik.setFieldValue('phone', input);
+                  }
+                }}
               />
               {formik.touched.phone && formik.errors.phone && (
                 <div className="error">{formik.errors.phone}</div>

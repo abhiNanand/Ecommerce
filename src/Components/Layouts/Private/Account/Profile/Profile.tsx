@@ -1,92 +1,3 @@
-// import './Profile.scss';
-// import { useState } from 'react';
-// import { useAuth } from '../../../../../Services/UserAuth';
-
-// export default function Profile() {
-//   const { user } = useAuth();
-//   let firstname = '';
-//   let lastname = '';
-
-//   if (user) {
-//     const name = user?.displayName ?? '';
-//     const nameArr = name.split(' ');
-//     firstname = nameArr[0] ?? '';
-//     lastname = nameArr[1] ?? '';
-//   }
-
-//   const [open, setOpen] = useState<boolean>(true);
-
-//   return (
-//     <div className="profile-container">
-//       <h3 className="profile-title">Edit Your Profile</h3>
-
-//       <div className="profile-form">
-//         <div className="profile-row">
-//           <div className="profile-field">
-//             <label htmlFor="first-name">First Name</label>
-//             <input
-//               id="first-name"
-//               type="text"
-//               value={firstname}
-//               disabled={open}
-//             />
-//           </div>
-
-//           <div className="profile-field">
-//             <label htmlFor="last-name">Last Name</label>
-//             <input
-//               id="last-name"
-//               type="text"
-//               value={lastname}
-//               disabled={open}
-//             />
-//           </div>
-//         </div>
-
-//         <div className="profile-row">
-//           <div className="profile-field">
-//             <label htmlFor="email">Email</label>
-//             <input
-//               id="email"
-//               type="email"
-//               value={user?.email ?? ' '}
-//               disabled
-//             />
-//           </div>
-
-       
-//         </div>
-
-//         {!open && (
-//           <div className="profile-password-section">
-//             <label htmlFor="password">Password Changes</label>
-//             <input type="password" placeholder="Current Password" />
-//             <input type="password" placeholder="New Password" />
-//             <input type="password" placeholder="Confirm New Password" />
-//           </div>
-//         )}
-
-//         <div className="profile-actions">
-//           {open ? (
-//             <button className="profile-save" onClick={() => setOpen(false)}>
-//               Edit
-//             </button>
-//           ) : (
-//             <>
-//               <button className="profile-cancel" onClick={() => setOpen(true)}>
-//                 Cancel
-//               </button>
-//               <button className="profile-save" onClick={() => setOpen(true)}>
-//                 Save Changes
-//               </button>
-//             </>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 
 import './Profile.scss';
 import { useState } from 'react';
@@ -94,11 +5,11 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useAuth } from '../../../../../Services/UserAuth';
 import {
-  updateProfile,
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
 } from 'firebase/auth';
+import {toast} from 'react-toastify';
 import { auth } from '../../../../../Services/firebase/firebase'; 
 
 export default function Profile() {
@@ -117,8 +28,8 @@ export default function Profile() {
       confirmPassword: '',
     },
     validationSchema: Yup.object({
-      firstName: Yup.string().required('Required'),
-      lastName: Yup.string().required('Required'),
+      firstName: Yup.string(),
+      lastName: Yup.string(),
       currentPassword: Yup.string().when('newPassword', {
         is: (val: string) => val.length > 0,
         then: () => Yup.string().required('Current password is required'),
@@ -134,10 +45,6 @@ export default function Profile() {
         const currentUser = auth.currentUser;
         if (!currentUser) return;
 
-        // Update display name
-        await updateProfile(currentUser, {
-          displayName: `${values.firstName} ${values.lastName}`,
-        });
 
         // Update password if newPassword is provided
         if (values.newPassword) {
@@ -149,10 +56,10 @@ export default function Profile() {
           await updatePassword(currentUser, values.newPassword);
         }
 
-        alert('Profile updated successfully!');
+        toast.success('Password changed successfully!');
         setEditMode(false);
       } catch (err: any) {
-        alert(err.message);
+       toast.error(" current password is wrong");
       }
     },
   });
@@ -169,13 +76,10 @@ export default function Profile() {
               id="firstName"
               name="firstName"
               type="text"
-              disabled={!editMode}
+              disabled
               value={formik.values.firstName}
-              onChange={formik.handleChange}
+               
             />
-            {formik.touched.firstName && formik.errors.firstName && (
-              <small className="error">{formik.errors.firstName}</small>
-            )}
           </div>
 
           <div className="profile-field">
@@ -184,13 +88,9 @@ export default function Profile() {
               id="lastName"
               name="lastName"
               type="text"
-              disabled={!editMode}
               value={formik.values.lastName}
-              onChange={formik.handleChange}
+              disabled
             />
-            {formik.touched.lastName && formik.errors.lastName && (
-              <small className="error">{formik.errors.lastName}</small>
-            )}
           </div>
         </div>
 
@@ -242,7 +142,7 @@ export default function Profile() {
         <div className="profile-actions">
           {!editMode ? (
             <button type="button" className="profile-save" onClick={() => setEditMode(true)}>
-              Edit
+              Change Password
             </button>
           ) : (
             <>
