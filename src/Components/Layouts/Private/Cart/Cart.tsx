@@ -121,21 +121,22 @@ export default function Cart() {
                     />
                   </span>
                   <span>${product.price}</span>
-
+                  <div className="cart-quantity-controls">
                   <span>
                     {product.quantity == 1 ? (
                       <button
                         type="button"
-                        className="delete-btn"
+                        className="cart-delete-button"
                         onClick={() => {
                           handleRemoveItem(product);
                           dispatch(updateCartItem(cartCount - 1));
                         }}
                       >
-                        <Trash size={20} />
+                        <Trash size={15} />
                       </button>
                     ) : (
                       <button
+                       className="cart-minus-btn"
                         onClick={() => {
                           handleQuantityChange(
                             product,
@@ -149,12 +150,14 @@ export default function Cart() {
                     )}
 
                     <input
+                    
                       type="number"
                       min="1"
                       value={product.quantity}
                       disabled
                     />
                     <button
+                     className="cart-plus-btn"
                       onClick={() => {
                         handleQuantityChange(
                           product,
@@ -166,6 +169,8 @@ export default function Cart() {
                       +
                     </button>
                   </span>
+                    </div>
+                 
                   <span>
                     ${(product.price * (product.quantity ?? 1)).toFixed(2)}
                   </span>

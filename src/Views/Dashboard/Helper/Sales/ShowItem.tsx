@@ -131,7 +131,10 @@ export default function ShowItem({ products }: ShowItemProps) {
               className="product-image"
             />
             <h3 className="product-title">{product.title}</h3>
+            <div className="cart-btn-div" onClick={(event)=>event.stopPropagation()}>
             <AddCartButton cartItems={cartItems} product={product} />
+            </div>
+           
 
             <p className="product-price">${product.price.toFixed(2)}</p>
             <div className="rating">

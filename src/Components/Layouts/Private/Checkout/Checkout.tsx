@@ -101,7 +101,7 @@ export default function Checkout() {
               Apply Coupon
             </button>
           </div>
-          <Payment Items={cartItems} />
+          <Payment Items={cartItems} deleteCartItems={true} />
         </div>
       </div>
     </div>

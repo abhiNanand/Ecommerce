@@ -94,7 +94,7 @@ export default function BuyNow() {
               Apply Coupon
             </button>
           </div>
-          <Payment Items={[product]} />
+          <Payment Items={[product]} deleteCartItems={false}/>
         </div>
       </div>
     </div>

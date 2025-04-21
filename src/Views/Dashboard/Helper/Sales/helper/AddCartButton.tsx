@@ -118,6 +118,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
     />
 
     <button
+    type="button"
       className="cart-btn-plus"
       onClick={(event) => {
         event.stopPropagation();

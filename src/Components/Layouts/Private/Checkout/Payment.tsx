@@ -7,15 +7,18 @@ import { RootState } from '../../../../Store';
 import { addToOrderHistory } from '../../../../Services/Order/order';
 import { removePreviousAddress } from '../../../../Store/Address/AddressSlice';
 import { ROUTES } from '../../../../Shared/Constants';
+import { removeFromCart } from '../../../../Services/Cart/CartService';
 
 import './Payment.scss';
 import { Product } from '../../../../Shared/Product';
+import { updateCartItem } from '../../../../Store/Item/total_item_slice';
 
 interface ItemProps {
   Items: Product[];
+  deleteCartItems:boolean;
 }
 
-function Payment({ Items }: ItemProps) {
+function Payment({ Items,deleteCartItems }: ItemProps) {
   const [account, setAccount] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -79,6 +82,16 @@ function Payment({ Items }: ItemProps) {
       setPaymentStatus('success');
       addToOrderHistory(Items, address);
       dispatch(removePreviousAddress());
+
+      if(deleteCartItems)
+      {
+        await Promise.all(
+          Items.map(async(item)=>{
+          await removeFromCart(item.id);
+          })
+        );
+        dispatch(updateCartItem(0));
+      }
 
       setTimeout(() => setOpen(true), 2000);
   
