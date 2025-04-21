@@ -1,24 +1,29 @@
 
 
+//npm install rc-slider
+
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+
 import { useState } from 'react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import 'react-toastify/dist/ReactToastify.css';
 import { Product } from '../../../Shared/Product';
-import  Star  from '../../../Views/Dashboard/Helper/Stars/Star';
+import Star from '../../../Views/Dashboard/Helper/Stars/Star';
 import './Shop.scss';
 
 import { SpinnerLoader } from '../../../Views/Dashboard/Loaders/Loaders';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 
 export default function Shop() {
-
   const { data: products, error, isLoading } = useGetProductQuery(null);
 
-  // Filters
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedRatings, setSelectedRatings] = useState<number[]>([]);
-  const [minPrice, setMinPrice] = useState<number>(0);
-  const [maxPrice, setMaxPrice] = useState<number>(Infinity);
+
+  const minPrice = 0;
+  const maxPrice = 1000;
+  const [range, setRange] = useState<number[]>([minPrice, maxPrice]);
 
   if (error) return <h2>Error loading products</h2>;
   if (isLoading) {
@@ -55,80 +60,84 @@ export default function Shop() {
       selectedRatings.length === 0 ||
       selectedRatings.includes(Math.floor(product.rating?.rate ?? 0));
 
-    const matchesPrice = product.price >= minPrice && product.price <= maxPrice;
+    const matchRange = product.price >= range[0] &&
+      product.price <= range[1];
 
-    return matchesCategory && matchesRating && matchesPrice;
+    return matchesCategory && matchesRating && matchRange;
   });
 
   return (
     <div className="shop-container">
       <div className="filters">
-        <h3>Category</h3>
-        <form>
-          <input
-            type="checkbox"
-            id="women"
-            onChange={() => handleCategoryChange("women's clothing")}
-          />
-          <label htmlFor="women">Women's Fashion</label>
-          <br />
-          <input
-            type="checkbox"
-            id="men"
-            onChange={() => handleCategoryChange("men's clothing")}
-          />
-          <label htmlFor="men">Men's Fashion</label>
-          <br />
-          <input
-            type="checkbox"
-            id="electronics"
-            onChange={() => handleCategoryChange('electronics')}
-          />
-          <label htmlFor="electronics">Electronics</label>
-          <br/>
 
-          <input
-            type="checkbox"
-            id="jewelery"
-            onChange={() => handleCategoryChange('jewelery')}
-          />
-          <label htmlFor="jewelery">Jewelery</label>
-          <br/>
-          
-        </form>
+        <div className="category-filter-container">
+          <h3>Category</h3>
+          <form>
+            <input
+              type="checkbox"
+              id="women"
+              onChange={() => handleCategoryChange("women's clothing")}
+            />
+            <label htmlFor="women">Women's Fashion</label>
+            <br />
+            <input
+              type="checkbox"
+              id="men"
+              onChange={() => handleCategoryChange("men's clothing")}
+            />
+            <label htmlFor="men">Men's Fashion</label>
+            <br />
+            <input
+              type="checkbox"
+              id="electronics"
+              onChange={() => handleCategoryChange('electronics')}
+            />
+            <label htmlFor="electronics">Electronics</label>
+            <br />
 
-        <h3>Customer Reviews</h3>
-        <input type="checkbox" id="rating" onChange={()=>handleRatingChange(4)}/>
-        <label htmlFor='rating'> <Star rating={4} productId='rating-filter'/> & above </label>
+            <input
+              type="checkbox"
+              id="jewelery"
+              onChange={() => handleCategoryChange('jewelery')}
+            />
+            <label htmlFor="jewelery">Jewelery</label>
+            <br />
+          </form>
+        </div>
+        <div className="rating-filter-container">
+          <h3>Customer Reviews</h3>
+          <input type="checkbox" id="rating" onChange={() => handleRatingChange(4)} />
+          <label htmlFor='rating'> <Star rating={4} productId='rating-filter' />& above</label>
+        </div>
+
+
+
+
         
-        
-       
+        <div className="range-slider">
         <h3>Price</h3>
-        <form>
-          <label htmlFor="min">Min:</label>
-          <input
-            type="number"
-            id="min"
-            onChange={(e) => setMinPrice(Number(e.target.value) || 0)}
-            placeholder="0"
+          <Slider
+            range
+            min={minPrice}
+            max={maxPrice}
+            value={range}
+            onChange={(value) => { setRange(value as number[]);}}
           />
-          <br />
-          <label htmlFor="max">Max:</label>
-          <input
-            type="number"
-            id="max"
-            onChange={(e) => setMaxPrice(Number(e.target.value) || Infinity)}
-            placeholder="No limit"
-          />
-        </form>
+          <div>
+            <p>Min: ₹{range[0]}</p>
+            <p>Max: ₹{range[1]}</p>
+          </div>
+        </div>
       </div>
 
       <div className="filtered-products">
-          {filteredProducts?.length === 0 && (
-            <p>No products match the selected filters.</p>
-          )}
-          <ShowItem products={filteredProducts}/>
+        {filteredProducts?.length === 0 && (
+          <p>No products match the selected filters.</p>
+        )}
+        <ShowItem products={filteredProducts} />
       </div>
     </div>
   );
 }
+
+
