@@ -126,7 +126,7 @@
   background: rgba(83, 82, 82, 0.809);
   backdrop-filter: blur(10px);
   color: white;
-  z-index: 1001; // ✅ Ensure it's above other elements 
+  z-index: 1001;  
 }
 
 .dropdown-content a {
