@@ -3,6 +3,7 @@ import { WhatsappShareButton, EmailShareButton, TelegramShareButton } from 'reac
 import { WhatsappIcon, EmailIcon, TelegramIcon } from 'react-share';
 import { Share } from 'lucide-react';
 import { useState } from 'react';
+import { Link } from 'lucide-react';
 
 interface ShareProductProps {
     readonly pathname: string;
@@ -31,7 +32,7 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
                 <TelegramIcon size={32} round /><span>Telegram</span>
             </TelegramShareButton>
             <br />
-            <button onClick={() => { navigator.clipboard.writeText(shareLink); toast.success("link copied") }}>Copy Link</button>
+            <button onClick={() => { navigator.clipboard.writeText(shareLink); toast.success("link copied") }}><Link size={16}/>Copy Link</button>
 
 
         </div>)}

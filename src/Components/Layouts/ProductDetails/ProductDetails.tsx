@@ -8,7 +8,7 @@ import {
 import './ProductDetails.scss';
 import { useAuth } from '../../../Services/UserAuth';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
- 
+import { ROUTES } from '../../../Shared/Constants';
 import { toast } from 'react-toastify';
  
 import { RippleLoader} from '../../../Views/Dashboard/Loaders/Loaders';
@@ -81,7 +81,8 @@ function ProductDetails() {
                 if (user) {
                   navigate(`/buy/${productId}`);
                 } else {
-                  toast.error('Please Login!');
+                  toast.error('Please Login! To buy Product');
+                  navigate(ROUTES.LOGIN);
                 }
               }}
             >

@@ -71,6 +71,7 @@ export default function BuyNow() {
         </div>
         <div className="checkout-subtotal">
           <p>Subtotal: ${(product.price).toFixed(2)}</p>
+          {isCouponApplied&&(<> <p>discount:${discount}</p> <button type="button" onClick={()=>{setIsCouponApplied(false);setDiscount(0);}}>Remove</button></>)}
         </div>
         <hr />
         <div className="checkout-shipping">
@@ -89,14 +90,17 @@ export default function BuyNow() {
               placeholder="Coupon Code"
               onChange={(e) => setCoupean(e.target.value)}
               value={coupean}
+              onKeyDown={(e) => e.key === 'Enter' && handleButtonClick()}
             />
             <button type="button" onClick={() => handleButtonClick()}>
               Apply Coupon
             </button>
           </div>
-          <Payment Items={[product]} deleteCartItems={false}/>
+          <Payment Items={[product]} deleteCartItems={false} total={(product.price - discount).toFixed(2)}/>
         </div>
       </div>
     </div>
   );
 }
+
+

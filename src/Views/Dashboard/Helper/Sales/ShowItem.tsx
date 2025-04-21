@@ -22,7 +22,7 @@ import { auth } from '../../../../Services/firebase/firebase';
 import AddCartButton from './helper/AddCartButton';
 
 interface ShowItemProps {
-  products: Product[];
+ readonly products: Product[];
 }
 
 const LIMIT = 5;
@@ -63,7 +63,8 @@ export default function ShowItem({ products }: ShowItemProps) {
   const handleWishlistClick = async (product: Product) => {
     try {
       if (!user) {
-        toast.error('Please Login!');
+        toast.error('Please Login To Add Item To Wishlist!');
+        navigate(ROUTES.LOGIN);
         return;
       }
       const isLiked = likedItems.has(product.id);

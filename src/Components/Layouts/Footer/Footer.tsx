@@ -9,30 +9,11 @@ export default function Footer() {
   return (
     <footer className="footer-container">
       <div className="footer-content">
-        {/* <div className="footer-section">
-          <h3>Exclusive</h3>
-          <p>Subscribe</p>
-          <p>Get 10% off your first order</p>
-
-          <div className="inputbox">
-            <form className="subscribe-form">
-              <input
-                type="email"
-                placeholder="Enter your email"
-                className="email-input"
-              />
-              <button type="submit" className="subscribe-button">
-                <img src={assets.images.send} alt="Send" />
-              </button>
-            </form>
-          </div>
-        </div> */}
-
         <div className="footer-section">
           <h3>Support</h3>
-          <p>111 Bijoy Sarani, Dhaka, DH 1515, Bangladesh.</p>
-          <p>Email: exclusive@gmail.com</p>
-          <p>Phone: +88015-88888-9999</p>
+          <p>Vaishali 844101, Bihar, India</p>
+          <p>Email: abhishekanand7091@gmail.com</p>
+          <p>Phone:100</p>
         </div>
 
         <div className="footer-section">

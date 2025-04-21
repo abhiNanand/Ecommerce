@@ -2,9 +2,13 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import assets from '../../../../assets';
 import './JBLBanner.scss';
+import {toast} from 'react-toastify';
+import {ROUTES} from '../../../../Shared/Constants';
+import { useAuth } from '../../../../Services/UserAuth';
 
 function JblBanner() {
   const navigate = useNavigate();
+  const {user} = useAuth();
   const targetDate = new Date('2025-08-25T23:59:59');
   targetDate.setDate(targetDate.getDate() + 5);
 
@@ -67,9 +71,16 @@ function JblBanner() {
         <button
           className="buy-now"
           type="button"
-          onClick={() => navigate(`/buy/${12}`)}
+          onClick={() => {
+            if (user) {
+              navigate(`/buy/${9}`);
+            } else {
+              toast.error('Please Login! To buy Product');
+              navigate(ROUTES.LOGIN);
+            }
+          }}
         >
-          Buy Now!
+          Buy Now
         </button>
       </div>
       <div className="jbl-banner__image">

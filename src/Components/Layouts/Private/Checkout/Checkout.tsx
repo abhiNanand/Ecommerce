@@ -96,14 +96,16 @@ export default function Checkout() {
               placeholder="Coupon Code"
               onChange={(e) => setCoupean(e.target.value)}
               value={coupean}
+              onKeyDown={(e) => e.key === 'Enter' && handleButtonClick()}
             />
             <button type="button" onClick={() => handleButtonClick()}>
               Apply Coupon
             </button>
           </div>
-          <Payment Items={cartItems} deleteCartItems={true} />
+          <Payment Items={cartItems} deleteCartItems={true} total={(calculateTotal() - discount).toFixed(2) } />
         </div>
       </div>
     </div>
   );
 }
+

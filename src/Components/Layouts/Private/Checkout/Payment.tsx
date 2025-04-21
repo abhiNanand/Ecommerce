@@ -16,9 +16,10 @@ import { updateCartItem } from '../../../../Store/Item/total_item_slice';
 interface ItemProps {
   Items: Product[];
   deleteCartItems:boolean;
+  total:string;
 }
 
-function Payment({ Items,deleteCartItems }: ItemProps) {
+function Payment({ Items,deleteCartItems,total }: ItemProps) {
   const [account, setAccount] = useState<string | null>(null);
   const [transactionHash, setTransactionHash] = useState<string>('');
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
@@ -29,6 +30,7 @@ function Payment({ Items,deleteCartItems }: ItemProps) {
   const address = useSelector((state: RootState) => state.address);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const payTotal=(0.0001*Number(total)).toFixed(4);
 
   const connectWallet = async (): Promise<void> => {
     if ((window as any).ethereum) {
@@ -66,11 +68,11 @@ function Payment({ Items,deleteCartItems }: ItemProps) {
       const provider = new ethers.BrowserProvider((window as any).ethereum);
       const signer = await provider.getSigner();
       const receiverAddress = '0x1D7e62a808fC888764cfB26D3FD58A0A81DC4886';
-      const amount = ethers.parseEther('0.0001');
+      const amount = ethers.parseEther(`${payTotal}`);
 
       const balance = await provider.getBalance(account);
       if (balance < amount) {
-        throw new Error('Insufficient funds for 0.0001 ETH + gas');
+        throw new Error(`Insufficient funds for ${payTotal} ETH + gas`);
       }
 
       const transaction = await signer.sendTransaction({
@@ -125,7 +127,7 @@ function Payment({ Items,deleteCartItems }: ItemProps) {
           onClick={sendPayment}
           disabled={isProcessing}
         >
-          {isProcessing ? <p> Processing...</p> : 'Pay'}
+          {isProcessing ? <p> Processing...</p> : <p>Pay {payTotal}ETH</p>}
         </button>
       )}
 
