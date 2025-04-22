@@ -27,14 +27,19 @@ export default function Contact() {
     validationSchema: Yup.object({
       name: Yup.string()
         .max(15, 'Must be 15 characters or less')
-        .required('Required'),
-      email: Yup.string().email('Invalid email address').required('Required'),
+        .required('Name is required'),
+      email: Yup.string()
+        .required('Email is required')
+        .matches(
+          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          'Enter a valid email address'
+        ),
       phone: Yup.string()
         .matches(/^\d{10}$/, 'Phone number must be 10 digits')
-        .required('Required'),
+        .required('phone number is required'),
       message: Yup.string()
         .max(50, 'Must be 50 characters or less')
-        .required('Required'),
+        .required('Message is required'),
     }),
     onSubmit: async (values: FormValues, { resetForm }) => {
       await addDoc(collection(db, 'message'), {
@@ -93,7 +98,7 @@ export default function Contact() {
 
               <input
                 name="email"
-                type="email"
+                type="text"
                 placeholder="Your Email*"
                 value={formik.values.email}
                 onChange={formik.handleChange}
@@ -108,7 +113,7 @@ export default function Contact() {
                 placeholder="Your Phone*"
                 value={formik.values.phone}
                 onChange={(e) => {
-                  const input = e.target.value.replace(/\D/g, ''); 
+                  const input = e.target.value.replace(/\D/g, '');
                   if (input.length <= 10) {
                     formik.setFieldValue('phone', input);
                   }

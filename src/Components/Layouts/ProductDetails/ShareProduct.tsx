@@ -48,24 +48,3 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
 // Type safety:
 // You can't accidentally reassign the prop inside the component.
 
-
-{/* <button
-        onClick={handleCopy}
-        className="flex items-center gap-2 px-3 py-1 text-sm bg-gray-200 hover:bg-gray-300 rounded transition"
-      >
-        <ClipboardCopy size={16} />
-        {copied ? "Copied!" : "Copy Link"}
-      </button> */}
-
-
-//       const [copied, setCopied] = useState(false);
-
-//   const handleCopy = async () => {
-//     try {
-//       await navigator.clipboard.writeText(shareUrl);
-//       setCopied(true);
-//       setTimeout(() => setCopied(false), 2000); // reset after 2 sec
-//     } catch (err) {
-//       console.error("Failed to copy link:", err);
-//     }
-//   };

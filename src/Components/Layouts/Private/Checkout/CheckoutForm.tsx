@@ -3,6 +3,8 @@ import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ArrowLeft } from 'lucide-react';
+import {onAuthStateChanged} from 'firebase/auth';
+import {auth} from '../../../../Services/firebase/firebase';
 import {
   addAddress,
   getAddress,
@@ -13,6 +15,7 @@ import {
   updateAddress,
   removePreviousAddress,
 } from '../../../../Store/Address/AddressSlice';
+ 
 import './Checkout.scss';
 
 
@@ -30,24 +33,29 @@ export default function CheckoutForm() {
   const [address, setAddress] = useState<Address[]>([]);
   const [open, setOpen] = useState<boolean>(true);
   const { user } = useAuth();
+ 
 
   useEffect(() => {
-    const fetchAddress = async () => {
-      if (!user) {
-        setAddress([]);
-        return;
-      }
-      const addresses = await getAddress();
-      setAddress(addresses);
 
-      if (addresses.length === 0) {
-        setOpen(false);
-      }
-    };
-    fetchAddress();
-  }, [open]);
 
-  const formik = useFormik<FormValues>({
+    const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>{
+      if(currentUser)
+      {
+        await currentUser.reload();
+        const addresses = await getAddress();
+        setAddress(addresses);
+        if(addresses.length === 0)
+          {
+            setOpen(false);
+          } 
+      }
+       
+    });
+  
+    return ()=>unsubscribe();
+  }, [open,user]);
+
+     const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
       companyName: '',
@@ -67,7 +75,7 @@ export default function CheckoutForm() {
 
       streetAddress: Yup.string()
         .max(30, 'Must be 30 characters or less')
-        .required('required'),
+        .required('Required'),
 
       apartment: Yup.string().max(30, 'Must be 30 characters or less'),
 
@@ -79,10 +87,15 @@ export default function CheckoutForm() {
         .matches(/^\d{10}$/, 'Phone number must have 10 digits')
         .required('Required'),
 
-      emailAddress: Yup.string()
-        .email('Invalid email address')
-        .required('Required'),
+        emailAddress: Yup.string()
+        .required('Required')
+        .matches(
+          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          'Enter a valid email address'
+        ),
     }),
+
+
     onSubmit: async (values, { resetForm }) => {
       addAddress(values);
       setOpen(true);

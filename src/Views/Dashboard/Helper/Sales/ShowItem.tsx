@@ -28,6 +28,7 @@ interface ShowItemProps {
 const LIMIT = 5;
 
 export default function ShowItem({ products }: ShowItemProps) {
+
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
 
@@ -39,6 +40,7 @@ export default function ShowItem({ products }: ShowItemProps) {
     (state: RootState) => state.item.noOfWishlistItem
   );
   const dispatch = useDispatch();
+
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -78,7 +80,7 @@ export default function ShowItem({ products }: ShowItemProps) {
           return newSet;
         });
 
-        toast.success('Removed from Wishlist!', {
+        toast.success('Item removed from wishlist', {
           position: 'top-right',
         });
       } else {
@@ -86,7 +88,7 @@ export default function ShowItem({ products }: ShowItemProps) {
         dispatch(updateWishlistItem(wishlistCount + 1));
         setLikedItems((prev) => new Set([...prev, product.id]));
 
-        toast.success('Added to Wishlist!');
+        toast.success('Item added to wishlist');
       }
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);

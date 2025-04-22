@@ -1,11 +1,13 @@
 import './Checkout.scss';
 import { useState, useEffect } from 'react';
+
+import { toast } from 'react-toastify';
+import {onAuthStateChanged} from 'firebase/auth';
+import {auth} from '../../../../Services/firebase/firebase';
+import CheckoutForm from './CheckoutForm';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
 import { useAuth } from '../../../../Services/UserAuth';
-import { toast } from 'react-toastify';
-import CheckoutForm from './CheckoutForm';
-
 import Payment from './Payment';
 
 export default function Checkout() {
@@ -17,15 +19,16 @@ export default function Checkout() {
   const { user } = useAuth();
 
   useEffect(() => {
-    const fetchCartItems = async () => {
-      if (!user) {
-        setCartItems([]);
-        return;
+    const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>
+    {
+      if(currentUser)
+      {
+        await currentUser.reload();
+        const items=await getCartItems();
+        setCartItems(items);
       }
-      const items = await getCartItems();
-      setCartItems(items);
-    };
-    setTimeout(()=>fetchCartItems(),500);
+    });
+return ()=>unsubscribe();
   }, [user]);
 
   const calculateTotal = (): number => {
@@ -41,7 +44,7 @@ export default function Checkout() {
     {
       if(isCouponApplied)
       {
-        toast.error("coupean already applied on this purchase");
+        toast.error("Coupon already applied on this purchase");
         return;
       }
       toast.success("Congrats $20 OFF");
@@ -49,7 +52,7 @@ export default function Checkout() {
       setIsCouponApplied(true);
     }
     else {
-      toast.error('Coupean not found');
+      toast.error('Coupon not found');
     }
     setCoupean('');
   };
@@ -65,12 +68,23 @@ export default function Checkout() {
         <div className="show-cart-item">
           {cartItems.map((item) => (
             <div key={item.id} className="checkout-cart-item">
+              <div>
               <img
                 src={item.image}
                 alt="productimage"
                 height="30px"
                 width="30px"
               />
+                
+              <p style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '30vw'   
+                  }}>{item.title}</p>
+                 </div>
+              
+             
               <p>${item.price * (item?.quantity ?? 1)}</p>
             </div>
           ))}

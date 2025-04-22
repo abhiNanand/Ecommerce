@@ -39,7 +39,11 @@ export default function Login() {
       password: '',
     },
     validationSchema: Yup.object({
-      email: Yup.string().email('Invalid email address'),
+      email:Yup.string()
+      .matches(
+        /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+        'Enter a valid email address'
+      ),
       password: Yup.string().min(6, 'Password must be at least 6 characters'),
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
@@ -134,7 +138,7 @@ export default function Login() {
             <input
               id="email"
               name="email"
-              type="email"
+              type="text"
               placeholder="Email address"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}

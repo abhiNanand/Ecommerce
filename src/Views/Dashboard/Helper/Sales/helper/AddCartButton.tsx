@@ -74,7 +74,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
       cartItems.set(product.id, 1);
       setTotal(1);
       dispatch(updateCartItem(cartCount + 1));
-      toast.success('Added to Cart!');
+      toast.success('Item added to cart');
     } catch (error) {
       console.error('Error adding to cart', error);
       toast.error('Failed to add to cart');

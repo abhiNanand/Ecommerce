@@ -35,7 +35,12 @@ export default function Signup() {
     },
     validationSchema: Yup.object({
       name: Yup.string().required('Name is required'),
-      email: Yup.string().email('Invalid email address').required('Email is required'),
+      email: Yup.string()
+        .required('Email is required')
+        .matches(
+          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          'Enter a valid email address'
+        ),
       password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
     }),
     onSubmit: async (values, { resetForm }) => {
@@ -65,38 +70,39 @@ export default function Signup() {
     },
   });
 
-  const handleGoogleSignIn=async()=>{
-    try{
-     const result = await signInWithPopup(auth,googleProvider);
-     const {user} = result;
-     const token = await user.getIdToken();
- 
-       navigate(ROUTES.HOMEPAGE);
-       toast.success('🎉 Signed in with Google successfully!');
-       dispatch(updateAuthTokenRedux({token,user:{
-         displayName:user.displayName,
-         email:user.email,
-       },}));
- 
-     const userRef = doc(db,'users',user.uid);
-     const userSnap= await getDoc(userRef);
- 
-     if(!userSnap.exists())
-     {
-       await setDoc(userRef,{
-         uid:user.uid,
-         email:user.email,
-         displayName:user.displayName ?? 'Anonymous',
-       });
-     }
- 
+  const handleGoogleSignIn = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const { user } = result;
+      const token = await user.getIdToken();
+
+      navigate(ROUTES.HOMEPAGE);
+      toast.success('🎉 Signed in with Google successfully!');
+      dispatch(updateAuthTokenRedux({
+        token, user: {
+          displayName: user.displayName,
+          email: user.email,
+        },
+      }));
+
+      const userRef = doc(db, 'users', user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          uid: user.uid,
+          email: user.email,
+          displayName: user.displayName ?? 'Anonymous',
+        });
+      }
+
     }
     catch (error: any) {
-          console.error(error.message);
-          
-          toast.error('❌ Google Sign-In failed! Try again.');
-        }
-   }
+      console.error(error.message);
+
+      toast.error('❌ Google Sign-In failed! Try again.');
+    }
+  }
 
   return (
     <div className="login-signup-container">
@@ -124,7 +130,7 @@ export default function Signup() {
           <div className="input-group">
             <input
               id="email"
-              type="email"
+              type="text"
               placeholder="Email address"
               {...formik.getFieldProps('email')}
             />

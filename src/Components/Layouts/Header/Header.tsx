@@ -7,6 +7,7 @@ import {
   LogOut,
 
 } from 'lucide-react';
+import {toast} from 'react-toastify';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { signOut,onAuthStateChanged } from 'firebase/auth';
@@ -81,6 +82,10 @@ export default function Header() {
   const handleSearch = () => {
     if (searchQuery.trim() !== '') {
       navigate(`/search/${searchQuery.trim()}`);
+    }
+    else
+    {
+      toast.error("Please enter a search query.");
     }
   };
 

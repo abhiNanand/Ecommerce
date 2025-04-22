@@ -5,6 +5,7 @@ import './Order.scss';
 import { Product } from '../../../../Shared/Product';
 import { Address } from '../../../../Services/Address/Address';
 import {auth} from '../../../../Services/firebase/firebase';
+import { RippleLoader } from '../../../../Views/Dashboard/Loaders/Loaders';
 interface OrderData {
   id: string;
   products: Product[];
@@ -15,6 +16,7 @@ interface OrderData {
 
 
 export default function Order() {
+  const [loading,setLoading]=useState<boolean>(true);
   const [orders, setOrders] = useState<OrderData[]>([]);
 
 
@@ -24,9 +26,11 @@ export default function Order() {
             await currentUser.reload();
             const data = await fetchOrders();
             setOrders(data);
+            setLoading(false);
           }
           else {
             setOrders([]);
+            setLoading(false);
           }
         });
         return ()=>unsubscribe();
@@ -40,7 +44,12 @@ export default function Order() {
   return order.products.reduce((total,product)=>total+(product.price *( product.quantity??1)),0)
 }
 
-
+  if(loading)
+  {
+        return  (<div className="loader">
+            <RippleLoader />
+          </div>)
+  }
   return (
     <div className="order-page">
       <h2>Your Order</h2>

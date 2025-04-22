@@ -42,6 +42,8 @@ function Payment({ Items,deleteCartItems,total }: ItemProps) {
           'eth_requestAccounts',
           []
         );
+        console.log("hi->",accounts);
+        console.log("ki",accounts[0]);
         setAccount(accounts[0]);
       } catch (err) {
         toast.error('Failed to connect wallet:');
@@ -112,10 +114,12 @@ function Payment({ Items,deleteCartItems,total }: ItemProps) {
   
   return (
     <div className="payment-gateway">
+      {account&&(<p>account={account}</p>)}
       <button
   className={`connect-button ${account ? 'connected' : ''}`}
   onClick={account ? handleDisconnect : connectWallet}
 >
+
   {account
     ?  `Disconnect`
     : 'Connect Wallet'}

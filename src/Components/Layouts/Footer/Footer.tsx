@@ -2,10 +2,21 @@ import assets from '../../../assets';
 import './Footer.scss';
 import { ROUTES } from '../../../Shared/Constants';
 import { useAuth } from '../../../Services/UserAuth';
-import { Link } from 'react-router-dom';
+import { Link,useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+import {toast} from 'react-toastify';
 
 export default function Footer() {
   const { isAuthenticated } = useAuth();
+
+  const location =useLocation();
+  useEffect( ()=> {
+    if(isAuthenticated && location.pathname!='/')
+    toast.dismiss();
+  
+  }
+
+   ,[location.pathname]);
   return (
     <footer className="footer-container">
       <div className="footer-content">

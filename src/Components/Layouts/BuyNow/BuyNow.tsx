@@ -3,15 +3,15 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../../Services/Api/module/demoApi';
 import CheckoutForm from '../Private/Checkout/CheckoutForm';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import Payment from '../Private/Checkout/Payment';
 
 export default function BuyNow() {
   const [coupean, setCoupean] = useState<string>('');
   const { productId } = useParams();
-  const [discount,setDiscount]=useState<number>(0);
-  const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false); 
+  const [discount, setDiscount] = useState<number>(0);
+  const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false);
 
   const {
     data: product,
@@ -33,10 +33,8 @@ export default function BuyNow() {
 
   const handleButtonClick = () => {
 
-    if (coupean== 'SAVE20')
-    {
-      if(isCouponApplied)
-      {
+    if (coupean == 'SAVE20') {
+      if (isCouponApplied) {
         toast.error("coupean already applied on this purchase");
         return;
       }
@@ -60,18 +58,27 @@ export default function BuyNow() {
       <div className="checkout-cart-items">
         <div className="show-cart-item">
           <div key={product.id} className="checkout-cart-item">
-            <img
-              src={product.image}
-              alt="productimage"
-              height="30px"
-              width="30px"
-            />
+
+            <div>
+              <img
+                src={product.image}
+                alt="productimage"
+                height="30px"
+                width="30px"
+              />
+              <p style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                maxWidth: '30vw'
+              }}>{product.title}</p>
+            </div>
             <p>${product.price}</p>
           </div>
         </div>
         <div className="checkout-subtotal">
           <p>Subtotal: ${(product.price).toFixed(2)}</p>
-          {isCouponApplied&&(<> <p>discount:${discount}</p> <button type="button" onClick={()=>{setIsCouponApplied(false);setDiscount(0);}}>Remove</button></>)}
+          {isCouponApplied && (<> <p>discount:${discount}</p> <button type="button" onClick={() => { setIsCouponApplied(false); setDiscount(0); }}>Remove</button></>)}
         </div>
         <hr />
         <div className="checkout-shipping">
@@ -96,7 +103,7 @@ export default function BuyNow() {
               Apply Coupon
             </button>
           </div>
-          <Payment Items={[product]} deleteCartItems={false} total={(product.price - discount).toFixed(2)}/>
+          <Payment Items={[product]} deleteCartItems={false} total={(product.price - discount).toFixed(2)} />
         </div>
       </div>
     </div>

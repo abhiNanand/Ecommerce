@@ -21,7 +21,7 @@ function ProductDetails() {
   const navigate = useNavigate();
  
   const {pathname}=useLocation();
-  console.log(useLocation());
+ 
 
   useEffect(()=>window.scrollTo(0,0),[pathname]);
   const {
@@ -66,7 +66,7 @@ function ProductDetails() {
           />
         </div>
         <div className="product-info">
-          <h1 className="product-title">{product.title}</h1>
+          <h3 className="product-detail-title">{product.title}</h3>
           <p className="product-description">{product.description}</p>
           <p className="product-price">
             Price: <span>${product.price}</span>
