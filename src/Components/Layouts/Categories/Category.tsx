@@ -32,12 +32,12 @@ export default function Category() {
           Electronics
         </NavLink>
         <NavLink to="/category/jewelery" className="category-nav-link">
-          Jewelery
+        Jewellery
         </NavLink>
       </aside>
 
       <section className="category-content">
-        <h1 className="category-title">{category}</h1>
+        <h1 className="category-title">{ (category=='jewelery') ?'Jewellery':<p>{category}</p> }</h1>
         {isLoading ? (
           <div className="loader">
             <RippleLoader />

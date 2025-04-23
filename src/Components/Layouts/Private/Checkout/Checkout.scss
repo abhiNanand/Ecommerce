@@ -75,7 +75,7 @@ hr {
   flex-direction: column;
 }
 
-.placeorder-btn , .wallet-btn {
+.placeorder-btn    {
   background-color: rgb(243, 3, 3);
   color: white;
   border: none;
@@ -86,10 +86,7 @@ hr {
   cursor: pointer;
 }
 
-.wallet-btn{
-  margin-bottom: 1%;
-}
-
+ 
 .coupon-section input {
   padding: 10px;
   border: 1px solid #ddd;
@@ -187,5 +184,13 @@ hr {
   margin-top:1%;
 }
 
-
+.appkit-btn
+{
+  margin-top:2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgb(21, 20, 20);
+  padding: 20px;
+}
  

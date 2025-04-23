@@ -123,7 +123,7 @@ export default function Header() {
         </div>
 
         <div className="icons">
-          <Link
+          {isAuthenticated&&(<><Link
             to={ROUTES_CONFIG.WISHLIST.path}
             className="icons-btn"
             aria-label="Favorites"
@@ -142,8 +142,9 @@ export default function Header() {
             {cartCount > 0 && isAuthenticated && (
               <span className="badge">{cartCount}</span>
             )}
-          </Link>
+          </Link></>)}
           {isAuthenticated && (
+            
             <div className="dropdown">
               <button
                 type="button"

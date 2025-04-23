@@ -16,7 +16,7 @@ import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
 import Order from '../Components/Layouts/Private/Order/Order';
 import BuyNow from '../Components/Layouts/BuyNow/BuyNow';
-import Browse from '../Views/Browse Product/Browse';
+// import Browse from '../Views/Browse Product/Browse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -94,9 +94,9 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     element: <BuyNow />,
     title: ROUTES_CONFIG.BUY.title,
   },
-  {
-    path:ROUTES_CONFIG.BROWSE.path,
-    element:<Browse/>,
-    title:ROUTES_CONFIG.BROWSE.title,
-  },
+  // {
+  //   path:ROUTES_CONFIG.BROWSE.path,
+  //   element:<Browse/>,
+  //   title:ROUTES_CONFIG.BROWSE.title,
+  // },
 ];

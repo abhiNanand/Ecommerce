@@ -67,7 +67,7 @@ export default function Dashboard() {
             Electronics
           </Link>
           <Link to="/category/jewelery" className="category-link">
-            Jewelery
+          Jewellery
           </Link>
         </div>
 

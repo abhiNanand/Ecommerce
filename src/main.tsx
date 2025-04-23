@@ -19,7 +19,7 @@ import './index.css';
  
 import { createAppKit } from '@reown/appkit/react'
 import { WagmiProvider } from 'wagmi'
-import { arbitrum, mainnet ,holesky} from '@reown/appkit/networks'
+import { holesky} from '@reown/appkit/networks'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 
@@ -32,7 +32,7 @@ const metadata = {
   url: 'https://reown.com/appkit',
   icons: ['https://assets.reown.com/reown-profile-pic.png']
 }
-const networks:any = [mainnet, arbitrum,holesky]
+const networks:any = [holesky]
 const wagmiAdapter = new WagmiAdapter({ networks, projectId, ssr: true }) 
 
  
