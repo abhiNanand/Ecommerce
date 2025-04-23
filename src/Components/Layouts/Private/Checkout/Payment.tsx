@@ -185,101 +185,26 @@
 //   );
 // }
 
-// export default Payment;
+ 
 
-
-// import { Product } from "../../../../Shared/Product";
-
-// interface ItemProps {
-//   Items: Product[];
-//   deleteCartItems:boolean;
-//   total:string;
-// }
-
-
-// import { useSendTransaction, useAccount, useReadContract } from 'wagmi';
-// import { parseEther } from 'viem'
-// import NFTContractABI from './NFTContract.json';
-
-
-// const NFTContractAddress = '0xE32383aB1dbea75Fa416CB7cA200b0e1c89735AC'
-// const paymentAddress = '0x1D7e62a808fC888764cfB26D3FD58A0A81DC4886'
-
-// export default function Payment({ Items,deleteCartItems,total }: ItemProps) {
-//   console.log(Items,deleteCartItems,total);
-
-  
-//     const { address } = useAccount()
-    
-//     const { data: balance } = useReadContract({
-//       abi: NFTContractABI,
-//       address: NFTContractAddress,
-//       functionName: 'balanceOf',
-//       args: [address ?? '0x0']
-//     })
-   
-//     const { 
-//       sendTransaction,
-//       isPending,
-//       isSuccess,
-//       error 
-//     } = useSendTransaction()
-  
-//     const handlePayment = async () => {
-//       sendTransaction({
-//         to: paymentAddress,
-//         value: parseEther('0.0001')
-//       })
-//     }
-  
-//     return (
-//       <div>
-//         <appkit-button />
-        
-//         {address && (
-//           <div className="container">
-           
-//             <div className="nft-section">
-//               <h2>Your NFTs</h2>
-//               <p>Balance: {balance?.toString() || '0'}</p>
-//             </div>
-            
-           
-//             <div className="payment-section">
-//               <h2>Send Payment</h2>
-//               <p>Send 0.0001 ETH to:</p>
-//               <p className="address">{paymentAddress}</p>
-              
-//               <button 
-//                 onClick={handlePayment}
-//                 disabled={isPending}
-//               >
-//                 {isPending ? 'Sending...' : 'Send Payment'}
-//               </button>
-              
-//               {isSuccess && <p className="success">Payment sent!</p>}
-//               {error && <p className="error">Error: {error.message}</p>}
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     )
-//   }
-
-import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useEffect,useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { useSendTransaction, useAccount, useReadContract } from 'wagmi';
+import { useNavigate } from 'react-router-dom';
+import { useAccount, useWriteContract } from 'wagmi';
 import { parseEther } from 'viem';
 import { RootState } from '../../../../Store';
-import { Product } from '../../../../Shared/Product';
-import { ROUTES } from '../../../../Shared/Constants';
 import { addToOrderHistory } from '../../../../Services/Order/order';
 import { removePreviousAddress } from '../../../../Store/Address/AddressSlice';
+import { ROUTES } from '../../../../Shared/Constants';
 import { removeFromCart } from '../../../../Services/Cart/CartService';
 import { updateCartItem } from '../../../../Store/Item/total_item_slice';
+
+ 
+import { Product } from '../../../../Shared/Product';
 import NFTContractABI from './NFTContract.json';
+
+const NFTContractAddress = '0xE32383aB1dbea75Fa416CB7cA200b0e1c89735AC';
 
 interface ItemProps {
   Items: Product[];
@@ -287,118 +212,91 @@ interface ItemProps {
   total: string;
 }
 
-const NFTContractAddress = '0xE32383aB1dbea75Fa416CB7cA200b0e1c89735AC';
-const paymentAddress = '0x1D7e62a808fC888764cfB26D3FD58A0A81DC4886';
-
-export default function Payment({ Items, deleteCartItems, total }: ItemProps) {
-  const { address } = useAccount();
-  const [open, setOpen] = useState(false);
+function Payment({ Items, deleteCartItems, total }: ItemProps) {
+  const {  isConnected } = useAccount();
   const dispatch = useDispatch();
+  const [open,setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const payTotal = (0.0001 * Number(total)).toFixed(4); // simplified for demo
-
-  const userAddress = useSelector((state: RootState) => state.address);
-
-  const { data: balance } = useReadContract({
-    abi: NFTContractABI,
-    address: NFTContractAddress,
-    functionName: 'balanceOf',
-    args: [address ?? '0x0'],
-  });
+  const addressData = useSelector((state: RootState) => state.address);
+ 
+  const payTotal = (0.0001 * Number(total)).toFixed(4);
 
   const {
-    sendTransaction,
-    isPending,
-    isSuccess,
-    error,
-    data: txHash,
-  } = useSendTransaction();
+    writeContract,
+    isPending: isMinting,
+    isSuccess: isMintSuccess,
+    error: mintError,
+  } = useWriteContract();
 
-  const handlePayment = async () => {
-    if (!address) {
-      toast.warning('Please connect your wallet first');
-      return;
-    }
-    if (userAddress.name.trim() === '') {
+  const handleMint = () => {
+    if (!addressData.name.trim()) {
       toast.error('Address not selected');
       return;
     }
 
-    sendTransaction({
-      to: paymentAddress,
+    writeContract({
+      abi: NFTContractABI,
+      address: NFTContractAddress,
+      functionName: 'mintNFT',
+      args: [''],
       value: parseEther(`${payTotal}`),
     });
   };
 
+ 
   useEffect(() => {
-    const placeOrder = async () => {
-      if (isSuccess) {
-        toast.success('✅ Payment sent!');
-        addToOrderHistory(Items, userAddress);
-        dispatch(removePreviousAddress());
+    if (isMintSuccess) {
+      toast.success('NFT Minted & Payment Done!');
+      addToOrderHistory(Items, addressData);
+      dispatch(removePreviousAddress());
 
-        if (deleteCartItems) {
-          await Promise.all(Items.map((item) => removeFromCart(item.id)));
-          dispatch(updateCartItem(0));
-        }
-
-        setTimeout(() => setOpen(true), 2000);
+      if (deleteCartItems) {
+        Promise.all(
+          Items.map(async (item) => await removeFromCart(item.id))
+        ).then(() => dispatch(updateCartItem(0)));
       }
-    };
 
-    placeOrder();
-  }, [isSuccess]);
+      setTimeout(() => {
+       setOpen(true);
+      }, 2000);
+    }
+  }, [isMintSuccess]);
 
   return (
     <div className="payment-gateway">
       <appkit-button />
 
-      {address && (
-        <div className="container">
-          <div className="nft-section">
-            <h2>Your NFTs</h2>
-            <p>Balance: {balance?.toString() || '0'}</p>
-          </div>
+      {isConnected && (
+        <div>
+          <button
+            className={`send-button ${isMinting ? 'processing' : ''}`}
+            onClick={handleMint}
+            disabled={isMinting}
+          >
+            {isMinting ? <p>Processing...</p> : <p>Pay {payTotal} ETH & Mint</p>}
+          </button>
 
-          <div className="payment-section">
-            <h2>Send Payment</h2>
-            <p>Send {payTotal} ETH to:</p>
-            <p className="address">{paymentAddress}</p>
-
-            <button onClick={handlePayment} disabled={isPending}>
-              {isPending ? 'Sending...' : `Pay ${payTotal} ETH`}
-            </button>
-
-            {txHash && (
-              <a
-                href={`https://sepolia.basescan.org/tx/${txHash}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="tx-link"
-              >
-                View Transaction
-              </a>
-            )}
-
-            {isSuccess && <p className="success">✅ Payment sent!</p>}
-            {error && <p className="error">❌ {error.message}</p>}
-          </div>
+          {mintError && (
+            <div className="status-message failure">
+              ❌ Payment failed: {mintError.message}
+            </div>
+          )}
         </div>
       )}
 
-      {open && (
+{open && (
         <div className="place-order-container">
           <div className="place-order">
             <h2>Order Confirmed</h2>
-            <p>Your order has been placed successfully!</p>
+            <p>Your order will be placed successfully!</p>
             <button
               type="button"
               className="place-order-btn"
-              onClick={() => navigate(ROUTES.ORDER)}
+              onClick={() => {navigate(ROUTES.ORDER);setOpen(false);}}
             >
               View Order
             </button>
-            <br />
+            <br/>
             <button
               className="place-order-btn"
               onClick={() => {
@@ -414,3 +312,6 @@ export default function Payment({ Items, deleteCartItems, total }: ItemProps) {
     </div>
   );
 }
+
+export default Payment;
+
