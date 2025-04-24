@@ -36,7 +36,7 @@ export default function Contact() {
         ),
       phone: Yup.string()
         .matches(/^\d{10}$/, 'Phone number must be 10 digits')
-        .required('phone number is required'),
+        .required('Phone number is required'),
       message: Yup.string()
         .max(50, 'Must be 50 characters or less')
         .required('Message is required'),
@@ -83,63 +83,74 @@ export default function Contact() {
         </div>
 
         <div className="contact-form">
-          <div className="inputs-group">
-            <form onSubmit={formik.handleSubmit}>
-              <input
-                name="name"
-                type="text"
-                placeholder="Your Name*"
-                value={formik.values.name}
-                onChange={formik.handleChange}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <div className="error">{formik.errors.name}</div>
-              )}
+  <form onSubmit={formik.handleSubmit} className="inputs-group">
+    {/* Name Field */}
+    <div className="form-group">
+      <input
+        name="name"
+        type="text"
+        placeholder="Your Name*"
+        value={formik.values.name}
+        onChange={formik.handleChange}
+      />
+      <div className="error">
+        {formik.touched.name && formik.errors.name ? formik.errors.name : ''}
+      </div>
+    </div>
 
-              <input
-                name="email"
-                type="text"
-                placeholder="Your Email*"
-                value={formik.values.email}
-                onChange={formik.handleChange}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <div className="error">{formik.errors.email}</div>
-              )}
+    {/* Email Field */}
+    <div className="form-group">
+      <input
+        name="email"
+        type="text"
+        placeholder="Your Email*"
+        value={formik.values.email}
+        onChange={formik.handleChange}
+      />
+      <div className="error">
+        {formik.touched.email && formik.errors.email ? formik.errors.email : ''}
+      </div>
+    </div>
 
-              <input
-                name="phone"
-                type="tel"
-                placeholder="Your Phone*"
-                value={formik.values.phone}
-                onChange={(e) => {
-                  const input = e.target.value.replace(/\D/g, '');
-                  if (input.length <= 10) {
-                    formik.setFieldValue('phone', input);
-                  }
-                }}
-              />
-              {formik.touched.phone && formik.errors.phone && (
-                <div className="error">{formik.errors.phone}</div>
-              )}
+    {/* Phone Field */}
+    <div className="form-group">
+      <input
+        name="phone"
+        type="tel"
+        placeholder="Your Phone*"
+        value={formik.values.phone}
+        onChange={(e) => {
+          const input = e.target.value.replace(/\D/g, '');
+          if (input.length <= 10) {
+            formik.setFieldValue('phone', input);
+          }
+        }}
+      />
+      <div className="error">
+        {formik.touched.phone && formik.errors.phone ? formik.errors.phone : ''}
+      </div>
+    </div>
 
-              {/* Message Input */}
-              <textarea
-                name="message"
-                placeholder="Your Message*"
-                value={formik.values.message}
-                onChange={formik.handleChange}
-              />
-              {formik.touched.message && formik.errors.message && (
-                <div className="error">{formik.errors.message}</div>
-              )}
+    {/* Message Field */}
+    <div className="form-group">
+      <textarea
+        name="message"
+        placeholder="Your Message*"
+        value={formik.values.message}
+        onChange={formik.handleChange}
+      />
+      <div className="error">
+        {formik.touched.message && formik.errors.message ? formik.errors.message : ''}
+      </div>
+    </div>
 
-              <button type="submit" className="send-button">
-                Send Message
-              </button>
-            </form>
-          </div>
-        </div>
+    {/* Submit Button */}
+    <button type="submit" className="send-button">
+      Send Message
+    </button>
+  </form>
+</div>
+
       </div>
     </div>
   );

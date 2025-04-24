@@ -59,7 +59,7 @@ export default function Profile() {
         toast.success('Password changed successfully!');
         setEditMode(false);
       } catch (err: any) {
-       toast.error(" current password is wrong");
+       toast.error(" Current password is wrong");
       }
     },
   });
@@ -103,7 +103,8 @@ export default function Profile() {
 
         {editMode && (
           <div className="profile-password-section">
-            <label>Password Changes</label>
+            
+            <label>Current Password</label>
             <input
               type="password"
               name="currentPassword"
@@ -114,7 +115,7 @@ export default function Profile() {
             {formik.touched.currentPassword && formik.errors.currentPassword && (
               <small className="error">{formik.errors.currentPassword}</small>
             )}
-
+              <label>New Password</label>
             <input
               type="password"
               name="newPassword"
@@ -125,7 +126,7 @@ export default function Profile() {
             {formik.touched.newPassword && formik.errors.newPassword && (
               <small className="error">{formik.errors.newPassword}</small>
             )}
-
+           <label>Confirm New Password</label>
             <input
               type="password"
               name="confirmPassword"

@@ -12,10 +12,10 @@ import Contact from '../Components/Layouts/Contact/Contact';
 import About from '../Components/Layouts/About/About';
 import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
-// import Wishlist from '../Components/Layouts/Private/Wishlist/Wishlist';
-// import Cart from '../Components/Layouts/Private/Cart/Cart';
 import Browse from '../Views/Browse Product/Browse';
-
+import FAQs from '../Views/QuickLinks/FAQs';
+import PrivacyPolicy from '../Views/QuickLinks/PrivacyPolicy';
+import TermsOfUse from '../Views/QuickLinks/TermsOfUse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [
@@ -69,20 +69,24 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
     element: <SearchItem />,
     title: ROUTES_CONFIG.SEARCH.title,
   },
-  // {
-  //   path: ROUTES_CONFIG.WISHLIST.path,
-  //   element: <Wishlist />,
-  //   title: ROUTES_CONFIG.WISHLIST.title,
-  // },
-  // {
-  //   path: ROUTES_CONFIG.CART.path,
-  //   element: <Cart/>,
-  //   title: ROUTES_CONFIG.CART.title,
-  // },
-
   {
     path:ROUTES_CONFIG.BROWSE.path,
     element:<Browse/>,
     title:ROUTES_CONFIG.BROWSE.title,
+  },
+  {
+    path:ROUTES_CONFIG.FAQs.path,
+    element:<FAQs/>,
+    title:ROUTES_CONFIG.FAQs.title,
+  },
+  {
+    path:ROUTES_CONFIG.PRIVACY_POLICY.path,
+    element:<PrivacyPolicy/>,
+    title:ROUTES_CONFIG.PRIVACY_POLICY.title,
+  },
+  {
+    path:ROUTES_CONFIG.TERMS_OF_USE.path,
+    element:<TermsOfUse/>,
+    title:ROUTES_CONFIG.TERMS_OF_USE.title,
   },
 ];

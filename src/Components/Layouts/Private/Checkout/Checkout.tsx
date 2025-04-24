@@ -2,8 +2,8 @@ import './Checkout.scss';
 import { useState, useEffect } from 'react';
 
 import { toast } from 'react-toastify';
-import {onAuthStateChanged} from 'firebase/auth';
-import {auth} from '../../../../Services/firebase/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../../../Services/firebase/firebase';
 import CheckoutForm from './CheckoutForm';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import { Product } from '../../../../Shared/Product';
@@ -13,22 +13,20 @@ import Payment from './Payment';
 export default function Checkout() {
   const [cartItems, setCartItems] = useState<Product[]>([]);
   const [coupean, setCoupean] = useState<string>('');
-  const [discount,setDiscount]=useState<number>(0);
-  const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false); 
+  const [discount, setDiscount] = useState<number>(0);
+  const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false);
 
   const { user } = useAuth();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>
-    {
-      if(currentUser)
-      {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
         await currentUser.reload();
-        const items=await getCartItems();
+        const items = await getCartItems();
         setCartItems(items);
       }
     });
-return ()=>unsubscribe();
+    return () => unsubscribe();
   }, [user]);
 
   const calculateTotal = (): number => {
@@ -39,20 +37,22 @@ return ()=>unsubscribe();
   };
 
   const handleButtonClick = () => {
-
-    if (coupean== 'SAVE20')
-    {
-      if(isCouponApplied)
-      {
-        toast.error("Coupon already applied on this purchase");
-        return;
+    if (coupean == 'SAVE20') {
+      if (isCouponApplied) {
+        toast.error('Coupon already applied on this purchase');
+         
       }
-      toast.success("Congrats $20 OFF");
-      setDiscount(20);
-      setIsCouponApplied(true);
-    }
-    else {
-      toast.error('Coupon not found');
+      else
+      {
+        toast.success('Congrats $20 OFF');
+        setDiscount(20);
+        setIsCouponApplied(true);
+      }
+      
+    } else {
+      const trimCoupon = coupean.trim();
+      if (trimCoupon.length == 0) toast.error('Coupon not found');
+      else toast.error('Enter a valid coupon');
     }
     setCoupean('');
   };
@@ -69,29 +69,46 @@ return ()=>unsubscribe();
           {cartItems.map((item) => (
             <div key={item.id} className="checkout-cart-item">
               <div>
-              <img
-                src={item.image}
-                alt="productimage"
-                height="30px"
-                width="30px"
-              />
-                
-              <p style={{
+                <img
+                  src={item.image}
+                  alt="productimage"
+                  height="30px"
+                  width="30px"
+                />
+
+                <p
+                  style={{
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     textOverflow: 'ellipsis',
-                    maxWidth: '30vw'   
-                  }}>{item.title}</p>
-                 </div>
-              
-             
+                    maxWidth: '30vw',
+                  }}
+                >
+                  {item.title}
+                </p>
+              </div>
+
               <p>${item.price * (item?.quantity ?? 1)}</p>
             </div>
           ))}
         </div>
         <div className="checkout-subtotal">
           <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
-          {isCouponApplied&&(<> <p>discount:${discount}</p> <button type="button" onClick={()=>{setIsCouponApplied(false);setDiscount(0);}}>Remove</button></>)}
+          {isCouponApplied && (
+            <>
+              {' '}
+              <p>discount:${discount}</p>{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCouponApplied(false);
+                  setDiscount(0);
+                }}
+              >
+                Remove
+              </button>
+            </>
+          )}
         </div>
         <hr />
         <div className="checkout-shipping">
@@ -101,7 +118,7 @@ return ()=>unsubscribe();
         <hr />
         <div className="checkout-total">
           <p>Total</p>
-          <span>${(calculateTotal() - discount).toFixed(2) }</span>
+          <span>${(calculateTotal() - discount).toFixed(2)}</span>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">
@@ -116,10 +133,13 @@ return ()=>unsubscribe();
               Apply Coupon
             </button>
           </div>
-          <Payment Items={cartItems} deleteCartItems={true} total={(calculateTotal() - discount).toFixed(2) } />
+          <Payment
+            Items={cartItems}
+            deleteCartItems={true}
+            total={(calculateTotal() - discount).toFixed(2)}
+          />
         </div>
       </div>
     </div>
   );
 }
-

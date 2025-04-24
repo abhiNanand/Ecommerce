@@ -117,3 +117,14 @@ textarea:focus
         flex-direction: column;
     }
 }
+
+.form-group {
+    width: 100%;
+  }
+  
+  .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+    min-height: 16px;
+  }

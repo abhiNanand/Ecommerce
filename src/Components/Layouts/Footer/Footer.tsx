@@ -45,9 +45,9 @@ export default function Footer() {
 
         <div className="footer-section">
           <h3>Quick Links</h3>
-          <Link to={ROUTES.BROWSE}>Privacy Policy</Link><br />
-          <Link to={ROUTES.BROWSE}>Terms of Use</Link><br />
-          <Link to={ROUTES.BROWSE}>FAQs</Link><br />
+          <Link to={ROUTES.PRIVACY_POLICY}>Privacy Policy</Link><br />
+          <Link to={ROUTES.TERMS_OF_USE}>Terms of Use</Link><br />
+          <Link to={ROUTES.FAQs}>FAQs</Link><br />
         </div>
 
         <div className="download-app-container">

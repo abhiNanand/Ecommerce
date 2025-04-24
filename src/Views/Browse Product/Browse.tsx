@@ -6,7 +6,7 @@ export default function Browse()
 
     return (
       <div className="error-container">
-        <p className="error-heading">Comming Soon </p>
+        <p className="error-heading">Coming Soon </p>
         <button
           type="button"
           onClick={() => navigate(ROUTES.HOMEPAGE)}

@@ -94,7 +94,7 @@ export default function Header() {
       <div className="navbar-container">
         <div className="brand">
 
-          <Link to={ROUTES.SHOP}>EXCLUSIVE</Link>
+          <Link to={ROUTES.HOMEPAGE}>EXCLUSIVE</Link>
         </div>
 
         <nav className="nav-links">

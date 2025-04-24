@@ -33,11 +33,10 @@ export default function CheckoutForm() {
   const [address, setAddress] = useState<Address[]>([]);
   const [open, setOpen] = useState<boolean>(true);
   const { user } = useAuth();
+  const [selectedAddressIndex,setSelectedAddressIndex]=useState<number>(0);
  
 
   useEffect(() => {
-
-
     const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>{
       if(currentUser)
       {
@@ -48,6 +47,10 @@ export default function CheckoutForm() {
           {
             setOpen(false);
           } 
+          else
+          {
+            handleRadioClick(address[selectedAddressIndex]);
+          }
       }
        
     });
@@ -68,13 +71,13 @@ export default function CheckoutForm() {
 
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(15, 'Must be 15 characters or less')
+        .max(15, 'Must be 20 characters or less')
         .required('Required'),
 
-      companyName: Yup.string().max(15, 'Must be 15 characters or less'),
+      companyName: Yup.string().max(15, 'Must be 40 characters or less'),
 
       streetAddress: Yup.string()
-        .max(30, 'Must be 30 characters or less')
+        .max(30, 'Must be 40 characters or less')
         .required('Required'),
 
       apartment: Yup.string().max(30, 'Must be 30 characters or less'),
@@ -140,7 +143,8 @@ export default function CheckoutForm() {
                   name="selectedAddress"
                   value={index}
                   id={`address-${index}`}
-                  onClick={() => handleRadioClick(value)}
+                  checked={selectedAddressIndex ===  index}
+                  onClick={() => {handleRadioClick(value);setSelectedAddressIndex(index);}}
                 />
                 <label htmlFor={`address-${index}`}>
                   <strong>{value.name}</strong>, {value.companyName},{' '}

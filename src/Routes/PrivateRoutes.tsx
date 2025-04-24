@@ -16,7 +16,10 @@ import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
 import Order from '../Components/Layouts/Private/Order/Order';
 import BuyNow from '../Components/Layouts/BuyNow/BuyNow';
-// import Browse from '../Views/Browse Product/Browse';
+import Browse from '../Views/Browse Product/Browse';
+import FAQs from '../Views/QuickLinks/FAQs';
+import PrivacyPolicy from '../Views/QuickLinks/PrivacyPolicy';
+import TermsOfUse from '../Views/QuickLinks/TermsOfUse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
@@ -94,9 +97,24 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
     element: <BuyNow />,
     title: ROUTES_CONFIG.BUY.title,
   },
-  // {
-  //   path:ROUTES_CONFIG.BROWSE.path,
-  //   element:<Browse/>,
-  //   title:ROUTES_CONFIG.BROWSE.title,
-  // },
+  {
+    path: ROUTES_CONFIG.BROWSE.path,
+    element: <Browse />,
+    title: ROUTES_CONFIG.BROWSE.title,
+  },
+  {
+    path: ROUTES_CONFIG.FAQs.path,
+    element: <FAQs />,
+    title: ROUTES_CONFIG.FAQs.title,
+  },
+  {
+    path: ROUTES_CONFIG.PRIVACY_POLICY.path,
+    element: <PrivacyPolicy />,
+    title: ROUTES_CONFIG.PRIVACY_POLICY.title,
+  },
+  {
+    path: ROUTES_CONFIG.TERMS_OF_USE.path,
+    element: <TermsOfUse />,
+    title: ROUTES_CONFIG.TERMS_OF_USE.title,
+  },
 ];

@@ -109,7 +109,7 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
         <div className="place-order-container">
           <div className="place-order">
             <h2>Order Confirmed</h2>
-            <p>Your order will be placed successfully!</p>
+            <p>Your order has been received and will be processed shortly.</p>
             <button
               type="button"
               className="place-order-btn"

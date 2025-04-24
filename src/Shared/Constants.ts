@@ -21,7 +21,10 @@ const ROUTES = {
   SEARCH: '/search/:query',
   ORDER: '/order',
   BUY: '/buy/:productId',
-  BROWSE:'/browse',
+  BROWSE: '/browse',
+  FAQs: '/FAQs',
+  PRIVACY_POLICY: '/PrivacyPolicy',
+  TERMS_OF_USE: '/TermsOfUse',
 };
 
 const ROUTES_CONFIG = {
@@ -100,9 +103,21 @@ const ROUTES_CONFIG = {
     path: ROUTES.BUY,
     title: 'buyproduct',
   },
-  BROWSE:{
-    path:ROUTES.BROWSE,
-    title:'product'
+  BROWSE: {
+    path: ROUTES.BROWSE,
+    title: 'product',
+  },
+  FAQs: {
+    path: ROUTES.FAQs,
+    title: 'FAQs',
+  },
+  PRIVACY_POLICY: {
+    path: ROUTES.PRIVACY_POLICY,
+    title: 'Privacy Policy',
+  },
+  TERMS_OF_USE: {
+    path: ROUTES.TERMS_OF_USE,
+    title: 'Terms Of Use',
   },
 };
 export { ROUTES, ROUTES_CONFIG };

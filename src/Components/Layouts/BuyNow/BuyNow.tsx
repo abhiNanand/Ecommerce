@@ -35,15 +35,24 @@ export default function BuyNow() {
 
     if (coupean == 'SAVE20') {
       if (isCouponApplied) {
-        toast.error("coupean already applied on this purchase");
-        return;
+        toast.error("Coupon already applied on this purchase");
+         
       }
-      toast.success("Congrats $20 OFF");
-      setDiscount(20);
-      setIsCouponApplied(true);
+      else
+      {
+        toast.success("Congrats $20 OFF");
+        setDiscount(20);
+        setIsCouponApplied(true);
+      }
+     
     }
     else {
-      toast.error('enter a valid token');
+     
+      const trimCoupon=coupean.trim();
+      if(trimCoupon.length==0)
+        toast.error("Coupon not found");
+      else
+      toast.error('Enter a valid coupon');
     }
     setCoupean('');
   };
