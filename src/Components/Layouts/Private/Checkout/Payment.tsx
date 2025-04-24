@@ -30,7 +30,7 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
   const [txHash, setTxHash] = useState<string | null>(null);
 
 
-  const payTotal = (0.00000001 * Number(total)).toFixed(4);
+  const payTotal = (0.00001 * Number(total)).toFixed(4);
 
   const {
     writeContract,

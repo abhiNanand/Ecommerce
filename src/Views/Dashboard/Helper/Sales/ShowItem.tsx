@@ -29,6 +29,7 @@ interface ShowItemProps {
 export default function ShowItem({ products,showAll=false }: ShowItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
+  const [loading,setLoading]=useState<boolean>(false);
 
    const navigate = useNavigate();
   const { user } = useAuth();
@@ -65,32 +66,33 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
         navigate(ROUTES.LOGIN);
         return;
       }
+      if(loading)
+        return;
+      setLoading(true);
       const isLiked = likedItems.has(product.id);
 
       if (isLiked) {
         await removeFromWishlist(product.id);
-        
         setLikedItems((prev) => {
           const newSet = new Set(prev);
           newSet.delete(product.id);
           return newSet;
-        }
-      
-      );
-
-        toast.success('Item removed from wishlist', {
+        });
+         toast.success('Item removed from wishlist', {
           position: 'top-right',
         });
         dispatch(updateWishlistItem(wishlistCount - 1));
       } else {
         await addToWishlist(product);
-        
         setLikedItems((prev) => new Set([...prev, product.id]));
         toast.success('Item added to wishlist');
         dispatch(updateWishlistItem(wishlistCount + 1));
       }
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
+    }
+    finally{
+      setLoading(false);
     }
   }; 
 
@@ -108,6 +110,7 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
           >
             <button
               type="button"
+              disabled={loading}
               className="add-wishlist-btn"
               onClick={(event) => {
                 event.stopPropagation();

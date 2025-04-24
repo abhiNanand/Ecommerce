@@ -44,8 +44,9 @@ export default function Checkout() {
       }
       else
       {
-        toast.success('Congrats $20 OFF');
-        setDiscount(20);
+        toast.success('Congrats 20% OFF');
+        const discountAmount=(0.20*calculateTotal()).toFixed(2)
+        setDiscount(Number(discountAmount));
         setIsCouponApplied(true);
       }
       
@@ -96,16 +97,17 @@ export default function Checkout() {
           <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
           {isCouponApplied && (
             <>
-              {' '}
-              <p>discount:${discount}</p>{' '}
+             
+              <p>Discount: ${discount}</p>
               <button
                 type="button"
+                className="remove-btn"
                 onClick={() => {
                   setIsCouponApplied(false);
                   setDiscount(0);
                 }}
               >
-                Remove
+                Remove Coupon
               </button>
             </>
           )}

@@ -40,8 +40,8 @@ export default function BuyNow() {
       }
       else
       {
-        toast.success("Congrats $20 OFF");
-        setDiscount(20);
+        toast.success("Congrats 20% OFF");
+        setDiscount(0.80);
         setIsCouponApplied(true);
       }
      
@@ -87,7 +87,7 @@ export default function BuyNow() {
         </div>
         <div className="checkout-subtotal">
           <p>Subtotal: ${(product.price).toFixed(2)}</p>
-          {isCouponApplied && (<> <p>discount:${discount}</p> <button type="button" onClick={() => { setIsCouponApplied(false); setDiscount(0); }}>Remove</button></>)}
+          {isCouponApplied && (<> <p>discount:${discount}</p> <button type="button" className="remove-btn" onClick={() => { setIsCouponApplied(false); setDiscount(1); }}>Remove Coupon</button></>)}
         </div>
         <hr />
         <div className="checkout-shipping">
@@ -97,7 +97,7 @@ export default function BuyNow() {
         <hr />
         <div className="checkout-total">
           <p>Total</p>
-          <span>${(product.price - discount).toFixed(2)}</span>
+          <span>${(product.price * discount).toFixed(2)}</span>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">
