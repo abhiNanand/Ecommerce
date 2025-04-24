@@ -49,12 +49,13 @@ export default function Cart() {
 
   const handleRemoveItem = async (product: any) => {
     await removeFromCart(product.id);
+    dispatch(updateCartItem(cartCount - 1));
     setCartItems((prevItems) =>
       prevItems.filter((item) => item.id !== product.id)
     );
   };
 
-  const handleQuantityChange = async (product: any, newQuantity: number) => {
+  const handleQuantityChange = async (product: any, newQuantity: number,totalCartCount:number) => {
     const user = auth.currentUser;
     const cartRef = collection(db, `users/${user?.uid}/cart`);
     try {
@@ -63,6 +64,7 @@ export default function Cart() {
       if (!querySnapshot.empty) {
         const docRef = querySnapshot.docs[0].ref;
         await updateDoc(docRef, { quantity: newQuantity });
+        dispatch(updateCartItem(totalCartCount));
       }
       setCartItems((prevItems) =>
         prevItems.map((item) =>
@@ -145,7 +147,6 @@ export default function Cart() {
                         className="cart-delete-button"
                         onClick={() => {
                           handleRemoveItem(product);
-                          dispatch(updateCartItem(cartCount - 1));
                         }}
                       >
                         <Trash size={15} />
@@ -156,9 +157,9 @@ export default function Cart() {
                         onClick={() => {
                           handleQuantityChange(
                             product,
-                            (product.quantity ?? 1) - 1
+                            (product.quantity ?? 1) - 1,
+                            cartCount - 1
                           );
-                          dispatch(updateCartItem(cartCount - 1));
                         }}
                       >
                         -
@@ -177,9 +178,10 @@ export default function Cart() {
                       onClick={() => {
                         handleQuantityChange(
                           product,
-                          (product.quantity ?? 1) + 1
+                          (product.quantity ?? 1) + 1,
+                          cartCount+1
                         );
-                        dispatch(updateCartItem(cartCount + 1));
+                      //  dispatch(updateCartItem(cartCount + 1));
                       }}
                     >
                       +

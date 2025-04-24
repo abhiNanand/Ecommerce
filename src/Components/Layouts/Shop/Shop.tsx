@@ -12,8 +12,9 @@ import { Product } from '../../../Shared/Product';
 import Star from '../../../Views/Dashboard/Helper/Stars/Star';
 import './Shop.scss';
 
-import { SpinnerLoader } from '../../../Views/Dashboard/Loaders/Loaders';
+import { SpinnerLoader ,RippleLoader} from '../../../Views/Dashboard/Loaders/Loaders';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
+import { useEffect } from "react";
 
 export default function Shop() {
   const { data: products, error, isLoading } = useGetProductQuery(null);
@@ -24,6 +25,19 @@ export default function Shop() {
   const minPrice = 0;
   const maxPrice = 1000;
   const [range, setRange] = useState<number[]>([minPrice, maxPrice]);
+  const [loading,setLoading]=useState<boolean>(false);
+
+  
+
+ useEffect(() => {
+  setLoading(true);
+  const timeout = setTimeout(() => {
+    setLoading(false);
+  }, 1000);  
+
+  return () => clearTimeout(timeout); 
+}, [selectedCategories, selectedRatings, range]);
+
 
   if (error) return <h2>Error loading products</h2>;
   if (isLoading) {
@@ -62,7 +76,6 @@ export default function Shop() {
 
     const matchRange = product.price >= range[0] &&
       product.price <= range[1];
-
     return matchesCategory && matchesRating && matchRange;
   });
 
@@ -73,41 +86,39 @@ export default function Shop() {
         <div className="category-filter-container">
           <h3>Category</h3>
           <form>
-            <input
+            <div className="filter-product-category"> <input
               type="checkbox"
               id="women"
               onChange={() => handleCategoryChange("women's clothing")}
             />
-            <label htmlFor="women">Women's Fashion</label>
-            <br />
-            <input
+            <label htmlFor="women">Women's Fashion</label></div>
+            <div className="filter-product-category">  <input
               type="checkbox"
               id="men"
               onChange={() => handleCategoryChange("men's clothing")}
             />
-            <label htmlFor="men">Men's Fashion</label>
-            <br />
-            <input
+            <label htmlFor="men">Men's Fashion</label></div>
+            <div className="filter-product-category"> <input
               type="checkbox"
               id="electronics"
               onChange={() => handleCategoryChange('electronics')}
             />
-            <label htmlFor="electronics">Electronics</label>
-            <br />
-
-            <input
+            <label htmlFor="electronics">Electronics</label> </div>
+            <div className="filter-product-category"> <input
               type="checkbox"
               id="jewelery"
               onChange={() => handleCategoryChange('jewelery')}
             />
-            <label htmlFor="jewelery">Jewelery</label>
-            <br />
+            <label htmlFor="jewelery">Jewelery</label></div>
           </form>
         </div>
         <div className="rating-filter-container">
           <h3>Customer Reviews</h3>
+          <div className="filter-product-category"> 
           <input type="checkbox" id="rating" onChange={() => handleRatingChange(4)} />
           <label htmlFor='rating'> <Star rating={4} productId='rating-filter' />& above</label>
+            </div>
+         
         </div>
 
 
@@ -134,7 +145,10 @@ export default function Shop() {
         {filteredProducts?.length === 0 && (
           <p>No products match the selected filters.</p>
         )}
-        <ShowItem products={filteredProducts} />
+        {loading?(<div className="loader">
+                    <RippleLoader />
+                  </div>):(<ShowItem products={filteredProducts} />)}
+        
       </div>
     </div>
   );

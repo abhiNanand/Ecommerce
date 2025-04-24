@@ -57,3 +57,16 @@
 .filtered-products {
   flex: 1;
 }
+
+.filter-product-category {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.filter-product-category label
+{
+  margin-top:3%;
+}

@@ -26,14 +26,14 @@ max-width: 300px;
     margin-left:0;
   
     img {
-      width: 100%; // Makes the image responsive
-      height: auto; // Maintains aspect ratio
-      object-fit: cover; // Ensures proper resizing
+      width: 100%;  
+      height: auto;  
+      object-fit: cover;  
     }
   }
   
 
-/* Heading */
+ 
 .login-container h1 {
     font-size: 2rem;
     margin-bottom: 0.5rem;
@@ -46,7 +46,7 @@ max-width: 300px;
     font-family: 'Inter', sans-serif;
 }
 
-/* Input Fields */
+ 
 .input-group {
     margin-bottom: 0.8rem;
 }
@@ -55,11 +55,11 @@ max-width: 300px;
     width: 100%;
     padding: 12px;
     font-size: 1rem;
-    padding-left: 0;  /* Placeholder starts from the left */
+    padding-left: 0;   
     border-width: 0;
     border-bottom-width: 1px;
     border-color: rgb(192, 189, 189);
-    outline: none; /* Remove default focus outline */
+    outline: none; 
     transition: border 0.3s ease-in-out;
 }
 
@@ -167,8 +167,8 @@ max-width: 300px;
 }
 
 #create-btn, #google-btn {
-    width: 100%;  /* Ensure full width */
-    max-width: 100%;  /* Remove max-width restriction */
+    width: 100%;   
+    max-width: 100%;   
     padding: 12px;
     font-size: 1rem;
    
@@ -176,7 +176,7 @@ max-width: 300px;
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    text-align: center; /* Ensure text remains centered */
+    text-align: center;  
 }
 
 #create-btn
@@ -235,40 +235,66 @@ max-width: 300px;
     color:grey;
     font-size: 0.85rem; 
   }
-
+   
   .forgetPassword {
     position: fixed;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.4);
     display: flex;
-    align-items: center;
     justify-content: center;
-    z-index: 999;
+    align-items: center;
   }
   
   .forgetPasswordWindow {
-    background-color: white;
-    padding: 2rem 2.5rem;
-    border-radius: 5px;
+    background: #fff;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 400px;
     text-align: center;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
   
-    
-  
-    button {
-      background-color: rgb(209, 144, 201);
-      color: white;
-      padding: 0.75rem 1.5rem;
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
       font-size: 1rem;
-      border-radius:5px;
-      border: none;
-      font-weight: 500;
-      cursor: pointer;
-      transition: 0.3s ease;
-      margin-bottom: 1%;
+    }
   
-      &:hover {
-        background-color: darken(red, 10%);
+    .error-text {
+      color: #e74c3c;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+  
+    .button-group {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+  
+      button {
+        flex: 1;
+        padding: 0.75rem;
+        font-size: 1rem;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: 0.3s;
+  
+        &:first-child {
+          background: #eee;
+        }
+  
+        &:last-child {
+          background: #6c63ff;
+          color: white;
+  
+          &:hover {
+            background: #574fd6;
+          }
+        }
       }
     }
   }

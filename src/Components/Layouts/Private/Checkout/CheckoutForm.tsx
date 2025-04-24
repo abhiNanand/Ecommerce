@@ -2,7 +2,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { ArrowLeft } from 'lucide-react';
+ import { ArrowLeft } from 'lucide-react';
 import {onAuthStateChanged} from 'firebase/auth';
 import {auth} from '../../../../Services/firebase/firebase';
 import {
@@ -10,13 +10,12 @@ import {
   getAddress,
   Address,
 } from '../../../../Services/Address/Address';
-import { useAuth } from '../../../../Services/UserAuth';
+ 
 import {
   updateAddress,
   removePreviousAddress,
 } from '../../../../Store/Address/AddressSlice';
- 
-import './Checkout.scss';
+ import './Checkout.scss';
 
 
 interface FormValues {
@@ -32,31 +31,27 @@ interface FormValues {
 export default function CheckoutForm() {
   const [address, setAddress] = useState<Address[]>([]);
   const [open, setOpen] = useState<boolean>(true);
-  const { user } = useAuth();
+  
   const [selectedAddressIndex,setSelectedAddressIndex]=useState<number>(0);
  
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>{
-      if(currentUser)
-      {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
         await currentUser.reload();
         const addresses = await getAddress();
         setAddress(addresses);
-        if(addresses.length === 0)
-          {
-            setOpen(false);
-          } 
-          else
-          {
-            handleRadioClick(address[selectedAddressIndex]);
-          }
+  
+        if (addresses.length === 0) {
+          setOpen(false);
+        } else {
+           handleRadioClick(addresses[selectedAddressIndex]);
+        }
       }
-       
     });
   
-    return ()=>unsubscribe();
-  }, [open,user]);
+    return () => unsubscribe();
+  }, [open]);
 
      const formik = useFormik<FormValues>({
     initialValues: {

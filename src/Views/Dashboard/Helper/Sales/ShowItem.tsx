@@ -1,6 +1,6 @@
 
 import { Heart } from 'lucide-react';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
@@ -22,25 +22,21 @@ import { auth } from '../../../../Services/firebase/firebase';
 import AddCartButton from './helper/AddCartButton';
 
 interface ShowItemProps {
- readonly products: Product[];
+  products: Product[];
+  showAll?: true | false;
 }
 
-const LIMIT = 5;
-
-export default function ShowItem({ products }: ShowItemProps) {
-
+export default function ShowItem({ products,showAll=false }: ShowItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
 
-  const [index, setIndex] = useState<number>(LIMIT);
-  const navigate = useNavigate();
+   const navigate = useNavigate();
   const { user } = useAuth();
 
   const wishlistCount = useSelector(
     (state: RootState) => state.item.noOfWishlistItem
   );
   const dispatch = useDispatch();
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -73,40 +69,36 @@ export default function ShowItem({ products }: ShowItemProps) {
 
       if (isLiked) {
         await removeFromWishlist(product.id);
-        dispatch(updateWishlistItem(wishlistCount - 1));
+        
         setLikedItems((prev) => {
           const newSet = new Set(prev);
           newSet.delete(product.id);
           return newSet;
-        });
+        }
+      
+      );
 
         toast.success('Item removed from wishlist', {
           position: 'top-right',
         });
+        dispatch(updateWishlistItem(wishlistCount - 1));
       } else {
         await addToWishlist(product);
-        dispatch(updateWishlistItem(wishlistCount + 1));
+        
         setLikedItems((prev) => new Set([...prev, product.id]));
-
         toast.success('Item added to wishlist');
+        dispatch(updateWishlistItem(wishlistCount + 1));
       }
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
     }
   }; 
 
-  const productsToShow = useMemo(() => {
-    if (index === LIMIT) {
-      return products.slice(0, LIMIT);
-    } else {
-      return products;
-    }
-  }, [products, index]);
+ 
 
   return (
-    <>
       <div className="products-grid">
-        {productsToShow?.map((product: Product) => (
+        {products.map((product: Product) => (
           <div
             key={product.id}
             className="product-card"
@@ -137,8 +129,6 @@ export default function ShowItem({ products }: ShowItemProps) {
             <div className="cart-btn-div" onClick={(event)=>event.stopPropagation()}>
             <AddCartButton cartItems={cartItems} product={product} />
             </div>
-           
-
             <p className="product-price">${product.price.toFixed(2)}</p>
             <div className="rating">
               <Star rating={product.rating?.rate} productId={product.id} />
@@ -148,27 +138,9 @@ export default function ShowItem({ products }: ShowItemProps) {
             </div>
           </div>
         ))}
+        {showAll&&(<button onClick={()=>navigate(ROUTES.SHOP)}>Show All</button>)}
       </div>
-      {index > LIMIT && (
-        <button
-          type="button"
-          className="view-all-btn"
-          onClick={() => setIndex(LIMIT)}
-        >
-          View Less Products
-        </button>
-      )}
-
-      {index < products.length && (
-        <button
-          type="button"
-          className="view-all-btn"
-          onClick={() => setIndex(products.length)}
-        >
-          View All Products
-        </button>
-      )}
-    </>
+  
   );
 }
 

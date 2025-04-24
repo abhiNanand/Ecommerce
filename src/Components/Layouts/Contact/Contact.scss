@@ -18,8 +18,7 @@
     flex-wrap: wrap;
     gap: 20px;
 }
-
-/* Contact Info Section */
+ 
 .contact-info {
     flex: 1;
     min-width: 280px;
@@ -36,6 +35,20 @@
     margin-bottom: 15px;
 }
 
+.info-text {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;  
+  }
+  
+.icon-with-text
+{
+    display: flex;
+    align-items: center;
+    
+    text-align: center;
+    gap:10px;
+}
 .info-box img {
     width: 30px;
     height: 30px;
@@ -52,7 +65,7 @@ hr {
     background: #ddd;
 }
 
-/* Contact Form Section */
+ 
 .contact-form {
     flex: 2;
     min-width: 320px;
@@ -64,8 +77,9 @@ hr {
 
 .inputs-group {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+     
+    flex-direction: column;
+    margin:5%;
 }
 
 .inputs-group input {
@@ -74,41 +88,29 @@ hr {
     border: 1px solid #ddd;
     border-radius: 5px;
     background: #f7f7f7;
-     
 }
 
 .inputs-group textarea {
-    width: 96%;
-    height: 100px;
+    
+    width: 96.5%;
+    height: 25vh;
     margin-top: 10px;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
     background: #f7f7f7;
     resize: none;
+     
 }
 textarea:focus
 {
     outline: none;
 }
-.send-button {
-    display: block;
-    padding: 10px;
-    margin-top: 15px;
-    background: #d32f2f;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left:auto;
-}
+ 
 
-.send-button:hover {
-    background: #b71c1c;
-}
+ 
 
-/* Responsive Design */
-@media (max-width: 768px) {
+ @media (max-width: 768px) {
     .contact-wrapper {
         flex-direction: column;
     }
@@ -118,13 +120,30 @@ textarea:focus
     }
 }
 
-.form-group {
-    width: 100%;
-  }
-  
+ 
   .error {
     color: red;
     font-size: 12px;
-    margin-top: 4px;
-    min-height: 16px;
+    margin-top: 2px;
+    min-height: 5px;
   }
+
+ 
+
+.form-group
+{
+    display: flex;
+     justify-content: space-between;
+}
+
+.submit-button
+{
+    
+    margin-left: 80%;
+    border: none;
+    background-color: #db4444;
+    color: white;
+    border-radius: 5px;
+    padding: 15px;
+    cursor: pointer;
+}

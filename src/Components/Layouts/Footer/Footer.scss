@@ -18,6 +18,9 @@
     flex: 1;
     min-width: 200px;
     margin: 10px;
+    display: flex;
+    flex-direction: column;
+    gap:10px;
 }
 
  .footer-section h3 {

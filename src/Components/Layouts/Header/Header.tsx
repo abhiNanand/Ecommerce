@@ -7,10 +7,10 @@ import {
   LogOut,
 
 } from 'lucide-react';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { signOut,onAuthStateChanged } from 'firebase/auth';
+import { signOut, onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ROUTES_CONFIG, ROUTES } from '../../../Shared/Constants';
@@ -26,8 +26,8 @@ import {
 } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
 import './Header.scss';
- 
- 
+
+
 
 export default function Header() {
   const navigate = useNavigate();
@@ -47,14 +47,14 @@ export default function Header() {
     const isSearchPage = location.pathname.startsWith('/search');
     if (!isSearchPage)
       setSearchQuery('');
-    
+
   }, [location.pathname]);
 
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        await currentUser.reload();  
+        await currentUser.reload();
         const wishlistItems = await getWishlistItems();
         const cartItems = await getCartItems();
         const totalQuantity = cartItems.reduce(
@@ -83,9 +83,8 @@ export default function Header() {
     if (searchQuery.trim() !== '') {
       navigate(`/search/${searchQuery.trim()}`);
     }
-    else
-    {
-      toast.error("Please enter a search query.");
+    else {
+      toast.warning("Search field cannot be empty");
     }
   };
 
@@ -103,27 +102,32 @@ export default function Header() {
           <NavLink className="header-nav-link" to="/about">About</NavLink>
           {!isAuthenticated && <NavLink className="header-nav-link" to={ROUTES.LOGIN}>Login</NavLink>}
         </nav>
-        {/* onBlur={() => setSearchQuery('')} */}
-        <div className="search-box">
-          <input
-            type="text"
-            placeholder="What are you looking for?"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-          />
-          <button
-            type="button"
-            className="search-box-btn"
-            aria-label="Search"
-            onClick={() => handleSearch()}
-          >
-            <Search size={20} />
-          </button>
+        <div className="search-input-btn">
+          <div className="search-box">
+            <input
+              type="text"
+              placeholder="What are you looking for?"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            />
+
+          </div>
+          <div className="search-box-btn-div">
+            <button
+              type="button"
+              className="search-box-btn"
+              aria-label="Search"
+              onClick={() => handleSearch()}
+            >
+              <Search size={25} />
+            </button>
+          </div>
+
         </div>
 
         <div className="icons">
-          {isAuthenticated&&(<><Link
+          {isAuthenticated && (<><Link
             to={ROUTES_CONFIG.WISHLIST.path}
             className="icons-btn"
             aria-label="Favorites"
@@ -133,18 +137,18 @@ export default function Header() {
               <span className="badge">{wishlistCount}</span>
             )}
           </Link>
-          <Link
-            to={ROUTES_CONFIG.CART.path}
-            className="icons-btn"
-            aria-label="Shopping Cart"
-          >
-            <ShoppingCart size={24} />
-            {cartCount > 0 && isAuthenticated && (
-              <span className="badge">{cartCount}</span>
-            )}
-          </Link></>)}
+            <Link
+              to={ROUTES_CONFIG.CART.path}
+              className="icons-btn"
+              aria-label="Shopping Cart"
+            >
+              <ShoppingCart size={24} />
+              {cartCount > 0 && isAuthenticated && (
+                <span className="badge">{cartCount}</span>
+              )}
+            </Link></>)}
           {isAuthenticated && (
-            
+
             <div className="dropdown">
               <button
                 type="button"
@@ -189,10 +193,10 @@ export default function Header() {
       </div>
       {openLogout && (<div className="logout-confirm-container">
         <div>
-               
-          <div  className="logout-confirm">
-          <h3>Are you sure you want to log out?</h3>
-          <button className="confirm-logout" onClick={() => { handleLogout(); setOpenLogout(false); }}>Yes</button>
+
+          <div className="logout-confirm">
+            <h3>Are you sure you want to log out?</h3>
+            <button className="confirm-logout" onClick={() => { handleLogout(); setOpenLogout(false); }}>Yes</button>
             <button className="cancel-logout" onClick={() => setOpenLogout(false)}>No</button>
           </div>
         </div>

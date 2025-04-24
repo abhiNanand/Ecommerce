@@ -34,20 +34,20 @@ export default function Footer() {
           ) : (
             <Link to={ROUTES.LOGIN}>Login/Register</Link>
           )}
-          <br />
+         
           <Link to={ROUTES.CART}>Cart</Link>
-          <br />
+          
           <Link to={ROUTES.WISHLIST}>Wishlist</Link>
-          <br />
+          
           <Link to={ROUTES.SHOP}>Shop</Link>
-          <br />
+
         </div>
 
         <div className="footer-section">
           <h3>Quick Links</h3>
-          <Link to={ROUTES.PRIVACY_POLICY}>Privacy Policy</Link><br />
-          <Link to={ROUTES.TERMS_OF_USE}>Terms of Use</Link><br />
-          <Link to={ROUTES.FAQs}>FAQs</Link><br />
+          <Link to={ROUTES.PRIVACY_POLICY}>Privacy Policy</Link>
+          <Link to={ROUTES.TERMS_OF_USE}>Terms of Use</Link>
+          <Link to={ROUTES.FAQs}>FAQs</Link>
         </div>
 
         <div className="download-app-container">

@@ -16,7 +16,7 @@ const ROUTES = {
   CHECKOUT: '/cart/checkout',
   PROFILE: 'profile',
   ADDRESS: 'address',
-  CONTACT: 'contact',
+  CONTACT: '/contact',
   SHOP: 'shop',
   SEARCH: '/search/:query',
   ORDER: '/order',

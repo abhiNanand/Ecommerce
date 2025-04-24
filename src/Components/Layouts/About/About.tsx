@@ -34,7 +34,7 @@ export default function About() {
     <div className="about-container">
       <p className="breadcrumb">
         <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-        <NavLink to={ROUTES.ACCOUNT}> About</NavLink>
+        <NavLink to={ROUTES.ABOUT}> About</NavLink>
       </p>
       <div className="about-header">
         <div className="about-details">

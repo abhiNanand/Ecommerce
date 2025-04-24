@@ -58,98 +58,107 @@ export default function Contact() {
     <div className="contact-container">
       <p className="breadcrumb">
         <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-        <NavLink to={ROUTES.ACCOUNT}> Contact</NavLink>
+        <NavLink to={ROUTES.CONTACT}> Contact</NavLink>
       </p>
 
       <div className="contact-wrapper">
         <div className="contact-info">
           <div className="info-box">
-            <img src={assets.icon.call} alt="Call Icon" />
-            <div>
-              <h4>Call To Us</h4>
-              <p>We are available 24/7, 7 days a week.</p>
-              <p className="phone">Phone: +917091400186</p>
+           
+          
+  <div className="info-text">
+  <div className="icon-with-text">
+  <img src={assets.icon.call} alt="Call Icon" />
+  <h4> Call To Us</h4>
             </div>
+    <p>We are available 24/7, 7 days a week.</p>
+    <p className="phone">Phone: +917091400186</p>
+  </div>
           </div>
           <hr />
           <div className="info-box">
+          
+          <div className="info-text">
+            <div className="icon-with-text">
             <img src={assets.icon.message} alt="Message Icon" />
-            <div>
-              <h4>Write To Us</h4>
+            <h4>  Write To Us</h4>
+
+            </div>
               <p>Fill out our form and we will contact you within 24 hours.</p>
-              <p>Email: customer@exclusive.com, support@exclusive.com </p>
+              <p>Email: customer@exclusive.com</p>
+              <p>Email support@exclusive.com </p>
             </div>
           </div>
         </div>
 
         <div className="contact-form">
-  <form onSubmit={formik.handleSubmit} className="inputs-group">
-    {/* Name Field */}
-    <div className="form-group">
-      <input
-        name="name"
-        type="text"
-        placeholder="Your Name*"
-        value={formik.values.name}
-        onChange={formik.handleChange}
-      />
-      <div className="error">
-        {formik.touched.name && formik.errors.name ? formik.errors.name : ''}
-      </div>
-    </div>
+          <form onSubmit={formik.handleSubmit} className="inputs-group">
+            {/* Name Field */}
+            <div className="form-group">
+              <div className="name-filed">
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Your Name*"
+                  value={formik.values.name}
+                  onChange={formik.handleChange}
+                />
+                <div className="error">
+                  {formik.touched.name && formik.errors.name ? formik.errors.name : ''}
+                </div>
+              </div>
 
-    {/* Email Field */}
-    <div className="form-group">
-      <input
-        name="email"
-        type="text"
-        placeholder="Your Email*"
-        value={formik.values.email}
-        onChange={formik.handleChange}
-      />
-      <div className="error">
-        {formik.touched.email && formik.errors.email ? formik.errors.email : ''}
-      </div>
-    </div>
+              <div className="email-field">
+                <input
+                  name="email"
+                  type="text"
+                  placeholder="Your Email*"
+                  value={formik.values.email}
+                  onChange={formik.handleChange}
+                />
+                <div className="error">
+                  {formik.touched.email && formik.errors.email ? formik.errors.email : ''}
+                </div>
+              </div>
+              <div className="phone-filed">
+                <input
+                  name="phone"
+                  type="tel"
+                  placeholder="Your Phone*"
+                  value={formik.values.phone}
+                  onChange={(e) => {
+                    const input = e.target.value.replace(/\D/g, '');
+                    if (input.length <= 10) {
+                      formik.setFieldValue('phone', input);
+                    }
+                  }}
+                />
+                <div className="error">
+                  {formik.touched.phone && formik.errors.phone ? formik.errors.phone : ''}
+                </div>
+              </div>
+            </div>
 
-    {/* Phone Field */}
-    <div className="form-group">
-      <input
-        name="phone"
-        type="tel"
-        placeholder="Your Phone*"
-        value={formik.values.phone}
-        onChange={(e) => {
-          const input = e.target.value.replace(/\D/g, '');
-          if (input.length <= 10) {
-            formik.setFieldValue('phone', input);
-          }
-        }}
-      />
-      <div className="error">
-        {formik.touched.phone && formik.errors.phone ? formik.errors.phone : ''}
-      </div>
-    </div>
 
-    {/* Message Field */}
-    <div className="form-group">
-      <textarea
-        name="message"
-        placeholder="Your Message*"
-        value={formik.values.message}
-        onChange={formik.handleChange}
-      />
-      <div className="error">
-        {formik.touched.message && formik.errors.message ? formik.errors.message : ''}
-      </div>
-    </div>
 
-    {/* Submit Button */}
-    <button type="submit" className="send-button">
-      Send Message
-    </button>
-  </form>
-</div>
+            <div className="form-message-group">
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                value={formik.values.message}
+                onChange={formik.handleChange}
+              />
+              <div className="error">
+                {formik.touched.message && formik.errors.message ? formik.errors.message : ''}
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <button type="submit" className="submit-button">
+              Send Message
+            </button>
+          </form>
+        </div>
 
       </div>
     </div>

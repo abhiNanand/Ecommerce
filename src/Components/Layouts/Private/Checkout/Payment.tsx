@@ -12,7 +12,7 @@ import { removeFromCart } from '../../../../Services/Cart/CartService';
 import { updateCartItem } from '../../../../Store/Item/total_item_slice';
 import { Product } from '../../../../Shared/Product';
 import NFTContractABI from './NFTContract.json';
-
+import './Payment.scss';
 const NFTContractAddress = '0xE32383aB1dbea75Fa416CB7cA200b0e1c89735AC';
 
 interface ItemProps {

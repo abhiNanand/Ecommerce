@@ -11,9 +11,7 @@ $border-radius: 12px;
   margin: 3rem auto;
   padding: 2rem 2.5rem;
   text-align: center;
-  background: #ffffff;
   border-radius: $border-radius;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
   transition: box-shadow 0.3s ease;
 
   h2 {
@@ -36,6 +34,7 @@ $border-radius: 12px;
     transition: all 0.3s ease;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     letter-spacing: 0.5px;
+     
   }
 
   .connect-button {

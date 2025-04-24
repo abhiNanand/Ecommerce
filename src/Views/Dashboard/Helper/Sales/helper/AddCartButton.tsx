@@ -28,7 +28,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
     setTotal(cartItems.get(product.id) ?? 0);
   }, [cartItems, product.id]);
 
-  const handleQuantityChange = async (product: Product, newQuantity: number) => {
+  const handleQuantityChange = async (product: Product, newQuantity: number,totCartCount:number) => {
     if (!user) return;
     
     try {
@@ -42,6 +42,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
         await updateDoc(docRef, { quantity: newQuantity });
         cartItems.set(product.id, newQuantity);
         setTotal(newQuantity);
+        dispatch(updateCartItem(totCartCount));
       }
     } catch (error) {
       console.error('Error updating quantity', error);
@@ -55,6 +56,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
       cartItems.delete(product.id);
       setTotal(0);
       toast.success('Item removed from cart');
+      dispatch(updateCartItem(cartCount - 1));
     } catch (error) {
       console.error('Error removing item', error);
       toast.error('Failed to remove item');
@@ -92,7 +94,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
         onClick={(event) => {
           event.stopPropagation();
           handleRemoveItem(product);
-          dispatch(updateCartItem(cartCount - 1));
+          
         }}
       >
         <Trash size={20} />
@@ -102,8 +104,8 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
         className="cart-btn-minus"
         onClick={(event) => {
           event.stopPropagation();
-          handleQuantityChange(product, total - 1);
-          dispatch(updateCartItem(cartCount - 1));
+          handleQuantityChange(product, total - 1,cartCount-1);
+          
         }}
       >
         -
@@ -122,8 +124,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
       className="cart-btn-plus"
       onClick={(event) => {
         event.stopPropagation();
-        handleQuantityChange(product, total + 1);
-        dispatch(updateCartItem(cartCount + 1));
+        handleQuantityChange(product, total + 1,cartCount+1);
       }}
     >
       +

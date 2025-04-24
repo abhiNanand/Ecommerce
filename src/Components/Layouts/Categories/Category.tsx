@@ -1,6 +1,8 @@
  
 
-import { useParams, NavLink } from 'react-router-dom';
+import { useParams, NavLink,useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
+
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
@@ -8,6 +10,9 @@ import './Category.scss';
 
 export default function Category() {
   const { category } = useParams();
+
+    const {pathname}=useLocation();
+    useEffect(()=>window.scrollTo(0,0),[pathname]);
 
   const {
     data: relatedProducts,

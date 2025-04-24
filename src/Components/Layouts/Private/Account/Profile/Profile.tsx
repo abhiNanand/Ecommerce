@@ -149,7 +149,7 @@ export default function Profile() {
             <>
               <button
                 type="button"
-                className="profile-cancel"
+                className="profile-save "
                 onClick={() => {
                   formik.resetForm();
                   setEditMode(false);

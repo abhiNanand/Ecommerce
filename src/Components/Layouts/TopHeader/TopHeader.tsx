@@ -8,7 +8,7 @@ export default function TopHeader() {
       <p className="announcement">
         Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{' '}
         <b>
-          <Link to={ROUTES.SHOP}>Show Now</Link>
+          <Link to={ROUTES.SHOP}>Shop Now</Link>
         </b>
       </p>
     </div>

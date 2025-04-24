@@ -46,17 +46,20 @@
     }
   }
 
-  .header-nav-link.active
-  {
+  .header-nav-link.active {
     color: #d9534f;
     font-weight: bold;
+  }
+
+  .search-input-btn {
+    display: flex;
   }
 
   .search-box {
     display: flex;
     align-items: center;
     background: #f4f1f1;
-    border-radius: 8px;
+    border-radius: 8px 0 0 8px;
     padding: 0.5rem 1rem;
     width: 300px;
     transition: all 0.3s ease;
@@ -75,7 +78,7 @@
     }
   }
 
-  .search-box-btn, .icons-btn {
+  .icons-btn {
     background: none;
     border: none;
     padding: 0;
@@ -90,16 +93,30 @@
     }
   }
 
+  .search-box-btn-div {
+    background-color: rgb(244, 230, 193);
+    height: 100%;
+    padding: 10px;
+    margin-left: 0px;
+    border-radius: 0 8px 8px 0;
+  }
+  .search-box-btn {
+    background: none;
+    border: none;
+    color: #666;
+    cursor: pointer;
+  }
+
   .icons {
     display: flex;
     gap: 1.5rem;
-    position: relative; // ✅ Ensures dropdown positions correctly
-    z-index: 999; // Ensures it's above most elements
+    position: relative;  
+    z-index: 999;  
   }
 }
 
 .dropdown {
-  position: relative; // ✅ Ensures correct positioning
+  position: relative;  
   z-index: 1000;
 }
 
@@ -126,7 +143,7 @@
   background: rgba(83, 82, 82, 0.809);
   backdrop-filter: blur(10px);
   color: white;
-  z-index: 1001;  
+  z-index: 1001;
 }
 
 .dropdown-content a {
@@ -152,7 +169,7 @@
   gap: 5px;
 
   &:hover {
-    background-color:  #9e0e0e;
+    background-color: #9e0e0e;
   }
 }
 
@@ -198,19 +215,17 @@
   font-weight: bold;
 }
 
-
 // {openLogout&&(<div className="logout-confirm">
 //   <h3>Are You Sure?</h3>
-//   <div> 
+//   <div>
 //     <button className="cancel-logout" onClick={()=>setOpenLogout(false)}>Cancel</button>
 //     <button className="confirm-logout" onClick={()=>{setOpen(false);handleLogout();}}>Logout</button>
 //   </div>
 //   </div>)}
 
-.logout-confirm-container
-{
-  position:fixed;
-  inset:0; // top left right bottom =0
+.logout-confirm-container {
+  position: fixed;
+  inset: 0; // top left right bottom =0
   display: flex;
   align-items: center;
   justify-content: center;
@@ -218,20 +233,20 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.logout-confirm{
+.logout-confirm {
   background-color: white;
   padding: 2rem 2.5rem;
   text-align: center;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  border-radius:5px;
+  border-radius: 5px;
   display: flex;
   flex-direction: column;
-  width:100%;
+  width: 100%;
 
-h3{
-  margin-bottom:3%;
-}
-  button{
+  h3 {
+    margin-bottom: 3%;
+  }
+  button {
     background-color: rgb(144, 184, 209);
     color: white;
     padding: 0.75rem 1.5rem;
@@ -242,7 +257,6 @@ h3{
     cursor: pointer;
     transition: 0.3s ease;
     margin-bottom: 1%;
-    
   }
 }
 @media (max-width: 500px) {

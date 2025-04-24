@@ -7,59 +7,49 @@
 //       <div className="best-selling-subtitle">
 //         <h1>Best Selling Products</h1>
 //         <button type="button" className="best-selling-btn">View All</
-.best-selling
-{
-    display: flex;
-    flex-direction: column;
-    margin-top:5vh ;
+.best-selling {
+  display: flex;
+  flex-direction: column;
+  margin-top: 5vh;
 }
 
-
-.best-selling-header
-{
-    display: flex;
-    align-items: center;
-    gap: 10px;
+.best-selling-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-
-.best-selling-title
-{
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: red;
+.best-selling-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: red;
 }
 
-.best-selling-highlight-bar
-{
-    background-color: red;
-    height: 3vh;
-    width: 1vw;
-    border-radius: 3px;
+.best-selling-highlight-bar {
+  background-color: red;
+  height: 3vh;
+  width: 1vw;
+  border-radius: 3px;
 }
-.best-selling-subtitle
-{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+.best-selling-subtitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.best-selling-subtitle h1
-{
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 1rem 0;
-    color: #333;
+.best-selling-subtitle h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  color: #333;
 }
 
-.best-selling-btn
-{
-    background-color: red;
-    padding:20px;
-    border-color: red;
-    border-style: solid;
-    border-radius:5px;
-    color:white;
-    cursor: pointer;
+.best-selling-btn {
+  margin-left: 45%;
+  border: none;
+  background-color: #db4444;
+  color: white;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
 }
-
