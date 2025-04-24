@@ -1,5 +1,3 @@
-
-
 import { useEffect,useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -12,8 +10,6 @@ import { removePreviousAddress } from '../../../../Store/Address/AddressSlice';
 import { ROUTES } from '../../../../Shared/Constants';
 import { removeFromCart } from '../../../../Services/Cart/CartService';
 import { updateCartItem } from '../../../../Store/Item/total_item_slice';
-
- 
 import { Product } from '../../../../Shared/Product';
 import NFTContractABI from './NFTContract.json';
 
@@ -90,7 +86,6 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
      
      <div className="appkit-btn">
      <appkit-button /> 
- 
      {isConnected && (
         <div>
           <button
@@ -102,9 +97,7 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
           </button>
         </div>
       )}
-     </div>
-
-     
+     </div>     
 {open && (
         <div className="place-order-container">
           <div className="place-order">
@@ -140,13 +133,10 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
     </a>
   </div>
 )}
-
           </div>
         </div>
       )}
     </div>
   );
 }
-
 export default Payment;
-

@@ -23,10 +23,10 @@ interface FormValues {
 }
 
 export default function Login() {
-  const [resetEmailSent, setResetEmailSent] = useState<boolean>(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading,setLoading]=useState<boolean>(false);
+  const [forgetPasswordWindow,setForgetPasswordWindow]=useState<boolean>(false);
 
 
     const {pathname}=useLocation();
@@ -77,14 +77,14 @@ export default function Login() {
 
   const handleForgetPassword = async () => {
     if (!formik.values.email) {
-      alert('Please enter your email first');
+      toast.warning('Please enter your email first');
       return;
     }
     try {
       await sendPasswordResetEmail(auth, formik.values.email);
-      setResetEmailSent(true);
     } catch (error) {
-      if (error instanceof Error) console.error('Reset password error:', error.message);
+      if (error instanceof Error) 
+        toast.error('failed');
     }
   };
 
@@ -171,7 +171,8 @@ export default function Login() {
             <button
               type="button"
               className="forgot-password"
-              onClick={handleForgetPassword}
+              // onClick={handleForgetPassword}
+              onClick={()=>setForgetPasswordWindow(true)}
             >
               Forgot Password?
             </button>
@@ -184,10 +185,30 @@ export default function Login() {
         <p>
           Don't have an account? <Link to={ROUTES.SIGNUP}>Signup</Link>
         </p>
+{
+  forgetPasswordWindow && (
+  <div className="forgetPassword"><div className="forgetPasswordWindow">
+  <label>Enter Eamil Address</label><br/>
+<input
+            id="email"
+            name="email"
+            type="text"
+            placeholder="Email address"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className="error-text">{formik.errors.email}</div>
+          )}
 
-        {resetEmailSent && (
-          <p className="reset-message">Reset email sent! Check your inbox.</p>
-        )}
+  <button onClick={()=>{setForgetPasswordWindow(false);}}>Cancel</button>
+  <button onClick={()=>{handleForgetPassword();setForgetPasswordWindow(false);toast.success("Reset email sent! Check your inbox")}}>Send Reset Email Link</button>  
+</div>
+</div>
+   )
+}
+      
       </div></>)}
      
     </div>
