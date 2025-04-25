@@ -40,12 +40,13 @@
 }
 
 .category-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    
+    display: flex;
     gap: 15px;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 1rem;
-    margin-bottom:5vh
+    margin-bottom:5vh;
+    flex-wrap: wrap;
 }
 
 .category-item {

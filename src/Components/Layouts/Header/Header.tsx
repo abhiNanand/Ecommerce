@@ -5,7 +5,7 @@ import {
   User,
   ShoppingBag,
   LogOut,
-
+  X
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
@@ -111,7 +111,7 @@ export default function Header() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
-
+           {searchQuery.length>0 && (<button type="button" className="clearField-btn" onClick={()=>setSearchQuery('')}><X size={20}/></button>) } 
           </div>
           <div className="search-box-btn-div">
             <button
@@ -191,20 +191,17 @@ export default function Header() {
           )}
         </div>
       </div>
-      {openLogout && (<div className="logout-confirm-container">
+      {openLogout && (<div className="confirmation-container">
         <div>
-
-          <div className="logout-confirm">
+          <div className="confirm-title-btn">
             <h3>Logout Confirmation</h3>
             <p>Are you sure you want to log out?</p>
-            <div className="logout-n-cancel-btn">
-            <button className="confirm-logout" onClick={() => { handleLogout(); setOpenLogout(false); }}>Confirm</button>
-            <button className="cancel-logout" onClick={() => setOpenLogout(false)}>Cancel</button>
+            <div className="confirm-n-cancel-btn">
+              <button className="confirm-btn" onClick={() => { handleLogout(); setOpenLogout(false); }}>Confirm</button>
+              <button className="cancel-btn" onClick={() => setOpenLogout(false)}>Cancel</button>
             </div>
-           
           </div>
         </div>
-
       </div>)}
     </header>
   );

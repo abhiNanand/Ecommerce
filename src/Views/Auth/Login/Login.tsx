@@ -45,7 +45,7 @@ export default function Login() {
     },
     validationSchema: Yup.object({
       email: emailValidation,
-      password: Yup.string().min(6, 'Password must be at least 6 characters'),
+      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {

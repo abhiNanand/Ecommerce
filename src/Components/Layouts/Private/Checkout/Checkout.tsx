@@ -94,7 +94,8 @@ export default function Checkout() {
           ))}
         </div>
         <div className="checkout-subtotal">
-          <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
+          <p>Subtotal:</p>
+          <p> ${calculateTotal().toFixed(2)}</p>
           {isCouponApplied && (
             <>
              
@@ -119,8 +120,13 @@ export default function Checkout() {
         </div>
         <hr />
         <div className="checkout-total">
-          <p>Total</p>
-          <span>${(calculateTotal() - discount).toFixed(2)}</span>
+          <p>Total:</p>
+          <p>${(calculateTotal() - discount).toFixed(2)}</p>
+        </div>
+        <hr />
+        <div className="ETH">
+          <p>ETH:</p>
+          <p>{((calculateTotal() - discount)*(0.00001)).toFixed(4)}</p>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">

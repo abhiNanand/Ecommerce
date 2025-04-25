@@ -1,6 +1,9 @@
 .address-book-container {
   padding: 2rem;
   font-family: "Segoe UI", sans-serif;
+  height:30vh;
+  overflow-y: auto;
+
 
   h2 {
     text-align: center;

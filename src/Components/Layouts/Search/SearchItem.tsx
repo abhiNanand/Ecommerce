@@ -32,23 +32,19 @@ export default function SearchItem() {
 
   return (
     <div className="show-searched-products">
-      <p className="search-tag">
+      {filteredProducts.length > 0 && <p className="search-tag">
         Showing results for:  {query} 
-      </p>
+      </p>}
+      
 
       {filteredProducts && filteredProducts.length > 0 ? (
         <ShowItem products={filteredProducts} />) : (
         <div className="no-search-query-found">
-
-
           <Frown
             strokeWidth={1}
             size={50}
-
-
           />
           <p>Sorry, we could not found any result </p></div>
-
       )}
     </div>
   );

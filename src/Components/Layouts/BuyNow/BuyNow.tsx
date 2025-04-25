@@ -86,7 +86,8 @@ export default function BuyNow() {
           </div>
         </div>
         <div className="checkout-subtotal">
-          <p>Subtotal: ${(product.price).toFixed(2)}</p>
+          <p>Subtotal:</p>
+          <p> ${(product.price).toFixed(2)}</p>
           {isCouponApplied && (<> <p>discount:${discount}</p> <button type="button" className="remove-btn" onClick={() => { setIsCouponApplied(false); setDiscount(1); }}>Remove Coupon</button></>)}
         </div>
         <hr />
@@ -96,8 +97,12 @@ export default function BuyNow() {
         </div>
         <hr />
         <div className="checkout-total">
-          <p>Total</p>
+          <p>Total:</p>
           <span>${(product.price * discount).toFixed(2)}</span>
+        </div>
+        <div className="ETH">
+          <p>ETH:</p>
+          <p>{((product.price - discount)*(0.00001)).toFixed(4)}</p>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">

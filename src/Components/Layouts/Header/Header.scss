@@ -172,7 +172,11 @@
     background-color: #9e0e0e;
   }
 }
-
+.clearField-btn{
+  all:unset;
+  cursor: pointer;
+  
+}
 @media (max-width: 768px) {
   .navbar {
     padding: 0 1rem;
@@ -215,7 +219,7 @@
   font-weight: bold;
 }
 
-.logout-confirm-container {
+.confirmation-container {
   position: fixed;
   inset: 0; // top left right bottom =0
   display: flex;
@@ -225,7 +229,7 @@
   background-color: rgba(0, 0, 0, 0.5);
 }
 
-.logout-confirm {
+.confirm-title-btn{
   background-color: white;
   padding: 3rem 2.5rem;
   text-align: center;
@@ -241,14 +245,14 @@
 
 }
 
-.logout-n-cancel-btn
+.confirm-n-cancel-btn
 {
   display: flex;
   justify-content: space-around;
   margin-top:3%;
 }
 
-.confirm-logout{
+.confirm-btn{
   
     background-color: rgb(21, 106, 159);
     color: white;
@@ -261,7 +265,7 @@
     transition: 0.3s ease;
     
 }
-.cancel-logout{
+.cancel-btn{
   background-color: none;
   color: rgb(21, 106, 159);
   padding: 0.75rem 1.5rem;
