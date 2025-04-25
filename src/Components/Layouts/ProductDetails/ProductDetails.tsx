@@ -64,7 +64,11 @@ function ProductDetails() {
             alt={product.title}
             className="product-image"
           />
+           <div className="shareProduct-btn">
+            <ShareProduct pathname={pathname}/>
+            </div>
         </div>
+       
         <div className="product-info">
           <h3 className="product-detail-title">{product.title}</h3>
           <p className="product-description">{product.description}</p>
@@ -88,7 +92,8 @@ function ProductDetails() {
             >
               Buy Now
             </button>
-            <ShareProduct pathname={pathname}/>
+            
+            
           </div>
         </div>
       </div>

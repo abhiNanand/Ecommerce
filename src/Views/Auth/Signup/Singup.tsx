@@ -56,14 +56,14 @@ export default function Signup() {
           displayName: values.name,
         });
 
-        toast.success('🎉 Account created successfully!');
+        toast.success('Account created successfully!');
         resetForm();
         setTimeout(() => navigate(ROUTES.LOGIN), 2000);
       } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
-          toast.error('❌ User already exist');
+          toast.error(' User already exist');
         } else {
-          toast.error('❌ Sign-up failed. Please try again.');
+          toast.error('Sign-up failed. Please try again.');
           console.error(error.message);
         }
       }
@@ -100,7 +100,7 @@ export default function Signup() {
     catch (error: any) {
       console.error(error.message);
 
-      toast.error('❌ Google Sign-In failed! Try again.');
+      toast.error('Google Sign-In failed! Try again.');
     }
   }
 

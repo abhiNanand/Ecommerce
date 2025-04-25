@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Frown } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { fetchOrders } from '../../../../Services/Order/order';
 import './Order.scss';
 import { Product } from '../../../../Shared/Product';
@@ -15,11 +16,10 @@ interface OrderData {
   date: Date;
 }
 
-
-
 export default function Order() {
   const [loading, setLoading] = useState<boolean>(true);
   const [orders, setOrders] = useState<OrderData[]>([]);
+  const navigate=useNavigate();
 
 
   useEffect(() => {
@@ -75,12 +75,12 @@ export default function Order() {
             </div>
             <div className="product-list">
               {order.products.map((product) => (
-                <div className="product-item" key={product.id}>
+                <div className="product-item" key={product.id} onClick={()=>{navigate(`/product/${product.id}`)}}>
                   <img src={product.image} alt={product.title} />
                   <div>
                     <p>{product.title}</p>
                     <p>Price: ₹{product.price}</p>
-                    <p>Qty: {product.quantity}</p>
+                    <p>Qty: {product.quantity ?? 1}</p>
                   </div>
                 </div>
               ))}

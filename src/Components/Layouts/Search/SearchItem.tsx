@@ -8,9 +8,7 @@ import './SearchItem.scss';
 
 export default function SearchItem() {
   const { query } = useParams();
-
   const { data: products, error, isLoading } = useGetProductQuery(null);
-
   if (!query) return <h1> No search query provided</h1>;
   if (isLoading) {
     return (
@@ -20,6 +18,10 @@ export default function SearchItem() {
     );
   }
   if (error) return <h1>Error in loading items</h1>;
+  if(query=='all')
+    {
+    return <ShowItem products={products}/>
+    }
 
   const lowerQuery = query.toLowerCase();
   const filteredProducts = products?.filter((product: Product) => {

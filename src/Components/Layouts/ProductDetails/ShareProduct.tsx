@@ -1,9 +1,9 @@
 
-import { WhatsappShareButton, EmailShareButton, TelegramShareButton } from 'react-share';
-import { WhatsappIcon, EmailIcon, TelegramIcon } from 'react-share';
-import { Share } from 'lucide-react';
+ 
+import { WhatsappIcon, EmailIcon, TelegramIcon ,WhatsappShareButton, EmailShareButton, TelegramShareButton} from 'react-share';
+import { Share,Link } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'lucide-react';
+ 
 
 interface ShareProductProps {
     readonly pathname: string;
@@ -18,9 +18,10 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
         <button type="button" className="sharedBtn" onClick={() => setOpen(!open)} onBlur={
             () => { setTimeout(() => setOpen(false), 300) }}> <Share size={20} /> </button>
         {open && (<div className="share-sites">
+
             <WhatsappShareButton url={shareLink}>
-                <WhatsappIcon size={32} round />
-            </WhatsappShareButton><span>Whatsapp</span>
+                <WhatsappIcon size={32} round /><span>Whatsapp</span>
+            </WhatsappShareButton>
 
             <br />
 
@@ -32,7 +33,7 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
                 <TelegramIcon size={32} round /><span>Telegram</span>
             </TelegramShareButton>
             <br />
-            <button onClick={() => { navigator.clipboard.writeText(shareLink); toast.success("link copied") }}><Link size={16}/>Copy Link</button>
+            <button className="copy-link" onClick={() => { navigator.clipboard.writeText(shareLink); toast.success("link copied") }}><Link size={28}/><span>CopyLink</span></button>
 
 
         </div>)}

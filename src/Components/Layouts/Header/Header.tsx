@@ -36,6 +36,7 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useAuth();
+ 
 
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const wishlistCount = useSelector(
@@ -47,7 +48,6 @@ export default function Header() {
     const isSearchPage = location.pathname.startsWith('/search');
     if (!isSearchPage)
       setSearchQuery('');
-
   }, [location.pathname]);
 
 
@@ -88,6 +88,17 @@ export default function Header() {
     }
   };
 
+  const handleSearchInput = (value:string)=>{
+if(value.trim()==='')
+{
+  if(location.pathname.includes('/search'))
+  navigate('/search/all');
+  setSearchQuery('');
+}
+else
+setSearchQuery(value);
+}
+
   return (
     <header className="navbar">
       <div className="navbar-container">
@@ -108,10 +119,10 @@ export default function Header() {
               type="text"
               placeholder="What are you looking for?"
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => {handleSearchInput(e.target.value)}} 
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
-           {searchQuery.length>0 && (<button type="button" className="clearField-btn" onClick={()=>setSearchQuery('')}><X size={20}/></button>) } 
+           {searchQuery.length>0 && (<button type="button" className="clearField-btn" onClick={()=>handleSearchInput('')}><X size={20}/></button>) } 
           </div>
           <div className="search-box-btn-div">
             <button

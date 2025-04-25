@@ -13,7 +13,6 @@ const Address = () => {
   const [open, setOpen] = useState<boolean>(false);
   const [deleteIndex,setDeleteIndex]=useState<number>(-1);
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -53,9 +52,7 @@ const Address = () => {
               <button onClick={() => {setOpen(true);setDeleteIndex(index)}}>
                 Delete
               </button>
-             
             </div>
-
           ))}
         </div>
       )}
