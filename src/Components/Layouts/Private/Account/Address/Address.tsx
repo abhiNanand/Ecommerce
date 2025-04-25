@@ -42,13 +42,11 @@ const Address = () => {
         <div className="address-grid">
           {addresses.map((address) => (
             <div key={address.firebaseId} className="address-card">
-              <h3>{address.name}</h3>
-              <p>{address.companyName}</p>
-              <p>{address.streetAddress}</p>
-              <p>{address.apartment}</p>
-              <p>{address.town}</p>
-              <p>{address.phoneNumber}</p>
-              <p>{address.emailAddress}</p>
+              <h3>Name: {address.name}</h3>
+              <p>Street Address: {address.streetAddress}</p>
+              <p>Town: {address.town}</p>
+              <p>Phone Number: {address.phoneNumber}</p>
+              <p>Email: {address.emailAddress}</p>
               <button onClick={() => handleDelete(address.firebaseId)}>
                 Delete
               </button>

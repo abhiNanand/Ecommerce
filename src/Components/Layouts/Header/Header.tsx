@@ -195,9 +195,13 @@ export default function Header() {
         <div>
 
           <div className="logout-confirm">
-            <h3>Are you sure you want to log out?</h3>
-            <button className="confirm-logout" onClick={() => { handleLogout(); setOpenLogout(false); }}>Yes</button>
-            <button className="cancel-logout" onClick={() => setOpenLogout(false)}>No</button>
+            <h3>Logout Confirmation</h3>
+            <p>Are you sure you want to log out?</p>
+            <div className="logout-n-cancel-btn">
+            <button className="confirm-logout" onClick={() => { handleLogout(); setOpenLogout(false); }}>Confirm</button>
+            <button className="cancel-logout" onClick={() => setOpenLogout(false)}>Cancel</button>
+            </div>
+           
           </div>
         </div>
 
