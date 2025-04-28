@@ -1,6 +1,10 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 
 import { useEffect, useState } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { Heart } from 'lucide-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   useGetProductByIdQuery,
   useGetProductByCategoryQuery,
@@ -9,11 +13,9 @@ import './ProductDetails.scss';
 import { useAuth } from '../../../Services/UserAuth';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 import { ROUTES } from '../../../Shared/Constants';
-import { toast } from 'react-toastify';
 
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
 import ShareProduct from './ShareProduct';
-import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../../../Services/firebase/firebase';
 import {
   getWishlistItems,
@@ -21,10 +23,8 @@ import {
   removeFromWishlist,
 } from '../../../Services/Wishlist/WishlistService';
 import { getCartItems } from '../../../Services/Cart/CartService';
-import { Heart } from 'lucide-react';
 import { Product } from '../../../Shared/Product';
 import { updateWishlistItem } from '../../../Store/Item/total_item_slice';
-import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../Store';
 import AddCartButton from '../../../Views/Dashboard/Helper/Sales/helper/AddCartButton';
 
@@ -37,6 +37,9 @@ function ProductDetails() {
   const wishlistCount = useSelector(
     (state: RootState) => state.item.noOfWishlistItem
   );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [wishlistUpdated, setWishlistUpdated] = useState(false);
+
   const dispatch = useDispatch();
   const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
 
@@ -89,7 +92,8 @@ function ProductDetails() {
   }
 
   const filteredRelatedProducts = relatedProducts?.filter(
-    (relatedProduct:Product) => relatedProduct.id != productId
+    // (relatedProduct: Product) => relatedProduct.id != productId
+    (relatedProduct: Product) => relatedProduct.id != productId
   );
   const handleWishlistClick = async (product: Product) => {
     try {
@@ -98,13 +102,13 @@ function ProductDetails() {
         navigate(ROUTES.LOGIN);
         return;
       }
-     
+
       const isLiked = isInWishlist;
 
       if (isLiked) {
         await removeFromWishlist(product.id);
         SetIsInWishlist(false);
-        toast.success('Item removed from wishlist', {
+        toast.info('Item removed from wishlist', {
           position: 'top-right',
         });
         dispatch(updateWishlistItem(wishlistCount - 1));
@@ -114,10 +118,11 @@ function ProductDetails() {
         toast.success('Item added to wishlist');
         dispatch(updateWishlistItem(wishlistCount + 1));
       }
+      setWishlistUpdated((prev) => !prev);
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
     } finally {
-      // setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -150,7 +155,7 @@ function ProductDetails() {
 
             <button
               type="button"
-              className="buy-now"
+              className="pd-buy-now"
               onClick={() => {
                 if (user) {
                   navigate(`/buy/${productId}`);
@@ -165,8 +170,8 @@ function ProductDetails() {
 
             <button
               type="button"
-              // disabled={loading}
-               className="pd-wishlist-btn"
+              disabled={loading}
+              className="pd-wishlist-btn"
               onClick={() => {
                 handleWishlistClick(product);
               }}
@@ -193,8 +198,11 @@ function ProductDetails() {
           </div>
         ) : relatedError ? (
           <p>Error loading related products.</p>
-        ) : filteredRelatedProducts?.length ? (  // Changed this line to check filteredRelatedProducts
-          <ShowItem products={filteredRelatedProducts} />
+        ) : filteredRelatedProducts?.length ? ( // Changed this line to check filteredRelatedProducts
+          <ShowItem
+            products={filteredRelatedProducts}
+            wishlistUpdated={wishlistUpdated}
+          />
         ) : (
           <p>No related products found.</p>
         )}

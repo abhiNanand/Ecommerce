@@ -1,6 +1,4 @@
- 
-
-import { useParams, NavLink,useLocation } from 'react-router-dom';
+import { useParams, NavLink, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
@@ -11,8 +9,8 @@ import './Category.scss';
 export default function Category() {
   const { category } = useParams();
 
-    const {pathname}=useLocation();
-    useEffect(()=>window.scrollTo(0,0),[pathname]);
+  const { pathname } = useLocation();
+  useEffect(() => window.scrollTo(0, 0), [pathname]);
 
   const {
     data: relatedProducts,
@@ -37,12 +35,14 @@ export default function Category() {
           Electronics
         </NavLink>
         <NavLink to="/category/jewelery" className="category-nav-link">
-        Jewellery
+          Jewellery
         </NavLink>
       </aside>
 
       <section className="category-content">
-        <h1 className="category-title">{ (category=='jewelery') ?'Jewellery':<p>{category}</p> }</h1>
+        <h1 className="category-title">
+          {category == 'jewelery' ? 'Jewellery' : <p>{category}</p>}
+        </h1>
         {isLoading ? (
           <div className="loader">
             <RippleLoader />

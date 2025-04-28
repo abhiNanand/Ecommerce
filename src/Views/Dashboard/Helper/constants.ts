@@ -1,3 +1,1 @@
-export const CATEGORIES = [
-    { name: `Men's Fashion`, value: 'mens-fashion' }
-];
+export const CATEGORIES = [{ name: `Men's Fashion`, value: 'mens-fashion' }];

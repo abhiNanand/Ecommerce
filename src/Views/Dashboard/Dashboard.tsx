@@ -24,20 +24,15 @@ import { SpinnerLoader } from './Loaders/Loaders';
 
 import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 
- 
-
 import './Dashboard.scss';
 
 export default function Dashboard() {
   const { data: products, error, isLoading } = useGetProductQuery(null);
 
-
-
- 
   if (isLoading) {
     return (
       <div className="loader">
-         <SpinnerLoader/>
+        <SpinnerLoader />
       </div>
     );
   }
@@ -45,9 +40,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <div>
-        <p>
-          Error loading products. Please try again later.
-        </p>
+        <p>Error loading products. Please try again later.</p>
       </div>
     );
   }
@@ -67,7 +60,7 @@ export default function Dashboard() {
             Electronics
           </Link>
           <Link to="/category/jewelery" className="category-link">
-          Jewellery
+            Jewellery
           </Link>
         </div>
 

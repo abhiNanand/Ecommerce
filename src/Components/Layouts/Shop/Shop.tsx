@@ -1,20 +1,20 @@
+// npm install rc-slider
 
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
-//npm install rc-slider
-
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import 'react-toastify/dist/ReactToastify.css';
 import { Product } from '../../../Shared/Product';
 import Star from '../../../Views/Dashboard/Helper/Stars/Star';
 import './Shop.scss';
 
-import { SpinnerLoader ,RippleLoader} from '../../../Views/Dashboard/Loaders/Loaders';
+import {
+  SpinnerLoader,
+  RippleLoader,
+} from '../../../Views/Dashboard/Loaders/Loaders';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
-import { useEffect } from "react";
 
 export default function Shop() {
   const { data: products, error, isLoading } = useGetProductQuery(null);
@@ -25,19 +25,16 @@ export default function Shop() {
   const minPrice = 0;
   const maxPrice = 1000;
   const [range, setRange] = useState<number[]>([minPrice, maxPrice]);
-  const [loading,setLoading]=useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-  
+  useEffect(() => {
+    setLoading(true);
+    const timeout = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
 
- useEffect(() => {
-  setLoading(true);
-  const timeout = setTimeout(() => {
-    setLoading(false);
-  }, 1000);  
-
-  return () => clearTimeout(timeout); 
-}, [selectedCategories, selectedRatings, range]);
-
+    return () => clearTimeout(timeout);
+  }, [selectedCategories, selectedRatings, range]);
 
   if (error) return <h2>Error loading products</h2>;
   if (isLoading) {
@@ -47,7 +44,6 @@ export default function Shop() {
       </div>
     );
   }
-
 
   const handleCategoryChange = (category: string) => {
     setSelectedCategories((prev) =>
@@ -74,65 +70,79 @@ export default function Shop() {
       selectedRatings.length === 0 ||
       selectedRatings.includes(Math.floor(product.rating?.rate ?? 0));
 
-    const matchRange = product.price >= range[0] &&
-      product.price <= range[1];
+    const matchRange = product.price >= range[0] && product.price <= range[1];
     return matchesCategory && matchesRating && matchRange;
   });
 
   return (
     <div className="shop-container">
       <div className="filters">
-
         <div className="category-filter-container">
           <h3>Category</h3>
           <form>
-            <div className="filter-product-category"> <input
-              type="checkbox"
-              id="women"
-              onChange={() => handleCategoryChange("women's clothing")}
-            />
-            <label htmlFor="women">Women's Fashion</label></div>
-            <div className="filter-product-category">  <input
-              type="checkbox"
-              id="men"
-              onChange={() => handleCategoryChange("men's clothing")}
-            />
-            <label htmlFor="men">Men's Fashion</label></div>
-            <div className="filter-product-category"> <input
-              type="checkbox"
-              id="electronics"
-              onChange={() => handleCategoryChange('electronics')}
-            />
-            <label htmlFor="electronics">Electronics</label> </div>
-            <div className="filter-product-category"> <input
-              type="checkbox"
-              id="jewelery"
-              onChange={() => handleCategoryChange('jewelery')}
-            />
-            <label htmlFor="jewelery">Jewelery</label></div>
+            <div className="filter-product-category">
+              {' '}
+              <input
+                type="checkbox"
+                id="women"
+                onChange={() => handleCategoryChange("women's clothing")}
+              />
+              <label htmlFor="women">Women's Fashion</label>
+            </div>
+            <div className="filter-product-category">
+              {' '}
+              <input
+                type="checkbox"
+                id="men"
+                onChange={() => handleCategoryChange("men's clothing")}
+              />
+              <label htmlFor="men">Men's Fashion</label>
+            </div>
+            <div className="filter-product-category">
+              {' '}
+              <input
+                type="checkbox"
+                id="electronics"
+                onChange={() => handleCategoryChange('electronics')}
+              />
+              <label htmlFor="electronics">Electronics</label>{' '}
+            </div>
+            <div className="filter-product-category">
+              {' '}
+              <input
+                type="checkbox"
+                id="jewelery"
+                onChange={() => handleCategoryChange('jewelery')}
+              />
+              <label htmlFor="jewelery">Jewelery</label>
+            </div>
           </form>
         </div>
         <div className="rating-filter-container">
           <h3>Customer Reviews</h3>
-          <div className="filter-product-category"> 
-          <input type="checkbox" id="rating" onChange={() => handleRatingChange(4)} />
-          <label htmlFor='rating'> <Star rating={4} productId='rating-filter' />& above</label>
-            </div>
-         
+          <div className="filter-product-category">
+            <input
+              type="checkbox"
+              id="rating"
+              onChange={() => handleRatingChange(4)}
+            />
+            <label htmlFor="rating">
+              {' '}
+              <Star rating={4} productId="rating-filter" />& above
+            </label>
+          </div>
         </div>
 
-
-
-
-        
         <div className="range-slider">
-        <h3>Price</h3>
+          <h3>Price</h3>
           <Slider
             range
             min={minPrice}
             max={maxPrice}
             value={range}
-            onChange={(value) => { setRange(value as number[]);}}
+            onChange={(value) => {
+              setRange(value as number[]);
+            }}
           />
           <div>
             <p>Min: ₹{range[0]}</p>
@@ -142,16 +152,17 @@ export default function Shop() {
       </div>
 
       <div className="filtered-products">
-        {filteredProducts?.length === 0 && (
+        {!loading && filteredProducts?.length === 0 && (
           <p>No products match the selected filters.</p>
         )}
-        {loading?(<div className="loader">
-                    <RippleLoader />
-                  </div>):(<ShowItem products={filteredProducts} />)}
-        
+        {loading ? (
+          <div className="loader">
+            <RippleLoader />
+          </div>
+        ) : (
+          <ShowItem products={filteredProducts} />
+        )}
       </div>
     </div>
   );
 }
-
-

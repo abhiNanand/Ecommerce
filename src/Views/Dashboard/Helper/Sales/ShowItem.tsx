@@ -1,9 +1,9 @@
-
 import { Heart } from 'lucide-react';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
+import { onAuthStateChanged } from 'firebase/auth';
 import Star from '../Stars/Star';
 import {
   addToWishlist,
@@ -11,7 +11,6 @@ import {
   removeFromWishlist,
 } from '../../../../Services/Wishlist/WishlistService';
 import { Product } from '../../../../Shared/Product';
-import { onAuthStateChanged } from 'firebase/auth';
 import { getCartItems } from '../../../../Services/Cart/CartService';
 import './ShowItem.scss';
 import { useAuth } from '../../../../Services/UserAuth';
@@ -23,15 +22,15 @@ import AddCartButton from './helper/AddCartButton';
 
 interface ShowItemProps {
   products: Product[];
-  showAll?: true | false;
+  wishlistUpdated?: boolean;
 }
 
-export default function ShowItem({ products,showAll=false }: ShowItemProps) {
+export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
-  const [loading,setLoading]=useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { user } = useAuth();
 
   const wishlistCount = useSelector(
@@ -56,8 +55,8 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
       }
     });
 
-    return () => unsubscribe(); 
-  }, [user]);
+    return () => unsubscribe();
+  }, [user, wishlistUpdated]);
 
   const handleWishlistClick = async (product: Product) => {
     try {
@@ -66,8 +65,7 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
         navigate(ROUTES.LOGIN);
         return;
       }
-      if(loading)
-        return;
+      if (loading) return;
       setLoading(true);
       const isLiked = likedItems.has(product.id);
 
@@ -78,7 +76,7 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
           newSet.delete(product.id);
           return newSet;
         });
-         toast.success('Item removed from wishlist', {
+        toast.info('Item removed from wishlist', {
           position: 'top-right',
         });
         dispatch(updateWishlistItem(wishlistCount - 1));
@@ -90,59 +88,56 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
       }
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
-    }
-    finally{
+    } finally {
       setLoading(false);
     }
-  }; 
+  };
 
   return (
-      <div className="products-grid">
-        {products.map((product: Product) => (
-          <div
-            key={product.id}
-            className="product-card"
-            onClick={() =>
-              navigate(ROUTES.PRODUCT_DETAILS.replace(':productId', product.id))
-            }
+    <div className="products-grid">
+      {products.map((product: Product) => (
+        <div
+          key={product.id}
+          className="product-card"
+          onClick={() =>
+            navigate(ROUTES.PRODUCT_DETAILS.replace(':productId', product.id))
+          }
+        >
+          <button
+            type="button"
+            disabled={loading}
+            className="add-wishlist-btn"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleWishlistClick(product);
+            }}
           >
-            <button
-              type="button"
-              disabled={loading}
-              className="add-wishlist-btn"
-              onClick={(event) => {
-                event.stopPropagation();
-                handleWishlistClick(product);
-              }}
-            >
-              <Heart
-                color={likedItems.has(product.id) ? 'red' : 'black'}
-                fill={likedItems.has(product.id) ? 'red' : 'none'}
-                size={24}
-              />
-            </button>
-            <img
-              src={product.image}
-              alt={product.title}
-              className="product-image"
+            <Heart
+              color={likedItems.has(product.id) ? 'red' : 'black'}
+              fill={likedItems.has(product.id) ? 'red' : 'none'}
+              size={24}
             />
-            <h3 className="product-title">{product.title}</h3>
-            <div className="cart-btn-div" onClick={(event)=>event.stopPropagation()}>
+          </button>
+          <img
+            src={product.image}
+            alt={product.title}
+            className="product-image"
+          />
+          <h3 className="product-title">{product.title}</h3>
+          <div
+            className="cart-btn-div"
+            onClick={(event) => event.stopPropagation()}
+          >
             <AddCartButton cartItems={cartItems} product={product} />
-            </div>
-           
-            <div className="rating">
-            <p className="product-price">${product.price.toFixed(2)}</p>
-              <Star rating={product.rating?.rate} productId={product.id} />
-              <p className="rating-count">
-                ({product.rating?.count ?? 0})
-              </p>
-            </div>
           </div>
-        ))}
-        {showAll&&(<button onClick={()=>navigate(ROUTES.SHOP)}>Show All</button>)}
-      </div>
-  
+
+          <div className="rating">
+            <p className="product-price">${product.price.toFixed(2)}</p>
+            <Star rating={product.rating?.rate} productId={product.id} />
+            <p className="rating-count">({product.rating?.count ?? 0})</p>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
-

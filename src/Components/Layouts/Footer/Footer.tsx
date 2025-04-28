@@ -2,21 +2,18 @@ import assets from '../../../assets';
 import './Footer.scss';
 import { ROUTES } from '../../../Shared/Constants';
 import { useAuth } from '../../../Services/UserAuth';
-import { Link,useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 export default function Footer() {
   const { isAuthenticated } = useAuth();
 
-  const location =useLocation();
-  useEffect( ()=> {
-    if(isAuthenticated && location.pathname!='/')
+  const location = useLocation();
+  useEffect(() => {
     toast.dismiss();
-  
-  }
-
-   ,[location.pathname]);
+    console.log(location.pathname);
+  }, [location.pathname]);
   return (
     <footer className="footer-container">
       <div className="footer-content">
@@ -34,13 +31,12 @@ export default function Footer() {
           ) : (
             <Link to={ROUTES.LOGIN}>Login/Register</Link>
           )}
-         
-          <Link to={ROUTES.CART}>Cart</Link>
-          
-          <Link to={ROUTES.WISHLIST}>Wishlist</Link>
-          
-          <Link to={ROUTES.SHOP}>Shop</Link>
 
+          <Link to={ROUTES.CART}>Cart</Link>
+
+          <Link to={ROUTES.WISHLIST}>Wishlist</Link>
+
+          <Link to={ROUTES.SHOP}>Shop</Link>
         </div>
 
         <div className="footer-section">
@@ -60,26 +56,65 @@ export default function Footer() {
             </div>
 
             <div className="store-buttons">
-              <button type="button" className="store-button" onClick={()=> window.open('https://play.google.com/store/apps/details?id=com.shopify.mobile&pcampaignid=web_share', '_blank')}>
+              <button
+                type="button"
+                className="store-button"
+                onClick={() =>
+                  window.open(
+                    'https://play.google.com/store/apps/details?id=com.shopify.mobile&pcampaignid=web_share',
+                    '_blank'
+                  )
+                }
+              >
                 <img src={assets.images.googleplay} alt="Google Play Store" />
               </button>
-              <button type="button" className="store-button" onClick={()=> window.open('https://apps.apple.com/in/app/shopify-ecommerce-business/id371294472', '_blank')}>
+              <button
+                type="button"
+                className="store-button"
+                onClick={() =>
+                  window.open(
+                    'https://apps.apple.com/in/app/shopify-ecommerce-business/id371294472',
+                    '_blank'
+                  )
+                }
+              >
                 <img src={assets.images.applestore} alt="Apple Store" />
               </button>
             </div>
           </div>
 
           <div className="socialmedia">
-            <button type="button" onClick={()=> window.open('https://www.facebook.com/ChicmicAU', '_blank')}>
+            <button
+              type="button"
+              onClick={() =>
+                window.open('https://www.facebook.com/ChicmicAU', '_blank')
+              }
+            >
               <img src={assets.images.facebook} alt="Facebook" />
             </button>
-            <button type="button" onClick={()=> window.open('https://x.com/Chic_Mic', '_blank')}>
+            <button
+              type="button"
+              onClick={() => window.open('https://x.com/Chic_Mic', '_blank')}
+            >
               <img src={assets.images.twitter} alt="Twitter" />
             </button>
-            <button type="button" onClick={()=> window.open('https://www.instagram.com/chicmic.in', '_blank')}>
+            <button
+              type="button"
+              onClick={() =>
+                window.open('https://www.instagram.com/chicmic.in', '_blank')
+              }
+            >
               <img src={assets.images.insta} alt="Instagram" />
             </button>
-            <button type="button" onClick={()=> window.open('https://www.linkedin.com/company/chicmicstudios', '_blank')}>
+            <button
+              type="button"
+              onClick={() =>
+                window.open(
+                  'https://www.linkedin.com/company/chicmicstudios',
+                  '_blank'
+                )
+              }
+            >
               <img src={assets.images.linkedin} alt="LinkedIn" />
             </button>
           </div>

@@ -5,7 +5,7 @@ import {
   User,
   ShoppingBag,
   LogOut,
-  X
+  X,
 } from 'lucide-react';
 import { toast } from 'react-toastify';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
@@ -27,8 +27,6 @@ import {
 import { RootState } from '../../../Store';
 import './Header.scss';
 
-
-
 export default function Header() {
   const navigate = useNavigate();
   const [open, setOpen] = useState<boolean>(false);
@@ -36,7 +34,6 @@ export default function Header() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
   const { isAuthenticated, user } = useAuth();
- 
 
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const wishlistCount = useSelector(
@@ -46,10 +43,8 @@ export default function Header() {
 
   useEffect(() => {
     const isSearchPage = location.pathname.startsWith('/search');
-    if (!isSearchPage)
-      setSearchQuery('');
+    if (!isSearchPage) setSearchQuery('');
   }, [location.pathname]);
-
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -72,7 +67,6 @@ export default function Header() {
     return () => unsubscribe(); // cleanup
   }, [user]);
 
-
   const handleLogout = async () => {
     await signOut(auth);
     dispatch(logoutUser());
@@ -82,36 +76,40 @@ export default function Header() {
   const handleSearch = () => {
     if (searchQuery.trim() !== '') {
       navigate(`/search/${searchQuery.trim()}`);
-    }
-    else {
-      toast.warning("Search field cannot be empty");
+    } else {
+      toast.warning('Search field cannot be empty');
     }
   };
 
-  const handleSearchInput = (value:string)=>{
-if(value.trim()==='')
-{
-  if(location.pathname.includes('/search'))
-  navigate('/search/all');
-  setSearchQuery('');
-}
-else
-setSearchQuery(value);
-}
+  const handleSearchInput = (value: string) => {
+    if (value.trim() === '') {
+      if (location.pathname.includes('/search')) navigate('/search/all');
+      setSearchQuery('');
+    } else setSearchQuery(value);
+  };
 
   return (
     <header className="navbar">
       <div className="navbar-container">
         <div className="brand">
-
           <Link to={ROUTES.HOMEPAGE}>EXCLUSIVE</Link>
         </div>
 
         <nav className="nav-links">
-          <NavLink className="header-nav-link" to={ROUTES.HOMEPAGE}>Home</NavLink>
-          <NavLink className="header-nav-link" to="/contact">Contact</NavLink>
-          <NavLink className="header-nav-link" to="/about">About</NavLink>
-          {!isAuthenticated && <NavLink className="header-nav-link" to={ROUTES.LOGIN}>Login</NavLink>}
+          <NavLink className="header-nav-link" to={ROUTES.HOMEPAGE}>
+            Home
+          </NavLink>
+          <NavLink className="header-nav-link" to="/contact">
+            Contact
+          </NavLink>
+          <NavLink className="header-nav-link" to="/about">
+            About
+          </NavLink>
+          {!isAuthenticated && (
+            <NavLink className="header-nav-link" to={ROUTES.LOGIN}>
+              Login
+            </NavLink>
+          )}
         </nav>
         <div className="search-input-btn">
           <div className="search-box">
@@ -119,10 +117,20 @@ setSearchQuery(value);
               type="text"
               placeholder="What are you looking for?"
               value={searchQuery}
-              onChange={(e) => {handleSearchInput(e.target.value)}} 
+              onChange={(e) => {
+                handleSearchInput(e.target.value);
+              }}
               onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
-           {searchQuery.length>0 && (<button type="button" className="clearField-btn" onClick={()=>handleSearchInput('')}><X size={20}/></button>) } 
+            {searchQuery.length > 0 && (
+              <button
+                type="button"
+                className="clearField-btn"
+                onClick={() => handleSearchInput('')}
+              >
+                <X size={20} />
+              </button>
+            )}
           </div>
           <div className="search-box-btn-div">
             <button
@@ -134,32 +142,34 @@ setSearchQuery(value);
               <Search size={25} />
             </button>
           </div>
-
         </div>
 
         <div className="icons">
-          {isAuthenticated && (<><Link
-            to={ROUTES_CONFIG.WISHLIST.path}
-            className="icons-btn"
-            aria-label="Favorites"
-          >
-            <Heart size={24} />
-            {wishlistCount > 0 && isAuthenticated && (
-              <span className="badge">{wishlistCount}</span>
-            )}
-          </Link>
-            <Link
-              to={ROUTES_CONFIG.CART.path}
-              className="icons-btn"
-              aria-label="Shopping Cart"
-            >
-              <ShoppingCart size={24} />
-              {cartCount > 0 && isAuthenticated && (
-                <span className="badge">{cartCount}</span>
-              )}
-            </Link></>)}
           {isAuthenticated && (
-
+            <>
+              <Link
+                to={ROUTES_CONFIG.WISHLIST.path}
+                className="icons-btn"
+                aria-label="Favorites"
+              >
+                <Heart size={24} />
+                {wishlistCount > 0 && isAuthenticated && (
+                  <span className="badge">{wishlistCount}</span>
+                )}
+              </Link>
+              <Link
+                to={ROUTES_CONFIG.CART.path}
+                className="icons-btn"
+                aria-label="Shopping Cart"
+              >
+                <ShoppingCart size={24} />
+                {cartCount > 0 && isAuthenticated && (
+                  <span className="badge">{cartCount}</span>
+                )}
+              </Link>
+            </>
+          )}
+          {isAuthenticated && (
             <div className="dropdown">
               <button
                 type="button"
@@ -202,18 +212,33 @@ setSearchQuery(value);
           )}
         </div>
       </div>
-      {openLogout && (<div className="confirmation-container">
-        <div>
-          <div className="confirm-title-btn">
-            <h3>Logout Confirmation</h3>
-            <p>Are you sure you want to log out?</p>
-            <div className="confirm-n-cancel-btn">
-              <button className="confirm-btn" onClick={() => { handleLogout(); setOpenLogout(false); }}>Confirm</button>
-              <button className="cancel-btn" onClick={() => setOpenLogout(false)}>Cancel</button>
+      {openLogout && (
+        <div className="confirmation-container">
+          <div>
+            <div className="confirm-title-btn">
+              <h3>Logout Confirmation</h3>
+              <p>Are you sure you want to log out?</p>
+              <div className="confirm-n-cancel-btn">
+                <button
+                  className="confirm-btn"
+                  onClick={() => {
+                    handleLogout();
+                    setOpenLogout(false);
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  className="cancel-btn"
+                  onClick={() => setOpenLogout(false)}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>)}
+      )}
     </header>
   );
 }
@@ -227,11 +252,4 @@ setSearchQuery(value);
 // After updating the profile, Firebase Authentication does not immediately update the user object in your app.
 // user.reload() refreshes the user object to reflect the latest updates from Firebase.
 
-
 //    setTimeout(()=>fetchItemCounts(),1000);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai
-
-
-
-
-
-

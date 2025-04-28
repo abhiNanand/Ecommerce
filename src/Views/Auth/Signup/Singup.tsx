@@ -41,11 +41,17 @@ export default function Signup() {
           /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
           'Enter a valid email address'
         ),
-      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+      password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required'),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const userCredential = await createUserWithEmailAndPassword(auth, values.email, values.password);
+        const userCredential = await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
         const { user } = userCredential;
 
         await updateProfile(user, { displayName: values.name });
@@ -78,12 +84,15 @@ export default function Signup() {
 
       navigate(ROUTES.HOMEPAGE);
       toast.success('🎉 Signed in with Google successfully!');
-      dispatch(updateAuthTokenRedux({
-        token, user: {
-          displayName: user.displayName,
-          email: user.email,
-        },
-      }));
+      dispatch(
+        updateAuthTokenRedux({
+          token,
+          user: {
+            displayName: user.displayName,
+            email: user.email,
+          },
+        })
+      );
 
       const userRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userRef);
@@ -95,14 +104,12 @@ export default function Signup() {
           displayName: user.displayName ?? 'Anonymous',
         });
       }
-
-    }
-    catch (error: any) {
+    } catch (error: any) {
       console.error(error.message);
 
       toast.error('Google Sign-In failed! Try again.');
     }
-  }
+  };
 
   return (
     <div className="login-signup-container">
@@ -156,7 +163,8 @@ export default function Signup() {
           </button>
 
           <button type="button" id="google-btn" onClick={handleGoogleSignIn}>
-            <img id="google-img" src={assets.icon.googleImg} alt="Google" /> Sign up with Google
+            <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
+            Sign up with Google
           </button>
         </form>
 

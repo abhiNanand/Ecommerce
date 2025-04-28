@@ -1,4 +1,4 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
@@ -13,6 +13,7 @@ import { updateCartItem } from '../../../../Store/Item/total_item_slice';
 import { Product } from '../../../../Shared/Product';
 import NFTContractABI from './NFTContract.json';
 import './Payment.scss';
+
 const NFTContractAddress = '0xE32383aB1dbea75Fa416CB7cA200b0e1c89735AC';
 
 interface ItemProps {
@@ -22,13 +23,12 @@ interface ItemProps {
 }
 
 function Payment({ Items, deleteCartItems, total }: ItemProps) {
-  const {  isConnected } = useAccount();
+  const { isConnected } = useAccount();
   const dispatch = useDispatch();
-  const [open,setOpen] = useState<boolean>(false);
+  const [open, setOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const addressData = useSelector((state: RootState) => state.address);
   const [txHash, setTxHash] = useState<string | null>(null);
-
 
   const payTotal = (0.00001 * Number(total)).toFixed(4);
 
@@ -37,7 +37,7 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
     isPending: isMinting,
     isSuccess: isMintSuccess,
     error: mintError,
-    data:mintData,
+    data: mintData,
   } = useWriteContract();
 
   const handleMint = () => {
@@ -53,8 +53,6 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
       args: [''],
       value: parseEther(`${payTotal}`),
     });
-
-    
   };
   useEffect(() => {
     if (isMintSuccess) {
@@ -63,13 +61,13 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
       dispatch(removePreviousAddress());
       setTxHash(mintData);
       if (deleteCartItems) {
-        Promise.all(
-          Items.map(async (item) => await removeFromCart(item.id))
-        ).then(() => dispatch(updateCartItem(0)));
+        Promise.all(Items.map(async (item) => removeFromCart(item.id))).then(
+          () => dispatch(updateCartItem(0))
+        );
       }
 
       setTimeout(() => {
-       setOpen(true);
+        setOpen(true);
       }, 2000);
     }
   }, [isMintSuccess]);
@@ -79,26 +77,24 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
       toast.error(`Payment failed`);
     }
   }, [mintError]);
-  
 
   return (
     <div className="payment-gateway">
-     
-     <div className="appkit-btn">
-     <appkit-button /> 
-     {isConnected && (
-        <div>
-          <button
-            className={`send-button ${isMinting ? 'processing' : ''}`}
-            onClick={handleMint}
-            disabled={isMinting}
-          >
-            {isMinting ? <p>Processing...</p> : <p>Pay {payTotal} ETH </p>}
-          </button>
-        </div>
-      )}
-     </div>     
-{open && (
+      <div className="appkit-btn">
+        <appkit-button />
+        {isConnected && (
+          <div>
+            <button
+              className={`send-button ${isMinting ? 'processing' : ''}`}
+              onClick={handleMint}
+              disabled={isMinting}
+            >
+              {isMinting ? <p>Processing...</p> : <p>Pay {payTotal} ETH </p>}
+            </button>
+          </div>
+        )}
+      </div>
+      {open && (
         <div className="place-order-container">
           <div className="place-order">
             <h2>Order Confirmed</h2>
@@ -106,11 +102,14 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
             <button
               type="button"
               className="place-order-btn"
-              onClick={() => {navigate(ROUTES.ORDER);setOpen(false);}}
+              onClick={() => {
+                navigate(ROUTES.ORDER);
+                setOpen(false);
+              }}
             >
               View Order
             </button>
-            <br/>
+            <br />
             <button
               className="place-order-btn"
               onClick={() => {
@@ -121,18 +120,18 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
               Continue Shopping
             </button>
             {txHash && (
-  <div className="tx-info">
-    <p>Transaction Hash:</p>
-    <a
-      href={`https://holesky.etherscan.io/tx/${txHash}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="tx-link"
-    >
-      {txHash.slice(0, 10)}...{txHash.slice(-8)}
-    </a>
-  </div>
-)}
+              <div className="tx-info">
+                <p>Transaction Hash:</p>
+                <a
+                  href={`https://holesky.etherscan.io/tx/${txHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tx-link"
+                >
+                  {txHash.slice(0, 10)}...{txHash.slice(-8)}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       )}

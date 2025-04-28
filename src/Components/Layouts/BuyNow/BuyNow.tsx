@@ -1,9 +1,9 @@
 import '../Private/Checkout/Checkout.scss';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { useGetProductByIdQuery } from '../../../Services/Api/module/demoApi';
 import CheckoutForm from '../Private/Checkout/CheckoutForm';
-import { toast } from 'react-toastify';
 
 import Payment from '../Private/Checkout/Payment';
 
@@ -32,27 +32,18 @@ export default function BuyNow() {
   }
 
   const handleButtonClick = () => {
-
     if (coupean == 'SAVE20') {
       if (isCouponApplied) {
-        toast.error("Coupon already applied on this purchase");
-         
-      }
-      else
-      {
-        toast.success("Congrats 20% OFF");
-        setDiscount(0.80);
+        toast.error('Coupon already applied on this purchase');
+      } else {
+        toast.success('Congrats 20% OFF');
+        setDiscount(0.8);
         setIsCouponApplied(true);
       }
-     
-    }
-    else {
-     
-      const trimCoupon=coupean.trim();
-      if(trimCoupon.length==0)
-        toast.error("Coupon not found");
-      else
-      toast.error('Enter a valid coupon');
+    } else {
+      const trimCoupon = coupean.trim();
+      if (trimCoupon.length == 0) toast.error('Coupon not found');
+      else toast.error('Enter a valid coupon');
     }
     setCoupean('');
   };
@@ -67,7 +58,6 @@ export default function BuyNow() {
       <div className="checkout-cart-items">
         <div className="show-cart-item">
           <div key={product.id} className="checkout-cart-item">
-
             <div>
               <img
                 src={product.image}
@@ -75,20 +65,39 @@ export default function BuyNow() {
                 height="30px"
                 width="30px"
               />
-              <p style={{
-                whiteSpace: 'nowrap',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                maxWidth: '30vw'
-              }}>{product.title}</p>
+              <p
+                style={{
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  maxWidth: '30vw',
+                }}
+              >
+                {product.title}
+              </p>
             </div>
             <p>${product.price}</p>
           </div>
         </div>
         <div className="checkout-subtotal">
           <p>Subtotal:</p>
-          <p> ${(product.price).toFixed(2)}</p>
-          {isCouponApplied && (<> <p>discount:${discount}</p> <button type="button" className="remove-btn" onClick={() => { setIsCouponApplied(false); setDiscount(1); }}>Remove Coupon</button></>)}
+          <p> ${product.price.toFixed(2)}</p>
+          {isCouponApplied && (
+            <>
+              {' '}
+              <p>discount:${discount}</p>{' '}
+              <button
+                type="button"
+                className="remove-btn"
+                onClick={() => {
+                  setIsCouponApplied(false);
+                  setDiscount(1);
+                }}
+              >
+                Remove Coupon
+              </button>
+            </>
+          )}
         </div>
         <hr />
         <div className="checkout-shipping">
@@ -102,7 +111,7 @@ export default function BuyNow() {
         </div>
         <div className="ETH">
           <p>ETH:</p>
-          <p>{((product.price - discount)*(0.00001)).toFixed(4)}</p>
+          <p>{((product.price - discount) * 0.00001).toFixed(4)}</p>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">
@@ -117,11 +126,13 @@ export default function BuyNow() {
               Apply Coupon
             </button>
           </div>
-          <Payment Items={[product]} deleteCartItems={false} total={(product.price - discount).toFixed(2)} />
+          <Payment
+            Items={[product]}
+            deleteCartItems={false}
+            total={(product.price - discount).toFixed(2)}
+          />
         </div>
       </div>
     </div>
   );
 }
-
-

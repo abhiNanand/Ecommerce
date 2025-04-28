@@ -19,8 +19,7 @@ interface OrderData {
 export default function Order() {
   const [loading, setLoading] = useState<boolean>(true);
   const [orders, setOrders] = useState<OrderData[]>([]);
-  const navigate=useNavigate();
-
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -29,8 +28,7 @@ export default function Order() {
         const data = await fetchOrders();
         setOrders(data);
         setLoading(false);
-      }
-      else {
+      } else {
         setOrders([]);
         setLoading(false);
       }
@@ -38,24 +36,29 @@ export default function Order() {
     return () => unsubscribe();
   }, []);
   const calculateTotal = (order: OrderData): number => {
-    return order.products.reduce((total, product) => total + (product.price * (product.quantity ?? 1)), 0)
-  }
+    return order.products.reduce(
+      (total, product) => total + product.price * (product.quantity ?? 1),
+      0
+    );
+  };
   if (loading) {
-    return (<div className="loader">
-      <RippleLoader />
-    </div>)
+    return (
+      <div className="loader">
+        <RippleLoader />
+      </div>
+    );
   }
   if (orders.length == 0) {
-    return (<div className="no-search-query-found">
-      <Frown
-        strokeWidth={1}
-        size={50}
-      />
-      <p>Sorry, we could not found any order</p></div>);
+    return (
+      <div className="no-search-query-found">
+        <Frown strokeWidth={1} size={50} />
+        <p>Sorry, we could not found any order</p>
+      </div>
+    );
   }
   return (
     <div className="order-page">
-      <h2>Your Order</h2> 
+      <h2>Your Order</h2>
       <div className="orders-list">
         {orders.map((order) => (
           <div className="order-card" key={order.id}>
@@ -75,7 +78,13 @@ export default function Order() {
             </div>
             <div className="product-list">
               {order.products.map((product) => (
-                <div className="product-item" key={product.id} onClick={()=>{navigate(`/product/${product.id}`)}}>
+                <div
+                  className="product-item"
+                  key={product.id}
+                  onClick={() => {
+                    navigate(`/product/${product.id}`);
+                  }}
+                >
                   <img src={product.image} alt={product.title} />
                   <div>
                     <p>{product.title}</p>

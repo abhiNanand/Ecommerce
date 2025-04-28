@@ -9,11 +9,11 @@ import {
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { ROUTES } from '../../../Shared/Constants';
 import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
-import { toast } from 'react-toastify';
 import { SpinnerLoader } from '../../Dashboard/Loaders/Loaders';
 import './Login.scss';
 
@@ -26,7 +26,8 @@ export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState<boolean>(false);
-  const [forgetPasswordWindow, setForgetPasswordWindow] = useState<boolean>(false);
+  const [forgetPasswordWindow, setForgetPasswordWindow] =
+    useState<boolean>(false);
   const [forgetEmail, setForgetEmail] = useState('');
   const [forgetEmailTouched, setForgetEmailTouched] = useState(false);
   const [sendingReset, setSendingReset] = useState(false);
@@ -45,7 +46,9 @@ export default function Login() {
     },
     validationSchema: Yup.object({
       email: emailValidation,
-      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Required'),
+      password: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Required'),
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
@@ -83,14 +86,16 @@ export default function Login() {
       navigate(ROUTES.HOMEPAGE);
       toast.success('🎉 Signed in with Google successfully!');
       const token = await user.getIdToken();
-      
-      dispatch(updateAuthTokenRedux({
-        token,
-        user: {
-          displayName: user.displayName,
-          email: user.email,
-        },
-      }));
+
+      dispatch(
+        updateAuthTokenRedux({
+          token,
+          user: {
+            displayName: user.displayName,
+            email: user.email,
+          },
+        })
+      );
 
       const userRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userRef);
@@ -102,8 +107,6 @@ export default function Login() {
           displayName: user.displayName ?? 'Anonymous',
         });
       }
-
-     
     } catch (error: any) {
       console.error(error.message);
       toast.error('❌ Google Sign-In failed! Try again.');
@@ -180,7 +183,11 @@ export default function Login() {
               </div>
 
               <div className="button-group">
-                <button type="submit" id="login-btn" disabled={formik.isSubmitting}>
+                <button
+                  type="submit"
+                  id="login-btn"
+                  disabled={formik.isSubmitting}
+                >
                   {formik.isSubmitting ? 'Logging in...' : 'Log In'}
                 </button>
                 <button
@@ -200,7 +207,8 @@ export default function Login() {
                   handleGoogleSignIn();
                 }}
               >
-                <img id="google-img" src={assets.icon.googleImg} alt="Google" /> Sign up with Google
+                <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
+                Sign up with Google
               </button>
             </form>
 
@@ -212,7 +220,8 @@ export default function Login() {
           {forgetPasswordWindow && (
             <div className="forgetPassword">
               <div className="forgetPasswordWindow">
-                <label>Enter Email Address</label><br />
+                <label>Enter Email Address</label>
+                <br />
                 <input
                   type="text"
                   placeholder="Email address"
@@ -220,9 +229,12 @@ export default function Login() {
                   onChange={(e) => setForgetEmail(e.target.value)}
                   onBlur={() => setForgetEmailTouched(true)}
                 />
-                {forgetEmailTouched && !emailValidation.isValidSync(forgetEmail) && (
-                  <div className="error-text">Enter a valid email address</div>
-                )}
+                {forgetEmailTouched &&
+                  !emailValidation.isValidSync(forgetEmail) && (
+                    <div className="error-text">
+                      Enter a valid email address
+                    </div>
+                  )}
 
                 <div className="button-group">
                   <button

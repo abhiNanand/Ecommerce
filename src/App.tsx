@@ -1,20 +1,18 @@
 import { Provider } from 'react-redux';
- 
+
 import {
   createBrowserRouter,
   createRoutesFromElements,
   Route,
-  RouterProvider, 
+  RouterProvider,
 } from 'react-router-dom';
- 
+
 import { HelmetProvider } from 'react-helmet-async';
 import { PersistGate } from 'redux-persist/integration/react';
 import { ToastContainer } from 'react-toastify';
 import { store, persistor } from './Store';
 import RootRouter from './Routes/RootRouter';
 
- 
- 
 const baseName = import.meta.env.VITE_BASE_NAME;
 
 const router = createBrowserRouter(
@@ -25,7 +23,7 @@ const router = createBrowserRouter(
 function App() {
   return (
     <Provider store={store}>
-      <ToastContainer autoClose={1500} limit={3} />
+      <ToastContainer autoClose={1500} limit={300} />
       <PersistGate persistor={persistor}>
         <HelmetProvider>
           <RouterProvider router={router} />

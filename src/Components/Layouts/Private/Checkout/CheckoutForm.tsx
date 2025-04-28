@@ -2,21 +2,20 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
- import { ArrowLeft } from 'lucide-react';
-import {onAuthStateChanged} from 'firebase/auth';
-import {auth} from '../../../../Services/firebase/firebase';
+import { ArrowLeft } from 'lucide-react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../../../Services/firebase/firebase';
 import {
   addAddress,
   getAddress,
   Address,
 } from '../../../../Services/Address/Address';
- 
+
 import {
   updateAddress,
   removePreviousAddress,
 } from '../../../../Store/Address/AddressSlice';
- import './Checkout.scss';
-
+import './Checkout.scss';
 
 interface FormValues {
   name: string;
@@ -31,9 +30,8 @@ interface FormValues {
 export default function CheckoutForm() {
   const [address, setAddress] = useState<Address[]>([]);
   const [open, setOpen] = useState<boolean>(true);
-  
-  const [selectedAddressIndex,setSelectedAddressIndex]=useState<number>(0);
- 
+
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(0);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -41,19 +39,19 @@ export default function CheckoutForm() {
         await currentUser.reload();
         const addresses = await getAddress();
         setAddress(addresses);
-  
+
         if (addresses.length === 0) {
           setOpen(false);
         } else {
-           handleRadioClick(addresses[selectedAddressIndex]);
+          handleRadioClick(addresses[selectedAddressIndex]);
         }
       }
     });
-  
+
     return () => unsubscribe();
   }, [open]);
 
-     const formik = useFormik<FormValues>({
+  const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
       companyName: '',
@@ -85,14 +83,13 @@ export default function CheckoutForm() {
         .matches(/^\d{10}$/, 'Phone number must have 10 digits')
         .required('Required'),
 
-        emailAddress: Yup.string()
+      emailAddress: Yup.string()
         .required('Required')
         .matches(
           /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
           'Enter a valid email address'
         ),
     }),
-
 
     onSubmit: async (values, { resetForm }) => {
       addAddress(values);
@@ -138,8 +135,11 @@ export default function CheckoutForm() {
                   name="selectedAddress"
                   value={index}
                   id={`address-${index}`}
-                  checked={selectedAddressIndex ===  index}
-                  onClick={() => {handleRadioClick(value);setSelectedAddressIndex(index);}}
+                  checked={selectedAddressIndex === index}
+                  onClick={() => {
+                    handleRadioClick(value);
+                    setSelectedAddressIndex(index);
+                  }}
                 />
                 <label htmlFor={`address-${index}`}>
                   <strong>{value.name}</strong>, {value.companyName},{' '}
@@ -150,18 +150,24 @@ export default function CheckoutForm() {
             ))}
           </form>
 
-          <button className="placeorder-btn" onClick={() => { formik.resetForm();setOpen(false);}}>
+          <button
+            className="placeorder-btn"
+            onClick={() => {
+              formik.resetForm();
+              setOpen(false);
+            }}
+          >
             Add Another Address
           </button>
         </div>
       ) : (
         <form onSubmit={formik.handleSubmit}>
-         { (address.length>0 )&& ( <button onClick={() => setOpen(true)}>
-           
-           <ArrowLeft size={14} />{' '}
-         </button>
-         )}
-         <br/>
+          {address.length > 0 && (
+            <button onClick={() => setOpen(true)}>
+              <ArrowLeft size={14} />{' '}
+            </button>
+          )}
+          <br />
           <label htmlFor="name">
             Full Name<sup>*</sup>
           </label>
@@ -178,9 +184,7 @@ export default function CheckoutForm() {
             <div className="error">{formik.errors.name}</div>
           )}
 
-          <label htmlFor="companyName">
-            Company Name (optional)
-          </label>
+          <label htmlFor="companyName">Company Name (optional)</label>
           <br />
           <input
             type="text"
@@ -250,11 +254,11 @@ export default function CheckoutForm() {
             name="phoneNumber"
             value={formik.values.phoneNumber}
             onChange={(e) => {
-              const input = e.target.value.replace(/\D/g, ''); 
+              const input = e.target.value.replace(/\D/g, '');
               if (input.length <= 10) {
                 formik.setFieldValue('phoneNumber', input);
-              }}
-            }
+              }
+            }}
           />
           <br />
           {formik.touched.phoneNumber && formik.errors.phoneNumber && (
@@ -271,7 +275,6 @@ export default function CheckoutForm() {
             name="emailAddress"
             value={formik.values.emailAddress}
             onChange={formik.handleChange}
-           
           />
           <br />
           {formik.touched.emailAddress && formik.errors.emailAddress && (
@@ -283,7 +286,6 @@ export default function CheckoutForm() {
             id="billing-checkbox"
             onChange={(e) => {
               if (e.target.checked) formik.handleSubmit();
-             
             }}
             checked={false}
           />

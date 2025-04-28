@@ -1,9 +1,9 @@
 import { useParams } from 'react-router-dom';
+import { Frown } from 'lucide-react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { Product } from '../../../Shared/Product';
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
-import { Frown } from 'lucide-react';
 import './SearchItem.scss';
 
 export default function SearchItem() {
@@ -18,10 +18,9 @@ export default function SearchItem() {
     );
   }
   if (error) return <h1>Error in loading items</h1>;
-  if(query=='all')
-    {
-    return <ShowItem products={products}/>
-    }
+  if (query == 'all') {
+    return <ShowItem products={products} />;
+  }
 
   const lowerQuery = query.toLowerCase();
   const filteredProducts = products?.filter((product: Product) => {
@@ -34,22 +33,18 @@ export default function SearchItem() {
 
   return (
     <div className="show-searched-products">
-      {filteredProducts.length > 0 && <p className="search-tag">
-        Showing results for:  {query} 
-      </p>}
-      
+      {filteredProducts.length > 0 && (
+        <p className="search-tag">Showing results for: {query}</p>
+      )}
 
       {filteredProducts && filteredProducts.length > 0 ? (
-        <ShowItem products={filteredProducts} />) : (
+        <ShowItem products={filteredProducts} />
+      ) : (
         <div className="no-search-query-found">
-          <Frown
-            strokeWidth={1}
-            size={50}
-          />
-          <p>Sorry, we could not found any result </p></div>
+          <Frown strokeWidth={1} size={50} />
+          <p>Sorry, we could not found any result </p>
+        </div>
       )}
     </div>
   );
 }
-
- 

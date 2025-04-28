@@ -40,16 +40,12 @@ export default function Checkout() {
     if (coupean == 'SAVE20') {
       if (isCouponApplied) {
         toast.error('Coupon already applied on this purchase');
-         
-      }
-      else
-      {
+      } else {
         toast.success('Congrats 20% OFF');
-        const discountAmount=(0.20*calculateTotal()).toFixed(2)
+        const discountAmount = (0.2 * calculateTotal()).toFixed(2);
         setDiscount(Number(discountAmount));
         setIsCouponApplied(true);
       }
-      
     } else {
       const trimCoupon = coupean.trim();
       if (trimCoupon.length == 0) toast.error('Coupon not found');
@@ -98,7 +94,6 @@ export default function Checkout() {
           <p> ${calculateTotal().toFixed(2)}</p>
           {isCouponApplied && (
             <>
-             
               <p>Discount: ${discount}</p>
               <button
                 type="button"
@@ -126,7 +121,7 @@ export default function Checkout() {
         <hr />
         <div className="ETH">
           <p>ETH:</p>
-          <p>{((calculateTotal() - discount)*(0.00001)).toFixed(4)}</p>
+          <p>{((calculateTotal() - discount) * 0.00001).toFixed(4)}</p>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">
@@ -143,7 +138,7 @@ export default function Checkout() {
           </div>
           <Payment
             Items={cartItems}
-            deleteCartItems={true}
+            deleteCartItems
             total={(calculateTotal() - discount).toFixed(2)}
           />
         </div>

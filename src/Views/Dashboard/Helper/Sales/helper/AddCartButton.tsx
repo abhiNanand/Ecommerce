@@ -1,15 +1,6 @@
-import { Trash } from 'lucide-react';
+import { Trash, ShoppingCart } from 'lucide-react';
 import { toast } from 'react-toastify';
-import { ShoppingCart} from 'lucide-react';
-import { useAuth } from '../../../../../Services/UserAuth';
-import { Product } from '../../../../../Shared/Product';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../Store/index';
-import { updateCartItem } from '../../../../../Store/Item/total_item_slice';
-import {
-  addToCart,
-  removeFromCart,
-} from '../../../../../Services/Cart/CartService';
 import {
   updateDoc,
   collection,
@@ -17,11 +8,20 @@ import {
   where,
   getDocs,
 } from 'firebase/firestore';
-import { auth, db } from '../../../../../Services/firebase/firebase';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../../../Services/UserAuth';
+import { Product } from '../../../../../Shared/Product';
+import { RootState } from '../../../../../Store/index';
+import { updateCartItem } from '../../../../../Store/Item/total_item_slice';
+import {
+  addToCart,
+  removeFromCart,
+} from '../../../../../Services/Cart/CartService';
+import { auth, db } from '../../../../../Services/firebase/firebase';
 import { ROUTES } from '../../../../../Shared/Constants';
 import '../ShowItem.scss';
+
 interface CartButtonProps {
   cartItems: Map<string, number>;
   product: Product;
@@ -71,20 +71,20 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
   };
 
   const handleRemoveItem = async (product: Product) => {
-    if (isLoading) return;  
+    if (isLoading) return;
     setIsLoading(true);
     try {
       await removeFromCart(product.id);
       cartItems.delete(product.id);
       setTotal(0);
-      toast.success('Item removed from cart');
+      toast.info('Item removed from cart');
       dispatch(updateCartItem(cartCount - 1));
     } catch (error) {
       console.error('Error removing item', error);
       toast.error('Failed to remove item');
+    } finally {
+      setIsLoading(false);
     }
-    finally {
-      setIsLoading(false);}
   };
 
   const handleAddToCart = async () => {
@@ -93,7 +93,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
       navigate(ROUTES.LOGIN);
       return;
     }
-    if (isLoading) return;  
+    if (isLoading) return;
     setIsLoading(true);
     try {
       await addToCart(product);
@@ -125,7 +125,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
             </button>
           ) : (
             <button
-             disabled={isLoading}
+              disabled={isLoading}
               className="cart-btn-minus"
               onClick={() => {
                 handleQuantityChange(product, total - 1, cartCount - 1);
@@ -160,7 +160,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
           type="button"
           onClick={handleAddToCart}
         >
-          <ShoppingCart/>
+          <ShoppingCart />
           Add to Cart
         </button>
       )}

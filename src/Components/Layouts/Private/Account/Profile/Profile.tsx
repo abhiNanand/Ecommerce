@@ -1,16 +1,15 @@
-
 import './Profile.scss';
 import { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useAuth } from '../../../../../Services/UserAuth';
 import {
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
 } from 'firebase/auth';
-import {toast} from 'react-toastify';
-import { auth } from '../../../../../Services/firebase/firebase'; 
+import { toast } from 'react-toastify';
+import { useAuth } from '../../../../../Services/UserAuth';
+import { auth } from '../../../../../Services/firebase/firebase';
 
 export default function Profile() {
   const { user } = useAuth();
@@ -42,9 +41,8 @@ export default function Profile() {
     }),
     onSubmit: async (values) => {
       try {
-        const currentUser = auth.currentUser;
+        const { currentUser } = auth;
         if (!currentUser) return;
-
 
         // Update password if newPassword is provided
         if (values.newPassword) {
@@ -59,7 +57,7 @@ export default function Profile() {
         toast.success('Password changed successfully!');
         setEditMode(false);
       } catch (err: any) {
-       toast.error(" Current password is wrong");
+        toast.error(' Current password is wrong');
       }
     },
   });
@@ -78,7 +76,6 @@ export default function Profile() {
               type="text"
               disabled
               value={formik.values.firstName}
-               
             />
           </div>
 
@@ -103,7 +100,6 @@ export default function Profile() {
 
         {editMode && (
           <div className="profile-password-section">
-            
             <label>Current Password</label>
             <input
               type="password"
@@ -112,10 +108,11 @@ export default function Profile() {
               value={formik.values.currentPassword}
               onChange={formik.handleChange}
             />
-            {formik.touched.currentPassword && formik.errors.currentPassword && (
-              <small className="error">{formik.errors.currentPassword}</small>
-            )}
-              <label>New Password</label>
+            {formik.touched.currentPassword &&
+              formik.errors.currentPassword && (
+                <small className="error">{formik.errors.currentPassword}</small>
+              )}
+            <label>New Password</label>
             <input
               type="password"
               name="newPassword"
@@ -126,7 +123,7 @@ export default function Profile() {
             {formik.touched.newPassword && formik.errors.newPassword && (
               <small className="error">{formik.errors.newPassword}</small>
             )}
-           <label>Confirm New Password</label>
+            <label>Confirm New Password</label>
             <input
               type="password"
               name="confirmPassword"
@@ -134,15 +131,20 @@ export default function Profile() {
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
             />
-            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-              <small className="error">{formik.errors.confirmPassword}</small>
-            )}
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <small className="error">{formik.errors.confirmPassword}</small>
+              )}
           </div>
         )}
 
         <div className="profile-actions">
           {!editMode ? (
-            <button type="button" className="profile-save" onClick={() => setEditMode(true)}>
+            <button
+              type="button"
+              className="profile-save"
+              onClick={() => setEditMode(true)}
+            >
               Change Password
             </button>
           ) : (

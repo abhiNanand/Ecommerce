@@ -64,26 +64,22 @@ export default function Contact() {
       <div className="contact-wrapper">
         <div className="contact-info">
           <div className="info-box">
-           
-          
-  <div className="info-text">
-  <div className="icon-with-text">
-  <img src={assets.icon.call} alt="Call Icon" />
-  <h4> Call To Us</h4>
+            <div className="info-text">
+              <div className="icon-with-text">
+                <img src={assets.icon.call} alt="Call Icon" />
+                <h4> Call To Us</h4>
+              </div>
+              <p>We are available 24/7, 7 days a week.</p>
+              <p className="phone">Phone: +917091400186</p>
             </div>
-    <p>We are available 24/7, 7 days a week.</p>
-    <p className="phone">Phone: +917091400186</p>
-  </div>
           </div>
           <hr />
           <div className="info-box">
-          
-          <div className="info-text">
-            <div className="icon-with-text">
-            <img src={assets.icon.message} alt="Message Icon" />
-            <h4>  Write To Us</h4>
-
-            </div>
+            <div className="info-text">
+              <div className="icon-with-text">
+                <img src={assets.icon.message} alt="Message Icon" />
+                <h4> Write To Us</h4>
+              </div>
               <p>Fill out our form and we will contact you within 24 hours.</p>
               <p>Email: customer@exclusive.com</p>
               <p>Email support@exclusive.com </p>
@@ -104,7 +100,9 @@ export default function Contact() {
                   onChange={formik.handleChange}
                 />
                 <div className="error">
-                  {formik.touched.name && formik.errors.name ? formik.errors.name : ''}
+                  {formik.touched.name && formik.errors.name
+                    ? formik.errors.name
+                    : ''}
                 </div>
               </div>
 
@@ -117,7 +115,9 @@ export default function Contact() {
                   onChange={formik.handleChange}
                 />
                 <div className="error">
-                  {formik.touched.email && formik.errors.email ? formik.errors.email : ''}
+                  {formik.touched.email && formik.errors.email
+                    ? formik.errors.email
+                    : ''}
                 </div>
               </div>
               <div className="phone-filed">
@@ -134,12 +134,12 @@ export default function Contact() {
                   }}
                 />
                 <div className="error">
-                  {formik.touched.phone && formik.errors.phone ? formik.errors.phone : ''}
+                  {formik.touched.phone && formik.errors.phone
+                    ? formik.errors.phone
+                    : ''}
                 </div>
               </div>
             </div>
-
-
 
             <div className="form-message-group">
               <textarea
@@ -149,7 +149,9 @@ export default function Contact() {
                 onChange={formik.handleChange}
               />
               <div className="error">
-                {formik.touched.message && formik.errors.message ? formik.errors.message : ''}
+                {formik.touched.message && formik.errors.message
+                  ? formik.errors.message
+                  : ''}
               </div>
             </div>
 
@@ -159,7 +161,6 @@ export default function Contact() {
             </button>
           </form>
         </div>
-
       </div>
     </div>
   );

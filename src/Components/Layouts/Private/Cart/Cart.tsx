@@ -9,8 +9,8 @@ import {
 } from 'firebase/firestore';
 import { Trash } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
+import { onAuthStateChanged } from 'firebase/auth';
 import { db, auth } from '../../../../Services/firebase/firebase';
-import { onAuthStateChanged } from 'firebase/auth'
 import {
   getCartItems,
   removeFromCart,
@@ -29,7 +29,7 @@ export default function Cart() {
   const { user } = useAuth();
   const dispatch = useDispatch();
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
-  const [loading,setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -38,8 +38,7 @@ export default function Cart() {
         const cartItems = await getCartItems();
         setCartItems(cartItems);
         setLoading(false);
-      }
-      else {
+      } else {
         setCartItems([]);
         setLoading(false);
       }
@@ -55,7 +54,18 @@ export default function Cart() {
     );
   };
 
-  const handleQuantityChange = async (product: any, newQuantity: number,totalCartCount:number) => {
+  const handleTotalItem = async (product: any) => {
+    await removeFromCart(product.id);
+    dispatch(updateCartItem(cartCount - (product.quantity ?? 1)));
+    setCartItems((prevItems) =>
+      prevItems.filter((item) => item.id !== product.id)
+    );
+  };
+  const handleQuantityChange = async (
+    product: any,
+    newQuantity: number,
+    totalCartCount: number
+  ) => {
     const user = auth.currentUser;
     const cartRef = collection(db, `users/${user?.uid}/cart`);
     try {
@@ -86,7 +96,6 @@ export default function Cart() {
   const navigate = useNavigate();
   const returnHome = () => navigate(ROUTES.HOMEPAGE);
 
-
   if (!user) {
     return (
       <div className="wishlist">
@@ -97,11 +106,12 @@ export default function Cart() {
       </div>
     );
   }
-  if(loading)
-  {
-        return  (<div className="loader">
-            <RippleLoader />
-          </div>)
+  if (loading) {
+    return (
+      <div className="loader">
+        <RippleLoader />
+      </div>
+    );
   }
 
   return (
@@ -116,6 +126,7 @@ export default function Cart() {
           <span>Price</span>
           <span>Quantity</span>
           <span>Subtotal</span>
+          <span>Remove</span>
         </div>
 
         <div className="cart-items">
@@ -131,12 +142,16 @@ export default function Cart() {
                     className="cart-image"
                     onClick={() => navigate(`/product/${product.id}`)}
                   />
-                  <p style={{
-                    whiteSpace: 'nowrap',
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    maxWidth: '200px'  
-                  }}>{product.title}</p>
+                  <p
+                    style={{
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      maxWidth: '200px',
+                    }}
+                  >
+                    {product.title}
+                  </p>
                 </span>
                 <span>${product.price}</span>
                 <div className="cart-quantity-controls">
@@ -167,7 +182,6 @@ export default function Cart() {
                     )}
 
                     <input
-
                       type="number"
                       min="1"
                       value={product.quantity}
@@ -179,9 +193,8 @@ export default function Cart() {
                         handleQuantityChange(
                           product,
                           (product.quantity ?? 1) + 1,
-                          cartCount+1
+                          cartCount + 1
                         );
-                      //  dispatch(updateCartItem(cartCount + 1));
                       }}
                     >
                       +
@@ -191,6 +204,17 @@ export default function Cart() {
 
                 <span>
                   ${(product.price * (product.quantity ?? 1)).toFixed(2)}
+                </span>
+                <span>
+                  <button
+                    type="button"
+                    className="cart-delete-button"
+                    onClick={() => {
+                      handleTotalItem(product);
+                    }}
+                  >
+                    <Trash size={15} />
+                  </button>
                 </span>
                 <span />
               </div>

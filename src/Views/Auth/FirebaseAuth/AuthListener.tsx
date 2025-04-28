@@ -2,7 +2,7 @@
 // import { useEffect } from 'react';
 // import { onAuthStateChanged } from 'firebase/auth';
 // import { useDispatch } from 'react-redux';
-// import { auth } from '../../../Services/firebase/firebase' 
+// import { auth } from '../../../Services/firebase/firebase'
 // import { logoutUser } from '../../../Store/Common';
 // import { updateCartItem, updateWishlistItem } from '../../../Store/Item/total_item_slice';
 // import { getCartItems } from '../../../Services/Cart/CartService';
@@ -47,7 +47,7 @@
 //     return () => unsubscribe();
 //   }, [dispatch]);
 
-//   return null;  
+//   return null;
 // };
 
 // export default AuthListener;

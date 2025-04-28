@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { useNavigate ,NavLink} from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { ShoppingCart, Trash2, Heart } from 'lucide-react';
-import { onAuthStateChanged } from 'firebase/auth'
+import { onAuthStateChanged } from 'firebase/auth';
 import { useSelector, useDispatch } from 'react-redux';
-import {  auth } from '../../../../Services/firebase/firebase';
+import { auth } from '../../../../Services/firebase/firebase';
 import { Product } from '../../../../Shared/Product';
 import {
   getWishlistItems,
@@ -11,7 +11,7 @@ import {
 } from '../../../../Services/Wishlist/WishlistService';
 import { addToCart } from '../../../../Services/Cart/CartService';
 import { useAuth } from '../../../../Services/UserAuth';
-import {ROUTES} from '../../../../Shared/Constants';
+import { ROUTES } from '../../../../Shared/Constants';
 import './Wishlist.scss';
 
 import {
@@ -27,27 +27,25 @@ export default function Wishlist() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
-  const [loading,setLoading]=useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const wishlistCount = useSelector(
     (state: RootState) => state.item.noOfWishlistItem
   );
 
-    useEffect(() => {
-      const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-        if (currentUser) {
-          await currentUser.reload();
-          const wishlistItems = await getWishlistItems();
-          setWishlistItems(wishlistItems);
-          setLoading(false);
-        }
-        else {
-          setWishlistItems([]);
-          setLoading(false);
-        }
-      });
-      return ()=>unsubscribe();
-    }, [user]);
-  
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        await currentUser.reload();
+        const wishlistItems = await getWishlistItems();
+        setWishlistItems(wishlistItems);
+        setLoading(false);
+      } else {
+        setWishlistItems([]);
+        setLoading(false);
+      }
+    });
+    return () => unsubscribe();
+  }, [user]);
 
   const handleDelete = async (item: any) => {
     await removeFromWishlist(item.id);
@@ -67,9 +65,7 @@ export default function Wishlist() {
     );
     dispatch(updateWishlistItem(wishlistCount - i));
     dispatch(updateCartItem(cartCount + i));
-    
   };
-
 
   if (!user) {
     return (
@@ -82,12 +78,13 @@ export default function Wishlist() {
     );
   }
 
-  if(loading)
-    {
-          return  (<div className="loader">
-              <RippleLoader />
-            </div>)
-    }
+  if (loading) {
+    return (
+      <div className="loader">
+        <RippleLoader />
+      </div>
+    );
+  }
   if (wishlistItems.length === 0) {
     return (
       <div className="wishlist">
@@ -100,17 +97,14 @@ export default function Wishlist() {
     );
   }
 
- 
-
   return (
     <div className="wishlist">
       <p className="breadcrumb">
-       <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-       <NavLink to={ROUTES.WISHLIST}> Wishlist</NavLink>
-       </p>
-      
+        <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
+        <NavLink to={ROUTES.WISHLIST}> Wishlist</NavLink>
+      </p>
+
       <div className="wishlist-top">
-     
         <h3>My Wishlist ({wishlistItems.length} items)</h3>
         {wishlistItems.length > 0 && (
           <button type="button" onClick={handleMoveAllToBag}>

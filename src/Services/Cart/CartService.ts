@@ -7,7 +7,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
-  getDoc
+  getDoc,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
