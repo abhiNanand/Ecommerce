@@ -10,17 +10,17 @@ import {
 } from 'firebase/firestore';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../../../Services/UserAuth';
-import { Product } from '../../../../../Shared/Product';
-import { RootState } from '../../../../../Store/index';
-import { updateCartItem } from '../../../../../Store/Item/total_item_slice';
+import { useAuth } from '../../Services/UserAuth';
+import { Product } from '../../Shared/Product';
+import { RootState } from '../../Store/index';
+import { updateCartItem } from '../../Store/Item/total_item_slice';
 import {
   addToCart,
   removeFromCart,
-} from '../../../../../Services/Cart/CartService';
-import { auth, db } from '../../../../../Services/firebase/firebase';
-import { ROUTES } from '../../../../../Shared/Constants';
-import '../ShowItem.scss';
+} from '../../Services/Cart/CartService';
+import { auth, db } from '../../Services/firebase/firebase';
+import { ROUTES } from '../../Shared/Constants';
+import './ShowItem.scss';
 
 interface CartButtonProps {
   cartItems: Map<string, number>;

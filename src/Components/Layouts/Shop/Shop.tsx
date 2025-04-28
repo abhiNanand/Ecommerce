@@ -14,7 +14,7 @@ import {
   SpinnerLoader,
   RippleLoader,
 } from '../../../Views/Dashboard/Loaders/Loaders';
-import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
+import ShowItem from '../../../Views/ShowItem/ShowItem';
 
 export default function Shop() {
   const { data: products, error, isLoading } = useGetProductQuery(null);

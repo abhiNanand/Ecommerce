@@ -53,7 +53,7 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
             className="copy-link"
             onClick={() => {
               navigator.clipboard.writeText(shareLink);
-              toast.success('link copied');
+              toast.success('Link copied');
             }}
           >
             <Link size={28} />

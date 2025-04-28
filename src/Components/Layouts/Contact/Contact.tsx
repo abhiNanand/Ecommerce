@@ -49,7 +49,7 @@ export default function Contact() {
         message: values.message,
         createdAt: serverTimestamp(),
       });
-      toast('Message sent successfully! We will contact you soon');
+      toast.success('Message sent successfully! We will contact you soon');
       resetForm();
     },
   });

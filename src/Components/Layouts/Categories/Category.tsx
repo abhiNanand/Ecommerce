@@ -2,7 +2,7 @@ import { useParams, NavLink, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
-import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
+import ShowItem from '../../../Views/ShowItem/ShowItem';
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
 import './Category.scss';
 

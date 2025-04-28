@@ -11,7 +11,7 @@ import {
 } from '../../../Services/Api/module/demoApi';
 import './ProductDetails.scss';
 import { useAuth } from '../../../Services/UserAuth';
-import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
+import ShowItem from '../../../Views/ShowItem/ShowItem';
 import { ROUTES } from '../../../Shared/Constants';
 
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
@@ -26,7 +26,7 @@ import { getCartItems } from '../../../Services/Cart/CartService';
 import { Product } from '../../../Shared/Product';
 import { updateWishlistItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
-import AddCartButton from '../../../Views/Dashboard/Helper/Sales/helper/AddCartButton';
+import AddCartButton from '../../../Views/ShowItem/AddCartButton';
 
 function ProductDetails() {
   const { productId } = useParams();

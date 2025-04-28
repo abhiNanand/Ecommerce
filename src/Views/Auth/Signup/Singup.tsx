@@ -1,5 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { Eye ,EyeOff} from 'lucide-react';
+import { useState } from 'react';
 import * as Yup from 'yup';
 import {
   createUserWithEmailAndPassword,
@@ -26,6 +28,7 @@ interface FormValues {
 export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showPassword,setShowPassword]=useState<boolean>(false);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -106,21 +109,17 @@ export default function Signup() {
       }
     } catch (error: any) {
       console.error(error.message);
-
       toast.error('Google Sign-In failed! Try again.');
     }
   };
-
   return (
     <div className="login-signup-container">
       <div className="shop-img-container">
         <img src={assets.images.shopping} alt="shoppingImage" />
       </div>
-
       <div className="login-container">
         <h1>Create an account</h1>
         <p>Enter your details below</p>
-
         <form onSubmit={formik.handleSubmit}>
           <div className="input-group">
             <input
@@ -147,12 +146,17 @@ export default function Signup() {
           </div>
 
           <div className="input-group">
+            <div>
             <input
-              id="password"
-              type="password"
+              id="text"
+              type={showPassword?"text":"password"}
               placeholder="Password"
               {...formik.getFieldProps('password')}
             />
+            {showPassword?( <Eye onClick={()=>setShowPassword(!showPassword)}/>):( <EyeOff onClick={()=>setShowPassword(!showPassword)}/>)}
+           
+            </div>
+         
             {formik.touched.password && formik.errors.password && (
               <div className="error-text">{formik.errors.password}</div>
             )}
@@ -161,13 +165,11 @@ export default function Signup() {
           <button type="submit" id="create-btn">
             Create Account
           </button>
-
           <button type="button" id="google-btn" onClick={handleGoogleSignIn}>
             <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
             Sign up with Google
           </button>
         </form>
-
         <p id="go-to-login">
           Already have an account?{' '}
           <NavLink to={ROUTES.LOGIN}>

@@ -26,7 +26,8 @@ export default function Order() {
       if (currentUser) {
         await currentUser.reload();
         const data = await fetchOrders();
-        setOrders(data);
+        const sortedData =  data.sort((a,b)=> b.date.getTime()-a.date.getTime());
+        setOrders(sortedData );
         setLoading(false);
       } else {
         setOrders([]);
@@ -58,7 +59,7 @@ export default function Order() {
   }
   return (
     <div className="order-page">
-      <h2>Your Order</h2>
+      <h2>Your Orders</h2>
       <div className="orders-list">
         {orders.map((order) => (
           <div className="order-card" key={order.id}>
@@ -74,7 +75,7 @@ export default function Order() {
                 <br />
                 Phone: {order.address.phoneNumber}
               </p>
-              <h3>Total:{calculateTotal(order).toFixed(2)}</h3>
+              <h3>Total: ${calculateTotal(order).toFixed(2)}</h3>
             </div>
             <div className="product-list">
               {order.products.map((product) => (
@@ -88,7 +89,7 @@ export default function Order() {
                   <img src={product.image} alt={product.title} />
                   <div>
                     <p>{product.title}</p>
-                    <p>Price: ₹{product.price}</p>
+                    <p>Price: ${product.price}</p>
                     <p>Qty: {product.quantity ?? 1}</p>
                   </div>
                 </div>

@@ -12,7 +12,7 @@ export default function Footer() {
   const location = useLocation();
   useEffect(() => {
     toast.dismiss();
-    console.log(location.pathname);
+    
   }, [location.pathname]);
   return (
     <footer className="footer-container">

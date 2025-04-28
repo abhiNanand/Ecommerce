@@ -4,21 +4,21 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
-import Star from '../Stars/Star';
+import Star from '../Dashboard/Helper/Stars/Star';
 import {
   addToWishlist,
   getWishlistItems,
   removeFromWishlist,
-} from '../../../../Services/Wishlist/WishlistService';
-import { Product } from '../../../../Shared/Product';
-import { getCartItems } from '../../../../Services/Cart/CartService';
+} from '../../Services/Wishlist/WishlistService';
+import { Product } from '../../Shared/Product';
+import { getCartItems } from '../../Services/Cart/CartService';
 import './ShowItem.scss';
-import { useAuth } from '../../../../Services/UserAuth';
-import { updateWishlistItem } from '../../../../Store/Item/total_item_slice';
-import { RootState } from '../../../../Store/index';
-import { ROUTES } from '../../../../Shared/Constants';
-import { auth } from '../../../../Services/firebase/firebase';
-import AddCartButton from './helper/AddCartButton';
+import { useAuth } from '../../Services/UserAuth';
+import { updateWishlistItem } from '../../Store/Item/total_item_slice';
+import { RootState } from '../../Store/index';
+import { ROUTES } from '../../Shared/Constants';
+import { auth } from '../../Services/firebase/firebase';
+import AddCartButton from './AddCartButton';
  
 
 interface ShowItemProps {

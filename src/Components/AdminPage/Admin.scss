@@ -49,8 +49,21 @@
     }
   }
   
-  // Responsive Design
-  @media (max-width: 768px) {
+  .admin-logout-btn
+  {
+    background-color: red;
+  color:white;
+  padding:10px;
+  border-radius: 5px;
+  border:none;
+  cursor:pointer;
+  margin:5%;
+  &:hover
+  {
+    background-color: #c0392b;
+  }
+  }
+   @media (max-width: 768px) {
     .admin-messages-container {
       width: 100%;
       padding: 1rem;

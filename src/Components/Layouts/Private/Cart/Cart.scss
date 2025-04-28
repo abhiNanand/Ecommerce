@@ -16,7 +16,7 @@
 .cart-header,
 .cart-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr auto; // Ensuring uniform column distribution
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto;  
     align-items: center;
     padding: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
@@ -51,8 +51,6 @@ input[type="number"] {
     border: 1px solid #ddd;
     border-radius: 3px;
 }
-
- 
 
 .cart-actions {
     display: flex;

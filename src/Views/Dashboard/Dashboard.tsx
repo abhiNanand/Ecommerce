@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 import Banner from './Helper/Banner/Banner';
 import Sales from './Helper/Sales/Sales';
 import BrowseCategory from './Helper/BrowseCategroy/BrowseCategory';
-import ShowItem from './Helper/Sales/ShowItem';
+import ShowItem from '../ShowItem/ShowItem';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
 import { SpinnerLoader } from './Loaders/Loaders';

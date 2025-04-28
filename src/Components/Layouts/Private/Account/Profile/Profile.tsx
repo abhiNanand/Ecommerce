@@ -1,6 +1,7 @@
 import './Profile.scss';
 import { useState } from 'react';
 import { useFormik } from 'formik';
+import { Eye } from 'lucide-react';
 import * as Yup from 'yup';
 import {
   updatePassword,
@@ -17,6 +18,9 @@ export default function Profile() {
 
   const displayName = user?.displayName ?? '';
   const [firstNameDefault, lastNameDefault] = displayName.split(' ');
+  const [showPassword1,setShowPassword1]=useState<boolean>(false);
+  const [showPassword2,setShowPassword2]=useState<boolean>(false);
+  const [showPassword3,setShowPassword3]=useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -39,13 +43,12 @@ export default function Profile() {
         'Passwords must match'
       ),
     }),
-    onSubmit: async (values) => {
+    onSubmit: async (values,{resetForm}) => {
       try {
         const { currentUser } = auth;
         if (!currentUser) return;
 
-        // Update password if newPassword is provided
-        if (values.newPassword) {
+         if (values.newPassword) {
           const credential = EmailAuthProvider.credential(
             currentUser.email!,
             values.currentPassword
@@ -56,7 +59,8 @@ export default function Profile() {
 
         toast.success('Password changed successfully!');
         setEditMode(false);
-      } catch (err: any) {
+        resetForm();
+      } catch {
         toast.error(' Current password is wrong');
       }
     },
@@ -101,36 +105,48 @@ export default function Profile() {
         {editMode && (
           <div className="profile-password-section">
             <label>Current Password</label>
-            <input
-              type="password"
+           
+              <div className="show-password-input">
+              <input
+              type={showPassword1? "text" : "password"}
               name="currentPassword"
               placeholder="Current Password"
               value={formik.values.currentPassword}
               onChange={formik.handleChange}
             />
+            <Eye onClick={()=> setShowPassword1(!showPassword1)}/>
+              </div>
             {formik.touched.currentPassword &&
               formik.errors.currentPassword && (
                 <small className="error">{formik.errors.currentPassword}</small>
               )}
             <label>New Password</label>
+            <div>
             <input
-              type="password"
+              type={showPassword2? "text" : "password"}
               name="newPassword"
               placeholder="New Password"
               value={formik.values.newPassword}
               onChange={formik.handleChange}
             />
+            <Eye onClick={()=> setShowPassword2(!showPassword2)}/>
+            </div>
+            
             {formik.touched.newPassword && formik.errors.newPassword && (
               <small className="error">{formik.errors.newPassword}</small>
             )}
             <label>Confirm New Password</label>
+            <div>
             <input
-              type="password"
+              type={showPassword3? "text" : "password"}
               name="confirmPassword"
               placeholder="Confirm New Password"
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
             />
+            <Eye onClick={()=> setShowPassword3(!showPassword3)}/>
+            </div>
+            
             {formik.touched.confirmPassword &&
               formik.errors.confirmPassword && (
                 <small className="error">{formik.errors.confirmPassword}</small>

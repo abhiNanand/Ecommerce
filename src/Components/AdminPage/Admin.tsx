@@ -26,6 +26,7 @@ interface Message {
 export default function AdminMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const dispatch = useDispatch();
+  const [openLogout,setOpenLogout]= useState<boolean>(false);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -52,7 +53,7 @@ export default function AdminMessages() {
     fetchMessages();
   }, []);
 
-  const handleClick = async () => {
+  const handleLogout = async () => {
     await signOut(auth);
     dispatch(logoutUser());
   };
@@ -86,7 +87,36 @@ export default function AdminMessages() {
           ))}
         </tbody>
       </table>
-      <button onClick={() => handleClick()}>logout</button>
+      <button className="admin-logout-btn" onClick={() =>setOpenLogout(true)}>logout</button>
+      {openLogout && (
+  <div className="confirmation-container">
+    <div>
+      <div className="confirm-title-btn">
+        <h3>Logout Confirmation</h3>
+        <p>Are you sure you want to log out?</p>
+        <div className="confirm-n-cancel-btn">
+          <button
+            className="confirm-btn"
+            onClick={() => {
+              handleLogout();
+              setOpenLogout(false);
+            }}
+          >
+            Confirm
+          </button>
+          <button
+            className="cancel-btn"
+            onClick={() => setOpenLogout(false)}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
     </div>
   );
 }
+
+

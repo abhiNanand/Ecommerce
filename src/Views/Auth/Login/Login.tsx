@@ -1,6 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
+import { Eye } from 'lucide-react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -31,6 +32,7 @@ export default function Login() {
   const [forgetEmail, setForgetEmail] = useState('');
   const [forgetEmailTouched, setForgetEmailTouched] = useState(false);
   const [sendingReset, setSendingReset] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const { pathname } = useLocation();
   useEffect(() => window.scrollTo(0, 0), [pathname]);
@@ -48,7 +50,7 @@ export default function Login() {
       email: emailValidation,
       password: Yup.string()
         .min(6, 'Password must be at least 6 characters')
-        .required('Required'),
+        .required('Password is Required'),
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
@@ -109,7 +111,7 @@ export default function Login() {
       }
     } catch (error: any) {
       console.error(error.message);
-      toast.error('❌ Google Sign-In failed! Try again.');
+      toast.error('Google Sign-In failed! Try again.');
     } finally {
       setLoading(false);
     }
@@ -129,7 +131,7 @@ export default function Login() {
       setForgetEmail('');
       setForgetEmailTouched(false);
     } catch (error) {
-      toast.error('❌ Failed to send reset email');
+      toast.error(' Failed to send reset email');
     } finally {
       setSendingReset(false);
     }
@@ -168,15 +170,19 @@ export default function Login() {
               </div>
 
               <div className="input-group">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  placeholder="Password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                />
+
+                <div>
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    value={formik.values.password}
+                  />
+                  <Eye onClick={() => setShowPassword(!showPassword)} />
+                </div>
                 {formik.touched.password && formik.errors.password && (
                   <div className="error-text">{formik.errors.password}</div>
                 )}

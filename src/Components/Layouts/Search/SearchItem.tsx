@@ -3,7 +3,7 @@ import { Frown } from 'lucide-react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { Product } from '../../../Shared/Product';
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
-import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
+import ShowItem from '../../../Views/ShowItem/ShowItem';
 import './SearchItem.scss';
 
 export default function SearchItem() {
@@ -19,7 +19,7 @@ export default function SearchItem() {
   }
   if (error) return <h1>Error in loading items</h1>;
   if (query == 'all') {
-    return <ShowItem products={products} />;
+    return ( <div className="show-searched-products"> <ShowItem products={products} /></div>);
   }
 
   const lowerQuery = query.toLowerCase();

@@ -13,9 +13,9 @@ import About from '../Components/Layouts/About/About';
 import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
 import Browse from '../Views/Browse Product/Browse';
-import FAQs from '../Views/QuickLinks/FAQs';
-import PrivacyPolicy from '../Views/QuickLinks/PrivacyPolicy';
-import TermsOfUse from '../Views/QuickLinks/TermsOfUse';
+import FAQs from '../Views/Dashboard/QuickLinks/FAQs';
+import PrivacyPolicy from '../Views/Dashboard/QuickLinks/PrivacyPolicy';
+import TermsOfUse from '../Views/Dashboard/QuickLinks/TermsOfUse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [

@@ -7,11 +7,12 @@ import {
   removeAddress,
 } from '../../../../../Services/Address/Address';
 import type { Address } from '../../../../../Services/Address/Address';
-
+import AddAddress from './AddAddress';
 function Address() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [deleteIndex, setDeleteIndex] = useState<number>(-1);
+  const [openAddress,setOpenAddress]=useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -24,7 +25,7 @@ function Address() {
       }
     });
     return () => unsubscribe();
-  }, []);
+  }, [openAddress]);
 
   const handleDelete = async (id: string | undefined) => {
     if (!id) return;
@@ -63,7 +64,7 @@ function Address() {
         <div className="confirmation-container">
           <div>
             <div className="confirm-title-btn">
-              <h3>Delete Address Confirmation</h3>
+              <h3>Delete Confirmation</h3>
               <p>Are you sure you want to delete this address?</p>
               <div className="confirm-n-cancel-btn">
                 <button
@@ -83,10 +84,13 @@ function Address() {
           </div>
         </div>
       )}
+      <button type="button" className="add-address-button" onClick={()=>{setOpenAddress(true);}}>Add Address</button>
+      {openAddress &&  ( <div className="confirmation-container">  <div>
+        <div className="confirm-title-btn"> <AddAddress onClose={() => setOpenAddress(false)}/> </div></div></div>)}
     </div>
   );
 }
 
 export default Address;
 
-// handleDelete(address.firebaseId)
+ 

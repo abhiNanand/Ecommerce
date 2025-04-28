@@ -1,5 +1,5 @@
-import { Heart } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { Heart,ArrowLeft, ArrowRight } from 'lucide-react';
+import { useState, useEffect,useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,9 +18,8 @@ import { updateWishlistItem } from '../../../../../Store/Item/total_item_slice';
 import { RootState } from '../../../../../Store/index';
 import { ROUTES } from '../../../../../Shared/Constants';
 import { auth } from '../../../../../Services/firebase/firebase';
-import AddCartButton from '../helper/AddCartButton';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { useRef } from 'react';
+import AddCartButton from '../../../../ShowItem/AddCartButton';
+ 
 
 interface ShowItemProps {
     products: Product[];
@@ -118,8 +117,8 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
             <div className="arrows">
                 <div className="left-arrow">
 
-                    <ArrowLeft onClick={() => scrollLeft()} /></div>
-                <div className="right-arrow"><ArrowRight onClick={() => scrollRight()} /></div>
+                    <ArrowLeft  size={20} onClick={() => scrollLeft()} /></div>
+                <div className="right-arrow"><ArrowRight size={20} onClick={() => scrollRight()} /></div>
             </div>
             <div className="sales-products-grid"  ref={scrollRef} >
                 {products.map((product: Product) => (

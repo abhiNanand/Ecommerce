@@ -64,7 +64,7 @@ export default function Header() {
       }
     });
 
-    return () => unsubscribe(); // cleanup
+    return () => unsubscribe();  
   }, [user]);
 
   const handleLogout = async () => {

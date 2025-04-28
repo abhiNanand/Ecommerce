@@ -1,73 +1,58 @@
 .sales-section {
-    display: flex;
-    flex-direction: column;
-    
-    margin-bottom: 5%;
-    
-     
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5%;
 }
 
-/* Left Side: Sales Title */
-.sales-heading
-{
-    display:flex;
-    gap: 5px;
-    align-items: center;
-    margin-bottom: 1%;
-     
+.sales-heading {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: 1%;
 }
 
 .sales-highlight-bar {
-    background-color: red;
-    height: 3vh;
-    width: 1vw;
-    border-radius: 3px;
-  }
-
-  //Today's
-.sales-subtitle
-{
-  font-size: 1rem;
-  font-weight: 600;
-  color:red;
+  background-color: red;
+  height: 3vh;
+  width: 1vw;
+  border-radius: 3px;
 }
 
-// Flash Sales
-.sales-title 
-{
-    margin-right:5vw
-     
+
+.sales-subtitle {
+  font-size: 1rem;
+  font-weight: 600;
+  color: red;
+}
+
+
+.sales-title {
+  margin-right: 5vw;
 }
 
 .sales-timer {
-    display: flex;
-    gap: 15px;
-    align-items: end;
-  }
-  
-  .sales-timer-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-  }
-   
-  .sales-timer-label {
-    font-size: 0.9rem;
-    color: #666;
-    font-weight: 500;
-  }
-  
-  .sales-timer-value {
-  
-    
-    border-radius: 8px;
-     font-size: 1.8rem;
-    font-weight: bold;
-    min-width: 50px;
-    text-align: center;
-  }
+  display: flex;
+  gap: 15px;
+  align-items: end;
+}
 
+.sales-timer-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
 
+.sales-timer-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 500;
+}
 
- 
+.sales-timer-value {
+  border-radius: 8px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  min-width: 50px;
+  text-align: center;
+}
