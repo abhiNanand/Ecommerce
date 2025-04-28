@@ -1,6 +1,6 @@
-import { useParams, useNavigate,useLocation } from 'react-router-dom';
- 
-import { useEffect } from 'react';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+
+import { useEffect, useState } from 'react';
 import {
   useGetProductByIdQuery,
   useGetProductByCategoryQuery,
@@ -10,27 +10,60 @@ import { useAuth } from '../../../Services/UserAuth';
 import ShowItem from '../../../Views/Dashboard/Helper/Sales/ShowItem';
 import { ROUTES } from '../../../Shared/Constants';
 import { toast } from 'react-toastify';
- 
-import { RippleLoader} from '../../../Views/Dashboard/Loaders/Loaders';
+
+import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
 import ShareProduct from './ShareProduct';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../../Services/firebase/firebase';
+import {
+  getWishlistItems,
+  addToWishlist,
+  removeFromWishlist,
+} from '../../../Services/Wishlist/WishlistService';
+import { getCartItems } from '../../../Services/Cart/CartService';
+import { Heart } from 'lucide-react';
+import { Product } from '../../../Shared/Product';
+import { updateWishlistItem } from '../../../Store/Item/total_item_slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../../../Store';
+import AddCartButton from '../../../Views/Dashboard/Helper/Sales/helper/AddCartButton';
 
 function ProductDetails() {
   const { productId } = useParams();
   const { user } = useAuth();
- 
   const navigate = useNavigate();
- 
-  const {pathname}=useLocation();
- 
+  const { pathname } = useLocation();
+  const [isInWishlist, SetIsInWishlist] = useState<boolean>(false);
+  const wishlistCount = useSelector(
+    (state: RootState) => state.item.noOfWishlistItem
+  );
+  const dispatch = useDispatch();
+  const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
 
-  useEffect(()=>window.scrollTo(0,0),[pathname]);
+  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const wishlist = await getWishlistItems();
+        const flag = wishlist.some((item) => item.id == productId);
+        SetIsInWishlist(flag);
+
+        const cart = await getCartItems();
+
+        const cartProductList = new Map(
+          cart.map((items) => [items.id, items.quantity ?? 1])
+        );
+        setCartItems(cartProductList);
+      }
+    });
+    return () => unsubscribe();
+  }, [productId]);
+
   const {
     data: product,
     error: productError,
     isLoading: productLoading,
   } = useGetProductByIdQuery(productId);
-
-  
 
   const category: string = product?.category;
   const {
@@ -43,10 +76,10 @@ function ProductDetails() {
     return <h1>Error loading product</h1>;
   }
 
-  if (productLoading ){
+  if (productLoading) {
     return (
       <div className="loader">
-         <RippleLoader/>
+        <RippleLoader />
       </div>
     );
   }
@@ -55,20 +88,51 @@ function ProductDetails() {
     return <p>No product data available.</p>;
   }
 
+  const handleWishlistClick = async (product: Product) => {
+    try {
+      if (!user) {
+        toast.error('Please Login To Add Item To Wishlist!');
+        navigate(ROUTES.LOGIN);
+        return;
+      }
+      // if (loading) return;
+      // setLoading(true);
+      const isLiked = isInWishlist;
+
+      if (isLiked) {
+        await removeFromWishlist(product.id);
+        SetIsInWishlist(false);
+        toast.success('Item removed from wishlist', {
+          position: 'top-right',
+        });
+        dispatch(updateWishlistItem(wishlistCount - 1));
+      } else {
+        await addToWishlist(product);
+        SetIsInWishlist(true);
+        toast.success('Item added to wishlist');
+        dispatch(updateWishlistItem(wishlistCount + 1));
+      }
+    } catch (wishListError) {
+      console.error('Error handling wishlist action:', wishListError);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
   return (
     <div className="product-page">
       <div className="product-details">
-        <div className="product-img">
+        <div className="product-details-img">
           <img
             src={product.image}
             alt={product.title}
-            className="product-image"
+            className="product-details-image"
           />
-           <div className="shareProduct-btn">
-            <ShareProduct pathname={pathname}/>
-            </div>
+          <div className="shareProduct-btn">
+            <ShareProduct pathname={pathname} />
+          </div>
         </div>
-       
+
         <div className="product-info">
           <h3 className="product-detail-title">{product.title}</h3>
           <p className="product-description">{product.description}</p>
@@ -76,8 +140,12 @@ function ProductDetails() {
             Price: <span>${product.price}</span>
           </p>
           <p className="product-category">Category: {product.category}</p>
+
           <div className="product-actions">
-          
+            <div className="product-details-addToCart">
+              <AddCartButton cartItems={cartItems} product={product} />
+            </div>
+
             <button
               type="button"
               className="buy-now"
@@ -92,8 +160,21 @@ function ProductDetails() {
             >
               Buy Now
             </button>
-            
-            
+
+            <button
+              type="button"
+              // disabled={loading}
+               className="pd-wishlist-btn"
+              onClick={() => {
+                handleWishlistClick(product);
+              }}
+            >
+              <Heart
+                color={isInWishlist ? 'red' : 'black'}
+                fill={isInWishlist ? 'red' : 'none'}
+                size={24}
+              />
+            </button>
           </div>
         </div>
       </div>
@@ -105,9 +186,9 @@ function ProductDetails() {
         </div>
 
         {relatedLoading ? (
-         <div className="loader">
-         <RippleLoader/>
-      </div>
+          <div className="loader">
+            <RippleLoader />
+          </div>
         ) : relatedError ? (
           <p>Error loading related products.</p>
         ) : relatedProducts?.length ? (

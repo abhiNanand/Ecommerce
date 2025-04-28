@@ -13,21 +13,22 @@
     max-width: 1200px;
     margin: 0 auto;
   
-    .product-img {
+    .product-details-img {
       flex: 1;
       min-width: 280px;  
       max-width: 500px;
       text-align: center;
       padding: 1rem;
       position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 5%;
   
-      .product-image {
+      .product-details-image {
         max-width: 100%;
         height: auto;
-        max-height: 400px;  
+        max-height: 300px;  
         object-fit: contain;
         border-radius: 8px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
     }
 
@@ -110,42 +111,32 @@
         color: #e44d26;
         margin-bottom: 1.5rem;
       }
-  
-      .product-actions {
-        display: flex;
-        gap: 1rem;
-        margin-top: 2rem;
-        flex-wrap: wrap;
-  
-      .pd-cart,  .buy-now {
-          background-color: #DB4444;
-          color: #fff;
-          border: none;
-          height:5vh;
-        }
-  
-        .pd-wishlist {
-          background-color: #fff;
-          height:5vh;
-          border: 1px solid;
-          border-color: rgb(190, 188, 188);
-          
-          
-        }
-      }
     }
   }
   
-.buy-now {
+  .product-actions {
     display: flex;
+    justify-content: flex-start;
+    gap:10px;
     align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;  
-    border-radius: 6px;
-    font-size: 0.9rem;  
+    margin-top:5%;
+  }
+
+  .pd-wishlist-btn
+  {
+    background-color: transparent;
+  border: none;
+  cursor:pointer;
+  }
+
+.buy-now {
+      
+    border-radius: 6px; 
     cursor: pointer;
     transition: all 0.3s ease;
+    background-color: red;
+    border:none;
+    padding: 10px;
      
     &:hover {
     
@@ -158,20 +149,11 @@
   }
 
 // .share-product-container
-//   {
-//     position:relative;
 
-    
-//   }
 
-//    .sharedBtn
-//    {
-//     background-color: transparent;
-//     border:none;
-//     cursor: pointer;
-//    }
-
- 
+.product-details-addToCart{
+  width: 30%;
+}
 
 
  
@@ -194,9 +176,7 @@
         text-align: center;
         padding: 0.5rem;
   
-        .product-actions {
-          justify-content: center;
-        }
+       
       }
     }
   }

@@ -7,6 +7,7 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  getDoc
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
@@ -129,3 +130,17 @@ await updateDoc(docRef, { quantity: newQuantity });
 8.add doc and setdoc ka difference dekh lo
 
 */
+
+export const checkIfInCart = async (productId: string): Promise<boolean> => {
+  const user = auth.currentUser;
+  if (!user) return false;
+
+  try {
+    const cartDocRef = doc(db, `users/${user.uid}/cart/${productId}`);
+    const cartDoc = await getDoc(cartDocRef);
+    return cartDoc.exists();
+  } catch (error) {
+    console.error('Error checking cart status:', error);
+    return false;
+  }
+};

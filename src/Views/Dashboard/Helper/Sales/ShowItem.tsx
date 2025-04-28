@@ -96,8 +96,6 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
     }
   }; 
 
- 
-
   return (
       <div className="products-grid">
         {products.map((product: Product) => (
@@ -132,12 +130,13 @@ export default function ShowItem({ products,showAll=false }: ShowItemProps) {
             <div className="cart-btn-div" onClick={(event)=>event.stopPropagation()}>
             <AddCartButton cartItems={cartItems} product={product} />
             </div>
-            <p className="product-price">${product.price.toFixed(2)}</p>
+           
             <div className="rating">
+            <p className="product-price">${product.price.toFixed(2)}</p>
               <Star rating={product.rating?.rate} productId={product.id} />
-              <span className="text-sm text-gray-500 ml-2">
+              <p className="rating-count">
                 ({product.rating?.count ?? 0})
-              </span>
+              </p>
             </div>
           </div>
         ))}

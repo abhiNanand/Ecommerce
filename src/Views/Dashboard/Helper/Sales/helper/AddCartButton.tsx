@@ -1,5 +1,6 @@
 import { Trash } from 'lucide-react';
 import { toast } from 'react-toastify';
+import { ShoppingCart} from 'lucide-react';
 import { useAuth } from '../../../../../Services/UserAuth';
 import { Product } from '../../../../../Shared/Product';
 import { useDispatch, useSelector } from 'react-redux';
@@ -159,6 +160,7 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
           type="button"
           onClick={handleAddToCart}
         >
+          <ShoppingCart/>
           Add to Cart
         </button>
       )}

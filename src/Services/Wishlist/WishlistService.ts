@@ -15,7 +15,7 @@ import { Product } from '../../Shared/Product';
 export const addToWishlist = async (product: Product) => {
   const user = auth.currentUser;
   if (!user) {
-    console.log('In wishlist section- User not logged in ');
+    
     return;
   }
   try {
@@ -50,10 +50,11 @@ export const removeFromWishlist = async (ProductId: string) => {
     const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
     const q = query(wishlistRef, where('id', '==', ProductId));
     const querySnapshot = await getDocs(q);
-
+    console.log(querySnapshot);
     if (!querySnapshot.empty) {
       const docRef = querySnapshot.docs[0].ref;
       await deleteDoc(docRef);
+      
     }
   } catch (error) {
     console.error('Error removing item from wishlist:', error);
@@ -92,3 +93,27 @@ export const getWishlistItems = async (): Promise<Product[]> => {
 };
 
 // The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
+
+
+
+// export const checkIfInWishlist = async (ProductId:any): Promise<boolean> => {
+//   const user = auth.currentUser;
+
+//   if (!user) {
+//     console.error('User not logged in!');
+//     return false;
+//   }
+
+//   try {
+//     const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
+//     const q = query(wishlistRef, where('id', '==', ProductId));
+//     const querySnapshot = await getDocs(q);
+//     if (!querySnapshot.empty) {
+//      return true;
+//     }
+//     else
+//     return false;
+//   } catch {
+//      return false;
+//   }
+// };
