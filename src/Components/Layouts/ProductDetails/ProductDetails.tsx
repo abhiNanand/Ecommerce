@@ -88,6 +88,9 @@ function ProductDetails() {
     return <p>No product data available.</p>;
   }
 
+  const filteredRelatedProducts = relatedProducts?.filter(
+    (relatedProduct:Product) => relatedProduct.id != productId
+  );
   const handleWishlistClick = async (product: Product) => {
     try {
       if (!user) {
@@ -95,8 +98,7 @@ function ProductDetails() {
         navigate(ROUTES.LOGIN);
         return;
       }
-      // if (loading) return;
-      // setLoading(true);
+     
       const isLiked = isInWishlist;
 
       if (isLiked) {
@@ -191,8 +193,8 @@ function ProductDetails() {
           </div>
         ) : relatedError ? (
           <p>Error loading related products.</p>
-        ) : relatedProducts?.length ? (
-          <ShowItem products={relatedProducts} />
+        ) : filteredRelatedProducts?.length ? (  // Changed this line to check filteredRelatedProducts
+          <ShowItem products={filteredRelatedProducts} />
         ) : (
           <p>No related products found.</p>
         )}
