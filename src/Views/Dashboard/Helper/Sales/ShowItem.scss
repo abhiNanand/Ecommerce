@@ -1,10 +1,17 @@
-.products-grid {
+div.products-grid-greater {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 230px));
   gap: 20px;
-  padding: 20px;
   margin-bottom: 5%;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+div.products-grid-lesser {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 230px));
+  gap: 20px;
+  margin-bottom: 5%;
+  justify-content: flex-start;
 }
 
 .product-card {
@@ -17,6 +24,7 @@
   text-align: center;
   background: white;
   cursor:pointer;
+   
 }
 
 .product-card:hover {

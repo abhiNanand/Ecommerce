@@ -42,8 +42,7 @@
   background-color: darkred;
 }
 
-/* Dots Navigation */
-.dots-container {
+ .dots-container {
   position: absolute;
   bottom: 15px;
   left: 50%;
@@ -80,7 +79,7 @@
       max-width: 700px;
   }
   .banner-image {
-      height: 350px; /* Adjusted for tablets */
+      height: 350px; 
   }
   .shop-now-btn {
       bottom: 12%;
@@ -93,8 +92,7 @@
       max-width: 100%;
   }
   .banner-image {
-      height: 280px; /* Adjusted for mobile */
-  }
+      height: 280px; 
   .dot {
       width: 12px;
       height: 12px;
@@ -103,4 +101,4 @@
       bottom: 10%;
       padding: 8px 16px;
   }
-}
+}}

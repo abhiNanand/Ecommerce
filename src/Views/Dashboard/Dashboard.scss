@@ -1,10 +1,9 @@
 .dashboard {
-    margin-bottom: 5%;
-    padding: 0 5%;
+    
+     margin: 2% 5% 5% 5%;
   }
   
-  /* Top Banner Layout */
-  .top-banner {
+   .top-banner {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,20 +11,18 @@
     margin-bottom: 5%;
   }
   
-  /* Sidebar Categories */
+ 
   .banner-categories {
     width: 25%;
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding-right: 20px;
     border-right: 2px solid #ccc;
   }
   
   .banner-categories h3 {
     font-size: 1.2rem;
     margin-bottom: 5px;
-    margin-top:10px
   }
   
   .category-link {
@@ -42,7 +39,7 @@
   
    .banner-section {
     width: 100%;
-    margin-top:2%;
+    
   }
   
    @media (max-width: 768px) {

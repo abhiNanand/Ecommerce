@@ -70,7 +70,7 @@ export default function Dashboard() {
         </div>
       </div>
       <Sales />
-      <ShowItem products={products} />
+     
       <BrowseCategory />
       <BestSelling />
       <ShowItem products={products} />

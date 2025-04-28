@@ -19,6 +19,7 @@ import { RootState } from '../../../../Store/index';
 import { ROUTES } from '../../../../Shared/Constants';
 import { auth } from '../../../../Services/firebase/firebase';
 import AddCartButton from './helper/AddCartButton';
+ 
 
 interface ShowItemProps {
   products: Product[];
@@ -93,8 +94,11 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
     }
   };
 
+
+ 
+
   return (
-    <div className="products-grid">
+    <div className={products && products.length > 4 ? 'products-grid-greater' : 'products-grid-lesser'}>
       {products.map((product: Product) => (
         <div
           key={product.id}

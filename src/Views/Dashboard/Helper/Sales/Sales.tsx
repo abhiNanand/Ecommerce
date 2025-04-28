@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { calculateTimeLeft } from '../../../../Shared/Utilities';
 import './Sales.scss';
+import { SpinnerLoader } from '../../Loaders/Loaders';
+
+import { useGetProductQuery } from '../../../../Services/Api/module/demoApi';
+import SalesItem from './helper/SalesItem';
 
 export default function Sales() {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
@@ -11,6 +15,21 @@ export default function Sales() {
     return () => clearInterval(timer);
   }, []);
 
+    const { data: products, error, isLoading } = useGetProductQuery(null);
+      if (isLoading) {
+        return (
+          <div className="loader">
+            <SpinnerLoader />
+          </div>
+        );
+      }
+      if (error) {
+        return (
+          <div>
+            <p>Error loading products. Please try again later.</p>
+          </div>
+        );
+      }
   return (
     <div className="sales-section">
       <div className="sales-heading">
@@ -29,6 +48,10 @@ export default function Sales() {
           </div>
         ))}
       </div>
+      <div className="scroll">
+      <SalesItem products={products} />
+      </div>
+      
     </div>
   );
 }
