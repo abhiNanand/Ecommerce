@@ -1,7 +1,7 @@
-/* Import Google Font */
+ 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* General Styles */
+ 
 .login-signup-container {
     
      display:flex;
@@ -61,6 +61,7 @@ max-width: 300px;
     border-color: rgb(192, 189, 189);
     outline: none; 
     transition: border 0.3s ease-in-out;
+
 }
 
 .login-container input::placeholder {
@@ -73,17 +74,16 @@ max-width: 300px;
     border-color: rgb(155, 152, 152);
 }
 
-/* Button Group (for Login & Forgot Password buttons) */
-.button-group {
+ .button-group {
     display: flex;
-    justify-content: space-between; /* Push buttons to opposite ends */
+    justify-content: space-between;  
     align-items: center;
-    gap: 10px; /* Responsive spacing between buttons */
+    gap: 10px; 
     width: 100%;
     margin-bottom: 2%;
 }
 
-/* Login Button */
+ 
 .login-container #login-btn {
     padding: 12px;
     font-size: 1rem;
@@ -93,7 +93,7 @@ max-width: 300px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    flex: 1; /* Make it flexible */
+    flex: 1; 
     text-align: center;
 }
 
@@ -101,8 +101,7 @@ max-width: 300px;
     background-color: #9b1818;
 }
 
-/* Forgot Password Button */
-.login-container .forgot-password {
+ .login-container .forgot-password {
     background: none;
     border: none;
     color: red;
@@ -110,7 +109,7 @@ max-width: 300px;
     font-size: 0.9rem;
     margin-top: 10px;
     transition: color 0.3s;
-    flex: 1; /* Make it flexible */
+    flex: 1;  
     text-align: center;
 }
 
@@ -118,14 +117,14 @@ max-width: 300px;
     color: darkred;
 }
 
-/* Success Message */
+ 
 .login-container .reset-message {
     color: green;
     font-weight: bold;
     margin-top: 10px;
 }
 
-/* Responsive Design */
+ 
 @media (max-width: 500px) {
     .login-container {
         padding: 1.5rem;
@@ -144,20 +143,19 @@ max-width: 300px;
         font-size: 0.85rem;
     }
 
-    /* On small screens, buttons stack vertically */
-    .button-group {
+     .button-group {
         flex-direction: column;
         gap: 15px;
         
     }
 
     .login-container #login-btn, .login-container .forgot-password {
-        width: 100%; /* Full width buttons on small screens */
+        width: 100%; 
     }
 }
 
 
-// button in singup form
+ 
 .singup-btn {
     display: flex;
     flex-direction: column;
@@ -299,3 +297,12 @@ max-width: 300px;
     }
   }
   
+  .input-password-wrapper {
+    position: relative;
+     display: flex;
+    align-items: center;
+  }
+
+  .input-password-wrapper input {
+    padding-right: 40px;
+  }

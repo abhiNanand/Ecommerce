@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
-import { Eye } from 'lucide-react';
+import { Eye,EyeClosed } from 'lucide-react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -171,7 +171,7 @@ export default function Login() {
 
               <div className="input-group">
 
-                <div>
+              <div className="input-password-wrapper">
                   <input
                     id="password"
                     name="password"
@@ -181,8 +181,7 @@ export default function Login() {
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
                   />
-                  <Eye onClick={() => setShowPassword(!showPassword)} />
-                </div>
+ {showPassword?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword(!showPassword)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword(!showPassword)}/>)}                </div>
                 {formik.touched.password && formik.errors.password && (
                   <div className="error-text">{formik.errors.password}</div>
                 )}

@@ -11,6 +11,7 @@ export default function Footer() {
 
   const location = useLocation();
   useEffect(() => {
+    if(isAuthenticated && location.pathname!='/')
     toast.dismiss();
     
   }, [location.pathname]);

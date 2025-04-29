@@ -114,13 +114,13 @@ export default function ShowItem({products}: ShowItemProps) {
     return (
         <>
             <div className="arrows">
-                <div className="left-arrow">
+                <button className="left-arrow" onClick={() => scrollLeft()}>
 
-                    <ArrowLeft  size={20} onClick={() => scrollLeft()} /></div>
-                <div className="right-arrow"><ArrowRight size={20} onClick={() => scrollRight()} /></div>
+                    <ArrowLeft  size={20}  /></button>
+                <button className="right-arrow" onClick={() => scrollRight()}><ArrowRight size={20}  /></button>
             </div>
             <div className="sales-products-grid"  ref={scrollRef} >
-                {products.slice(11,19).map((product: Product) => (
+                {products.slice(12,20).map((product: Product) => (
                     <div
                         key={product.id}
                         className="sales-product-card"

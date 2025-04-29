@@ -107,3 +107,21 @@
     outline: none;  
     box-shadow: none;  
   }
+
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: fit-content;
+  }
+
+  .input-wrapper input {
+    padding-right: 40px;
+  }
+
+  .eye-icon {
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
+    color: #666;
+  }

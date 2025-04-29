@@ -1,7 +1,7 @@
 import './Profile.scss';
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { Eye } from 'lucide-react';
+import { Eye,EyeClosed } from 'lucide-react';
 import * as Yup from 'yup';
 import {
   updatePassword,
@@ -106,7 +106,7 @@ export default function Profile() {
           <div className="profile-password-section">
             <label>Current Password</label>
            
-              <div className="show-password-input">
+            <div className="input-wrapper">
               <input
               type={showPassword1? "text" : "password"}
               name="currentPassword"
@@ -114,14 +114,15 @@ export default function Profile() {
               value={formik.values.currentPassword}
               onChange={formik.handleChange}
             />
-            <Eye onClick={()=> setShowPassword1(!showPassword1)}/>
+            {showPassword1?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>)}
+            
               </div>
             {formik.touched.currentPassword &&
               formik.errors.currentPassword && (
                 <small className="error">{formik.errors.currentPassword}</small>
               )}
             <label>New Password</label>
-            <div>
+            <div className="input-wrapper">
             <input
               type={showPassword2? "text" : "password"}
               name="newPassword"
@@ -129,14 +130,14 @@ export default function Profile() {
               value={formik.values.newPassword}
               onChange={formik.handleChange}
             />
-            <Eye onClick={()=> setShowPassword2(!showPassword2)}/>
+           {showPassword2?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>)}
             </div>
             
             {formik.touched.newPassword && formik.errors.newPassword && (
               <small className="error">{formik.errors.newPassword}</small>
             )}
             <label>Confirm New Password</label>
-            <div>
+            <div className="input-wrapper">
             <input
               type={showPassword3? "text" : "password"}
               name="confirmPassword"
@@ -144,7 +145,7 @@ export default function Profile() {
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
             />
-            <Eye onClick={()=> setShowPassword3(!showPassword3)}/>
+            {showPassword3?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>)}
             </div>
             
             {formik.touched.confirmPassword &&
