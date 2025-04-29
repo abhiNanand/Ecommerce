@@ -18,7 +18,7 @@ import { updateWishlistItem } from '../../../../../Store/Item/total_item_slice';
 import { RootState } from '../../../../../Store/index';
 import { ROUTES } from '../../../../../Shared/Constants';
 import { auth } from '../../../../../Services/firebase/firebase';
-import AddCartButton from '../../../../ShowItem/AddCartButton';
+import AddCartButton from '../../../../Components/ShowItem/AddCartButton';
  
 
 interface ShowItemProps {

@@ -1,13 +1,13 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
-import { Eye,EyeClosed } from 'lucide-react';
+import { Eye, EyeClosed } from 'lucide-react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithPopup,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc, getDoc ,query,where,getDocs,collection } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -86,7 +86,7 @@ export default function Login() {
       const result = await signInWithPopup(auth, googleProvider);
       const { user } = result;
       navigate(ROUTES.HOMEPAGE);
-      toast.success('🎉 Signed in with Google successfully!');
+      toast.success('Signed in with Google successfully!');
       const token = await user.getIdToken();
 
       dispatch(
@@ -116,26 +116,35 @@ export default function Login() {
       setLoading(false);
     }
   };
-
   const handleForgetPassword = async () => {
     const isValid = emailValidation.isValidSync(forgetEmail);
     if (!forgetEmail || !isValid) {
       toast.warning('Please enter a valid email address');
       return;
     }
+  
     try {
       setSendingReset(true);
-      await sendPasswordResetEmail(auth, forgetEmail);
+      const normalizedEmail = forgetEmail.trim().toLowerCase();
+      const q = query(collection(db, 'users'), where('email', '==', normalizedEmail));
+      const querySnapshot = await getDocs(q);
+  
+      if (querySnapshot.empty) {
+        toast.error("No user found with this email.");
+        return;
+      }
+  
+      await sendPasswordResetEmail(auth, normalizedEmail);
       toast.success('Reset email sent! Check your inbox');
       setForgetPasswordWindow(false);
       setForgetEmail('');
       setForgetEmailTouched(false);
-    } catch (error) {
-      toast.error(' Failed to send reset email');
+    } catch {
+      toast('Failed to send reset email');
     } finally {
       setSendingReset(false);
     }
-  };
+};
 
   return (
     <div className="login-signup-container">
@@ -171,7 +180,7 @@ export default function Login() {
 
               <div className="input-group">
 
-              <div className="input-password-wrapper">
+                <div className="input-password-wrapper">
                   <input
                     id="password"
                     name="password"
@@ -181,7 +190,23 @@ export default function Login() {
                     onBlur={formik.handleBlur}
                     value={formik.values.password}
                   />
- {showPassword?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword(!showPassword)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword(!showPassword)}/>)}                </div>
+
+                  {formik.values.password && (
+                    showPassword ? (
+                      <Eye
+                        className="eye-icon"
+                        size={20}
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
+                    ) : (
+                      <EyeClosed
+                        className="eye-icon"
+                        size={20}
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
+                    )
+                  )}
+                </div>
                 {formik.touched.password && formik.errors.password && (
                   <div className="error-text">{formik.errors.password}</div>
                 )}

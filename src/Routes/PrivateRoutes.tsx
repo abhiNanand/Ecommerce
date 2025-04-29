@@ -1,6 +1,6 @@
 import { ROUTES_CONFIG } from '../Shared/Constants';
 import { CustomRouter } from './RootRoutes';
-import Dashboard from '../Views/Dashboard';
+import Dashboard from '../Views/Dashboard/Dashboard';
 import Cart from '../Components/Layouts/Private/Cart/Cart';
 import Wishlist from '../Components/Layouts/Private/Wishlist/Wishlist';
 import Error from '../Components/Layouts/ErrorPage/Error';
@@ -16,10 +16,10 @@ import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
 import Order from '../Components/Layouts/Private/Order/Order';
 import BuyNow from '../Components/Layouts/BuyNow/BuyNow';
-import Browse from '../Views/Browse Product/Browse';
-import FAQs from '../Views/Dashboard/QuickLinks/FAQs';
-import PrivacyPolicy from '../Views/Dashboard/QuickLinks/PrivacyPolicy';
-import TermsOfUse from '../Views/Dashboard/QuickLinks/TermsOfUse';
+import Browse from '../Views/Components/Browse Product/Browse';
+import FAQs from '../Views/Components/QuickLinks/FAQs';
+import PrivacyPolicy from '../Views/Components/QuickLinks/PrivacyPolicy';
+import TermsOfUse from '../Views/Components/QuickLinks/TermsOfUse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [

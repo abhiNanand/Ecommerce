@@ -12,10 +12,10 @@ import Contact from '../Components/Layouts/Contact/Contact';
 import About from '../Components/Layouts/About/About';
 import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
-import Browse from '../Views/Browse Product/Browse';
-import FAQs from '../Views/Dashboard/QuickLinks/FAQs';
-import PrivacyPolicy from '../Views/Dashboard/QuickLinks/PrivacyPolicy';
-import TermsOfUse from '../Views/Dashboard/QuickLinks/TermsOfUse';
+import Browse from '../Views/Components/Browse Product/Browse';
+import FAQs from '../Views/Components/QuickLinks/FAQs';
+import PrivacyPolicy from '../Views/Components/QuickLinks/PrivacyPolicy';
+import TermsOfUse from '../Views/Components/QuickLinks/TermsOfUse';
 
 // eslint-disable-next-line import/prefer-default-export
 export const PUBLIC_ROUTES: Array<CustomRouter> = [

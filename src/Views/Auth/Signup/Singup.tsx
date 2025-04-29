@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { Eye ,EyeClosed} from 'lucide-react';
+import { Eye, EyeClosed } from 'lucide-react';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import {
@@ -28,7 +28,7 @@ interface FormValues {
 export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [showPassword,setShowPassword]=useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -146,17 +146,32 @@ export default function Signup() {
           </div>
 
           <div className="input-group">
-          <div className="input-password-wrapper">
-            <input
-              id="text"
-              type={showPassword?"text":"password"}
-              placeholder="Password"
-              {...formik.getFieldProps('password')}
-            />
-            {showPassword?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword(!showPassword)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword(!showPassword)}/>)}
-           
+            <div className="input-password-wrapper">
+              <input
+                id="text"
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                {...formik.getFieldProps('password')}
+              />
+               
+              {formik.values.password && (
+                    showPassword ? (
+                      <Eye
+                        className="eye-icon"
+                        size={20}
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
+                    ) : (
+                      <EyeClosed
+                        className="eye-icon"
+                        size={20}
+                        onClick={() => setShowPassword(!showPassword)}
+                      />
+                    )
+                  )}
+
             </div>
-         
+
             {formik.touched.password && formik.errors.password && (
               <div className="error-text">{formik.errors.password}</div>
             )}

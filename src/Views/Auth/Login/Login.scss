@@ -52,7 +52,7 @@ max-width: 300px;
 }
 
 .login-container input {
-    width: 100%;
+    width: 96%;
     padding: 12px;
     font-size: 1rem;
     padding-left: 0;   
@@ -61,7 +61,6 @@ max-width: 300px;
     border-color: rgb(192, 189, 189);
     outline: none; 
     transition: border 0.3s ease-in-out;
-
 }
 
 .login-container input::placeholder {

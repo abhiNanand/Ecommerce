@@ -3,7 +3,7 @@ import { Frown } from 'lucide-react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { Product } from '../../../Shared/Product';
 import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
-import ShowItem from '../../../Views/ShowItem/ShowItem';
+import ShowItem from '../../../Views/Components/ShowItem/ShowItem';
 import './SearchItem.scss';
 
 export default function SearchItem() {

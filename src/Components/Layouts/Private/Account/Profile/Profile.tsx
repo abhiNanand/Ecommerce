@@ -114,8 +114,7 @@ export default function Profile() {
               value={formik.values.currentPassword}
               onChange={formik.handleChange}
             />
-            {showPassword1?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>)}
-            
+            {formik.values.currentPassword && (showPassword1?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>))}
               </div>
             {formik.touched.currentPassword &&
               formik.errors.currentPassword && (
@@ -130,7 +129,9 @@ export default function Profile() {
               value={formik.values.newPassword}
               onChange={formik.handleChange}
             />
-           {showPassword2?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>)}
+           { formik.values.newPassword && (showPassword2?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>))}
+
+        
             </div>
             
             {formik.touched.newPassword && formik.errors.newPassword && (
@@ -145,7 +146,7 @@ export default function Profile() {
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
             />
-            {showPassword3?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>)}
+            {formik.values.confirmPassword && (showPassword3?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>))}
             </div>
             
             {formik.touched.confirmPassword &&

@@ -14,7 +14,7 @@ import {
   SpinnerLoader,
   RippleLoader,
 } from '../../../Views/Dashboard/Loaders/Loaders';
-import ShowItem from '../../../Views/ShowItem/ShowItem';
+import ShowItem from '../../../Views/Components/ShowItem/ShowItem';
 
 export default function Shop() {
   const { data: products, error, isLoading } = useGetProductQuery(null);
@@ -114,7 +114,7 @@ export default function Shop() {
                 id="jewelery"
                 onChange={() => handleCategoryChange('jewelery')}
               />
-              <label htmlFor="jewelery">Jewelery</label>
+              <label htmlFor="jewelery">Jewellery</label>
             </div>
           </form>
         </div>
