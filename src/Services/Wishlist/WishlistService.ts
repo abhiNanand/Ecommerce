@@ -93,10 +93,10 @@ export const getWishlistItems = async (): Promise<Product[]> => {
   }
 };
 
-let lastVisible: QueryDocumentSnapshot<DocumentData> | null = null;
+ 
 
 export const getPaginatedWishlistItems = async (
-  pageSize = 5
+  pageSize = 5, lastDoc: QueryDocumentSnapshot<DocumentData> | null = null
 ): Promise<{
   products: Product[];
   lastDoc: QueryDocumentSnapshot<DocumentData> | null;
@@ -111,7 +111,7 @@ export const getPaginatedWishlistItems = async (
     const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
     const q = query(
       wishlistRef,
-      ...(lastVisible ? [startAfter(lastVisible)] : []),
+      ...(lastDoc ? [startAfter(lastDoc )] : []),
       limit(pageSize)
     );
 
@@ -131,10 +131,8 @@ export const getPaginatedWishlistItems = async (
       };
     });
  
-
-    lastVisible = docs.length > 0 ? docs[docs.length - 1] : null;
-
-    return { products, lastDoc: lastVisible };
+    const newLastDoc = docs.length > 0 ? docs[docs.length - 1] : null;
+    return { products, lastDoc: newLastDoc};
   } catch (error) {
     console.error('Error fetching wishlist items:', error);
     return { products: [], lastDoc: null };
