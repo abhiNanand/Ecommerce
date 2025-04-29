@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetProductByIdQuery } from '../../../../Services/Api/module/demoApi';
 import CheckoutForm from '../Checkout/CheckoutForm';
-
+import { RippleLoader } from '../../../../Views/Dashboard/Loaders/Loaders';
 import Payment from '../Checkout/Payment';
 
 export default function BuyNow() {
@@ -24,7 +24,11 @@ export default function BuyNow() {
   }
 
   if (productLoading) {
-    return <h1>Loading...</h1>;
+   return (
+         <div className="loader">
+           <RippleLoader />
+         </div>
+       );
   }
 
   if (!product) {

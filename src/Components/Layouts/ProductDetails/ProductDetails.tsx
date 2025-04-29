@@ -22,11 +22,11 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from '../../../Services/Wishlist/WishlistService';
-import { getCartItems } from '../../../Services/Cart/CartService';
+// import { getCartItems } from '../../../Services/Cart/CartService';
 import { Product } from '../../../Shared/Product';
 import { updateWishlistItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
-import AddCartButton from '../../../Views/Components/ShowItem/AddCartButton';
+// import AddCartButton from '../../../Views/Components/ShowItem/AddCartButton';
 
 function ProductDetails() {
   const { productId } = useParams();
@@ -41,22 +41,21 @@ function ProductDetails() {
   const [wishlistUpdated, setWishlistUpdated] = useState(false);
 
   const dispatch = useDispatch();
-  const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
+  // const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
 
   useEffect(() => window.scrollTo(0, 0), [pathname]);
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        const wishlist = await getWishlistItems();
+        const wishlist  = await getWishlistItems();
         const flag = wishlist.some((item) => item.id == productId);
         SetIsInWishlist(flag);
 
-        const cart = await getCartItems();
-
-        const cartProductList = new Map(
-          cart.map((items) => [items.id, items.quantity ?? 1])
-        );
-        setCartItems(cartProductList);
+        // const cart = await getCartItems();
+        // const cartProductList = new Map(
+        //   cart.map((items) => [items.id, items.quantity ?? 1])
+        // );
+        // setCartItems(cartProductList);
       }
     });
     return () => unsubscribe();
@@ -149,9 +148,9 @@ function ProductDetails() {
           <p className="product-category">Category: {product.category}</p>
 
           <div className="product-actions">
-            <div className="product-details-addToCart">
+            {/* <div className="product-details-addToCart">
               <AddCartButton cartItems={cartItems} product={product} />
-            </div>
+            </div> */}
 
             <button
               type="button"

@@ -73,7 +73,7 @@ export default function Login() {
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);
-          setErrors({ password: 'Incorrect email or password' });
+          setErrors({ password: 'Invalid email or password' });
         }
       } finally {
         setSubmitting(false);

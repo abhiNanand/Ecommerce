@@ -50,7 +50,7 @@ export default function Header() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         await currentUser.reload();
-        const wishlistItems = await getWishlistItems();
+        const   wishlistItems  = await getWishlistItems();
         const cartItems = await getCartItems();
         const totalQuantity = cartItems.reduce(
           (acc, item) => acc + (item.quantity ?? 1),

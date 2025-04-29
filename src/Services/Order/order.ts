@@ -1,9 +1,12 @@
-import { setDoc, collection, doc, getDocs } from 'firebase/firestore';
+import { setDoc, collection, doc, getDocs,query,
+  orderBy,
+  limit,
+  startAfter,  QueryDocumentSnapshot,
+  DocumentData, } from 'firebase/firestore';
 import { db, auth } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
 import { Address } from '../Address/Address';
-// add order history
-
+ 
 export const addToOrderHistory = async (
   product: Product[],
   address: Address
@@ -26,8 +29,6 @@ export const addToOrderHistory = async (
   }
 };
 
-// fetch order history
-
 interface OrderData {
   id: string;
   products: Product[];
@@ -35,28 +36,41 @@ interface OrderData {
   date: Date;
 }
 
-export const fetchOrders = async (): Promise<OrderData[]> => {
+let lastVisible: QueryDocumentSnapshot<DocumentData> | null = null;
+
+export const fetchOrders = async (pageSize=5): Promise<{ orders:OrderData[];lastDoc: QueryDocumentSnapshot<DocumentData> | null;}> => {
   const user = auth.currentUser;
   if (!user) {
     console.log('User not found');
-    return [];
+    return { orders: [], lastDoc: null };
   }
-
   try {
     const orderRef = collection(db, `users/${user.uid}/orders`);
-    const querySnapshot = await getDocs(orderRef);
+    const q = query(
+      orderRef,
+      orderBy('date', 'desc'),
+      ...(lastVisible ? [startAfter(lastVisible)] : []),
+      limit(pageSize)
+    );
+ const querySnapshot = await getDocs(q);
+ const docs = querySnapshot.docs;
 
-    return querySnapshot.docs.map((orderDoc) => {
-      const data = orderDoc.data();
+const orders = docs.map((doc) => {
+      const data = doc.data();
       return {
-        id: orderDoc.id,
+        id: doc.id,
         products: data.products,
         address: data.orderedAt,
         date: data.date.toDate ? data.date.toDate() : new Date(data.date),
       };
     });
+    lastVisible = docs.length > 0 ? docs[docs.length - 1] : null;
+
+    return { orders, lastDoc: lastVisible };
   } catch (error) {
-    console.log('Error fetching orders:', error);
-    return [];
+    console.log('Error fetching paginated orders:', error);
+    return { orders: [], lastDoc: null };
   }
 };
+ 
+ 

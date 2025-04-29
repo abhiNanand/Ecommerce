@@ -7,7 +7,6 @@ import {
   doc,
   deleteDoc,
   updateDoc,
-  getDoc,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
@@ -61,7 +60,7 @@ export const removeFromCart = async (ProductId: string) => {
   }
 };
 
-// 3. Fetch only the logged-in user's cart items
+ 
 export const getCartItems = async (): Promise<Product[]> => {
   const user = auth.currentUser;
   if (!user) {
@@ -91,6 +90,8 @@ export const getCartItems = async (): Promise<Product[]> => {
     return [];
   }
 };
+ 
+ 
 
 // The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
 
@@ -123,24 +124,10 @@ where:Filters documents based on a condition.
 
 5. getDocs(queryRef)
 Fetches all documents that match a given query inside a collection.
-
 6.updateDoc(docRef, data): Updates fields inside an existing Firestore document. 
 await updateDoc(docRef, { quantity: newQuantity });
-
 8.add doc and setdoc ka difference dekh lo
 
 */
 
-export const checkIfInCart = async (productId: string): Promise<boolean> => {
-  const user = auth.currentUser;
-  if (!user) return false;
-
-  try {
-    const cartDocRef = doc(db, `users/${user.uid}/cart/${productId}`);
-    const cartDoc = await getDoc(cartDocRef);
-    return cartDoc.exists();
-  } catch (error) {
-    console.error('Error checking cart status:', error);
-    return false;
-  }
-};
+ 

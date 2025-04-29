@@ -15,7 +15,7 @@ import About from '../Components/Layouts/About/About';
 import Shop from '../Components/Layouts/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
 import Order from '../Components/Layouts/Private/Order/Order';
-import BuyNow from '../Components/Layouts/BuyNow/BuyNow';
+import BuyNow from '../Components/Layouts/Private/BuyNow/BuyNow';
 import Browse from '../Views/Components/Browse Product/Browse';
 import FAQs from '../Views/Components/QuickLinks/FAQs';
 import PrivacyPolicy from '../Views/Components/QuickLinks/PrivacyPolicy';

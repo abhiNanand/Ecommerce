@@ -61,6 +61,14 @@ export default function Cart() {
       prevItems.filter((item) => item.id !== product.id)
     );
   };
+
+  const handleClearCart = async ()=>{
+   await Promise.all(
+     cartItems.map(async(item)=>await handleRemoveItem(item))
+   ); 
+   dispatch(updateCartItem(0));
+  }
+
   const handleQuantityChange = async (
     product: any,
     newQuantity: number,
@@ -227,6 +235,7 @@ export default function Cart() {
         <button type="button" onClick={returnHome}>
           Return to Shop
         </button>
+       { cartItems.length>0 && <button onClick={()=>handleClearCart()}>Clear Cart</button>}
       </div>
 
       <div className="cart-summary">

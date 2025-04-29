@@ -86,7 +86,7 @@ export default function Signup() {
       const token = await user.getIdToken();
 
       navigate(ROUTES.HOMEPAGE);
-      toast.success('🎉 Signed in with Google successfully!');
+      toast.success('Signed in with Google successfully!');
       dispatch(
         updateAuthTokenRedux({
           token,

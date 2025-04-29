@@ -7,6 +7,10 @@ import {
   doc,
   deleteDoc,
   updateDoc,
+  limit,
+  startAfter,
+  QueryDocumentSnapshot,
+  DocumentData,
 } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
@@ -58,7 +62,7 @@ export const removeFromWishlist = async (ProductId: string) => {
   }
 };
 
-// 3. Fetch only the logged-in user's wishlist items
+//3. Fetch only the logged-in user's wishlist items
 export const getWishlistItems = async (): Promise<Product[]> => {
   const user = auth.currentUser;
   if (!user) {
@@ -89,26 +93,50 @@ export const getWishlistItems = async (): Promise<Product[]> => {
   }
 };
 
-// The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
+let lastVisible: QueryDocumentSnapshot<DocumentData> | null = null;
 
-// export const checkIfInWishlist = async (ProductId:any): Promise<boolean> => {
-//   const user = auth.currentUser;
+export const getPaginatedWishlistItems = async (
+  pageSize = 5
+): Promise<{
+  products: Product[];
+  lastDoc: QueryDocumentSnapshot<DocumentData> | null;
+}> => {
+  const user = auth.currentUser;
+  if (!user) {
+    console.error('User not logged in!');
+    return { products: [], lastDoc: null };
+  }
 
-//   if (!user) {
-//     console.error('User not logged in!');
-//     return false;
-//   }
+  try {
+    const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
+    const q = query(
+      wishlistRef,
+      ...(lastVisible ? [startAfter(lastVisible)] : []),
+      limit(pageSize)
+    );
 
-//   try {
-//     const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
-//     const q = query(wishlistRef, where('id', '==', ProductId));
-//     const querySnapshot = await getDocs(q);
-//     if (!querySnapshot.empty) {
-//      return true;
-//     }
-//     else
-//     return false;
-//   } catch {
-//      return false;
-//   }
-// };
+    const querySnapshot = await getDocs(q);
+    const docs = querySnapshot.docs;
+ 
+    const products: Product[] = docs.map((doc) => {
+      const data = doc.data() as Product;
+      return {
+        id: data.id,
+        title: data.title ?? '',
+        image: data.image ?? '',
+        price: data.price ?? 0,
+        quantity: data.quantity ?? 1,
+        description: data.description ?? '',
+        category: data.category ?? '',
+      };
+    });
+ 
+
+    lastVisible = docs.length > 0 ? docs[docs.length - 1] : null;
+
+    return { products, lastDoc: lastVisible };
+  } catch (error) {
+    console.error('Error fetching wishlist items:', error);
+    return { products: [], lastDoc: null };
+  }
+};
