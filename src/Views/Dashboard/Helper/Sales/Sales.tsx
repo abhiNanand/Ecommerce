@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { calculateTimeLeft } from '../../../../Shared/Utilities';
 import './Sales.scss';
 import { SpinnerLoader } from '../../Loaders/Loaders';
-
 import { useGetProductQuery } from '../../../../Services/Api/module/demoApi';
 import SalesItem from './helper/SalesItem';
 

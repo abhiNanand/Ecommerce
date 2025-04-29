@@ -64,7 +64,7 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        {/* Banner Section */}
+        
         <div className="banner-section">
           <Banner />
         </div>
@@ -73,7 +73,7 @@ export default function Dashboard() {
      
       <BrowseCategory />
       <BestSelling />
-      <ShowItem products={products} />
+      <ShowItem products={products.slice(0,12)} />
       <JblBanner />
     </div>
   );

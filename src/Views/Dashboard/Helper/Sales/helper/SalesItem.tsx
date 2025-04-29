@@ -23,10 +23,9 @@ import AddCartButton from '../../../../ShowItem/AddCartButton';
 
 interface ShowItemProps {
     products: Product[];
-    wishlistUpdated?: boolean;
 }
 
-export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
+export default function ShowItem({products}: ShowItemProps) {
     const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
     const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
     const [loading, setLoading] = useState<boolean>(false);
@@ -58,7 +57,7 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
         });
 
         return () => unsubscribe();
-    }, [user, wishlistUpdated]);
+    }, [user]);
 
     const handleWishlistClick = async (product: Product) => {
         try {
@@ -121,7 +120,7 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
                 <div className="right-arrow"><ArrowRight size={20} onClick={() => scrollRight()} /></div>
             </div>
             <div className="sales-products-grid"  ref={scrollRef} >
-                {products.map((product: Product) => (
+                {products.slice(11,19).map((product: Product) => (
                     <div
                         key={product.id}
                         className="sales-product-card"

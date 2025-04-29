@@ -16,7 +16,7 @@
 .cart-header,
 .cart-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr auto;  
+    grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr auto; 
     align-items: center;
     padding: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
