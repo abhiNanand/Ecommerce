@@ -41,6 +41,8 @@ export default function Header() {
   );
   const location = useLocation();
 
+
+
   useEffect(() => {
     const isSearchPage = location.pathname.startsWith('/search');
     if (!isSearchPage) setSearchQuery('');
@@ -87,6 +89,14 @@ export default function Header() {
       setSearchQuery('');
     } else setSearchQuery(value);
   };
+
+  useEffect(() => {
+    if (openLogout) {
+      document.body.style.overflow = 'hidden';  
+    } else {
+      document.body.style.overflow = 'auto'; 
+    }
+  }, [openLogout]);
 
   return (
     <header className="navbar">
@@ -252,4 +262,4 @@ export default function Header() {
 // After updating the profile, Firebase Authentication does not immediately update the user object in your app.
 // user.reload() refreshes the user object to reflect the latest updates from Firebase.
 
-//    setTimeout(()=>fetchItemCounts(),1000);//yha pr settimeout isleeye lagaye hai q ki agar user refesh karna hai tho auth ke thora time lagta hai ,agar ye nhi karenge tho user show karenga ki user logged in nhi hai
+

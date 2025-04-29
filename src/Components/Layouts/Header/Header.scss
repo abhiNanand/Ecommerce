@@ -9,7 +9,7 @@
   justify-content: center;
   padding: 0 2rem;
   box-sizing: border-box;
-  overflow: visible; // ✅ Ensure dropdown is not clipped
+  overflow: visible;  
 
   &-container {
     display: flex;
@@ -227,6 +227,7 @@
   justify-content: center;
   z-index: 10001;
   background-color: rgba(0, 0, 0, 0.5);
+   
 }
 
 .confirm-title-btn{
