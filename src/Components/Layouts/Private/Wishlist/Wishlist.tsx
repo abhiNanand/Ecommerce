@@ -331,8 +331,8 @@
           ))}
         </div>
         {lastDoc && (
-          <div className="load-more">
-            <button type="button" onClick={loadMoreItems} disabled={loadingMore}>
+          <div className="load-more-btn">
+            <button className="load-request-btn" type="button" onClick={loadMoreItems} disabled={loadingMore}>
               {loadingMore ? 'Loading...' : 'Load More'}
             </button>
           </div>

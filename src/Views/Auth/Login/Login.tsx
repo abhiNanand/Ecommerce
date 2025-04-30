@@ -1,7 +1,7 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState, useEffect } from 'react';
-import { Eye, EyeClosed } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
@@ -193,13 +193,13 @@ export default function Login() {
 
                   {formik.values.password && (
                     showPassword ? (
-                      <Eye
+                      <EyeOff
                         className="eye-icon"
                         size={20}
                         onClick={() => setShowPassword(!showPassword)}
                       />
                     ) : (
-                      <EyeClosed
+                      <Eye
                         className="eye-icon"
                         size={20}
                         onClick={() => setShowPassword(!showPassword)}

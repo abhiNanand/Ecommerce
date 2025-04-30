@@ -1,7 +1,7 @@
 import './Profile.scss';
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { Eye,EyeClosed } from 'lucide-react';
+import { Eye,EyeOff } from 'lucide-react';
 import * as Yup from 'yup';
 import {
   updatePassword,
@@ -114,7 +114,7 @@ export default function Profile() {
               value={formik.values.currentPassword}
               onChange={formik.handleChange}
             />
-            {formik.values.currentPassword && (showPassword1?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>))}
+            {formik.values.currentPassword && (showPassword1?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>))}
               </div>
             {formik.touched.currentPassword &&
               formik.errors.currentPassword && (
@@ -129,7 +129,7 @@ export default function Profile() {
               value={formik.values.newPassword}
               onChange={formik.handleChange}
             />
-           { formik.values.newPassword && (showPassword2?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>))}
+           { formik.values.newPassword && (showPassword2?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>))}
 
         
             </div>
@@ -146,7 +146,7 @@ export default function Profile() {
               value={formik.values.confirmPassword}
               onChange={formik.handleChange}
             />
-            {formik.values.confirmPassword && (showPassword3?(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>):(<EyeClosed className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>))}
+            {formik.values.confirmPassword && (showPassword3?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>))}
             </div>
             
             {formik.touched.confirmPassword &&

@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { Eye, EyeClosed } from 'lucide-react';
+import { Eye, EyeOff} from 'lucide-react';
 import { useState } from 'react';
 import * as Yup from 'yup';
 import {
@@ -156,13 +156,13 @@ export default function Signup() {
                
               {formik.values.password && (
                     showPassword ? (
-                      <Eye
+                      <EyeOff
                         className="eye-icon"
                         size={20}
                         onClick={() => setShowPassword(!showPassword)}
                       />
                     ) : (
-                      <EyeClosed
+                      <Eye
                         className="eye-icon"
                         size={20}
                         onClick={() => setShowPassword(!showPassword)}
