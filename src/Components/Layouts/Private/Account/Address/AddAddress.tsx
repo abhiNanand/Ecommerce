@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import {
   addAddress,
 } from '../../../../../Services/Address/Address';
-import '../../Checkout/Checkout.scss';
+import '../../../../../Views/Components/Checkout/Checkout.scss';
 
 interface FormValues {
   name: string;

@@ -3,7 +3,7 @@ import DocumentTitle from './DocumentTitle';
 import { authenticatedRoutes, guestRoutes } from './config';
 import AppLayout from '../Components/Layouts/AppLayout';
 import { useAuth } from '../Services/UserAuth';
-import Admin from '../Components/AdminPage/Admin';
+import Admin from '../Views/Components/AdminPage/Admin';
 
 function RootRouter() {
   const guest = useRoutes(guestRoutes);

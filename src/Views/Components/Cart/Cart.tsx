@@ -10,19 +10,19 @@ import {
 import { Trash } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
-import { db, auth } from '../../../../Services/firebase/firebase';
+import { db, auth } from '../../../Services/firebase/firebase';
 import {
   getCartItems,
   removeFromCart,
-} from '../../../../Services/Cart/CartService';
-import { Product } from '../../../../Shared/Product';
-import { useAuth } from '../../../../Services/UserAuth';
-import { ROUTES } from '../../../../Shared/Constants';
+} from '../../../Services/Cart/CartService';
+import { Product } from '../../../Shared/Product';
+import { useAuth } from '../../../Services/UserAuth';
+import { ROUTES } from '../../../Shared/Constants';
 import './Cart.scss';
 
-import { updateCartItem } from '../../../../Store/Item/total_item_slice';
-import { RootState } from '../../../../Store';
-import { RippleLoader } from '../../../../Views/Dashboard/Loaders/Loaders';
+import { updateCartItem } from '../../../Store/Item/total_item_slice';
+import { RootState } from '../../../Store';
+import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);

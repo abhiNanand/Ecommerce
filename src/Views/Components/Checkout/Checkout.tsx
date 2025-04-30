@@ -1,39 +1,40 @@
-import '../Checkout/Checkout.scss';
-import { useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useGetProductByIdQuery } from '../../../../Services/Api/module/demoApi';
-import CheckoutForm from '../Checkout/CheckoutForm';
-import { RippleLoader } from '../../../../Views/Dashboard/Loaders/Loaders';
-import Payment from '../Checkout/Payment';
+import './Checkout.scss';
+import { useState, useEffect } from 'react';
 
-export default function BuyNow() {
+import { toast } from 'react-toastify';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../../../Services/firebase/firebase';
+import CheckoutForm from './CheckoutForm';
+import { getCartItems } from '../../../Services/Cart/CartService';
+import { Product } from '../../../Shared/Product';
+import { useAuth } from '../../../Services/UserAuth';
+import Payment from './Payment';
+
+export default function Checkout() {
+  const [cartItems, setCartItems] = useState<Product[]>([]);
   const [coupean, setCoupean] = useState<string>('');
-  const { productId } = useParams();
   const [discount, setDiscount] = useState<number>(0);
   const [isCouponApplied, setIsCouponApplied] = useState<boolean>(false);
 
-  const {
-    data: product,
-    error: productError,
-    isLoading: productLoading,
-  } = useGetProductByIdQuery(productId);
+  const { user } = useAuth();
 
-  if (productError) {
-    return <h1>Error loading product</h1>;
-  }
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        await currentUser.reload();
+        const items = await getCartItems();
+        setCartItems(items);
+      }
+    });
+    return () => unsubscribe();
+  }, [user]);
 
-  if (productLoading) {
-   return (
-         <div className="loader">
-           <RippleLoader />
-         </div>
-       );
-  }
-
-  if (!product) {
-    return <p>No product data available.</p>;
-  }
+  const calculateTotal = (): number => {
+    return cartItems.reduce(
+      (total, product) => total + product.price * (product.quantity ?? 1),
+      0
+    );
+  };
 
   const handleButtonClick = () => {
     if (coupean == 'SAVE20') {
@@ -41,7 +42,8 @@ export default function BuyNow() {
         toast.error('Coupon already applied on this purchase');
       } else {
         toast.success('Congrats 20% OFF');
-        setDiscount(0.8);
+        const discountAmount = (0.2 * calculateTotal()).toFixed(2);
+        setDiscount(Number(discountAmount));
         setIsCouponApplied(true);
       }
     } else {
@@ -61,41 +63,44 @@ export default function BuyNow() {
       </div>
       <div className="checkout-cart-items">
         <div className="show-cart-item">
-          <div key={product.id} className="checkout-cart-item">
-            <div>
-              <img
-                src={product.image}
-                alt="productimage"
-                height="30px"
-                width="30px"
-              />
-              <p
-                style={{
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  maxWidth: '30vw',
-                }}
-              >
-                {product.title}
-              </p>
+          {cartItems.map((item) => (
+            <div key={item.id} className="checkout-cart-item">
+              <div>
+                <img
+                  src={item.image}
+                  alt="productimage"
+                  height="30px"
+                  width="30px"
+                />
+
+                <p
+                  style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '30vw',
+                  }}
+                >
+                  {item.title}
+                </p>
+              </div>
+
+              <p>${item.price * (item?.quantity ?? 1)}</p>
             </div>
-            <p>${product.price}</p>
-          </div>
+          ))}
         </div>
         <div className="checkout-subtotal">
           <p>Subtotal:</p>
-          <p> ${product.price.toFixed(2)}</p>
+          <p> ${calculateTotal().toFixed(2)}</p>
           {isCouponApplied && (
             <>
-              {' '}
-              <p>discount:${discount}</p>{' '}
+              <p>Discount: ${discount}</p>
               <button
                 type="button"
                 className="remove-btn"
                 onClick={() => {
                   setIsCouponApplied(false);
-                  setDiscount(1);
+                  setDiscount(0);
                 }}
               >
                 Remove Coupon
@@ -111,11 +116,12 @@ export default function BuyNow() {
         <hr />
         <div className="checkout-total">
           <p>Total:</p>
-          <span>${(product.price * discount).toFixed(2)}</span>
+          <p>${(calculateTotal() - discount).toFixed(2)}</p>
         </div>
+        <hr />
         <div className="ETH">
           <p>ETH:</p>
-          <p>{((product.price - discount) * 0.00001).toFixed(4)}</p>
+          <p>{((calculateTotal() - discount) * 0.00001).toFixed(4)}</p>
         </div>
         <div className="checkout-payment">
           <div className="coupon-section">
@@ -131,9 +137,9 @@ export default function BuyNow() {
             </button>
           </div>
           <Payment
-            Items={[product]}
-            deleteCartItems={false}
-            total={(product.price - discount).toFixed(2)}
+            Items={cartItems}
+            deleteCartItems
+            total={(calculateTotal() - discount).toFixed(2)}
           />
         </div>
       </div>

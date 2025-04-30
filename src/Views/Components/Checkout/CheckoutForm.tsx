@@ -4,17 +4,17 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ArrowLeft } from 'lucide-react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../../../../Services/firebase/firebase';
+import { auth } from '../../../Services/firebase/firebase';
 import {
   addAddress,
   getAddress,
   Address,
-} from '../../../../Services/Address/Address';
+} from '../../../Services/Address/Address';
 
 import {
   updateAddress,
   removePreviousAddress,
-} from '../../../../Store/Address/AddressSlice';
+} from '../../../Store/Address/AddressSlice';
 import './Checkout.scss';
 
 interface FormValues {

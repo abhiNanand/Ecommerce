@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { db, auth } from '../../Services/firebase/firebase';
+import { db, auth } from '../../../Services/firebase/firebase';
 
 import {
   collection,
@@ -12,7 +12,7 @@ import {
 import './Admin.scss';
 import { useDispatch } from 'react-redux';
 import { signOut } from 'firebase/auth';
-import { logoutUser } from '../../Store/Common/index';
+import { logoutUser } from '../../../Store/Common/index';
 
 interface Message {
   id: string;

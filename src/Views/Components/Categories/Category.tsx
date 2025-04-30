@@ -2,8 +2,8 @@ import { useParams, NavLink, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
-import ShowItem from '../../../Views/Components/ShowItem/ShowItem';
-import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
+import ShowItem from '../ShowItem/ShowItem';
+import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
 import './Category.scss';
 
 export default function Category() {

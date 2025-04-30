@@ -7,14 +7,14 @@ import { useState, useEffect } from 'react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import 'react-toastify/dist/ReactToastify.css';
 import { Product } from '../../../Shared/Product';
-import Star from '../../../Views/Dashboard/Helper/Stars/Star';
+import Star from '../../Dashboard/Helper/Stars/Star';
 import './Shop.scss';
 
 import {
   SpinnerLoader,
   RippleLoader,
-} from '../../../Views/Dashboard/Loaders/Loaders';
-import ShowItem from '../../../Views/Components/ShowItem/ShowItem';
+} from '../../Dashboard/Loaders/Loaders';
+import ShowItem from '../ShowItem/ShowItem';
 
 export default function Shop() {
   const { data: products, error, isLoading } = useGetProductQuery(null);

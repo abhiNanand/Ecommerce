@@ -11,10 +11,10 @@ import {
 } from '../../../Services/Api/module/demoApi';
 import './ProductDetails.scss';
 import { useAuth } from '../../../Services/UserAuth';
-import ShowItem from '../../../Views/Components/ShowItem/ShowItem';
+import ShowItem from '../ShowItem/ShowItem';
 import { ROUTES } from '../../../Shared/Constants';
 
-import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
+import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
 import ShareProduct from './ShareProduct';
 import { auth } from '../../../Services/firebase/firebase';
 import {

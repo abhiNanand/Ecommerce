@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Frown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { fetchOrders } from '../../../../Services/Order/order';
+import { fetchOrders } from '../../../Services/Order/order';
 import './Order.scss';
-import { Product } from '../../../../Shared/Product';
-import { Address } from '../../../../Services/Address/Address';
-import { auth } from '../../../../Services/firebase/firebase';
-import { RippleLoader } from '../../../../Views/Dashboard/Loaders/Loaders';
+import { Product } from '../../../Shared/Product';
+import { Address } from '../../../Services/Address/Address';
+import { auth } from '../../../Services/firebase/firebase';
+import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
  
 interface OrderData {
   id: string;

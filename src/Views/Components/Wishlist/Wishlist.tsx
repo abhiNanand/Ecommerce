@@ -163,22 +163,22 @@
   import { ShoppingCart, Trash2, Heart } from 'lucide-react';
   import { onAuthStateChanged } from 'firebase/auth';
   import { useSelector, useDispatch } from 'react-redux';
-  import { auth } from '../../../../Services/firebase/firebase';
-  import { Product } from '../../../../Shared/Product';
+  import { auth } from '../../../Services/firebase/firebase';
+  import { Product } from '../../../Shared/Product';
   import {
     getPaginatedWishlistItems,
     removeFromWishlist,
-  } from '../../../../Services/Wishlist/WishlistService';
-  import { addToCart } from '../../../../Services/Cart/CartService';
-  import { useAuth } from '../../../../Services/UserAuth';
-  import { ROUTES } from '../../../../Shared/Constants';
+  } from '../../../Services/Wishlist/WishlistService';
+  import { addToCart } from '../../../Services/Cart/CartService';
+  import { useAuth } from '../../../Services/UserAuth';
+  import { ROUTES } from '../../../Shared/Constants';
   import './Wishlist.scss';
   import {
     updateCartItem,
     updateWishlistItem,
-  } from '../../../../Store/Item/total_item_slice';
-  import { RootState } from '../../../../Store/index';
-  import { RippleLoader } from '../../../../Views/Dashboard/Loaders/Loaders';
+  } from '../../../Store/Item/total_item_slice';
+  import { RootState } from '../../../Store/index';
+  import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
   import { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
 
   export default function Wishlist() {
