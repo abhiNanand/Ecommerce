@@ -22,7 +22,7 @@ import './Cart.scss';
 
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
-import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
+import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 
 export default function Cart() {
   const [cartItems, setCartItems] = useState<Product[]>([]);

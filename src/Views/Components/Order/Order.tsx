@@ -7,7 +7,7 @@ import './Order.scss';
 import { Product } from '../../../Shared/Product';
 import { Address } from '../../../Services/Address/Address';
 import { auth } from '../../../Services/firebase/firebase';
-import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
+import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
  
 interface OrderData {
   id: string;

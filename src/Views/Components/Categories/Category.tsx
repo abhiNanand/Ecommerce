@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
 import ShowItem from '../ShowItem/ShowItem';
-import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
+import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 import './Category.scss';
 
 export default function Category() {

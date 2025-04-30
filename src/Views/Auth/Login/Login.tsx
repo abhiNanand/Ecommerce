@@ -15,7 +15,7 @@ import { ROUTES } from '../../../Shared/Constants';
 import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
-import { SpinnerLoader } from '../../Dashboard/Loaders/Loaders';
+import { SpinnerLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 import './Login.scss';
 
 interface FormValues {

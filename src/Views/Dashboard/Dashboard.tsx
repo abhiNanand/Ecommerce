@@ -20,7 +20,7 @@ import BrowseCategory from './Helper/BrowseCategroy/BrowseCategory';
 import ShowItem from '../Components/ShowItem/ShowItem';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
-import { SpinnerLoader } from './Loaders/Loaders';
+import { SpinnerLoader } from './Helper/Loaders/Loaders';
 
 import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 

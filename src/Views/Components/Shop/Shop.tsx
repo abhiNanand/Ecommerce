@@ -13,7 +13,7 @@ import './Shop.scss';
 import {
   SpinnerLoader,
   RippleLoader,
-} from '../../Dashboard/Loaders/Loaders';
+} from '../../Dashboard/Helper/Loaders/Loaders';
 import ShowItem from '../ShowItem/ShowItem';
 
 export default function Shop() {

@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useGetProductByIdQuery } from '../../../Services/Api/module/demoApi';
 import CheckoutForm from '../Checkout/CheckoutForm';
-import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
+import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 import Payment from '../Checkout/Payment';
 
 export default function BuyNow() {

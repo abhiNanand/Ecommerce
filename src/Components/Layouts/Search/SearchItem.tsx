@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom';
 import { Frown } from 'lucide-react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import { Product } from '../../../Shared/Product';
-import { RippleLoader } from '../../../Views/Dashboard/Loaders/Loaders';
+import { RippleLoader } from '../../../Views/Dashboard/Helper/Loaders/Loaders';
 import ShowItem from '../../../Views/Components/ShowItem/ShowItem';
 import './SearchItem.scss';
 

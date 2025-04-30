@@ -14,7 +14,7 @@ import { useAuth } from '../../../Services/UserAuth';
 import ShowItem from '../ShowItem/ShowItem';
 import { ROUTES } from '../../../Shared/Constants';
 
-import { RippleLoader } from '../../Dashboard/Loaders/Loaders';
+import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 import ShareProduct from './ShareProduct';
 import { auth } from '../../../Services/firebase/firebase';
 import {
