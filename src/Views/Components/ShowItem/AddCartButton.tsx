@@ -63,7 +63,6 @@ export default function AddCartButton({ cartItems, product }: CartButtonProps) {
         dispatch(updateCartItem(totCartCount));
       }
     } catch (error) {
-      console.error('Error updating quantity', error);
       toast.error('Failed to update quantity');
     } finally {
       setIsLoading(false);

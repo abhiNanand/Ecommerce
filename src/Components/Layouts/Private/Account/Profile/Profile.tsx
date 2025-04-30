@@ -11,6 +11,7 @@ import {
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../../Services/UserAuth';
 import { auth } from '../../../../../Services/firebase/firebase';
+ 
 
 export default function Profile() {
   const { user } = useAuth();
@@ -21,6 +22,7 @@ export default function Profile() {
   const [showPassword1,setShowPassword1]=useState<boolean>(false);
   const [showPassword2,setShowPassword2]=useState<boolean>(false);
   const [showPassword3,setShowPassword3]=useState<boolean>(false);
+  const [changePassword,setChangePassword]=useState<boolean>(false);
 
   const formik = useFormik({
     initialValues: {
@@ -48,6 +50,7 @@ export default function Profile() {
         const { currentUser } = auth;
         if (!currentUser) return;
 
+        setChangePassword(true);
          if (values.newPassword) {
           const credential = EmailAuthProvider.credential(
             currentUser.email!,
@@ -63,6 +66,7 @@ export default function Profile() {
       } catch {
         toast.error(' Current password is wrong');
       }
+      setChangePassword(false);
     },
   });
 
@@ -168,6 +172,7 @@ export default function Profile() {
           ) : (
             <>
               <button
+              disabled={changePassword}
                 type="button"
                 className="profile-save "
                 onClick={() => {
@@ -177,8 +182,9 @@ export default function Profile() {
               >
                 Cancel
               </button>
-              <button type="submit" className="profile-save">
-                Save Changes
+              <button disabled={changePassword} type="submit" className="profile-save">
+                {changePassword?  'Changing...':'Save Changes'}
+                
               </button>
             </>
           )}

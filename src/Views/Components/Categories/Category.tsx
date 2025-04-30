@@ -1,6 +1,6 @@
 import { useParams, NavLink, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
-
+import { Frown } from 'lucide-react';
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
 import ShowItem from '../ShowItem/ShowItem';
 import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
@@ -18,7 +18,12 @@ export default function Category() {
     isLoading,
   } = useGetProductByCategoryQuery(category);
 
-  if (error) return <p>Error loading related products.</p>;
+  if (error){
+  return ( <div className="not-found">
+    <Frown strokeWidth={1} size={50} />
+    <p>Error in Loading Products</p>
+  </div>)
+  }
   if (relatedProducts?.length === 0) return <p>No related products found.</p>;
 
   return (

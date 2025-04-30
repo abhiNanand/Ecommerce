@@ -10,6 +10,7 @@ import {
 import { Trash } from 'lucide-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
+import { toast } from 'react-toastify';
 import { db, auth } from '../../../Services/firebase/firebase';
 import {
   getCartItems,
@@ -30,6 +31,7 @@ export default function Cart() {
   const dispatch = useDispatch();
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const [loading, setLoading] = useState<boolean>(true);
+  const [cartBtnLoading, setCartBtnLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -47,11 +49,23 @@ export default function Cart() {
   }, [user]);
 
   const handleRemoveItem = async (product: any) => {
-    await removeFromCart(product.id);
-    dispatch(updateCartItem(cartCount - 1));
-    setCartItems((prevItems) =>
-      prevItems.filter((item) => item.id !== product.id)
-    );
+
+    if (cartBtnLoading) return;
+    setCartBtnLoading(true);
+
+    try {
+      await removeFromCart(product.id);
+      dispatch(updateCartItem(cartCount - 1));
+      setCartItems((prevItems) =>
+        prevItems.filter((item) => item.id !== product.id)
+      );
+    }
+    catch {
+      toast.error("Failed to remove Item");
+    } finally {
+      setCartBtnLoading(false);
+    }
+
   };
 
   const handleTotalItem = async (product: any) => {
@@ -62,11 +76,11 @@ export default function Cart() {
     );
   };
 
-  const handleClearCart = async ()=>{
-   await Promise.all(
-     cartItems.map(async(item)=>await handleRemoveItem(item))
-   ); 
-   dispatch(updateCartItem(0));
+  const handleClearCart = async () => {
+    await Promise.all(
+      cartItems.map(async (item) => await handleRemoveItem(item))
+    );
+    dispatch(updateCartItem(0));
   }
 
   const handleQuantityChange = async (
@@ -74,6 +88,10 @@ export default function Cart() {
     newQuantity: number,
     totalCartCount: number
   ) => {
+
+    if (cartBtnLoading) return;
+    setCartBtnLoading(true);
+
     const user = auth.currentUser;
     const cartRef = collection(db, `users/${user?.uid}/cart`);
     try {
@@ -91,6 +109,8 @@ export default function Cart() {
       );
     } catch (error) {
       console.error('error updating quantity', error);
+    } finally {
+      setCartBtnLoading(false);
     }
   };
 
@@ -235,7 +255,7 @@ export default function Cart() {
         <button type="button" onClick={returnHome}>
           Return to Shop
         </button>
-       { cartItems.length>0 && <button onClick={()=>handleClearCart()}>Clear Cart</button>}
+        {cartItems.length > 0 && <button onClick={() => handleClearCart()}>Clear Cart</button>}
       </div>
 
       <div className="cart-summary">

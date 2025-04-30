@@ -1,16 +1,3 @@
-// // import Prompt from '../../Components/Atom/Blocker';
-// import { useDemoApiQuery } from '../../Services/Api/module/demoApi';
-
-// export default function Dashboard() {
-//   const { data, error } = useDemoApiQuery('');
-//   console.log(data, error);
-//   return (
-//     <div>
-//       Dashboard
-//       {/* <Prompt when message="Are you sure you want to leave?" /> */}
-//     </div>
-//   );
-// }
 
 import { Link } from 'react-router-dom';
 
@@ -21,7 +8,7 @@ import ShowItem from '../Components/ShowItem/ShowItem';
 import BestSelling from './Helper/BestSellingProducts/BestSelling';
 import JblBanner from './Helper/JBLBanner/JBLBanner';
 import { SpinnerLoader } from './Helper/Loaders/Loaders';
-
+import { Frown } from 'lucide-react';
 import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 
 import './Dashboard.scss';
@@ -39,8 +26,9 @@ export default function Dashboard() {
 
   if (error) {
     return (
-      <div>
-        <p>Error loading products. Please try again later.</p>
+      <div className="not-found">
+        <Frown strokeWidth={1} size={50} />
+        <p>Error in Loading Products</p>
       </div>
     );
   }

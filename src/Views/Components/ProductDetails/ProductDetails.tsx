@@ -22,11 +22,10 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from '../../../Services/Wishlist/WishlistService';
-// import { getCartItems } from '../../../Services/Cart/CartService';
 import { Product } from '../../../Shared/Product';
 import { updateWishlistItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
-// import AddCartButton from '../../../Views/Components/ShowItem/AddCartButton';
+
 
 function ProductDetails() {
   const { productId } = useParams();

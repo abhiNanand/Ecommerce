@@ -66,7 +66,7 @@ export default function Order() {
 
   if (orders.length === 0) {
     return (
-      <div className="no-search-query-found">
+      <div className="not-found">
         <Frown strokeWidth={1} size={50} />
         <p>Sorry, we could not find any orders</p>
       </div>

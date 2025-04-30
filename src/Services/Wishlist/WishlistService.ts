@@ -93,7 +93,7 @@ export const getWishlistItems = async (): Promise<Product[]> => {
   }
 };
 
- 
+ //4. pagination in wishlist.
 
 export const getPaginatedWishlistItems = async (
   pageSize = 5, lastDoc: QueryDocumentSnapshot<DocumentData> | null = null
