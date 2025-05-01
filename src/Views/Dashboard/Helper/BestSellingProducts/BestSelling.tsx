@@ -21,8 +21,6 @@ export default function BestSelling() {
           View All
         </button>
       </div>
-
-      {/* <SalesItem /> */}
     </section>
   );
 }

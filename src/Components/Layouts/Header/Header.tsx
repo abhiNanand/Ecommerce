@@ -41,6 +41,16 @@ export default function Header() {
   );
   const location = useLocation();
 
+
+  useEffect(() => {
+    if (openLogout) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [openLogout]);
+
+
   useEffect(() => {
     const isSearchPage = location.pathname.startsWith('/search');
     if (!isSearchPage) setSearchQuery('');

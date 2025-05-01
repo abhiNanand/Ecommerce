@@ -38,9 +38,7 @@ function ProductDetails() {
   );
   const [loading, setLoading] = useState<boolean>(false);
   const [wishlistUpdated, setWishlistUpdated] = useState(false);
-
   const dispatch = useDispatch();
-  // const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
 
   useEffect(() => window.scrollTo(0, 0), [pathname]);
   useEffect(() => {
@@ -49,12 +47,6 @@ function ProductDetails() {
         const wishlist  = await getWishlistItems();
         const flag = wishlist.some((item) => item.id == productId);
         SetIsInWishlist(flag);
-
-        // const cart = await getCartItems();
-        // const cartProductList = new Map(
-        //   cart.map((items) => [items.id, items.quantity ?? 1])
-        // );
-        // setCartItems(cartProductList);
       }
     });
     return () => unsubscribe();
@@ -147,10 +139,6 @@ function ProductDetails() {
           <p className="product-category">Category: {product.category}</p>
 
           <div className="product-actions">
-            {/* <div className="product-details-addToCart">
-              <AddCartButton cartItems={cartItems} product={product} />
-            </div> */}
-
             <button
               type="button"
               className="pd-buy-now"
@@ -196,7 +184,7 @@ function ProductDetails() {
           </div>
         ) : relatedError ? (
           <p>Error loading related products.</p>
-        ) : filteredRelatedProducts?.length ? ( // Changed this line to check filteredRelatedProducts
+        ) : filteredRelatedProducts?.length ? ( 
           <ShowItem
             products={filteredRelatedProducts}
             wishlistUpdated={wishlistUpdated}

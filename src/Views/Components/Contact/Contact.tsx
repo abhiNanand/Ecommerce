@@ -89,7 +89,7 @@ export default function Contact() {
 
         <div className="contact-form">
           <form onSubmit={formik.handleSubmit} className="inputs-group">
-            {/* Name Field */}
+            
             <div className="form-group">
               <div className="name-filed">
                 <input
@@ -155,7 +155,7 @@ export default function Contact() {
               </div>
             </div>
 
-            {/* Submit Button */}
+             
             <button type="submit" className="submit-button">
               Send Message
             </button>

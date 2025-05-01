@@ -9,7 +9,8 @@ import { Address } from '../Address/Address';
  
 export const addToOrderHistory = async (
   product: Product[],
-  address: Address
+  address: Address,
+  total:number,
 ): Promise<void> => {
   const user = auth.currentUser;
   if (!user) {
@@ -22,6 +23,7 @@ export const addToOrderHistory = async (
     await setDoc(orderRef, {
       products: product,
       orderedAt: address,
+      total:total,
       date: new Date(),
     });
   } catch {
@@ -33,6 +35,7 @@ interface OrderData {
   id: string;
   products: Product[];
   address: Address;
+  total:number
   date: Date;
 }
 
@@ -61,6 +64,7 @@ const orders = docs.map((doc) => {
         id: doc.id,
         products: data.products,
         address: data.orderedAt,
+        total:data.total,
         date: data.date.toDate ? data.date.toDate() : new Date(data.date),
       };
     });

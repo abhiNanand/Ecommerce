@@ -290,7 +290,7 @@ export default function CheckoutForm() {
             checked={false}
           />
           <label htmlFor="billing-checkbox">
-            save this information for faster check-out next time
+            save 
           </label>
         </form>
       )}

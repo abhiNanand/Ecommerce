@@ -13,6 +13,7 @@ interface OrderData {
   id: string;
   products: Product[];
   address: Address;
+  total:number;
   date: Date;
 }
 
@@ -22,6 +23,10 @@ export default function Order() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const navigate = useNavigate();
+
+
+ 
+  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -49,12 +54,12 @@ export default function Order() {
     setLoadingMore(false);
   };
 
-  const calculateTotal = (order: OrderData): number => {
-    return order.products.reduce(
-      (total, product) => total + product.price * (product.quantity ?? 1),
-      0
-    );
-  };
+  // const calculateTotal = (order: OrderData): number => {
+  //   return order.products.reduce(
+  //     (total, product) => total + product.price * (product.quantity ?? 1),
+  //     0
+  //   );
+  // };
 
   if (loading) {
     return (
@@ -93,7 +98,9 @@ export default function Order() {
                 </p>
 
                 <h3>Total</h3>
-                <p>${calculateTotal(order).toFixed(5)}</p>
+                {/* <p>${(orders?.total ?? 1).toFixed(2)??1}</p> */}
+                <p>{Number(order.total).toFixed(5)} ETH</p>
+
               </div>
 
               <div className="product-list">

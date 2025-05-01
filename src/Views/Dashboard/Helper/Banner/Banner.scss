@@ -1,22 +1,22 @@
-/* Banner Container */
+ 
 .banner-container {
   position: relative;
   width: 100%;
-  max-width: 1200px; /* Increased max width */
+  max-width: 1200px; 
   margin: auto;
   overflow: hidden;
   border-radius: 10px;
 }
 
-/* Banner Image */
+ 
 .banner-image {
   width: 100%;
-  height: 45vh; /* Increased height */
+  height: 45vh; 
   object-fit: cover;
   transition: opacity 0.5s ease-in-out;
 }
 
-/* Shop Now Button */
+ 
 .shop-now-btn {
   position: absolute;
   bottom: 15%;
@@ -64,7 +64,7 @@
   background-color: red;
 }
 
-/* 📌 Responsive Styles */
+ 
 @media (max-width: 1024px) {
   .banner-container {
       max-width: 900px;

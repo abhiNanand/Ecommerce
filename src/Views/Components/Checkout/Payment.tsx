@@ -30,7 +30,19 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
   const addressData = useSelector((state: RootState) => state.address);
   const [txHash, setTxHash] = useState<string | null>(null);
 
-  const payTotal = (0.00001 * Number(total)).toFixed(4);
+  const payTotal:number = Number((0.00001 * Number(total)).toFixed(4));
+
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [open]);
+  
 
   const {
     writeContract,
@@ -57,7 +69,7 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
   useEffect(() => {
     if (isMintSuccess) {
       toast.success('Payment Done!');
-      addToOrderHistory(Items, addressData);
+    addToOrderHistory(Items, addressData,payTotal);
       dispatch(removePreviousAddress());
       setTxHash(mintData);
       if (deleteCartItems) {
