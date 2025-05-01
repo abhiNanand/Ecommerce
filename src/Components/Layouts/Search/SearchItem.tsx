@@ -24,10 +24,15 @@ export default function SearchItem() {
 
   const lowerQuery = query.toLowerCase();
   const filteredProducts = products?.filter((product: Product) => {
+
+    const titleString= product.title.split(' ');
+    const descriptionString= product.description.split(' ');
+    const categoryString= product.category.split(' ');
+
     return (
-      product.title.toLowerCase().includes(lowerQuery) ||
-      product.description.toLowerCase().includes(lowerQuery) ||
-      product.category.toLowerCase().includes(lowerQuery)
+      titleString.some((item)=> item.slice(0,lowerQuery.length).toLowerCase()===lowerQuery) ||
+      descriptionString.some((item)=> item.slice(0,lowerQuery.length).toLowerCase()===lowerQuery) ||
+      categoryString.some((item)=> item.slice(0,lowerQuery.length).toLowerCase()===lowerQuery) 
     );
   });
 
