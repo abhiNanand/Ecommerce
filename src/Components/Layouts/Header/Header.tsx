@@ -1,3 +1,6 @@
+ 
+
+
 import {
   Search,
   Heart,
@@ -242,6 +245,10 @@ export default function Header() {
     </header>
   );
 }
+
+ 
+
+
 
 // updateProfile(user, { displayName: name })
 

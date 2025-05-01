@@ -27,7 +27,7 @@ export default function SearchItem() {
 
     const titleString= product.title.split(' ');
     const descriptionString= product.description.split(' ');
-    const categoryString= product.category.split(' ');
+    const categoryString= product.category.split(`'`);
 
     return (
       titleString.some((item)=> item.slice(0,lowerQuery.length).toLowerCase()===lowerQuery) ||

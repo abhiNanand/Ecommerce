@@ -40,7 +40,7 @@ function ProductDetails() {
   const [wishlistUpdated, setWishlistUpdated] = useState(false);
   const dispatch = useDispatch();
 
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
