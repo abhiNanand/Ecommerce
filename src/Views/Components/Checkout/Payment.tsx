@@ -32,6 +32,10 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
 
   const payTotal:number = Number((0.00001 * Number(total)).toFixed(4));
 
+
+
+
+
   useEffect(() => {
     if (open) {
       document.body.style.overflow = 'hidden';

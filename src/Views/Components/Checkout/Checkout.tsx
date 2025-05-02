@@ -92,23 +92,28 @@ export default function Checkout() {
         <div className="checkout-subtotal">
           <p>Subtotal:</p>
           <p> ${calculateTotal().toFixed(2)}</p>
-          {isCouponApplied && (
+        </div>
+        <hr />
+        {isCouponApplied && (
             <>
-              <p>Discount: ${discount}</p>
+             <div className="applied-coupon">
+              <p>Coupon: <button
+                type="button"
+                className="remove-btn">SAVE20</button></p>
               <button
                 type="button"
                 className="remove-btn"
                 onClick={() => {
                   setIsCouponApplied(false);
-                  setDiscount(0);
+                  setDiscount(1);
                 }}
               >
-                Remove Coupon
+                -${discount} [Remove]
               </button>
+              </div>
+              <hr/>
             </>
           )}
-        </div>
-        <hr />
         <div className="checkout-shipping">
           <p>Shipping:</p>
           <span>Free</span>

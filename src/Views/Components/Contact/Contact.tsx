@@ -54,6 +54,14 @@ export default function Contact() {
     },
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => {
+    const fieldName = e.target.name;
+    let processedValue = e.target.value;
+    processedValue = processedValue.replace(/^\s+/g, '');
+    formik.setFieldValue(fieldName, processedValue);
+  };
+
+
   return (
     <div className="contact-container">
       <p className="breadcrumb">
@@ -95,9 +103,9 @@ export default function Contact() {
                 <input
                   name="name"
                   type="text"
-                  placeholder="Your Name*"
+                  placeholder="Name*"
                   value={formik.values.name}
-                  onChange={formik.handleChange}
+                  onChange={handleChange}
                 />
                 <div className="error">
                   {formik.touched.name && formik.errors.name
@@ -110,9 +118,9 @@ export default function Contact() {
                 <input
                   name="email"
                   type="text"
-                  placeholder="Your Email*"
+                  placeholder="Email*"
                   value={formik.values.email}
-                  onChange={formik.handleChange}
+                  onChange={handleChange}
                 />
                 <div className="error">
                   {formik.touched.email && formik.errors.email
@@ -124,7 +132,7 @@ export default function Contact() {
                 <input
                   name="phone"
                   type="tel"
-                  placeholder="Your Phone*"
+                  placeholder="Phone Number*"
                   value={formik.values.phone}
                   onChange={(e) => {
                     const input = e.target.value.replace(/\D/g, '');
@@ -144,9 +152,9 @@ export default function Contact() {
             <div className="form-message-group">
               <textarea
                 name="message"
-                placeholder="Your Message"
+                placeholder="Message"
                 value={formik.values.message}
-                onChange={formik.handleChange}
+                onChange={handleChange}
               />
               <div className="error">
                 {formik.touched.message && formik.errors.message

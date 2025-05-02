@@ -86,10 +86,16 @@ export default function BuyNow() {
         <div className="checkout-subtotal">
           <p>Subtotal:</p>
           <p> ${product.price.toFixed(2)}</p>
-          {isCouponApplied && (
+      
+        </div>
+        <hr />
+
+        {isCouponApplied && (
             <>
-              {' '}
-              <p>discount:${discount}</p>{' '}
+             <div className="applied-coupon">
+              <p>Coupon: <button
+                type="button"
+                className="remove-btn">SAVE20</button></p>
               <button
                 type="button"
                 className="remove-btn"
@@ -98,12 +104,13 @@ export default function BuyNow() {
                   setDiscount(1);
                 }}
               >
-                Remove Coupon
+                -${discount} [Remove]
               </button>
+              </div>
+              <hr/>
             </>
           )}
-        </div>
-        <hr />
+      
         <div className="checkout-shipping">
           <p>Shipping:</p>
           <span>Free</span>

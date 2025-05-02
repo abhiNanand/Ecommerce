@@ -5,7 +5,10 @@
     margin: 2rem auto;
     padding: 0 1rem;
     min-height: 65vh;
-  
+   
+    button{
+      cursor: pointer;
+    }
     &-top {
       display: flex;
       justify-content: space-between;

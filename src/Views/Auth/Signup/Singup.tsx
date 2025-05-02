@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { useFormik } from 'formik';
 import { Eye, EyeOff} from 'lucide-react';
-import { useState } from 'react';
 import * as Yup from 'yup';
 import {
   createUserWithEmailAndPassword,
@@ -29,6 +29,7 @@ export default function Signup() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [creating,setCreating]=useState<boolean>(false);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -46,9 +47,14 @@ export default function Signup() {
         ),
       password: Yup.string()
         .min(6, 'Password must be at least 6 characters')
-        .required('Password is required'),
+        .required('Password is required')
+        .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/,
+                'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+               ),
     }),
     onSubmit: async (values, { resetForm }) => {
+      setCreating(true);
       try {
         const userCredential = await createUserWithEmailAndPassword(
           auth,
@@ -66,7 +72,6 @@ export default function Signup() {
         });
 
         toast.success('Account created successfully!');
-        resetForm();
         setTimeout(() => navigate(ROUTES.LOGIN), 2000);
       } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
@@ -76,6 +81,10 @@ export default function Signup() {
           console.error(error.message);
         }
       }
+      finally{
+        setCreating(false);
+      }
+      resetForm();
     },
   });
 
@@ -94,16 +103,17 @@ export default function Signup() {
 
       navigate(ROUTES.HOMEPAGE);
       toast.success('Signed in with Google successfully!');
-      dispatch(
-        updateAuthTokenRedux({
-          token,
-          user: {
-            displayName: user.displayName,
-            email: user.email,
-          },
-        })
-      );
-
+      setTimeout(() => {
+        dispatch(
+          updateAuthTokenRedux({
+            token,
+            user: {
+              displayName: user.displayName,
+              email: user.email,
+            },
+          })
+        );
+      }, 500);
       const userRef = doc(db, 'users', user.uid);
       const userSnap = await getDoc(userRef);
 
@@ -190,10 +200,10 @@ export default function Signup() {
             )}
           </div>
 
-          <button type="submit" id="create-btn">
-            Create Account
+          <button disabled={creating} type="submit" id="create-btn">
+           {creating? 'Creating...':'Create Account'}
           </button>
-          <button type="button" id="google-btn" onClick={handleGoogleSignIn}>
+          <button type="button" id="google-btn" disabled={creating} onClick={handleGoogleSignIn}>
             <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
             Sign up with Google
           </button>

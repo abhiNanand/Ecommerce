@@ -39,11 +39,11 @@
       const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
         if (currentUser) {
           await currentUser.reload();
-          const { products, lastDoc } = await getPaginatedWishlistItems();
+          const { products, lastDoc,hasMore } = await getPaginatedWishlistItems();
           setWishlistItems(products);
           setLastDoc(lastDoc);
           setLoading(false);
-          setHasMoreItem(products.length === 5);
+          setHasMoreItem(hasMore);
         } else {
           setWishlistItems([]);
           setLoading(false);
@@ -53,12 +53,12 @@
     }, [user,fetchItem]);
 
     const loadMoreItems = async () => {
-      if (!lastDoc) return;
+      if (!lastDoc || !hasMoreItem) return;
       setLoadingMore(true);
-      const { products, lastDoc: newLastDoc } = await getPaginatedWishlistItems(5,lastDoc); 
+      const { products, lastDoc: newLastDoc,hasMore } = await getPaginatedWishlistItems(5,lastDoc); 
       setWishlistItems((prev) => [...prev, ...products]);
       setLastDoc(newLastDoc);
-      setHasMoreItem(products.length === 5);
+      setHasMoreItem(hasMore);
       setLoadingMore(false);
     };
 
@@ -174,13 +174,18 @@
             </div>
           ))}
         </div>
-        {hasMoreItem && lastDoc && (
-          <div className="load-more-btn">
-            <button className="load-request-btn" type="button" onClick={loadMoreItems} disabled={loadingMore}>
-              {loadingMore ? 'Loading...' : 'Load More'}
-            </button>
-          </div>
-        )}
+        {hasMoreItem && (
+  <div className="load-more-btn">
+    <button 
+      className="load-request-btn" 
+      type="button" 
+      onClick={loadMoreItems} 
+      disabled={loadingMore}
+    >
+      {loadingMore ? 'Loading...' : 'Load More'}
+    </button>
+  </div>
+)}
       </div>
     );
   }
