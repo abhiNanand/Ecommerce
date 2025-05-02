@@ -80,8 +80,8 @@ export default function Order() {
             <div className="order-card-grid">
               <div className="order-summary">
                 <h3>Order Date</h3>
-                <p>{order.date.toLocaleDateString()}</p>
-
+                {/* <p>{order.date.toLocaleDateString()}</p> */}
+                <p>{order.date.toLocaleDateString()} at {order.date.toLocaleTimeString()}</p>
                 <h3>Shipping Address</h3>
                 <p>
                   {order.address.name}<br />

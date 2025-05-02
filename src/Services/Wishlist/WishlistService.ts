@@ -29,7 +29,7 @@ export const addToWishlist = async (product: Product) => {
     if (!querySnapshot.empty) {
       const docRef = querySnapshot.docs[0].ref;
       const existingData = querySnapshot.docs[0].data();
-      const newQuantity = (existingData.quantity || 1) + 1;
+      const newQuantity = (existingData.quantity ?? 1) + 1;
 
       await updateDoc(docRef, { quantity: newQuantity });
     } else {
@@ -87,55 +87,6 @@ export const getWishlistItems = async () => {
   }
 };
 
- //4. pagination in wishlist.
-
-// export const getPaginatedWishlistItems = async (
-//   pageSize = 5, lastDoc: QueryDocumentSnapshot<DocumentData> | null = null
-// ): Promise<{
-//   products: Product[];
-//   lastDoc: QueryDocumentSnapshot<DocumentData> | null;
-//   hasMore:boolean;
-// }> => {
-//   const user = auth.currentUser;
-//   if (!user) {
-//     console.error('User not logged in!');
-//     return { products: [], lastDoc: null ,hasMore:false};
-//   }
-
-//   try {
-//     const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
-//     const q = query(
-//       wishlistRef,
-//       ...(lastDoc ? [startAfter(lastDoc )] : []),
-//       limit(pageSize)
-//     );
-
-//     const querySnapshot = await getDocs(q);
-//     const docs = querySnapshot.docs;
- 
-//     const hasMore = docs.length > pageSize;
-
-
-//     const products: Product[] = docs.map((doc) => {
-//       const data = doc.data() as Product;
-//       return {
-//         id: data.id,
-//         title: data.title ?? '',
-//         image: data.image ?? '',
-//         price: data.price ?? 0,
-//         quantity: data.quantity ?? 1,
-//         description: data.description ?? '',
-//         category: data.category ?? '',
-//       };
-//     });
- 
-//     const newLastDoc = docs.length > 0 ? docs[docs.length - 1] : null;
-//     return { products, lastDoc: newLastDoc,hasMore};
-//   } catch (error) {
-//     console.error('Error fetching wishlist items:', error);
-//     return { products: [], lastDoc: null,hasMore:false };
-//   }
-// };
 export const getPaginatedWishlistItems = async (
   pageSize = 5, 
   lastDoc: QueryDocumentSnapshot<DocumentData> | null = null
@@ -153,8 +104,7 @@ export const getPaginatedWishlistItems = async (
   try {
     const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
     
-    // First query to get the current page
-    const q = query(
+     const q = query(
       wishlistRef,
       ...(lastDoc ? [startAfter(lastDoc)] : []),
       limit(pageSize)
@@ -163,8 +113,7 @@ export const getPaginatedWishlistItems = async (
     const querySnapshot = await getDocs(q);
     const docs = querySnapshot.docs;
     
-    // Second query to check if there are more items after this page
-    let hasMore = false;
+     let hasMore = false;
     if (docs.length === pageSize) {
       const nextQ = query(
         wishlistRef,

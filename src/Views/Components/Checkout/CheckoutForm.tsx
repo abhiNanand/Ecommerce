@@ -30,7 +30,6 @@ interface FormValues {
 export default function CheckoutForm() {
   const [address, setAddress] = useState<Address[]>([]);
   const [open, setOpen] = useState<boolean>(true);
-
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(0);
 
   useEffect(() => {
