@@ -63,7 +63,7 @@ export const removeFromWishlist = async (ProductId: string) => {
 };
 
 //3. Fetch only the logged-in user's wishlist items
-export const getWishlistItems = async (): Promise<Product[]> => {
+export const getWishlistItems = async () => {
   const user = auth.currentUser;
   if (!user) {
     console.error('User not logged in!');
@@ -75,16 +75,10 @@ export const getWishlistItems = async (): Promise<Product[]> => {
     const querySnapshot = await getDocs(wishlistRef);
 
     return querySnapshot.docs.map((wishlistDoc) => {
-      const data = wishlistDoc.data() as Product;
+      const data = wishlistDoc.data() ;
 
       return {
         id: data.id,
-        title: data.title ?? '',
-        image: data.image ?? '',
-        price: data.price ?? 0,
-        quantity: data.quantity ?? 1,
-        description: data.description ?? '',
-        category: data.category ?? '',
       };
     });
   } catch (error) {

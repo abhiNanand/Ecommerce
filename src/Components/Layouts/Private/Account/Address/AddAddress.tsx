@@ -72,6 +72,16 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
       onClose();
     },
   });
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = e.target.name;
+    let processedValue = e.target.value;
+    processedValue = processedValue.replace(/^\s+/g, '');
+    formik.setFieldValue(fieldName, processedValue);
+    formik.setFieldTouched(fieldName, true, false);
+  };
+
   return (
     <div className="billing-form">
         <form onSubmit={formik.handleSubmit}>
@@ -84,7 +94,7 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
             id="name"
             name="name"
             value={formik.values.name}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.name && formik.errors.name && (
@@ -98,7 +108,7 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
             id="companyName"
             name="companyName"
             value={formik.values.companyName}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.companyName && formik.errors.companyName && (
@@ -114,7 +124,7 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
             id="streetAddress"
             name="streetAddress"
             value={formik.values.streetAddress}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.streetAddress && formik.errors.streetAddress && (
@@ -128,7 +138,7 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
             id="apartment"
             name="apartment"
             value={formik.values.apartment}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.apartment && formik.errors.apartment && (
@@ -144,7 +154,7 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
             id="town"
             name="town"
             value={formik.values.town}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.town && formik.errors.town && (
@@ -181,23 +191,20 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
             id="emailAddress"
             name="emailAddress"
             value={formik.values.emailAddress}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.emailAddress && formik.errors.emailAddress && (
             <div className="error">{formik.errors.emailAddress}</div>
           )}
-          <input
-            type="checkbox"
-            id="billing-checkbox"
-            onChange={(e) => {
-              if (e.target.checked) formik.handleSubmit();
+          <button
+            type="button"
+            className="save-address-btn"
+            onClick={() => {
+               formik.handleSubmit();
             }}
-            checked={false}
-          />
-          <label htmlFor="billing-checkbox">
-            save 
-          </label>
+            >save</button>
+          
         </form>
         <button className="close-address-btn" onClick={()=>  onClose()}>Close</button>
     </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import { QueryDocumentSnapshot, DocumentData } from 'firebase/firestore';
 import { Frown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { fetchOrders } from '../../../Services/Order/order';
@@ -19,22 +20,20 @@ interface OrderData {
 
 export default function Order() {
   const [orders, setOrders] = useState<OrderData[]>([]);
+  const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
   const navigate = useNavigate();
-
-
- 
-  
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         await currentUser.reload();
         setLoading(true);
-        const { orders: fetchedOrders } = await fetchOrders();
+        const { orders: fetchedOrders,lastDoc } = await fetchOrders();
         setOrders(fetchedOrders);
+        setLastDoc(lastDoc);
         setHasMore(fetchedOrders.length >= 5); 
         setLoading(false);
       } else {
@@ -48,18 +47,12 @@ export default function Order() {
   const loadMore = async () => {
     if (!hasMore || loadingMore) return;
     setLoadingMore(true);
-    const { orders: moreOrders } = await fetchOrders(5);
+    const { orders: moreOrders,lastDoc:newLastDoc } = await fetchOrders(5,lastDoc);
+    setLastDoc(newLastDoc);
     setOrders((prev) => [...prev, ...moreOrders]);
     setHasMore(moreOrders.length >= 5);
     setLoadingMore(false);
   };
-
-  // const calculateTotal = (order: OrderData): number => {
-  //   return order.products.reduce(
-  //     (total, product) => total + product.price * (product.quantity ?? 1),
-  //     0
-  //   );
-  // };
 
   if (loading) {
     return (

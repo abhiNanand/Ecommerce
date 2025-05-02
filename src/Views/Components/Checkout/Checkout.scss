@@ -105,11 +105,7 @@ hr {
   cursor: pointer;
 }
 
-#billing-checkbox {
-  padding: 0;
-  width: 3vw;
-  margin-top: 2%;
-}
+
 
 .billing {
   flex: 1;
@@ -203,4 +199,17 @@ hr {
   padding: 10px;
   border:none;
   border-radius: 5px;
+}
+
+.save-address-btn{
+  background: #d9534f;
+  border: none;
+  color: white; 
+  padding: 10px 20px; 
+  width: fit-content;  
+  height: auto;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  margin:1% 0 1% 0;
 }

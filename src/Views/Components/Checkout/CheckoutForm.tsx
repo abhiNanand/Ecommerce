@@ -175,7 +175,7 @@ export default function CheckoutForm() {
         <form onSubmit={formik.handleSubmit}>
           {address.length > 0 && (
             <button onClick={() => setOpen(true)}>
-              <ArrowLeft size={14} />{' '}
+              <ArrowLeft size={14} />
             </button>
           )}
           <br />
@@ -293,17 +293,13 @@ export default function CheckoutForm() {
             <div className="error">{formik.errors.emailAddress}</div>
           )}
 
-          <input
-            type="checkbox"
-            id="billing-checkbox"
-            onChange={(e) => {
-              if (e.target.checked) formik.handleSubmit();
+          <button
+            type="button"
+            className="save-address-btn"
+            onClick={() => {
+              formik.handleSubmit();
             }}
-            checked={false}
-          />
-          <label htmlFor="billing-checkbox">
-            save
-          </label>
+          >save</button>
         </form>
       )}
     </div>

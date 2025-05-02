@@ -39,9 +39,9 @@ interface OrderData {
   date: Date;
 }
 
-let lastVisible: QueryDocumentSnapshot<DocumentData> | null = null;
 
-export const fetchOrders = async (pageSize=5): Promise<{ orders:OrderData[];lastDoc: QueryDocumentSnapshot<DocumentData> | null;}> => {
+
+export const fetchOrders = async (pageSize=5,lastDoc: QueryDocumentSnapshot<DocumentData> | null = null): Promise<{ orders:OrderData[];lastDoc: QueryDocumentSnapshot<DocumentData> | null;}> => {
   const user = auth.currentUser;
   if (!user) {
     console.log('User not found');
@@ -52,7 +52,7 @@ export const fetchOrders = async (pageSize=5): Promise<{ orders:OrderData[];last
     const q = query(
       orderRef,
       orderBy('date', 'desc'),
-      ...(lastVisible ? [startAfter(lastVisible)] : []),
+      ...(lastDoc ? [startAfter(lastDoc)] : []),
       limit(pageSize)
     );
  const querySnapshot = await getDocs(q);
@@ -68,9 +68,9 @@ const orders = docs.map((doc) => {
         date: data.date.toDate ? data.date.toDate() : new Date(data.date),
       };
     });
-    lastVisible = docs.length > 0 ? docs[docs.length - 1] : null;
+    const newLastDoc = docs.length > 0 ? docs[docs.length - 1] : null;
 
-    return { orders, lastDoc: lastVisible };
+    return { orders, lastDoc: newLastDoc };
   } catch (error) {
     console.log('Error fetching paginated orders:', error);
     return { orders: [], lastDoc: null };
