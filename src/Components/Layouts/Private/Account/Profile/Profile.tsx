@@ -70,6 +70,13 @@ export default function Profile() {
     },
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = e.target.name;
+    let processedValue = e.target.value;
+    processedValue = processedValue.replace(/\s/g, '');
+    formik.setFieldValue(fieldName, processedValue);
+    };
+
   return (
     <div className="profile-container">
       <h3 className="profile-title">Edit Your Profile</h3>
@@ -116,7 +123,7 @@ export default function Profile() {
               name="currentPassword"
               placeholder="Current Password"
               value={formik.values.currentPassword}
-              onChange={formik.handleChange}
+              onChange={handleChange}
             />
             {formik.values.currentPassword && (showPassword1?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>))}
               </div>
@@ -131,7 +138,7 @@ export default function Profile() {
               name="newPassword"
               placeholder="New Password"
               value={formik.values.newPassword}
-              onChange={formik.handleChange}
+              onChange={handleChange}
             />
            { formik.values.newPassword && (showPassword2?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>))}
 
@@ -148,7 +155,7 @@ export default function Profile() {
               name="confirmPassword"
               placeholder="Confirm New Password"
               value={formik.values.confirmPassword}
-              onChange={formik.handleChange}
+              onChange={handleChange}
             />
             {formik.values.confirmPassword && (showPassword3?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>))}
             </div>

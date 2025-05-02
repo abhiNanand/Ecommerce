@@ -57,7 +57,7 @@ export default function Dashboard() {
           <Banner />
         </div>
       </div>
-      <Sales />
+      <Sales products={products.slice(12,20)} />
      
       <BrowseCategory />
       <BestSelling />

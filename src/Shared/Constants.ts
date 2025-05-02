@@ -22,9 +22,9 @@ const ROUTES = {
   ORDER: '/order',
   BUY: '/buy/:productId',
   BROWSE: '/browse',
-  FAQs: '/FAQs',
-  PRIVACY_POLICY: '/PrivacyPolicy',
-  TERMS_OF_USE: '/TermsOfUse',
+  FAQs: `/faqs`,
+  PRIVACY_POLICY: '/privacy-policy',
+  TERMS_OF_USE: '/terms-of-use',
 };
 
 const ROUTES_CONFIG = {

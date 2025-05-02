@@ -107,6 +107,17 @@ export default function CheckoutForm() {
       });
     },
   });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = e.target.name;
+    let processedValue = e.target.value;
+    processedValue = processedValue.replace(/^\s+/g, '');
+    formik.setFieldValue(fieldName, processedValue);
+    formik.setFieldTouched(fieldName, true, false);
+  };
+
+
+
   const dispatch = useDispatch();
   const handleRadioClick = (value: Address) => {
     dispatch(removePreviousAddress());
@@ -177,7 +188,8 @@ export default function CheckoutForm() {
             id="name"
             name="name"
             value={formik.values.name}
-            onChange={formik.handleChange}
+            onChange={handleChange}
+
           />
           <br />
           {formik.touched.name && formik.errors.name && (
@@ -191,7 +203,7 @@ export default function CheckoutForm() {
             id="companyName"
             name="companyName"
             value={formik.values.companyName}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.companyName && formik.errors.companyName && (
@@ -207,7 +219,7 @@ export default function CheckoutForm() {
             id="streetAddress"
             name="streetAddress"
             value={formik.values.streetAddress}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.streetAddress && formik.errors.streetAddress && (
@@ -221,7 +233,7 @@ export default function CheckoutForm() {
             id="apartment"
             name="apartment"
             value={formik.values.apartment}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.apartment && formik.errors.apartment && (
@@ -237,7 +249,7 @@ export default function CheckoutForm() {
             id="town"
             name="town"
             value={formik.values.town}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.town && formik.errors.town && (
@@ -274,7 +286,7 @@ export default function CheckoutForm() {
             id="emailAddress"
             name="emailAddress"
             value={formik.values.emailAddress}
-            onChange={formik.handleChange}
+            onChange={handleChange}
           />
           <br />
           {formik.touched.emailAddress && formik.errors.emailAddress && (
@@ -290,7 +302,7 @@ export default function CheckoutForm() {
             checked={false}
           />
           <label htmlFor="billing-checkbox">
-            save 
+            save
           </label>
         </form>
       )}

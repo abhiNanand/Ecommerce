@@ -120,7 +120,7 @@ export default function ShowItem({products}: ShowItemProps) {
                 <button className="right-arrow" onClick={() => scrollRight()}><ArrowRight size={20}  /></button>
             </div>
             <div className="sales-products-grid"  ref={scrollRef} >
-                {products.slice(12,20).map((product: Product) => (
+                {products.map((product: Product) => (
                     <div
                         key={product.id}
                         className="sales-product-card"

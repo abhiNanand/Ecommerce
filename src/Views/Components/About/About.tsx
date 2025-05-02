@@ -6,15 +6,15 @@ import { ROUTES } from '../../../Shared/Constants';
 import assets from '../../../assets';
 
 const imgArr = [
-  assets.profile.accountant,
-  assets.profile.contentwriter,
-  assets.profile.designer,
-  assets.profile.director,
-  assets.profile.founder,
-  assets.profile.marketingManager,
-  assets.profile.salesManager,
-  assets.profile.techLead,
-  assets.profile.teamlead,
+ { img:assets.profile.accountant,name:'Abhishek',occupation:'Accountant'},
+ {  img:assets.profile.contentwriter,name:'Ravi',occupation:'Contant Writer'},
+  { img:assets.profile.designer,name:'Aman',occupation:'Designer'},
+  { img:assets.profile.director,name:'Rohit',occupation:'Director'},
+  { img:assets.profile.founder,name:'Devinder',occupation:'Founder'},
+ {  img:assets.profile.marketingManager,name:'Krishna',occupation:'Marketing Manager'},
+ {  img:assets.profile.salesManager,name:'Harsh',occupation:'Sales Manager'},
+  { img:assets.profile.techLead,name:'Ajit',occupation:'Tech Lead'},
+ {  img:assets.profile.teamlead,name:'Prabhat',occupation:'Team Lead'},
 ];
 
 export default function About() {
@@ -83,11 +83,11 @@ export default function About() {
       <div className="about-profile">
         <div className="about-profile-image">
           {imgArr.slice(index, index + 3).map((item) => (
-            <div key={item} className="profile">
-              <img src={item} alt={item} width="100px" height="100px" />
+            <div key={item.img} className="profile">
+              <img src={item.img} alt={item.img} width="100px" height="100px" />
 
-              <h1>Name</h1>
-              <p>Occoupation</p>
+              <h3>{item.name}</h3>
+              <p>{item.occupation}</p>
 
               <span>
                 <a href="https://www.instagram.com/">

@@ -32,6 +32,19 @@ export default function Cart() {
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const [loading, setLoading] = useState<boolean>(true);
   const [cartBtnLoading, setCartBtnLoading] = useState<boolean>(false);
+  const [openClearCart,setOpenClearCart]=useState<boolean>(false);
+
+
+  useEffect(() => {
+    if (openClearCart) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [openClearCart]);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -255,10 +268,10 @@ export default function Cart() {
         <button type="button" onClick={returnHome}>
           Return to Shop
         </button>
-        {cartItems.length > 0 && <button onClick={() => handleClearCart()}>Clear Cart</button>}
+        {cartItems.length > 0 && <button onClick={() => setOpenClearCart(true)}>Clear Cart</button>}
       </div>
 
-      <div className="cart-summary">
+{cartItems.length > 0 &&  <div className="cart-summary">
         <div className="cart-total">
           <h3>Cart Total</h3>
           <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
@@ -270,7 +283,35 @@ export default function Cart() {
             </button>
           )}
         </div>
-      </div>
+      </div> }
+      {openClearCart && (
+        <div className="confirmation-container">
+          <div>
+            <div className="confirm-title-btn">
+              <h3>Clear Cart Confirmation</h3>
+              <p>Are you sure you want to clear cart?</p>
+              <div className="confirm-n-cancel-btn">
+                <button
+                  className="confirm-btn"
+                  onClick={() => {
+                    handleClearCart();
+                    setOpenClearCart(false);
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  className="cancel-btn"
+                  onClick={() => setOpenClearCart(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+     
     </div>
   );
 }

@@ -79,6 +79,13 @@ export default function Signup() {
     },
   });
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = e.target.name;
+    let processedValue = e.target.value;
+    processedValue = processedValue.replace(/^\s+/g, '');
+    formik.setFieldValue(fieldName, processedValue);
+  };
+
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
@@ -126,7 +133,9 @@ export default function Signup() {
               id="name"
               type="text"
               placeholder="Name"
-              {...formik.getFieldProps('name')}
+              name="name"
+              onChange={handleChange}
+              value={formik.values.name}
             />
             {formik.touched.name && formik.errors.name && (
               <div className="error-text">{formik.errors.name}</div>
@@ -138,7 +147,9 @@ export default function Signup() {
               id="email"
               type="text"
               placeholder="Email address"
-              {...formik.getFieldProps('email')}
+              name="email"
+              onChange={handleChange}
+              value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email && (
               <div className="error-text">{formik.errors.email}</div>
@@ -151,7 +162,9 @@ export default function Signup() {
                 id="text"
                 type={showPassword ? "text" : "password"}
                 placeholder="Password"
-                {...formik.getFieldProps('password')}
+                name="password"
+                onChange={handleChange}
+                value={formik.values.password}
               />
                
               {formik.values.password && (

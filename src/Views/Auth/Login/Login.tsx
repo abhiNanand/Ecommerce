@@ -50,7 +50,7 @@ export default function Login() {
       email: emailValidation,
       password: Yup.string()
         .min(6, 'Password must be at least 6 characters')
-        .required('Password is Required'),
+        .required('Password is required'),
     }),
     onSubmit: async (values, { setSubmitting, setErrors }) => {
       try {
@@ -80,6 +80,13 @@ export default function Login() {
       }
     },
   });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = e.target.name;
+    let processedValue = e.target.value;
+    processedValue = processedValue.replace(/^\s+/g, '');
+    formik.setFieldValue(fieldName, processedValue);
+  };
 
   const handleGoogleSignIn = async () => {
     try {
@@ -169,8 +176,7 @@ export default function Login() {
                   name="email"
                   type="text"
                   placeholder="Email address"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
+                  onChange={handleChange}
                   value={formik.values.email}
                 />
                 {formik.touched.email && formik.errors.email && (
@@ -186,8 +192,7 @@ export default function Login() {
                     name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="Password"
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
+                    onChange={handleChange}
                     value={formik.values.password}
                   />
 

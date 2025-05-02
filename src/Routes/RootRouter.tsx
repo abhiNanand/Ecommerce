@@ -12,8 +12,7 @@ function RootRouter() {
   if (user?.email === 'abhishekanand7091@gmail.com') {
     return (
       <>
-        {' '}
-        <Admin />{' '}
+        <Admin />
       </>
     );
   }
