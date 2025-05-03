@@ -6,8 +6,6 @@ import {
   getDocs,
   orderBy,
   query,
-  DocumentData,
-  QueryDocumentSnapshot,
 } from 'firebase/firestore';
 import './Admin.scss';
 import { useDispatch } from 'react-redux';
@@ -26,7 +24,7 @@ interface Message {
 export default function AdminMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
   const dispatch = useDispatch();
-  const [openLogout,setOpenLogout]= useState<boolean>(false);
+  const [openLogout, setOpenLogout] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -36,11 +34,18 @@ export default function AdminMessages() {
           orderBy('createdAt', 'desc')
         );
         const querySnapshot = await getDocs(q);
+        const messagesData = querySnapshot.docs.map(
+          (doc) => {
+            const data = doc.data();
+            return {
+              id: doc.id,
+              name: data.name,
+              email: data.email,
+              phone: data.phone,
+              message: data.message,
+              createdAt: data.createdAt,
 
-        const messagesData: Message[] = querySnapshot.docs.map(
-          (doc: QueryDocumentSnapshot<DocumentData>) => {
-            const data = doc.data() as Omit<Message, 'id'>;
-            return { id: doc.id, ...data };
+            };
           }
         );
 
@@ -87,34 +92,34 @@ export default function AdminMessages() {
           ))}
         </tbody>
       </table>
-      <button className="admin-logout-btn" onClick={() =>setOpenLogout(true)}>logout</button>
+      <button className="admin-logout-btn" onClick={() => setOpenLogout(true)}>logout</button>
       {openLogout && (
-  <div className="confirmation-container">
-    <div>
-      <div className="confirm-title-btn">
-        <h3>Logout Confirmation</h3>
-        <p>Are you sure you want to log out?</p>
-        <div className="confirm-n-cancel-btn">
-          <button
-            className="confirm-btn"
-            onClick={() => {
-              handleLogout();
-              setOpenLogout(false);
-            }}
-          >
-            Confirm
-          </button>
-          <button
-            className="cancel-btn"
-            onClick={() => setOpenLogout(false)}
-          >
-            Cancel
-          </button>
+        <div className="confirmation-container">
+          <div>
+            <div className="confirm-title-btn">
+              <h3>Logout Confirmation</h3>
+              <p>Are you sure you want to log out?</p>
+              <div className="confirm-n-cancel-btn">
+                <button
+                  className="confirm-btn"
+                  onClick={() => {
+                    handleLogout();
+                    setOpenLogout(false);
+                  }}
+                >
+                  Confirm
+                </button>
+                <button
+                  className="cancel-btn"
+                  onClick={() => setOpenLogout(false)}
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </div>
   );
 }
