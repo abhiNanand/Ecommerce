@@ -30,8 +30,10 @@ useEffect(()=>{
   const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>{
     if(currentUser)
     {
-      const hasPassword=currentUser?.providerData[0].providerId;
-      setIsPasswordProvider(hasPassword==='password');
+      const hasPassword = currentUser.providerData.some(
+        (p) => p.providerId === 'password'
+      );
+      setIsPasswordProvider(hasPassword);
     }
   });
   return () => unsubscribe();

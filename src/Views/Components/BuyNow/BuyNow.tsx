@@ -120,10 +120,12 @@ export default function BuyNow() {
           <p>Total:</p>
           <span>${(product.price * discount).toFixed(2)}</span>
         </div>
+        <hr/>
         <div className="ETH">
           <p>ETH:</p>
           <p>{((product.price - discount) * 0.00001).toFixed(4)}</p>
         </div>
+        <hr/>
         <div className="checkout-payment">
           <div className="coupon-section">
             <input

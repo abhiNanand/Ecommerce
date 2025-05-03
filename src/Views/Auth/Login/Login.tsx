@@ -6,6 +6,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   signInWithPopup,
+  sendEmailVerification,
 } from 'firebase/auth';
 import { doc, setDoc, getDoc, query, where, getDocs, collection } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
@@ -60,6 +61,15 @@ export default function Login() {
           values.password
         );
         const { user } = userCredential;
+
+        if (!user.emailVerified) {
+          setErrors({ email: 'Please verify your email before logging in' });
+          toast.warning('Email not verified. Please check your inbox.');
+          await sendEmailVerification(user);
+          await auth.signOut(); // sign out the user if logged in
+         return;
+        }
+else{
         const token = await user.getIdToken();
         navigate(ROUTES.HOMEPAGE);
         setTimeout(() => {
@@ -70,7 +80,7 @@ export default function Login() {
             })
           );
         }, 500)
-
+      }
       } catch (error) {
         if (error instanceof Error) {
           console.error(error.message);

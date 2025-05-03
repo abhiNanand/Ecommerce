@@ -128,6 +128,7 @@ export default function Checkout() {
           <p>ETH:</p>
           <p>{((calculateTotal() - discount) * 0.00001).toFixed(4)}</p>
         </div>
+        <hr/>
         <div className="checkout-payment">
           <div className="coupon-section">
             <input

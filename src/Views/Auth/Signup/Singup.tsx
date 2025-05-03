@@ -7,6 +7,7 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithPopup,
+  sendEmailVerification,
 } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -63,15 +64,18 @@ export default function Signup() {
         );
         const { user } = userCredential;
 
-        await updateProfile(user, { displayName: values.name });
-
+         await updateProfile(user, { displayName: values.name });
+         toast.success("A verification link has been sent to your email. Please verify your account before logging in.", {
+          autoClose: 6000
+        });
+        
+        await sendEmailVerification(user);
         await setDoc(doc(db, 'users', user.uid), {
           uid: user.uid,
           email: user.email,
           displayName: values.name,
         });
 
-        toast.success('Account created successfully!');
         setTimeout(() => navigate(ROUTES.LOGIN), 2000);
       } catch (error: any) {
         if (error.code === 'auth/email-already-in-use') {
