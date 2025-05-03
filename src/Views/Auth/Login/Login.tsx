@@ -62,13 +62,14 @@ export default function Login() {
         const { user } = userCredential;
         const token = await user.getIdToken();
         navigate(ROUTES.HOMEPAGE);
-        dispatch(
-          updateAuthTokenRedux({
-            token,
-            user: { displayName: user.displayName, email: user.email },
-          })
-        );
-
+        setTimeout(() => {
+          dispatch(
+            updateAuthTokenRedux({
+              token,
+              user: { displayName: user.displayName, email: user.email },
+            })
+          );
+        }, 500)
 
       } catch (error) {
         if (error instanceof Error) {

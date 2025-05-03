@@ -145,8 +145,8 @@ export default function Shop() {
             }}
           />
           <div>
-            <p>Min: ₹{range[0]}</p>
-            <p>Max: ₹{range[1]}</p>
+            <p>Min: ${range[0]}</p>
+            <p>Max: ${range[1]}</p>
           </div>
         </div>
       </div>

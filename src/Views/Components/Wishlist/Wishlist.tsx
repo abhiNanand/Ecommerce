@@ -66,7 +66,7 @@
       await removeFromWishlist(item.id);
       dispatch(updateWishlistItem(wishlistCount - 1));
       setWishlistItems((prevItems) => prevItems.filter((product) => product.id !== item.id));
-      console.log(wishlistItems.length);
+
        
      if(wishlistItems.length === 1)
       setFetchItems(!fetchItem);

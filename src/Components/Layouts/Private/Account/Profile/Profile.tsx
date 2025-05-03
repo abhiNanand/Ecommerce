@@ -1,222 +1,223 @@
-  import './Profile.scss';
-  import { useState } from 'react';
-  import { useFormik } from 'formik';
-  import { Eye,EyeOff } from 'lucide-react';
-  import * as Yup from 'yup';
-  import {
-    updatePassword,
-    EmailAuthProvider,
-    reauthenticateWithCredential,
-  } from 'firebase/auth';
-  import { toast } from 'react-toastify';
-  import { useAuth } from '../../../../../Services/UserAuth';
-  import { auth } from '../../../../../Services/firebase/firebase';
-  
+import './Profile.scss';
+import { useState, useEffect } from 'react';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useFormik } from 'formik';
+import { Eye, EyeOff } from 'lucide-react';
+import * as Yup from 'yup';
+import {
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential,
+} from 'firebase/auth';
+import { toast } from 'react-toastify';
+import { useAuth } from '../../../../../Services/UserAuth';
+import { auth } from '../../../../../Services/firebase/firebase';
 
-  export default function Profile() {
-    const { user } = useAuth();
-    const [editMode, setEditMode] = useState(false);
 
-    const displayName = user?.displayName ?? '';
-    const [firstNameDefault, lastNameDefault] = displayName.split(' ');
-    const [showPassword1,setShowPassword1]=useState<boolean>(false);
-    const [showPassword2,setShowPassword2]=useState<boolean>(false);
-    const [showPassword3,setShowPassword3]=useState<boolean>(false);
-    const [changePassword,setChangePassword]=useState<boolean>(false);
+export default function Profile() {
+  const { user } = useAuth();
+  const [isPasswordProvider, setIsPasswordProvider] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState(false);
 
-    const formik = useFormik({
-      initialValues: {
-        firstName: firstNameDefault || '',
-        lastName: lastNameDefault || '',
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      },
+  const displayName = user?.displayName ?? '';
+  const [firstNameDefault, lastNameDefault] = displayName.split(' ');
+  const [showPassword1, setShowPassword1] = useState<boolean>(false);
+  const [showPassword2, setShowPassword2] = useState<boolean>(false);
+  const [showPassword3, setShowPassword3] = useState<boolean>(false);
+  const [changePassword, setChangePassword] = useState<boolean>(false);
 
-      validationSchema: Yup.object({
-        firstName: Yup.string(),
-        lastName: Yup.string(),
-        currentPassword: Yup.string().when('newPassword', {
-          is: (val: string | undefined) => typeof val === 'string' && val.length > 0,
-          then: () => Yup.string().required('Current password is required'),
-        }),
-        newPassword: Yup.string()
-          .min(6, 'Password must be at least 6 characters') 
-          .notOneOf([Yup.ref('currentPassword')], 'New password must be different from current password')
-          .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/,
-            'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
-          ),
-        confirmPassword: Yup.string()
-          .oneOf([Yup.ref('newPassword'), undefined], 'Passwords must match'),
+useEffect(()=>{
+  const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>{
+    if(currentUser)
+    {
+      const hasPassword=currentUser?.providerData[0].providerId;
+      setIsPasswordProvider(hasPassword==='password');
+    }
+  });
+  return () => unsubscribe();
+},[]);
+
+
+  const formik = useFormik({
+    initialValues: {
+      firstName: firstNameDefault || '',
+      lastName: lastNameDefault || '',
+      currentPassword: '',
+      newPassword: '',
+      confirmPassword: '',
+    },
+
+    validationSchema: Yup.object({
+      firstName: Yup.string(),
+      lastName: Yup.string(),
+      currentPassword: Yup.string().when('newPassword', {
+        is: (val: string | undefined) => typeof val === 'string' && val.length > 0,
+        then: () => Yup.string().required('Current password is required'),
       }),
-      onSubmit: async (values,{resetForm}) => {
-        try {
-          const { currentUser } = auth;
-          if (!currentUser) return;
+      newPassword: Yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .notOneOf([Yup.ref('currentPassword')], 'New password must be different from current password')
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/,
+          'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+        ),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('newPassword'), undefined], 'Passwords must match'),
+    }),
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        const { currentUser } = auth;
+        if (!currentUser) return;
 
-          setChangePassword(true);
-          if (values.newPassword) {
-            const credential = EmailAuthProvider.credential(
-              currentUser.email!,
-              values.currentPassword
-            );
-            await reauthenticateWithCredential(currentUser, credential);
-            await updatePassword(currentUser, values.newPassword);
-          }
-
-          toast.success('Password changed successfully!');
-          setEditMode(false);
-          resetForm();
-        } catch {
-          toast.error(' Current password is wrong');
+        setChangePassword(true);
+        if (values.newPassword) {
+          const credential = EmailAuthProvider.credential(
+            currentUser.email!,
+            values.currentPassword
+          );
+          await reauthenticateWithCredential(currentUser, credential);
+          await updatePassword(currentUser, values.newPassword);
         }
-        setChangePassword(false);
-      },
-    });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      const fieldName = e.target.name;
-      let processedValue = e.target.value;
-      processedValue = processedValue.replace(/\s/g, '');
-      formik.setFieldValue(fieldName, processedValue);
-      };
+        toast.success('Password changed successfully!');
+        setEditMode(false);
+        resetForm();
+      } catch {
+        toast.error(' Current password is wrong');
+      }
+      setChangePassword(false);
+    },
+  });
 
-    return (
-      <div className="profile-container">
-        <h3 className="profile-title">Edit Your Profile</h3>
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = e.target.name;
+    let processedValue = e.target.value;
+    processedValue = processedValue.replace(/\s/g, '');
+    formik.setFieldValue(fieldName, processedValue);
+  };
 
-        <form className="profile-form" onSubmit={formik.handleSubmit}>
-          <div className="profile-row">
-            <div className="profile-field">
-              <label htmlFor="firstName">First Name</label>
-              <input
-                id="firstName"
-                name="firstName"
-                type="text"
-                disabled
-                value={formik.values.firstName}
-              />
-            </div>
+  return (
+    <div className="profile-container">
+      <h3 className="profile-title">Edit Your Profile</h3>
 
-            <div className="profile-field">
-              <label htmlFor="lastName">Last Name</label>
-              <input
-                id="lastName"
-                name="lastName"
-                type="text"
-                value={formik.values.lastName}
-                disabled
-              />
-            </div>
+      <form className="profile-form" onSubmit={formik.handleSubmit}>
+        <div className="profile-row">
+          <div className="profile-field">
+            <label htmlFor="firstName">First Name</label>
+            <input
+              id="firstName"
+              name="firstName"
+              type="text"
+              disabled
+              value={formik.values.firstName}
+            />
           </div>
 
-          <div className="profile-row">
-            <div className="profile-field">
-              <label>Email</label>
-              <input type="email" value={user?.email ?? ''} disabled />
-            </div>
+          <div className="profile-field">
+            <label htmlFor="lastName">Last Name</label>
+            <input
+              id="lastName"
+              name="lastName"
+              type="text"
+              value={formik.values.lastName}
+              disabled
+            />
           </div>
+        </div>
 
-          {editMode && (
-            <div className="profile-password-section">
-              <label>Current Password</label>
-            
-              <div className="input-wrapper">
-                <input
-                type={showPassword1? "text" : "password"}
+        <div className="profile-row">
+          <div className="profile-field">
+            <label>Email</label>
+            <input type="email" value={user?.email ?? ''} disabled />
+          </div>
+        </div>
+
+        {editMode && (
+          <div className="profile-password-section">
+            <label>Current Password</label>
+
+            <div className="input-wrapper">
+              <input
+                type={showPassword1 ? "text" : "password"}
                 name="currentPassword"
                 placeholder="Current Password"
                 value={formik.values.currentPassword}
                 onChange={handleChange}
               />
-              {formik.values.currentPassword && (showPassword1?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword1(!showPassword1)}/>))}
-                </div>
-              {formik.touched.currentPassword &&
-                formik.errors.currentPassword && (
-                  <small className="error">{formik.errors.currentPassword}</small>
-                )}
-              <label>New Password</label>
-              <div className="input-wrapper">
+              {formik.values.currentPassword && (showPassword1 ? (<EyeOff className="eye-icon" size={20} onClick={() => setShowPassword1(!showPassword1)} />) : (<Eye className="eye-icon" size={20} onClick={() => setShowPassword1(!showPassword1)} />))}
+            </div>
+            {formik.touched.currentPassword &&
+              formik.errors.currentPassword && (
+                <small className="error">{formik.errors.currentPassword}</small>
+              )}
+            <label>New Password</label>
+            <div className="input-wrapper">
               <input
-                type={showPassword2? "text" : "password"}
+                type={showPassword2 ? "text" : "password"}
                 name="newPassword"
                 placeholder="New Password"
                 value={formik.values.newPassword}
                 onChange={handleChange}
               />
-            { formik.values.newPassword && (showPassword2?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword2(!showPassword2)}/>))}
+              {formik.values.newPassword && (showPassword2 ? (<EyeOff className="eye-icon" size={20} onClick={() => setShowPassword2(!showPassword2)} />) : (<Eye className="eye-icon" size={20} onClick={() => setShowPassword2(!showPassword2)} />))}
 
-          
-              </div>
-              
-              {formik.touched.newPassword && formik.errors.newPassword && (
-                <small className="error">{formik.errors.newPassword}</small>
-              )}
-              <label>Confirm New Password</label>
-              <div className="input-wrapper">
+
+            </div>
+
+            {formik.touched.newPassword && formik.errors.newPassword && (
+              <small className="error">{formik.errors.newPassword}</small>
+            )}
+            <label>Confirm New Password</label>
+            <div className="input-wrapper">
               <input
-                type={showPassword3? "text" : "password"}
+                type={showPassword3 ? "text" : "password"}
                 name="confirmPassword"
                 placeholder="Confirm New Password"
                 value={formik.values.confirmPassword}
                 onChange={handleChange}
               />
-              {formik.values.confirmPassword && (showPassword3?(<EyeOff className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>):(<Eye className="eye-icon" size={20} onClick={()=> setShowPassword3(!showPassword3)}/>))}
-              </div>
-              
-              {formik.touched.confirmPassword &&
-                formik.errors.confirmPassword && (
-                  <small className="error">{formik.errors.confirmPassword}</small>
-                )}
+              {formik.values.confirmPassword && (showPassword3 ? (<EyeOff className="eye-icon" size={20} onClick={() => setShowPassword3(!showPassword3)} />) : (<Eye className="eye-icon" size={20} onClick={() => setShowPassword3(!showPassword3)} />))}
             </div>
-          )}
 
-          <div className="profile-actions">
-            {!editMode ? (
-              <button
-                type="button"
-                className="profile-save"
-                onClick={() => setEditMode(true)}
-              >
-                Change Password
-              </button>
-            ) : (
-              <>
-                <button
-                disabled={changePassword}
-                  type="button"
-                  className="profile-save "
-                  onClick={() => {
-                    formik.resetForm();
-                    setEditMode(false);
-                  }}
-                >
-                  Cancel
-                </button>
-                <button disabled={changePassword} type="submit" className="profile-save">
-                  {changePassword?  'Changing...':'Save Changes'}
-                  
-                </button>
-              </>
-            )}
+            {formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <small className="error">{formik.errors.confirmPassword}</small>
+              )}
           </div>
-        </form>
-      </div>
-    );
-  }
+        )}
 
+        {isPasswordProvider && <div className="profile-actions">
+          {(!editMode) ? (
+            <button
+              type="button"
+              className="profile-save"
+              onClick={() => setEditMode(true)}
+            >
+              Change Password
+            </button>
+          ) : (
+            <>
+              <button
+                disabled={changePassword}
+                type="button"
+                className="profile-save "
+                onClick={() => {
+                  formik.resetForm();
+                  setEditMode(false);
+                }}
+              >
+                Cancel
+              </button>
+              <button disabled={changePassword} type="submit" className="profile-save">
+                {changePassword ? 'Changing...' : 'Save Changes'}
 
-  // validationSchema: Yup.object({
-  //   firstName: Yup.string(),
-  //   lastName: Yup.string(),
-  //   currentPassword: Yup.string().when('newPassword', {
-  //     is: (val: string) => val.length > 0,
-  //     then: () => Yup.string().required('Current password is required'),
-  //   }),
-  //   newPassword: Yup.string().min(6, 'Password too short'),
-  //   confirmPassword: Yup.string().oneOf(
-  //     [Yup.ref('newPassword'), ''],
-  //     'Passwords must match'
-  //   ),
-  // }),
+              </button>
+            </>
+          )}
+        </div>}
+
+      </form>
+    </div>
+  );
+}
+
