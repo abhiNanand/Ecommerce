@@ -50,21 +50,12 @@ useEffect(()=>{
     },
 
     validationSchema: Yup.object({
-      firstName: Yup.string(),
-      lastName: Yup.string(),
-      currentPassword: Yup.string().when('newPassword', {
-        is: (val: string | undefined) => typeof val === 'string' && val.length > 0,
-        then: () => Yup.string().required('Current password is required'),
-      }),
-      newPassword: Yup.string()
-        .min(6, 'Password must be at least 6 characters')
-        .notOneOf([Yup.ref('currentPassword')], 'New password must be different from current password')
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/,
-          'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
-        ),
-      confirmPassword: Yup.string()
-        .oneOf([Yup.ref('newPassword'), undefined], 'Passwords must match'),
+      currentPassword:Yup.string().required('Current password is required'),
+      newPassword:Yup.string().required("New password is required").min(6,"Password must be at least 8 characters")  .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/,
+        'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+      ).notOneOf([Yup.ref('currentPassword'), null], 'New password cannot be the same as current password'),
+      confirmPassword:Yup.string().required("Confirm password is required").oneOf([Yup.ref('newPassword')], 'Confirm Passwords must match with new password'),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {

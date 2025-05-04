@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useAccount, useWriteContract } from 'wagmi';
+import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
 import { parseEther } from 'viem';
 import { RootState } from '../../../Store';
 import { addToOrderHistory } from '../../../Services/Order/order';
@@ -25,74 +25,92 @@ interface ItemProps {
 function Payment({ Items, deleteCartItems, total }: ItemProps) {
   const { isConnected } = useAccount();
   const dispatch = useDispatch();
-  const [open, setOpen] = useState<boolean>(false);
+  const [showOrderConfirmed, setShowOrderConfirmed] = useState<boolean>(false);
+  const [txHash, setTxHash] = useState<string | null>(null);
+  const [showPaymentWindow, setShowPaymentWindow] = useState<boolean>(false);
   const navigate = useNavigate();
   const addressData = useSelector((state: RootState) => state.address);
-  const [txHash, setTxHash] = useState<string | null>(null);
 
-  const payTotal:number = Number((0.00001 * Number(total)).toFixed(4));
-
-
-
-
+  const payTotal: number = Number((0.00001 * Number(total)).toFixed(4));
 
   useEffect(() => {
-    if (open) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
+    document.body.style.overflow = showPaymentWindow || showOrderConfirmed ? 'hidden' : 'auto';
     return () => {
       document.body.style.overflow = 'auto';
     };
-  }, [open]);
-  
+  }, [showPaymentWindow, showOrderConfirmed]);
 
   const {
     writeContract,
     isPending: isMinting,
-    isSuccess: isMintSuccess,
     error: mintError,
-    data: mintData,
+    data: hash,
   } = useWriteContract();
 
-  const handleMint = () => {
+  
+  const { isSuccess: isTxConfirmed } = useWaitForTransactionReceipt({
+    hash,
+    confirmations: 1, 
+  });
+
+  const handleMint = async () => {
     if (!addressData.name.trim()) {
       toast.error('Address not selected');
       return;
     }
 
-    writeContract({
-      abi: NFTContractABI,
-      address: NFTContractAddress,
-      functionName: 'mintNFT',
-      args: [''],
-      value: parseEther(`${payTotal}`),
-    });
+    try {
+      setShowPaymentWindow(true);
+      await writeContract({
+        abi: NFTContractABI,
+        address: NFTContractAddress,
+        functionName: 'mintNFT',
+        args: [''],
+        value: parseEther(`${payTotal}`),
+      });
+    } catch (error) {
+      setShowPaymentWindow(false);
+      toast.error('Payment initiation failed');
+    }
   };
+
   useEffect(() => {
-    if (isMintSuccess) {
-      toast.success('Payment Done!');
-    addToOrderHistory(Items, addressData,payTotal);
+    if (isTxConfirmed && hash) {
+      addToOrderHistory(Items, addressData, payTotal);
       dispatch(removePreviousAddress());
-      setTxHash(mintData);
+      setTxHash(hash);
+
       if (deleteCartItems) {
-        Promise.all(Items.map(async (item) => removeFromCart(item.id))).then(
-          () => dispatch(updateCartItem(0))
-        );
+        Promise.all(Items.map(item => removeFromCart(item.id)))
+            dispatch(updateCartItem(0));
       }
 
-      setTimeout(() => {
-        setOpen(true);
-      }, 2000);
+    
+      setShowPaymentWindow(false);
+      setShowOrderConfirmed(true);
     }
-  }, [isMintSuccess]);
+  }, [isTxConfirmed, hash, Items, addressData, payTotal, deleteCartItems, dispatch]);
+
 
   useEffect(() => {
     if (mintError) {
-      toast.error(`Payment failed`);
+      setShowPaymentWindow(false);
+      toast.error('Payment failed. Please try again.');
     }
   }, [mintError]);
+
+   useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'visible' && hash) {
+        console.log('Tab became visible, checking transaction status');
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+  }, [hash]);
 
   return (
     <div className="payment-gateway">
@@ -105,12 +123,40 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
               onClick={handleMint}
               disabled={isMinting}
             >
-              {isMinting ? <p>Processing...</p> : <p>Pay {payTotal} ETH </p>}
+              {isMinting ? 'Processing...' : `Pay ${payTotal} ETH`}
             </button>
           </div>
         )}
       </div>
-      {open && (
+
+     
+      {showPaymentWindow && (
+        <div className="place-order-container">
+          <div className="place-order">
+            <h2>Payment in Progress</h2>
+            <p>Your transaction is being confirmed on the blockchain...</p>
+            {hash && (
+              <>
+                <div className="spinner"></div>
+                <p className="tx-hash">
+                  Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
+                </p>
+                <a
+                  href={`https://holesky.etherscan.io/tx/${hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="tx-link"
+                >
+                  View on Etherscan
+                </a>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+ 
+      {showOrderConfirmed && (
         <div className="place-order-container">
           <div className="place-order">
             <h2>Order Confirmed</h2>
@@ -120,7 +166,7 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
               className="place-order-btn"
               onClick={() => {
                 navigate(ROUTES.ORDER);
-                setOpen(false);
+                setShowOrderConfirmed(false);
               }}
             >
               View Order
@@ -130,7 +176,7 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
               className="place-order-btn"
               onClick={() => {
                 navigate(ROUTES.HOMEPAGE);
-                setOpen(false);
+                setShowOrderConfirmed(false);
               }}
             >
               Continue Shopping
@@ -154,4 +200,5 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
     </div>
   );
 }
+
 export default Payment;
