@@ -19,25 +19,24 @@
   flex-direction: column;
 }
 
-.billing-form input {
-  background: #fbe3e3;
-  border: none;
-  padding: 10px;
-  width: 20vw;
-}
+.billing-form input[type='text'],
+.billing-form input[type='tel']
+  {
+    background: #fbe3e3;
+    border: none;
+    padding: 10px;
+    width: 20vw;
+  }
+
 
 .select-address input
 {
-  
    width:10px;
    margin-right:2%;
 }
 
 .address-option{
   margin-top:3%;
-}
-.billing-form label {
-  color: rgb(137, 135, 135);
 }
 
 .checkout-cart-item {
@@ -105,8 +104,6 @@ hr {
   cursor: pointer;
 }
 
-
-
 .billing {
   flex: 1;
   min-width: 320px;
@@ -125,6 +122,11 @@ hr {
 }
 
 @media (max-width: 768px) {
+
+  .billing-form input[type='text'],
+  .billing-form input[type='tel'] {
+    width: 80%;
+  }
   .checkout-container {
     flex-direction: column;
     margin: 20px;
@@ -187,7 +189,8 @@ hr {
 {
   margin-top:2%;
   display: flex;
-  justify-content: space-between;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: center;
   background-color: rgb(21, 20, 20);
   padding: 20px;
@@ -221,3 +224,4 @@ hr {
   
   justify-content: space-between;
   }
+

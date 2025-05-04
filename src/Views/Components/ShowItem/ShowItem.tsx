@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useSelector, useDispatch } from 'react-redux';
 import { onAuthStateChanged } from 'firebase/auth';
-import Star from '../../Dashboard/Helper/Stars/Star';
+import Star from './Star';
 import {
   addToWishlist,
   getWishlistItems,

@@ -7,12 +7,10 @@ $dark-gray: #777;
 $border-radius: 12px;
 
 .payment-gateway {
-  max-width: 500px;
-  margin: 3rem auto;
-  padding: 2rem 2.5rem;
   text-align: center;
   border-radius: $border-radius;
   transition: box-shadow 0.3s ease;
+
 
   h2 {
     margin-bottom: 1rem;
@@ -30,7 +28,7 @@ $border-radius: 12px;
     border-radius: $border-radius;
     color: #fff;
     cursor: pointer;
-    margin-bottom: 1rem;
+    margin:1rem 0 1rem 0;
     transition: all 0.3s ease;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
     letter-spacing: 0.5px;

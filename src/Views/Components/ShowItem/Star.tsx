@@ -1,5 +1,5 @@
 import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa';
-import './Star.scss';
+import './ShowItem.scss';
 
 interface StarProps {
   rating: number | undefined;

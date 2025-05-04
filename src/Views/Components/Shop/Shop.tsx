@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import 'react-toastify/dist/ReactToastify.css';
 import { Product } from '../../../Shared/Product';
-import Star from '../../Dashboard/Helper/Stars/Star';
+import Star from '../ShowItem/Star';
 import './Shop.scss';
 
 import {

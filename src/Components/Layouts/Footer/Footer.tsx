@@ -17,6 +17,8 @@ export default function Footer() {
     toast.dismiss();
      
   }, [location.pathname]);
+
+ 
   return (
     <footer className="footer-container">
       <div className="footer-content">

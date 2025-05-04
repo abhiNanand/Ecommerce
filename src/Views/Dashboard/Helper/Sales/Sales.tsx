@@ -4,13 +4,11 @@ import './Sales.scss';
 import { Product } from '../../../../Shared/Product';
 import SalesItem from './helper/SalesItem';
 
-
 interface SalesItemProps {
   products: Product[];
 }
 
-
-export default function Sales({products}:SalesItemProps) {
+export default function Sales({ products }: SalesItemProps) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
@@ -30,15 +28,17 @@ export default function Sales({products}:SalesItemProps) {
         <div className="sales-title">
           <h1 className="sales-main-title">Flash Sales</h1>
         </div>
-        {Object.entries(timeLeft).map(([label, value]) => (
-          <div key={label} className="sales-timer-box">
-            <span className="sales-timer-label">{label}</span>
-            <span className="sales-timer-value">{value}</span>
-          </div>
-        ))}
+        <div className="show-timer">
+          {Object.entries(timeLeft).map(([label, value]) => (
+            <div key={label} className="sales-timer-box">
+              <span className="sales-timer-label">{label}</span>
+              <span className="sales-timer-value">{value}</span>
+            </div>
+          ))}
+        </div>
       </div>
       <div className="scroll">
-      <SalesItem products={products} />
+        <SalesItem products={products} />
       </div>
     </div>
   );

@@ -56,6 +56,7 @@
     border:none;
     padding:10px;
     border-radius: 2px;
+   
   }
   
   .profile-actions {
@@ -86,8 +87,8 @@
     background: #c9302c;
   }
   
-  /* Responsive */
-  @media (max-width: 600px) {
+
+  @media (max-width: 768px) {
     .profile-row {
       flex-direction: column;
     }
@@ -112,11 +113,12 @@
     position: relative;
     display: flex;
     align-items: center;
-    width: fit-content;
+    width: 100%;
   }
 
   .input-wrapper input {
     padding-right: 40px;
+    width: 100%;
   }
 
   .eye-icon {

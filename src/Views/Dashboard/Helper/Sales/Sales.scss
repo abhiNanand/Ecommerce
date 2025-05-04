@@ -34,6 +34,12 @@
   display: flex;
   gap: 15px;
   align-items: end;
+  flex-wrap: wrap;
+}
+
+.show-timer{
+  display: flex;
+  gap:15px;
 }
 
 .sales-timer-box {
@@ -41,6 +47,7 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
+  
 }
 
 .sales-timer-label {

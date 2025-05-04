@@ -29,6 +29,8 @@
       display: flex;
       gap: 15px;
       margin-bottom: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
   
       .timer-box {
         background: white;
