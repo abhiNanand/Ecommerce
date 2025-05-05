@@ -1,7 +1,7 @@
 import { AppLayoutProps } from '../AppLayout.d';
 import Navbar from '../Public/Navbar';
 
-function PrivateLayout({ children }: AppLayoutProps): JSX.Element {
+function PrivateLayout({ children }: Readonly<AppLayoutProps>): JSX.Element {
   return (
     <>
       <Navbar />

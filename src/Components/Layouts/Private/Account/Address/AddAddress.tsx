@@ -14,8 +14,8 @@ interface FormValues {
   phoneNumber: string;
   emailAddress: string;
 }
-
-export default function   AddAddress({ onClose }: { onClose: () => void }) {
+ 
+export default function   AddAddress({ onClose }:  Readonly<{ onClose: () => void }>) {
    const formik = useFormik<FormValues>({
     initialValues: {
       name: '',
@@ -51,7 +51,7 @@ export default function   AddAddress({ onClose }: { onClose: () => void }) {
       emailAddress: Yup.string()
         .required('Required')
         .matches(
-          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/,
           'Enter a valid email address'
         ),
     }),

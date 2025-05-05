@@ -85,7 +85,7 @@ export default function CheckoutForm() {
       emailAddress: Yup.string()
         .required('Required')
         .matches(
-          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          /^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/,
           'Enter a valid email address'
         ),
     }),

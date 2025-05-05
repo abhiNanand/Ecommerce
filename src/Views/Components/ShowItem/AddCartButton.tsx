@@ -27,7 +27,7 @@ interface CartButtonProps {
   product: Product;
 }
 
-export default function AddCartButton({ cartItems, product }: CartButtonProps) {
+export default function AddCartButton({ cartItems, product }: Readonly<CartButtonProps>) {
   const [total, setTotal] = useState<number>(0);
   const dispatch = useDispatch();
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);

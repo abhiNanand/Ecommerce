@@ -3,7 +3,7 @@ import { CustomRouter } from './RootRoutes';
 import Dashboard from '../Views/Dashboard/Dashboard';
 import Cart from '../Views/Components/Cart/Cart';
 import Wishlist from '../Views/Components/Wishlist/Wishlist';
-import Error from '../Views/Components/ErrorPage/Error';
+import Error404 from '../Views/Components/ErrorPage/Error';
 import Category from '../Views/Components/Categories/Category';
 import ProductDetails from '../Views/Components/ProductDetails/ProductDetails';
 import Checkout from '../Views/Components/Checkout/Checkout';
@@ -45,7 +45,7 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
   },
   {
     path: ROUTES_CONFIG.WILDCARD.path,
-    element: <Error />,
+    element: <Error404 />,
     title: ROUTES_CONFIG.WILDCARD.title,
   },
   {

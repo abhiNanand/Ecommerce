@@ -11,9 +11,7 @@ function RootRouter() {
   const { isAuthenticated, user, token } = useAuth();
   if (user?.email === 'abhishekanand7091@gmail.com') {
     return (
-      <>
         <Admin />
-      </>
     );
   }
   return (

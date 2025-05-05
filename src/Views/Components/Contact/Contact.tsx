@@ -31,7 +31,7 @@ export default function Contact() {
       email: Yup.string()
         .required('Email is required')
         .matches(
-          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          /^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/,
           'Enter a valid email address'
         ),
       phone: Yup.string()

@@ -32,7 +32,7 @@ function ProductDetails() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const { pathname } = useLocation();
-  const [isInWishlist, SetIsInWishlist] = useState<boolean>(false);
+  const [isInWishlist, setIsInWishlist] = useState<boolean>(false);
   const wishlistCount = useSelector(
     (state: RootState) => state.item.noOfWishlistItem
   );
@@ -46,7 +46,7 @@ function ProductDetails() {
       if (currentUser) {
         const wishlist  = await getWishlistItems();
         const flag = wishlist.some((item) => item.id == productId);
-        SetIsInWishlist(flag);
+        setIsInWishlist(flag);
       }
     });
     return () => unsubscribe();
@@ -97,14 +97,14 @@ function ProductDetails() {
 
       if (isLiked) {
         await removeFromWishlist(product.id);
-        SetIsInWishlist(false);
+        setIsInWishlist(false);
         toast.info('Item removed from wishlist', {
           position: 'top-right',
         });
         dispatch(updateWishlistItem(wishlistCount - 1));
       } else {
         await addToWishlist(product);
-        SetIsInWishlist(true);
+        setIsInWishlist(true);
         toast.success('Item added to wishlist');
         dispatch(updateWishlistItem(wishlistCount + 1));
       }

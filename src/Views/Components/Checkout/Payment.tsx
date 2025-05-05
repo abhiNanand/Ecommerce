@@ -22,7 +22,7 @@ interface ItemProps {
   total: string;
 }
 
-function Payment({ Items, deleteCartItems, total }: ItemProps) {
+function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
   const { isConnected } = useAccount();
   const dispatch = useDispatch();
   const [showOrderConfirmed, setShowOrderConfirmed] = useState<boolean>(false);
@@ -55,14 +55,14 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
 
     try {
       setShowPaymentWindow(true);
-      await writeContract({
+       writeContract({
         abi: NFTContractABI,
         address: NFTContractAddress,
         functionName: 'mintNFT',
         args: [''],
         value: parseEther(`${payTotal}`),
       });
-    } catch (error) {
+    } catch{
       setShowPaymentWindow(false);
       toast.error('Payment initiation failed');
     }

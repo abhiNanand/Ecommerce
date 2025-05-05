@@ -30,10 +30,8 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
   const [loading, setLoading] = useState<boolean>(false);
-
   const navigate = useNavigate();
   const { user } = useAuth();
-
   const wishlistCount = useSelector(
     (state: RootState) => state.item.noOfWishlistItem
   );

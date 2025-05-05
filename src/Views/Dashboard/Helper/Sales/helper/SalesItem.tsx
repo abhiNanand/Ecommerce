@@ -25,7 +25,7 @@ interface ShowItemProps {
     products: Product[];
 }
 
-export default function ShowItem({products}: ShowItemProps) {
+export default function ShowItem({products}: Readonly<ShowItemProps>) {
     const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
     const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
     const [loading, setLoading] = useState<boolean>(false);

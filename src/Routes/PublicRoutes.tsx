@@ -7,7 +7,7 @@ import Category from '../Views/Components/Categories/Category';
 import Login from '../Views/Auth/Login/Login';
 import Signup from '../Views/Auth/Signup';
 import ProductDetails from '../Views/Components/ProductDetails/ProductDetails';
-import Error from '../Views/Components/ErrorPage/Error';
+import Error404 from '../Views/Components/ErrorPage/Error';
 import Contact from '../Views/Components/Contact/Contact';
 import About from '../Views/Components/About/About';
 import Shop from '../Views/Components/Shop/Shop';
@@ -31,7 +31,7 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
   },
   {
     path: ROUTES_CONFIG.WILDCARD.path,
-    element: <Error />,
+    element: <Error404 />,
     title: ROUTES_CONFIG.WILDCARD.title,
   },
   {

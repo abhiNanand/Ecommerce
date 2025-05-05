@@ -6,7 +6,7 @@ interface StarProps {
   productId: string;
 }
 
-export default function Star({ rating, productId }: StarProps) {
+export default function Star({ rating, productId }: Readonly<StarProps>) {
   if (rating === undefined) return null;
   const totalStars = 5;
 

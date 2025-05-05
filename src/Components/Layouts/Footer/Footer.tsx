@@ -1,21 +1,51 @@
 import assets from '../../../assets';
 import './Footer.scss';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth, db } from '../../../Services/firebase/firebase';
+import { logoutUser } from '../../../Store/Common';
+import { useDispatch } from 'react-redux';
+import { doc, getDoc } from 'firebase/firestore';
 import { ROUTES } from '../../../Shared/Constants';
 import { useAuth } from '../../../Services/UserAuth';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
- 
 
 export default function Footer() {
   const { isAuthenticated } = useAuth();
+  const dispatch = useDispatch();
 
-   const location = useLocation();
+  const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-    if(isAuthenticated && location.pathname!='/')
-    toast.dismiss();
+    if (isAuthenticated && location.pathname != '/') toast.dismiss();
   }, [location.pathname]);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user && isAuthenticated) {
+        try {
+          const userDocRef = doc(db, 'users', user.uid);
+          const userDoc = await getDoc(userDocRef);
+
+          if (!userDoc.exists()) {
+            toast.error('Your account has been removed.');
+            await signOut(auth);
+            dispatch(logoutUser());
+          }
+        } catch (error) {
+          console.error('Error checking user existence:', error);
+          toast.error('Authentication error. Logging out.');
+          await signOut(auth);
+          dispatch(logoutUser());
+        }
+      } else if (!user) {
+        dispatch(logoutUser());
+      }
+    });
+    return () => unsubscribe();
+  }, [isAuthenticated]);
+
   return (
     <footer className="footer-container">
       <div className="footer-content">
@@ -58,68 +88,56 @@ export default function Footer() {
             </div>
 
             <div className="store-buttons">
-              <button
-                type="button"
+              <a
+                href="https://play.google.com/store/apps/details?id=com.shopify.mobile&pcampaignid=web_share"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="store-button"
-                onClick={() =>
-                  window.open(
-                    'https://play.google.com/store/apps/details?id=com.shopify.mobile&pcampaignid=web_share',
-                    '_blank'
-                  )
-                }
               >
                 <img src={assets.images.googleplay} alt="Google Play Store" />
-              </button>
-              <button
-                type="button"
+              </a>
+              <a
+                href="https://apps.apple.com/in/app/shopify-ecommerce-business/id371294472"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="store-button"
-                onClick={() =>
-                  window.open(
-                    'https://apps.apple.com/in/app/shopify-ecommerce-business/id371294472',
-                    '_blank'
-                  )
-                }
               >
                 <img src={assets.images.applestore} alt="Apple Store" />
-              </button>
+              </a>
             </div>
           </div>
 
           <div className="socialmedia">
-            <button
-              type="button"
-              onClick={() =>
-                window.open('https://www.facebook.com/ChicmicAU', '_blank')
-              }
+            <a
+              href="https://www.facebook.com/ChicmicAU"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <img src={assets.images.facebook} alt="Facebook" />
-            </button>
-            <button
-              type="button"
-              onClick={() => window.open('https://x.com/Chic_Mic', '_blank')}
+            </a>
+            <a
+              href="https://x.com/Chic_Mic"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <img src={assets.images.twitter} alt="Twitter" />
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                window.open('https://www.instagram.com/chicmic.in', '_blank')
-              }
+            </a>
+            <a
+              href="https://www.instagram.com/chicmic.in"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <img src={assets.images.insta} alt="Instagram" />
-            </button>
-            <button
-              type="button"
-              onClick={() =>
-                window.open(
-                  'https://www.linkedin.com/company/chicmicstudios',
-                  '_blank'
-                )
-              }
+            </a>
+            <a
+              href="https://www.linkedin.com/company/chicmicstudios"
+              target="_blank"
+              rel="noopener noreferrer"
             >
               <img src={assets.images.linkedin} alt="LinkedIn" />
-            </button>
+            </a>
           </div>
+
         </div>
       </div>
 

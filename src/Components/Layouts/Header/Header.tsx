@@ -1,7 +1,4 @@
- 
-
-
-import {
+ import {
   Search,
   Heart,
   ShoppingCart,

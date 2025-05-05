@@ -6,7 +6,7 @@ import TopHeader from './TopHeader/TopHeader';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
 
-function AppLayout({ isAuthenticated, children }: AppLayoutProps) {
+function AppLayout({ isAuthenticated, children }: Readonly<AppLayoutProps>) {
   return (
     <>
       <TopHeader />

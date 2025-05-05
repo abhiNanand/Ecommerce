@@ -1,6 +1,6 @@
 import './About.scss';
 import { NavLink } from 'react-router-dom';
-import { Instagram, Twitter, Linkedin, CircleDollarSign } from 'lucide-react';
+import { CircleDollarSign } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { ROUTES } from '../../../Shared/Constants';
 import assets from '../../../assets';
@@ -20,8 +20,6 @@ const imgArr = [
 export default function About() {
   const [index, setIndex] = useState<number>(0);
   useEffect(() => {
-    //  const interval =   setInterval(()=>{setIndex((index+3)<=6 ? index+3:0) },3000);
-    //     return () => clearInterval(interval);
     const interval = setTimeout(() => {
       setIndex(index + 3 <= 6 ? index + 3 : 0);
     }, 3000);
@@ -84,21 +82,21 @@ export default function About() {
         <div className="about-profile-image">
           {imgArr.slice(index, index + 3).map((item) => (
             <div key={item.img} className="profile">
-              <img src={item.img} alt={item.img} width="100px" height="100px" />
+              <img className="profile-images" src={item.img} alt={item.img} width="100px" height="100px" />
 
               <h3>{item.name}</h3>
               <p>{item.occupation}</p>
 
               <span>
                 <a href="https://www.instagram.com/">
-                  <Instagram size={20} />
-                </a>{' '}
+                  <img src={assets.images.insta}  width="24px" height="24px" alt="instagram"/>
+                </a>
                 <a href="https://x.com/?lang=en">
                   {' '}
-                  <Twitter size={20} />
+                  <img src={assets.images.twitter}  width="24px" height="24px" alt="twitter"/>
                 </a>{' '}
                 <a href="https://www.linkedin.com">
-                  <Linkedin size={20} />
+                   <img src={assets.images.linkedin}  width="24px" height="24px" alt="linkedin"/>
                 </a>{' '}
               </span>
             </div>
@@ -106,9 +104,9 @@ export default function About() {
         </div>
 
         <div className="profile-scroll-btn">
-          <button onClick={() => setIndex(0)} />
-          <button onClick={() => setIndex(3)} />
-          <button onClick={() => setIndex(6)} />
+          <button className={index==0 ? 'active-index':''} onClick={() => setIndex(0)} />
+          <button className={index==3 ? 'active-index':''}onClick={() => setIndex(3)} />
+          <button className={index==6 ? 'active-index':''}onClick={() => setIndex(6)} />
         </div>
       </div>
       <div className="about-features">

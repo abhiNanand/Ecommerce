@@ -5,6 +5,12 @@ interface AuthState {
   user: { displayName: string | null; email: string | null } | null;
 }
 
+interface User {
+  displayName: string | null;
+  email: string | null;
+}
+
+
 const initialState: AuthState = {
   token: null,
   user: null,
@@ -16,7 +22,7 @@ const common = createSlice({
   reducers: {
     updateAuthTokenRedux: (
       state,
-      action: PayloadAction<{ token: string | null; user: any | null }>
+      action: PayloadAction<{ token: string | null; user: User | null }>
     ) => {
       state.token = action.payload.token;
       state.user = action.payload.user;

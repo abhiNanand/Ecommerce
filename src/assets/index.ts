@@ -25,11 +25,11 @@ import banner3 from './image/bannerImg3.jpg';
 import applestore from './image/applestore.png';
 import facebook from './image/facebook.png';
 import googleplay from './image/googleplay.png';
-import insta from './image/insta.png';
-import linkedin from './image/linkedin.png';
+import insta from './icon/instagram.png';
+import linkedin from './icon/linkedin.png';
+import twitter from './icon/twitter.png';
 import qrcode from './image/Qrcode.png';
 import send from './vector/send.svg';
-import twitter from './image/twitter.png';
 import shopping from './image/shopping.png';
 import aboutImg from './image/aboutImg.png';
 

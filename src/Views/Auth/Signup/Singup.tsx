@@ -43,16 +43,16 @@ export default function Signup() {
       email: Yup.string()
         .required('Email is required')
         .matches(
-          /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+          /^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/,
           'Enter a valid email address'
         ),
       password: Yup.string()
         .min(6, 'Password must be at least 6 characters')
         .required('Password is required')
         .matches(
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/,
-                'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
-               ),
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]).+$/,
+          'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+        ),
     }),
     onSubmit: async (values, { resetForm }) => {
       setCreating(true);

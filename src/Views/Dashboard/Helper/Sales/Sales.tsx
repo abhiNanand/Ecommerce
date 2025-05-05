@@ -8,7 +8,7 @@ interface SalesItemProps {
   products: Product[];
 }
 
-export default function Sales({ products }: SalesItemProps) {
+export default function Sales({ products }: Readonly<SalesItemProps>) {
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {

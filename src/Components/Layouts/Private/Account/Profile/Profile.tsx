@@ -1,6 +1,5 @@
 import './Profile.scss';
 import { useState, useEffect } from 'react';
-import { onAuthStateChanged } from 'firebase/auth';
 import { useFormik } from 'formik';
 import { Eye, EyeOff } from 'lucide-react';
 import * as Yup from 'yup';
@@ -8,6 +7,7 @@ import {
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
+  onAuthStateChanged 
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../../Services/UserAuth';
@@ -52,7 +52,7 @@ useEffect(()=>{
     validationSchema: Yup.object({
       currentPassword:Yup.string().required('Current password is required'),
       newPassword:Yup.string().required("New password is required").min(6,"Password must be at least 8 characters")  .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).+$/,
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]).+$/,
         'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
       ).notOneOf([Yup.ref('currentPassword'), null], 'New password cannot be the same as current password'),
       confirmPassword:Yup.string().required("Confirm password is required").oneOf([Yup.ref('newPassword')], 'Confirm Passwords must match with new password'),
@@ -120,14 +120,14 @@ useEffect(()=>{
 
         <div className="profile-row">
           <div className="profile-field">
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input type="email" value={user?.email ?? ''} disabled />
           </div>
         </div>
 
         {editMode && (
           <div className="profile-password-section">
-            <label>Current Password</label>
+            <label htmlFor="currentPassoword">Current Password</label>
 
             <div className="input-wrapper">
               <input
@@ -143,7 +143,7 @@ useEffect(()=>{
               formik.errors.currentPassword && (
                 <small className="error">{formik.errors.currentPassword}</small>
               )}
-            <label>New Password</label>
+            <label htmlFor="newPassword">New Password</label>
             <div className="input-wrapper">
               <input
                 type={showPassword2 ? "text" : "password"}
@@ -160,7 +160,7 @@ useEffect(()=>{
             {formik.touched.newPassword && formik.errors.newPassword && (
               <small className="error">{formik.errors.newPassword}</small>
             )}
-            <label>Confirm New Password</label>
+            <label htmlFor="confirmPassoword">Confirm New Password</label>
             <div className="input-wrapper">
               <input
                 type={showPassword3 ? "text" : "password"}

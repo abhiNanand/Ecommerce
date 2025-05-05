@@ -38,7 +38,7 @@ export default function Login() {
   useEffect(() => window.scrollTo(0, 0), [pathname]);
 
   const emailValidation = Yup.string()
-    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/, 'Enter a valid email address')
+    .matches(/^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/, 'Enter a valid email address')
     .required('Email is required');
 
   const formik = useFormik<FormValues>({
@@ -256,7 +256,7 @@ else{
       {forgetPasswordWindow && (
         <div className="forgetPassword">
           <div className="forgetPasswordWindow">
-            <label>Enter Email Address</label>
+            <label htmlFor="email">Enter Email Address</label>
             <br />
             <input
               type="text"

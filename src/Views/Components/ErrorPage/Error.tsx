@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
 import './Error.scss';
 
-export default function Error() {
+export default function Error404() {
   const navigate = useNavigate();
 
   return (
