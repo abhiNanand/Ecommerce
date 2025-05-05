@@ -50,7 +50,7 @@ export default function Signup() {
         .min(6, 'Password must be at least 6 characters')
         .required('Password is required')
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]).+$/,
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
           'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
         ),
     }),

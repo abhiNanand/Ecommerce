@@ -141,7 +141,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <p id="bottom-text"> ⓒ Copyright Rimel 2022. All rights reserved</p>
+      <p id="bottom-text"> &copy; Copyright Rimel 2022. All rights reserved</p>
     </footer>
   );
 }

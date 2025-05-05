@@ -26,7 +26,6 @@ import { Product } from '../../../Shared/Product';
 import { updateWishlistItem } from '../../../Store/Item/total_item_slice';
 import { RootState } from '../../../Store';
 
-
 function ProductDetails() {
   const { productId } = useParams();
   const { user } = useAuth();
@@ -40,11 +39,10 @@ function ProductDetails() {
   const [wishlistUpdated, setWishlistUpdated] = useState(false);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
-        const wishlist  = await getWishlistItems();
+        const wishlist = await getWishlistItems();
         const flag = wishlist.some((item) => item.id == productId);
         setIsInWishlist(flag);
       }
@@ -82,7 +80,6 @@ function ProductDetails() {
   }
 
   const filteredRelatedProducts = relatedProducts?.filter(
-    // (relatedProduct: Product) => relatedProduct.id != productId
     (relatedProduct: Product) => relatedProduct.id != productId
   );
   const handleWishlistClick = async (product: Product) => {
@@ -114,6 +111,31 @@ function ProductDetails() {
     } finally {
       setLoading(false);
     }
+  };
+
+  const renderRelatedProducts = () => {
+    if (relatedError) {
+      return <p>Error loading related products.</p>;
+    }
+
+    if (relatedLoading) {
+      return (
+        <div className="loader">
+          <RippleLoader />
+        </div>
+      );
+    }
+
+    if (filteredRelatedProducts?.length) {
+      return (
+        <ShowItem
+          products={filteredRelatedProducts}
+          wishlistUpdated={wishlistUpdated}
+        />
+      );
+    }
+
+    return <p>No related products found.</p>;
   };
 
   return (
@@ -178,20 +200,7 @@ function ProductDetails() {
           <h1 className="relatedItem">Related Items</h1>
         </div>
 
-        {relatedLoading ? (
-          <div className="loader">
-            <RippleLoader />
-          </div>
-        ) : relatedError ? (
-          <p>Error loading related products.</p>
-        ) : filteredRelatedProducts?.length ? ( 
-          <ShowItem
-            products={filteredRelatedProducts}
-            wishlistUpdated={wishlistUpdated}
-          />
-        ) : (
-          <p>No related products found.</p>
-        )}
+        {renderRelatedProducts()}
       </div>
     </div>
   );

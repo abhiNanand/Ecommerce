@@ -43,14 +43,14 @@ export default function BrowseCategory() {
       <h1 className="category-subtitle">Browse By Category</h1>
       <div className="category-grid">
         {categories.map((item) => (
-          <div
+          <button
             className="category-item"
             key={item.name}
             onClick={() => navigate(item.link)}
           >
             <img src={item.icon} alt={item.name} className="category-icon" />
             <p className="category-label">{item.name}</p>
-          </div>
+          </button>
         ))}
       </div>
     </div>

@@ -52,7 +52,7 @@ useEffect(()=>{
     validationSchema: Yup.object({
       currentPassword:Yup.string().required('Current password is required'),
       newPassword:Yup.string().required("New password is required").min(6,"Password must be at least 8 characters")  .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>/?]).+$/,
+       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
         'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
       ).notOneOf([Yup.ref('currentPassword'), null], 'New password cannot be the same as current password'),
       confirmPassword:Yup.string().required("Confirm password is required").oneOf([Yup.ref('newPassword')], 'Confirm Passwords must match with new password'),

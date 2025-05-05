@@ -177,12 +177,13 @@ export default function Cart() {
             cartItems.map((product) => (
               <div className="cart-row" key={product.id}>
                 <span>
+                  <button onClick={() => navigate(`/product/${product.id}`)}>
                   <img
                     src={product.image}
                     alt={product.title}
                     className="cart-image"
-                    onClick={() => navigate(`/product/${product.id}`)}
                   />
+                  </button>
                   <p
                     style={{
                       whiteSpace: 'nowrap',

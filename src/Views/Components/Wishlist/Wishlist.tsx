@@ -32,7 +32,7 @@
     const dispatch = useDispatch();
     const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
     const wishlistCount = useSelector((state: RootState) => state.item.noOfWishlistItem);
-    const [fetchItem,setFetchItems]=useState<boolean>(false);
+    const [fetchItem,setFetchItem]=useState<boolean>(false);
     const [hasMoreItem,setHasMoreItem] = useState(true);
 
     useEffect(() => {
@@ -69,7 +69,7 @@
 
        
      if(wishlistItems.length === 1)
-      setFetchItems(!fetchItem);
+      setFetchItem(!fetchItem);
         
     };
 
@@ -84,7 +84,7 @@
       );
       dispatch(updateWishlistItem(wishlistCount - i));
       dispatch(updateCartItem(cartCount + i));
-       setFetchItems(!fetchItem);
+       setFetchItem(!fetchItem);
     };
 
     if (!user) {
@@ -135,10 +135,8 @@
 
         <div className="wishlist-items">
           {wishlistItems.map((item) => (
-            <div
+            <button
               className="wishlist-item"
-              role="button"
-              tabIndex={0}
               onClick={() => navigate(`/product/${item.id}`)}
               key={item.id}
             >
@@ -171,7 +169,7 @@
                   Remove
                 </button>
               </div>
-            </div>
+            </button>
           ))}
         </div>
         {hasMoreItem && (

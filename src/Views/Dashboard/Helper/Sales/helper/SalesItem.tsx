@@ -121,7 +121,7 @@ export default function ShowItem({products}: Readonly<ShowItemProps>) {
             </div>
             <div className="sales-products-grid"  ref={scrollRef} >
                 {products.map((product: Product) => (
-                    <div
+                    <button
                         key={product.id}
                         className="sales-product-card"
                         onClick={() =>
@@ -151,7 +151,6 @@ export default function ShowItem({products}: Readonly<ShowItemProps>) {
                         <h3 className="product-title">{product.title}</h3>
                         <div
                             className="cart-btn-div"
-                            onClick={(event) => event.stopPropagation()}
                         >
                             <AddCartButton cartItems={cartItems} product={product} />
                         </div>
@@ -161,7 +160,7 @@ export default function ShowItem({products}: Readonly<ShowItemProps>) {
                             <Star rating={product.rating?.rate} productId={product.id} />
                             <p className="rating-count">({product.rating?.count ?? 0})</p>
                         </div>
-                    </div>
+                    </button>
                 ))}
             </div>
         </>

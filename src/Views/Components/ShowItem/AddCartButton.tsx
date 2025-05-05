@@ -62,7 +62,7 @@ export default function AddCartButton({ cartItems, product }: Readonly<CartButto
         setTotal(newQuantity);
         dispatch(updateCartItem(totCartCount));
       }
-    } catch (error) {
+    } catch {
       toast.error('Failed to update quantity');
     } finally {
       setIsLoading(false);

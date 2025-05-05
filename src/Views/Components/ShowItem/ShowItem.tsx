@@ -26,7 +26,7 @@ interface ShowItemProps {
   wishlistUpdated?: boolean;
 }
 
-export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
+export default function ShowItem({ products, wishlistUpdated }: Readonly<ShowItemProps>) {
   const [likedItems, setLikedItems] = useState<Set<string>>(new Set());
   const [cartItems, setCartItems] = useState<Map<string, number>>(new Map());
   const [loading, setLoading] = useState<boolean>(false);
@@ -91,14 +91,10 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
       setLoading(false);
     }
   };
-
-
- 
-
   return (
     <div className={products && products.length > 4 ? 'products-grid-greater' : 'products-grid-lesser'}>
       {products.map((product: Product) => (
-        <div
+        <button
           key={product.id}
           className="product-card"
           onClick={() =>
@@ -128,7 +124,6 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
           <h3 className="product-title">{product.title}</h3>
           <div
             className="cart-btn-div"
-            onClick={(event) => event.stopPropagation()}
           >
             <AddCartButton cartItems={cartItems} product={product} />
           </div>
@@ -138,7 +133,7 @@ export default function ShowItem({ products, wishlistUpdated }: ShowItemProps) {
             <Star rating={product.rating?.rate} productId={product.id} />
             <p className="rating-count">({product.rating?.count ?? 0})</p>
           </div>
-        </div>
+        </button>
       ))}
     </div>
   );

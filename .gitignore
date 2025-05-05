@@ -25,3 +25,11 @@ dist-ssr
 
 # env files
 .env*
+
+
+# Ignore BlockChain.txt
+BlockChain1.txt
+BlockChain2.txt
+BlockChain3.txt
+BlockChain4.txt
+BlockChain5.txt

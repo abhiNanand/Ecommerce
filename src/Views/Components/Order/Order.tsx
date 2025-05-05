@@ -80,7 +80,6 @@ export default function Order() {
             <div className="order-card-grid">
               <div className="order-summary">
                 <h3>Order Date</h3>
-                {/* <p>{order.date.toLocaleDateString()}</p> */}
                 <p>{order.date.toLocaleDateString()} at {order.date.toLocaleTimeString()}</p>
                 <h3>Shipping Address</h3>
                 <p>
@@ -91,14 +90,13 @@ export default function Order() {
                 </p>
 
                 <h3>Total</h3>
-                {/* <p>${(orders?.total ?? 1).toFixed(2)??1}</p> */}
                 <p>{Number(order.total).toFixed(5)} ETH</p>
 
               </div>
 
               <div className="product-list">
                 {order.products.map((product) => (
-                  <div
+                  <button
                     className="product-item"
                     key={product.id}
                     onClick={() => navigate(`/product/${product.id}`)}
@@ -109,7 +107,7 @@ export default function Order() {
                       <p>${product.price}</p>
                       <p>Qty: {product.quantity ?? 1}</p>
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
