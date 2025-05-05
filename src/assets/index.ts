@@ -1,15 +1,11 @@
 // Icons
-import camera from './icon/Camera.png';
-import gamepad from './icon/Gamepad.png';
-import headPhone from './icon/Headphone.png';
-import smartWatch from './icon/SmartWatch.png';
-import cellPhone from './icon/CellPhone.png';
-import computer from './icon/Computer.png';
+import jewellery from './icon/jewellery.gif';
+import games from './icon/games.gif';
+import headPhone from './icon/headphone.gif';
+import electronics from './icon/electronics.gif';
+import women from './icon/women.gif';
+import men from './icon/men.gif';
 import googleImg from './icon/googleImg.png';
-import rupay from './icon/rupay.png';
-import visa from './icon/visa.png';
-import mastercard from './icon/mastercard.png';
-import nagad from './icon/nagad.png';
 import call from './icon/call.png';
 import message from './icon/message.png';
 import activeSeller from './icon/active sellers.png';
@@ -52,17 +48,13 @@ import tester from './profile/tester.png';
 
 const assets = {
   icon: {
-    camera,
-    gamepad,
+    jewellery,
+    games,
     headPhone,
-    smartWatch,
-    cellPhone,
-    computer,
+    electronics,
+    women,
+    men,
     googleImg,
-    rupay,
-    visa,
-    mastercard,
-    nagad,
     call,
     message,
     activeSeller,

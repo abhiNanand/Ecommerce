@@ -12,7 +12,7 @@ import Contact from '../Views/Components/Contact/Contact';
 import About from '../Views/Components/About/About';
 import Shop from '../Views/Components/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
-import Browse from '../Views/Components/Browse Product/Browse';
+import ComingSoon from '../Views/Components/ComingSoon/ComingSoon';
 import FAQs from '../Views/Components/QuickLinks/FAQs';
 import PrivacyPolicy from '../Views/Components/QuickLinks/PrivacyPolicy';
 import TermsOfUse from '../Views/Components/QuickLinks/TermsOfUse';
@@ -71,7 +71,7 @@ export const PUBLIC_ROUTES: Array<CustomRouter> = [
   },
   {
     path: ROUTES_CONFIG.BROWSE.path,
-    element: <Browse />,
+    element: <ComingSoon />,
     title: ROUTES_CONFIG.BROWSE.title,
   },
   {

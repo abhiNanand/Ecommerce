@@ -52,7 +52,7 @@ export default function Login() {
         .min(6, 'Password must be at least 6 characters')
         .required('Password is required'),
     }),
-    onSubmit: async (values, { setErrors }) => {
+    onSubmit: async (values,{resetForm}) => {
       setLogging(true);
       try {
         const userCredential = await signInWithEmailAndPassword(
@@ -63,11 +63,9 @@ export default function Login() {
         const { user } = userCredential;
 
         if (!user.emailVerified) {
-          setErrors({ email: 'Please verify your email before logging in' });
           toast.warning('Email not verified. Please check your inbox.');
-          await sendEmailVerification(user);
-          await auth.signOut(); // sign out the user if logged in
-         return;
+            await sendEmailVerification(user);
+            await auth.signOut();  
         }
 else{
         const token = await user.getIdToken();
@@ -81,12 +79,13 @@ else{
           );
         }, 500)
       }
-      } catch (error) {
-        if (error instanceof Error) {
-          console.error(error.message);
-          setErrors({ password: 'Invalid email or password' });
+      } catch (error: any) {
+        if (error.code === 'auth/invalid-credential') {
+          toast.error('Login failed. Please check your credentials.');
         }
+        
       } finally {
+        resetForm();
         setLogging(false);
       }
     },

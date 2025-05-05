@@ -30,15 +30,9 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
   const [showPaymentWindow, setShowPaymentWindow] = useState<boolean>(false);
   const navigate = useNavigate();
   const addressData = useSelector((state: RootState) => state.address);
-
   const payTotal: number = Number((0.00001 * Number(total)).toFixed(4));
 
-  useEffect(() => {
-    document.body.style.overflow = showPaymentWindow || showOrderConfirmed ? 'hidden' : 'auto';
-    return () => {
-      document.body.style.overflow = 'auto';
-    };
-  }, [showPaymentWindow, showOrderConfirmed]);
+
 
   const {
     writeContract,
@@ -81,15 +75,11 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
       setTxHash(hash);
 
       if (deleteCartItems) {
-        Promise.all(Items.map(item => removeFromCart(item.id)))
-            dispatch(updateCartItem(0));
-      }
-
-    
+        Promise.all(Items.map(item => removeFromCart(item.id))) .then(() => dispatch(updateCartItem(0)));}
       setShowPaymentWindow(false);
       setShowOrderConfirmed(true);
     }
-  }, [isTxConfirmed, hash, Items, addressData, payTotal, deleteCartItems, dispatch]);
+  }, [isTxConfirmed]);
 
 
   useEffect(() => {
@@ -111,6 +101,14 @@ function Payment({ Items, deleteCartItems, total }: ItemProps) {
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, [hash]);
+
+
+  useEffect(() => {
+    document.body.style.overflow = showPaymentWindow || showOrderConfirmed ? 'hidden' : 'auto';
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [showPaymentWindow, showOrderConfirmed]);
 
   return (
     <div className="payment-gateway">

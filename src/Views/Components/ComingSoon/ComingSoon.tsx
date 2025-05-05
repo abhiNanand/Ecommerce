@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../../Shared/Constants';
 
-export default function Browse() {
+export default function CommingSoon() {
   const navigate = useNavigate();
 
   return (

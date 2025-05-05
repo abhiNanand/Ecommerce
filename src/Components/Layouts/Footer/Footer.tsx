@@ -10,15 +10,12 @@ import { toast } from 'react-toastify';
 export default function Footer() {
   const { isAuthenticated } = useAuth();
 
-  const location = useLocation();
+   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
     if(isAuthenticated && location.pathname!='/')
     toast.dismiss();
-     
   }, [location.pathname]);
-
- 
   return (
     <footer className="footer-container">
       <div className="footer-content">

@@ -7,30 +7,30 @@ export default function BrowseCategory() {
 
   const categories = [
     {
-      name: 'Phone',
-      icon: assets.icon.cellPhone,
+      name: 'Women',
+      icon: assets.icon.women,
       link: "/category/women's clothing",
     },
     {
-      name: 'Computer',
-      icon: assets.icon.computer,
+      name: 'Men',
+      icon: assets.icon.men,
       link: "/category/men's clothing",
     },
     {
-      name: 'Smartwatch',
-      icon: assets.icon.smartWatch,
+      name: 'Electronics',
+      icon: assets.icon.electronics,
       link: '/category/electronics',
     },
-    { name: 'Camera', icon: assets.icon.camera, link: '/category/jewelery' },
+    { name: 'Jewellery', icon: assets.icon.jewellery, link: '/category/jewelery' },
     {
       name: 'Headphone',
       icon: assets.icon.headPhone,
-      link: '/category/electronics',
+      link: '/browse',
     },
     {
-      name: 'Gamepad',
-      icon: assets.icon.gamepad,
-      link: "/category/women's clothing",
+      name: 'Games',
+      icon: assets.icon.games,
+      link: "/browse",
     },
   ];
 

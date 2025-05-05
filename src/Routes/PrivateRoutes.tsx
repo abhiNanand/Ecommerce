@@ -16,7 +16,7 @@ import Shop from '../Views/Components/Shop/Shop';
 import SearchItem from '../Components/Layouts/Search/SearchItem';
 import Order from '../Views/Components/Order/Order';
 import BuyNow from '../Views/Components/BuyNow/BuyNow';
-import Browse from '../Views/Components/Browse Product/Browse';
+import ComingSoon from '../Views/Components/ComingSoon/ComingSoon';
 import FAQs from '../Views/Components/QuickLinks/FAQs';
 import PrivacyPolicy from '../Views/Components/QuickLinks/PrivacyPolicy';
 import TermsOfUse from '../Views/Components/QuickLinks/TermsOfUse';
@@ -99,7 +99,7 @@ export const PRIVATE_ROUTES: Array<CustomRouter> = [
   },
   {
     path: ROUTES_CONFIG.BROWSE.path,
-    element: <Browse />,
+    element: <ComingSoon />,
     title: ROUTES_CONFIG.BROWSE.title,
   },
   {

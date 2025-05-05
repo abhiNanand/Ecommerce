@@ -66,7 +66,7 @@ export default function Signup() {
 
          await updateProfile(user, { displayName: values.name });
          toast.success("A verification link has been sent to your email. Please verify your account before logging in.", {
-          autoClose: 6000
+          autoClose: 4500
         });
         
         await sendEmailVerification(user);
