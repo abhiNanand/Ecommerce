@@ -29,7 +29,7 @@ createAppKit({
   features: { analytics: true, socials: [], email: false },
 });
 
-function AppKitProvider({ children }:  Readonly<{ children: React.ReactNode }>) {
+function AppKitProvider({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <WagmiProvider config={wagmiAdapter.wagmiConfig}>
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>

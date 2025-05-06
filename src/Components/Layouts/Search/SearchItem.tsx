@@ -19,20 +19,30 @@ export default function SearchItem() {
   }
   if (error) return <h1>Error in loading items</h1>;
   if (query == 'all') {
-    return ( <div className="show-searched-products"> <ShowItem products={products} /></div>);
+    return (
+      <div className="show-searched-products">
+        {' '}
+        <ShowItem products={products} />
+      </div>
+    );
   }
 
   const lowerQuery = query.toLowerCase();
   const filteredProducts = products?.filter((product: Product) => {
-
-    const titleString= product.title.split(' ');
-    const descriptionString= product.description.split(' ');
-    const categoryString= product.category.split(`'`);
+    const titleString = product.title.split(' ');
+    const descriptionString = product.description.split(' ');
+    const categoryString = product.category.split(`'`);
 
     return (
-      titleString.some((item)=> item.slice(0,lowerQuery.length).toLowerCase()===lowerQuery) ||
-      descriptionString.some((item)=> item.slice(0,lowerQuery.length).toLowerCase()===lowerQuery) ||
-      categoryString.some((item)=> item.slice(0,lowerQuery.length).toLowerCase()===lowerQuery) 
+      titleString.some(
+        (item) => item.slice(0, lowerQuery.length).toLowerCase() === lowerQuery
+      ) ||
+      descriptionString.some(
+        (item) => item.slice(0, lowerQuery.length).toLowerCase() === lowerQuery
+      ) ||
+      categoryString.some(
+        (item) => item.slice(0, lowerQuery.length).toLowerCase() === lowerQuery
+      )
     );
   });
 

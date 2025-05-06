@@ -60,7 +60,6 @@ export const removeFromCart = async (ProductId: string) => {
   }
 };
 
- 
 export const getCartItems = async (): Promise<Product[]> => {
   const user = auth.currentUser;
   if (!user) {
@@ -90,8 +89,6 @@ export const getCartItems = async (): Promise<Product[]> => {
     return [];
   }
 };
- 
- 
 
 // The nullish coalescing (??) operator is a logical operator that returns its right-hand side operand when its left-hand side operand is null or undefined, and otherwise returns its left-hand side operand.
 
@@ -129,5 +126,3 @@ await updateDoc(docRef, { quantity: newQuantity });
 8.add doc and setdoc ka difference dekh lo
 
 */
-
- 

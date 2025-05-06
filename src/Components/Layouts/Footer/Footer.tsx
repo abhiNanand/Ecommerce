@@ -1,25 +1,23 @@
-import assets from '../../../assets';
-import './Footer.scss';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-import { auth, db } from '../../../Services/firebase/firebase';
-import { logoutUser } from '../../../Store/Common';
-import { useDispatch } from 'react-redux';
-import { doc, getDoc } from 'firebase/firestore';
-import { ROUTES } from '../../../Shared/Constants';
-import { useAuth } from '../../../Services/UserAuth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { Link, useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
 import { toast } from 'react-toastify';
+import { doc, getDoc } from 'firebase/firestore';
+import { useLogout } from '../../../Shared/CustomHooks/useLogout';
+import { auth, db } from '../../../Services/firebase/firebase';
+import { ROUTES } from '../../../Shared/Constants';
+import { useAuth } from '../../../Shared/CustomHooks/userAuth';
+import assets from '../../../assets';
+import './Footer.scss';
 
 export default function Footer() {
   const { isAuthenticated } = useAuth();
-  const dispatch = useDispatch();
-
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
     if (isAuthenticated && location.pathname != '/') toast.dismiss();
   }, [location.pathname]);
+  const logout = useLogout();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -30,17 +28,15 @@ export default function Footer() {
 
           if (!userDoc.exists()) {
             toast.error('Your account has been removed.');
-            await signOut(auth);
-            dispatch(logoutUser());
+            logout();
           }
         } catch (error) {
           console.error('Error checking user existence:', error);
           toast.error('Authentication error. Logging out.');
-          await signOut(auth);
-          dispatch(logoutUser());
+          logout();
         }
       } else if (!user) {
-        dispatch(logoutUser());
+        logout();
       }
     });
     return () => unsubscribe();
@@ -137,7 +133,6 @@ export default function Footer() {
               <img src={assets.images.linkedin} alt="LinkedIn" />
             </a>
           </div>
-
         </div>
       </div>
 

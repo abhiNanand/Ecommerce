@@ -10,7 +10,7 @@ import {
   useGetProductByCategoryQuery,
 } from '../../../Services/Api/module/demoApi';
 import './ProductDetails.scss';
-import { useAuth } from '../../../Services/UserAuth';
+import { useAuth } from '../../../Shared/CustomHooks/userAuth';
 import ShowItem from '../ShowItem/ShowItem';
 import { ROUTES } from '../../../Shared/Constants';
 
@@ -125,11 +125,7 @@ function ProductDetails() {
     }
 
     if (filteredRelatedProducts?.length) {
-      return (
-        <ShowItem
-          products={filteredRelatedProducts}
-        />
-      );
+      return <ShowItem products={filteredRelatedProducts} />;
     }
 
     return <p>No related products found.</p>;

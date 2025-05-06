@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { useAccount, useWriteContract, useWaitForTransactionReceipt } from 'wagmi';
+import {
+  useAccount,
+  useWriteContract,
+  useWaitForTransactionReceipt,
+} from 'wagmi';
 import { parseEther } from 'viem';
 import { RootState } from '../../../Store';
 import { addToOrderHistory } from '../../../Services/Order/order';
@@ -32,8 +36,6 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
   const addressData = useSelector((state: RootState) => state.address);
   const payTotal: number = Number((0.00001 * Number(total)).toFixed(4));
 
-
-
   const {
     writeContract,
     isPending: isMinting,
@@ -41,10 +43,9 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
     data: hash,
   } = useWriteContract();
 
-  
   const { isSuccess: isTxConfirmed } = useWaitForTransactionReceipt({
     hash,
-    confirmations: 1, 
+    confirmations: 1,
   });
 
   const handleMint = async () => {
@@ -55,14 +56,14 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
 
     try {
       setShowPaymentWindow(true);
-       writeContract({
+      writeContract({
         abi: NFTContractABI,
         address: NFTContractAddress,
         functionName: 'mintNFT',
         args: [''],
         value: parseEther(`${payTotal}`),
       });
-    } catch{
+    } catch {
       setShowPaymentWindow(false);
       toast.error('Payment initiation failed');
     }
@@ -75,12 +76,14 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
       setTxHash(hash);
 
       if (deleteCartItems) {
-        Promise.all(Items.map(item => removeFromCart(item.id))) .then(() => dispatch(updateCartItem(0)));}
+        Promise.all(Items.map((item) => removeFromCart(item.id))).then(() =>
+          dispatch(updateCartItem(0))
+        );
+      }
       setShowPaymentWindow(false);
       setShowOrderConfirmed(true);
     }
   }, [isTxConfirmed]);
-
 
   useEffect(() => {
     if (mintError) {
@@ -89,7 +92,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
     }
   }, [mintError]);
 
-   useEffect(() => {
+  useEffect(() => {
     const handleVisibilityChange = () => {
       if (document.visibilityState === 'visible' && hash) {
         console.log('Tab became visible, checking transaction status');
@@ -102,9 +105,9 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
     };
   }, [hash]);
 
-
   useEffect(() => {
-    document.body.style.overflow = showPaymentWindow || showOrderConfirmed ? 'hidden' : 'auto';
+    document.body.style.overflow =
+      showPaymentWindow || showOrderConfirmed ? 'hidden' : 'auto';
     return () => {
       document.body.style.overflow = 'auto';
     };
@@ -127,7 +130,6 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
         )}
       </div>
 
-     
       {showPaymentWindow && (
         <div className="place-order-container">
           <div className="place-order">
@@ -135,7 +137,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
             <p>Your transaction is processing on the blockchain...</p>
             {hash && (
               <>
-                <div className="spinner"></div>
+                <div className="spinner" />
                 <p className="tx-hash">
                   Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
                 </p>
@@ -153,7 +155,6 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
         </div>
       )}
 
- 
       {showOrderConfirmed && (
         <div className="place-order-container">
           <div className="place-order">

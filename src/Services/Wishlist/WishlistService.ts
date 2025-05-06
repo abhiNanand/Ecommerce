@@ -62,7 +62,7 @@ export const removeFromWishlist = async (ProductId: string) => {
   }
 };
 
-//3. Fetch only the logged-in user's wishlist items
+// 3. Fetch only the logged-in user's wishlist items
 export const getWishlistItems = async () => {
   const user = auth.currentUser;
   if (!user) {
@@ -75,7 +75,7 @@ export const getWishlistItems = async () => {
     const querySnapshot = await getDocs(wishlistRef);
 
     return querySnapshot.docs.map((wishlistDoc) => {
-      const data = wishlistDoc.data() ;
+      const data = wishlistDoc.data();
 
       return {
         id: data.id,
@@ -88,7 +88,7 @@ export const getWishlistItems = async () => {
 };
 
 export const getPaginatedWishlistItems = async (
-  pageSize = 5, 
+  pageSize = 5,
   lastDoc: QueryDocumentSnapshot<DocumentData> | null = null
 ): Promise<{
   products: Product[];
@@ -103,17 +103,17 @@ export const getPaginatedWishlistItems = async (
 
   try {
     const wishlistRef = collection(db, `users/${user.uid}/wishlist`);
-    
-     const q = query(
+
+    const q = query(
       wishlistRef,
       ...(lastDoc ? [startAfter(lastDoc)] : []),
       limit(pageSize)
     );
 
     const querySnapshot = await getDocs(q);
-    const docs = querySnapshot.docs;
-    
-     let hasMore = false;
+    const { docs } = querySnapshot;
+
+    let hasMore = false;
     if (docs.length === pageSize) {
       const nextQ = query(
         wishlistRef,

@@ -22,7 +22,6 @@
     border-radius: 3px;
 }
 
-//Categories
 .category-titles {
     font-size: 1.2rem;
     font-weight: 600;
@@ -30,7 +29,6 @@
     text-align: center;
 }
 
-//browse By Category
 .category-subtitle {
     font-size: 2rem;
     font-weight: bold;
@@ -47,9 +45,11 @@
     margin-top: 1rem;
     margin-bottom:5vh;
     flex-wrap: wrap;
+    
 }
 
 .category-item {
+    all:unset;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -9,18 +9,19 @@ import { Product } from '../../../Shared/Product';
 import { Address } from '../../../Services/Address/Address';
 import { auth } from '../../../Services/firebase/firebase';
 import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
- 
+
 interface OrderData {
   id: string;
   products: Product[];
   address: Address;
-  total:number;
+  total: number;
   date: Date;
 }
 
 export default function Order() {
   const [orders, setOrders] = useState<OrderData[]>([]);
-  const [lastDoc, setLastDoc] = useState<QueryDocumentSnapshot<DocumentData> | null>(null);
+  const [lastDoc, setLastDoc] =
+    useState<QueryDocumentSnapshot<DocumentData> | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -31,10 +32,10 @@ export default function Order() {
       if (currentUser) {
         await currentUser.reload();
         setLoading(true);
-        const { orders: fetchedOrders,lastDoc } = await fetchOrders();
+        const { orders: fetchedOrders, lastDoc } = await fetchOrders();
         setOrders(fetchedOrders);
         setLastDoc(lastDoc);
-        setHasMore(fetchedOrders.length >= 5); 
+        setHasMore(fetchedOrders.length >= 5);
         setLoading(false);
       } else {
         setOrders([]);
@@ -47,7 +48,10 @@ export default function Order() {
   const loadMore = async () => {
     if (!hasMore || loadingMore) return;
     setLoadingMore(true);
-    const { orders: moreOrders,lastDoc:newLastDoc } = await fetchOrders(5,lastDoc);
+    const { orders: moreOrders, lastDoc: newLastDoc } = await fetchOrders(
+      5,
+      lastDoc
+    );
     setLastDoc(newLastDoc);
     setOrders((prev) => [...prev, ...moreOrders]);
     setHasMore(moreOrders.length >= 5);
@@ -80,18 +84,23 @@ export default function Order() {
             <div className="order-card-grid">
               <div className="order-summary">
                 <h3>Order Date</h3>
-                <p>{order.date.toLocaleDateString()} at {order.date.toLocaleTimeString()}</p>
+                <p>
+                  {order.date.toLocaleDateString()} at{' '}
+                  {order.date.toLocaleTimeString()}
+                </p>
                 <h3>Shipping Address</h3>
                 <p>
-                  {order.address.name}<br />
-                  {order.address.streetAddress}, {order.address.apartment}<br />
-                  {order.address.town}<br />
+                  {order.address.name}
+                  <br />
+                  {order.address.streetAddress}, {order.address.apartment}
+                  <br />
+                  {order.address.town}
+                  <br />
                   Phone: {order.address.phoneNumber}
                 </p>
 
                 <h3>Total</h3>
                 <p>{Number(order.total).toFixed(5)} ETH</p>
-
               </div>
 
               <div className="product-list">
@@ -117,7 +126,11 @@ export default function Order() {
 
       {hasMore && (
         <div className="load-more-btn">
-          <button className="load-request-btn" onClick={loadMore} disabled={loadingMore}>
+          <button
+            className="load-request-btn"
+            onClick={loadMore}
+            disabled={loadingMore}
+          >
             {loadingMore ? 'Loading...' : 'Load More'}
           </button>
         </div>

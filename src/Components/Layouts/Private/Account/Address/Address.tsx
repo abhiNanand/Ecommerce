@@ -8,6 +8,7 @@ import {
 } from '../../../../../Services/Address/Address';
 import type { Address } from '../../../../../Services/Address/Address';
 import AddressForm from '../../../../../Views/Components/AddressForm/AddressForm';
+
 function Address() {
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [open, setOpen] = useState<boolean>(false);
@@ -84,17 +85,33 @@ function Address() {
           </div>
         </div>
       )}
-      <button type="button" className="add-address-button" onClick={() => { setOpenAddress(true); }}>Add Address</button>
-      {openAddress && (<div className="confirmation-container">
-        <div>
-          <div className="confirm-title-btn"> <AddressForm onClose={() => setOpenAddress(false)}/>
-          <button className="close-address-btn" onClick={()=> setOpenAddress(false)}>Close</button>
+      <button
+        type="button"
+        className="add-address-button"
+        onClick={() => {
+          setOpenAddress(true);
+        }}
+      >
+        Add Address
+      </button>
+      {openAddress && (
+        <div className="confirmation-container">
+          <div>
+            <div className="confirm-title-btn">
+              {' '}
+              <AddressForm onClose={() => setOpenAddress(false)} />
+              <button
+                className="close-address-btn"
+                onClick={() => setOpenAddress(false)}
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
-      </div>)}
+      )}
     </div>
   );
 }
 
 export default Address;
-

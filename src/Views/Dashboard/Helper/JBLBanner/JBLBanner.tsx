@@ -4,7 +4,7 @@ import assets from '../../../../assets';
 import './JBLBanner.scss';
 import { toast } from 'react-toastify';
 import { ROUTES } from '../../../../Shared/Constants';
-import { useAuth } from '../../../../Services/UserAuth';
+import { useAuth } from '../../../../Shared/CustomHooks/userAuth';
 
 function JblBanner() {
   const navigate = useNavigate();

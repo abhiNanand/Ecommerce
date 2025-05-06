@@ -54,13 +54,14 @@ export default function Contact() {
     },
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const fieldName = e.target.name;
     let processedValue = e.target.value;
     processedValue = processedValue.replace(/^\s+/g, '');
     formik.setFieldValue(fieldName, processedValue);
   };
-
 
   return (
     <div className="contact-container">
@@ -97,7 +98,6 @@ export default function Contact() {
 
         <div className="contact-form">
           <form onSubmit={formik.handleSubmit} className="inputs-group">
-            
             <div className="form-group">
               <div className="name-filed">
                 <input
@@ -163,7 +163,6 @@ export default function Contact() {
               </div>
             </div>
 
-             
             <button type="submit" className="submit-button">
               Send Message
             </button>

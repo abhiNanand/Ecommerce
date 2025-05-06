@@ -1,13 +1,11 @@
-import {
-  signInWithPopup,
-} from 'firebase/auth';
-import { doc, setDoc, getDoc} from 'firebase/firestore';
+import { signInWithPopup } from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { ROUTES } from '../../../Shared/Constants';
-import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
-import { updateAuthTokenRedux } from '../../../Store/Common';
+import { ROUTES } from '../Constants';
+import { auth, googleProvider, db } from '../../Services/firebase/firebase';
+import { updateAuthTokenRedux } from '../../Store/Common';
 
 export const useGoogleSignUp = () => {
   const navigate = useNavigate();

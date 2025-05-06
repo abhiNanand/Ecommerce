@@ -21,7 +21,11 @@ export default function BrowseCategory() {
       icon: assets.icon.electronics,
       link: '/category/electronics',
     },
-    { name: 'Jewellery', icon: assets.icon.jewellery, link: '/category/jewelery' },
+    {
+      name: 'Jewellery',
+      icon: assets.icon.jewellery,
+      link: '/category/jewelery',
+    },
     {
       name: 'Headphone',
       icon: assets.icon.headPhone,
@@ -30,7 +34,7 @@ export default function BrowseCategory() {
     {
       name: 'Games',
       icon: assets.icon.games,
-      link: "/browse",
+      link: '/browse',
     },
   ];
 

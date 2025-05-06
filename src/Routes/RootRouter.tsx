@@ -2,7 +2,7 @@ import { useRoutes } from 'react-router-dom';
 import DocumentTitle from './DocumentTitle';
 import { authenticatedRoutes, guestRoutes } from './config';
 import AppLayout from '../Components/Layouts/AppLayout';
-import { useAuth } from '../Services/UserAuth';
+import { useAuth } from '../Shared/CustomHooks/userAuth';
 import Admin from '../Views/Components/AdminPage/Admin';
 
 function RootRouter() {
@@ -10,9 +10,7 @@ function RootRouter() {
   const authenticated = useRoutes(authenticatedRoutes);
   const { isAuthenticated, user, token } = useAuth();
   if (user?.email === 'abhishekanand7091@gmail.com') {
-    return (
-        <Admin />
-    );
+    return <Admin />;
   }
   return (
     <>

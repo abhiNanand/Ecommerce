@@ -7,12 +7,11 @@ import {
   updatePassword,
   EmailAuthProvider,
   reauthenticateWithCredential,
-  onAuthStateChanged 
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
-import { useAuth } from '../../../../../Services/UserAuth';
+import { useAuth } from '../../../../../Shared/CustomHooks/userAuth';
 import { auth } from '../../../../../Services/firebase/firebase';
-
 
 export default function Profile() {
   const { user } = useAuth();
@@ -26,19 +25,17 @@ export default function Profile() {
   const [showPassword3, setShowPassword3] = useState<boolean>(false);
   const [changePassword, setChangePassword] = useState<boolean>(false);
 
-useEffect(()=>{
-  const unsubscribe = onAuthStateChanged(auth,async(currentUser)=>{
-    if(currentUser)
-    {
-      const hasPassword = currentUser.providerData.some(
-        (p) => p.providerId === 'password'
-      );
-      setIsPasswordProvider(hasPassword);
-    }
-  });
-  return () => unsubscribe();
-},[]);
-
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        const hasPassword = currentUser.providerData.some(
+          (p) => p.providerId === 'password'
+        );
+        setIsPasswordProvider(hasPassword);
+      }
+    });
+    return () => unsubscribe();
+  }, []);
 
   const formik = useFormik({
     initialValues: {
@@ -50,12 +47,24 @@ useEffect(()=>{
     },
 
     validationSchema: Yup.object({
-      currentPassword:Yup.string().required('Current password is required'),
-      newPassword:Yup.string().required("New password is required").min(6,"Password must be at least 8 characters")  .matches(
-       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
-        'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
-      ).notOneOf([Yup.ref('currentPassword'), null], 'New password cannot be the same as current password'),
-      confirmPassword:Yup.string().required("Confirm password is required").oneOf([Yup.ref('newPassword')], 'Confirm Passwords must match with new password'),
+      currentPassword: Yup.string().required('Current password is required'),
+      newPassword: Yup.string()
+        .required('New password is required')
+        .min(6, 'Password must be at least 8 characters')
+        .matches(
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
+          'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+        )
+        .notOneOf(
+          [Yup.ref('currentPassword'), null],
+          'New password cannot be the same as current password'
+        ),
+      confirmPassword: Yup.string()
+        .required('Confirm password is required')
+        .oneOf(
+          [Yup.ref('newPassword')],
+          'Confirm Passwords must match with new password'
+        ),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
@@ -131,13 +140,26 @@ useEffect(()=>{
 
             <div className="input-wrapper">
               <input
-                type={showPassword1 ? "text" : "password"}
+                type={showPassword1 ? 'text' : 'password'}
                 name="currentPassword"
                 placeholder="Current Password"
                 value={formik.values.currentPassword}
                 onChange={handleChange}
               />
-              {formik.values.currentPassword && (showPassword1 ? (<EyeOff className="eye-icon" size={20} onClick={() => setShowPassword1(!showPassword1)} />) : (<Eye className="eye-icon" size={20} onClick={() => setShowPassword1(!showPassword1)} />))}
+              {formik.values.currentPassword &&
+                (showPassword1 ? (
+                  <EyeOff
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword1(!showPassword1)}
+                  />
+                ) : (
+                  <Eye
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword1(!showPassword1)}
+                  />
+                ))}
             </div>
             {formik.touched.currentPassword &&
               formik.errors.currentPassword && (
@@ -146,15 +168,26 @@ useEffect(()=>{
             <label htmlFor="newPassword">New Password</label>
             <div className="input-wrapper">
               <input
-                type={showPassword2 ? "text" : "password"}
+                type={showPassword2 ? 'text' : 'password'}
                 name="newPassword"
                 placeholder="New Password"
                 value={formik.values.newPassword}
                 onChange={handleChange}
               />
-              {formik.values.newPassword && (showPassword2 ? (<EyeOff className="eye-icon" size={20} onClick={() => setShowPassword2(!showPassword2)} />) : (<Eye className="eye-icon" size={20} onClick={() => setShowPassword2(!showPassword2)} />))}
-
-
+              {formik.values.newPassword &&
+                (showPassword2 ? (
+                  <EyeOff
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword2(!showPassword2)}
+                  />
+                ) : (
+                  <Eye
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword2(!showPassword2)}
+                  />
+                ))}
             </div>
 
             {formik.touched.newPassword && formik.errors.newPassword && (
@@ -163,13 +196,26 @@ useEffect(()=>{
             <label htmlFor="confirmPassoword">Confirm New Password</label>
             <div className="input-wrapper">
               <input
-                type={showPassword3 ? "text" : "password"}
+                type={showPassword3 ? 'text' : 'password'}
                 name="confirmPassword"
                 placeholder="Confirm New Password"
                 value={formik.values.confirmPassword}
                 onChange={handleChange}
               />
-              {formik.values.confirmPassword && (showPassword3 ? (<EyeOff className="eye-icon" size={20} onClick={() => setShowPassword3(!showPassword3)} />) : (<Eye className="eye-icon" size={20} onClick={() => setShowPassword3(!showPassword3)} />))}
+              {formik.values.confirmPassword &&
+                (showPassword3 ? (
+                  <EyeOff
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword3(!showPassword3)}
+                  />
+                ) : (
+                  <Eye
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword3(!showPassword3)}
+                  />
+                ))}
             </div>
 
             {formik.touched.confirmPassword &&
@@ -179,38 +225,41 @@ useEffect(()=>{
           </div>
         )}
 
-        {isPasswordProvider && <div className="profile-actions">
-          {(!editMode) ? (
-            <button
-              type="button"
-              className="profile-save"
-              onClick={() => setEditMode(true)}
-            >
-              Change Password
-            </button>
-          ) : (
-            <>
+        {isPasswordProvider && (
+          <div className="profile-actions">
+            {!editMode ? (
               <button
-                disabled={changePassword}
                 type="button"
-                className="profile-save "
-                onClick={() => {
-                  formik.resetForm();
-                  setEditMode(false);
-                }}
+                className="profile-save"
+                onClick={() => setEditMode(true)}
               >
-                Cancel
+                Change Password
               </button>
-              <button disabled={changePassword} type="submit" className="profile-save">
-                {changePassword ? 'Changing...' : 'Save Changes'}
-
-              </button>
-            </>
-          )}
-        </div>}
-
+            ) : (
+              <>
+                <button
+                  disabled={changePassword}
+                  type="button"
+                  className="profile-save "
+                  onClick={() => {
+                    formik.resetForm();
+                    setEditMode(false);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  disabled={changePassword}
+                  type="submit"
+                  className="profile-save"
+                >
+                  {changePassword ? 'Changing...' : 'Save Changes'}
+                </button>
+              </>
+            )}
+          </div>
+        )}
       </form>
     </div>
   );
 }
-

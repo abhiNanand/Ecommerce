@@ -6,15 +6,31 @@ import { ROUTES } from '../../../Shared/Constants';
 import assets from '../../../assets';
 
 const imgArr = [
- { img:assets.profile.accountant,name:'Abhishek',occupation:'Accountant'},
- {  img:assets.profile.contentwriter,name:'Ravi',occupation:'Contant Writer'},
-  { img:assets.profile.designer,name:'Aman',occupation:'Designer'},
-  { img:assets.profile.director,name:'Rohit',occupation:'Director'},
-  { img:assets.profile.founder,name:'Devinder',occupation:'Founder'},
- {  img:assets.profile.marketingManager,name:'Krishna',occupation:'Marketing Manager'},
- {  img:assets.profile.salesManager,name:'Harsh',occupation:'Sales Manager'},
-  { img:assets.profile.techLead,name:'Ajit',occupation:'Tech Lead'},
- {  img:assets.profile.teamlead,name:'Prabhat',occupation:'Team Lead'},
+  {
+    img: assets.profile.accountant,
+    name: 'Abhishek',
+    occupation: 'Accountant',
+  },
+  {
+    img: assets.profile.contentwriter,
+    name: 'Ravi',
+    occupation: 'Contant Writer',
+  },
+  { img: assets.profile.designer, name: 'Aman', occupation: 'Designer' },
+  { img: assets.profile.director, name: 'Rohit', occupation: 'Director' },
+  { img: assets.profile.founder, name: 'Devinder', occupation: 'Founder' },
+  {
+    img: assets.profile.marketingManager,
+    name: 'Krishna',
+    occupation: 'Marketing Manager',
+  },
+  {
+    img: assets.profile.salesManager,
+    name: 'Harsh',
+    occupation: 'Sales Manager',
+  },
+  { img: assets.profile.techLead, name: 'Ajit', occupation: 'Tech Lead' },
+  { img: assets.profile.teamlead, name: 'Prabhat', occupation: 'Team Lead' },
 ];
 
 export default function About() {
@@ -82,21 +98,42 @@ export default function About() {
         <div className="about-profile-image">
           {imgArr.slice(index, index + 3).map((item) => (
             <div key={item.img} className="profile">
-              <img className="profile-images" src={item.img} alt={item.img} width="100px" height="100px" />
+              <img
+                className="profile-images"
+                src={item.img}
+                alt={item.img}
+                width="100px"
+                height="100px"
+              />
 
               <h3>{item.name}</h3>
               <p>{item.occupation}</p>
 
               <span>
                 <a href="https://www.instagram.com/">
-                  <img src={assets.images.insta}  width="24px" height="24px" alt="instagram"/>
+                  <img
+                    src={assets.images.insta}
+                    width="24px"
+                    height="24px"
+                    alt="instagram"
+                  />
                 </a>
                 <a href="https://x.com/?lang=en">
                   {' '}
-                  <img src={assets.images.twitter}  width="24px" height="24px" alt="twitter"/>
+                  <img
+                    src={assets.images.twitter}
+                    width="24px"
+                    height="24px"
+                    alt="twitter"
+                  />
                 </a>{' '}
                 <a href="https://www.linkedin.com">
-                   <img src={assets.images.linkedin}  width="24px" height="24px" alt="linkedin"/>
+                  <img
+                    src={assets.images.linkedin}
+                    width="24px"
+                    height="24px"
+                    alt="linkedin"
+                  />
                 </a>{' '}
               </span>
             </div>
@@ -104,9 +141,18 @@ export default function About() {
         </div>
 
         <div className="profile-scroll-btn">
-          <button className={index==0 ? 'active-index':''} onClick={() => setIndex(0)} />
-          <button className={index==3 ? 'active-index':''}onClick={() => setIndex(3)} />
-          <button className={index==6 ? 'active-index':''}onClick={() => setIndex(6)} />
+          <button
+            className={index == 0 ? 'active-index' : ''}
+            onClick={() => setIndex(0)}
+          />
+          <button
+            className={index == 3 ? 'active-index' : ''}
+            onClick={() => setIndex(3)}
+          />
+          <button
+            className={index == 6 ? 'active-index' : ''}
+            onClick={() => setIndex(6)}
+          />
         </div>
       </div>
       <div className="about-features">

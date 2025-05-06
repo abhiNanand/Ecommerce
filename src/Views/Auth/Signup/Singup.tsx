@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useFormik } from 'formik';
-import { Eye, EyeOff} from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import * as Yup from 'yup';
 import {
   createUserWithEmailAndPassword,
@@ -10,11 +10,11 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { doc, setDoc } from 'firebase/firestore';
-
+import {handleChange,handleChangePassword} from '../../../Shared/Utilities';
 import { auth, db } from '../../../Services/firebase/firebase';
 import assets from '../../../assets';
-import { ROUTES } from '../../../Shared/Constants';
-import { useGoogleSignUp } from '../GoogleSingup/useGoogleSignUp.ts';
+import { ROUTES,VALIDATION_CONSTANTS } from '../../../Shared/Constants';
+import Google from '../Google';
 import '../Login/Login.scss';
 
 interface FormValues {
@@ -26,8 +26,7 @@ interface FormValues {
 export default function Signup() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [creating,setCreating]=useState<boolean>(false);
-   const signInWithGoogle = useGoogleSignUp();
+  const [creating, setCreating] = useState<boolean>(false);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -36,19 +35,19 @@ export default function Signup() {
       password: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Name is required'),
+      name: Yup.string().required(VALIDATION_CONSTANTS.NAME_REQUIRED),
       email: Yup.string()
-        .required('Email is required')
+        .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED)
         .matches(
-          /^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/,
-          'Enter a valid email address'
+        VALIDATION_CONSTANTS.Email_REGEX,
+          VALIDATION_CONSTANTS.EMAIL_INVALID
         ),
       password: Yup.string()
-        .min(6, 'Password must be at least 6 characters')
-        .required('Password is required')
+        .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
+        .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED)
         .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
-          'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+          VALIDATION_CONSTANTS.PASSWORD_REGEX,
+          VALIDATION_CONSTANTS.PASSWORD_WEAK
         ),
     }),
     onSubmit: async (values, { resetForm }) => {
@@ -61,11 +60,14 @@ export default function Signup() {
         );
         const { user } = userCredential;
 
-         await updateProfile(user, { displayName: values.name });
-         toast.success("A verification link has been sent to your email. Please verify your account before logging in.", {
-          autoClose: 4500
-        });
-        
+        await updateProfile(user, { displayName: values.name });
+        toast.success(
+          'A verification link has been sent to your email. Please verify your account before logging in.',
+          {
+            autoClose: 4500,
+          }
+        );
+
         await sendEmailVerification(user);
         await setDoc(doc(db, 'users', user.uid), {
           uid: user.uid,
@@ -79,22 +81,13 @@ export default function Signup() {
           toast.error(' User already exist');
         } else {
           toast.error('Sign-up failed. Please try again.');
-          console.error(error.message);
         }
-      }
-      finally{
+      } finally {
         setCreating(false);
+        resetForm();
       }
-      resetForm();
     },
   });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fieldName = e.target.name;
-    let processedValue = e.target.value;
-    processedValue = processedValue.replace(/^\s+/g, '');
-    formik.setFieldValue(fieldName, processedValue);
-  };
 
   return (
     <div className="login-signup-container">
@@ -111,7 +104,7 @@ export default function Signup() {
               type="text"
               placeholder="Name"
               name="name"
-              onChange={handleChange}
+              onChange={(e)=>handleChange(e,formik)}
               value={formik.values.name}
             />
             {formik.touched.name && formik.errors.name && (
@@ -125,7 +118,7 @@ export default function Signup() {
               type="text"
               placeholder="Email address"
               name="email"
-              onChange={handleChange}
+              onChange={(e)=>handleChange(e,formik)}
               value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email && (
@@ -137,29 +130,27 @@ export default function Signup() {
             <div className="input-password-wrapper">
               <input
                 id="text"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 name="password"
-                onChange={handleChange}
+                onChange={(e)=>handleChangePassword(e,formik)}
                 value={formik.values.password}
               />
-               
-              {formik.values.password && (
-                    showPassword ? (
-                      <EyeOff
-                        className="eye-icon"
-                        size={20}
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    ) : (
-                      <Eye
-                        className="eye-icon"
-                        size={20}
-                        onClick={() => setShowPassword(!showPassword)}
-                      />
-                    )
-                  )}
 
+              {formik.values.password &&
+                (showPassword ? (
+                  <EyeOff
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                ) : (
+                  <Eye
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => setShowPassword(!showPassword)}
+                  />
+                ))}
             </div>
 
             {formik.touched.password && formik.errors.password && (
@@ -168,12 +159,9 @@ export default function Signup() {
           </div>
 
           <button disabled={creating} type="submit" id="create-btn">
-           {creating? 'Creating...':'Create Account'}
+            {creating ? 'Creating...' : 'Create Account'}
           </button>
-          <button type="button" id="google-btn" disabled={creating} onClick={signInWithGoogle}>
-            <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
-            Sign up with Google
-          </button>
+          <Google/>
         </form>
         <p id="go-to-login">
           Already have an account?{' '}

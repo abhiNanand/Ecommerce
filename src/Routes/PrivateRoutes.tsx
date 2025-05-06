@@ -10,7 +10,6 @@ import Profile from '../Components/Layouts/Private/Account/Profile/Profile';
 import Order from '../Views/Components/Order/Order';
 import BuyNow from '../Views/Components/BuyNow/BuyNow';
 
-
 // eslint-disable-next-line import/prefer-default-export
 export const PRIVATE_ROUTES: Array<CustomRouter> = [
   ...SHARED_ROUTES,

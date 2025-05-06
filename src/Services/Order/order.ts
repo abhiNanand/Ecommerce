@@ -1,16 +1,23 @@
-import { setDoc, collection, doc, getDocs,query,
+import {
+  setDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
   orderBy,
   limit,
-  startAfter,  QueryDocumentSnapshot,
-  DocumentData, } from 'firebase/firestore';
+  startAfter,
+  QueryDocumentSnapshot,
+  DocumentData,
+} from 'firebase/firestore';
 import { db, auth } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
 import { Address } from '../Address/Address';
- 
+
 export const addToOrderHistory = async (
   product: Product[],
   address: Address,
-  total:number,
+  total: number
 ): Promise<void> => {
   const user = auth.currentUser;
   if (!user) {
@@ -23,7 +30,7 @@ export const addToOrderHistory = async (
     await setDoc(orderRef, {
       products: product,
       orderedAt: address,
-      total:total,
+      total,
       date: new Date(),
     });
   } catch {
@@ -35,13 +42,17 @@ interface OrderData {
   id: string;
   products: Product[];
   address: Address;
-  total:number
+  total: number;
   date: Date;
 }
 
-
-
-export const fetchOrders = async (pageSize=5,lastDoc: QueryDocumentSnapshot<DocumentData> | null = null): Promise<{ orders:OrderData[];lastDoc: QueryDocumentSnapshot<DocumentData> | null;}> => {
+export const fetchOrders = async (
+  pageSize = 5,
+  lastDoc: QueryDocumentSnapshot<DocumentData> | null = null
+): Promise<{
+  orders: OrderData[];
+  lastDoc: QueryDocumentSnapshot<DocumentData> | null;
+}> => {
   const user = auth.currentUser;
   if (!user) {
     console.log('User not found');
@@ -55,16 +66,16 @@ export const fetchOrders = async (pageSize=5,lastDoc: QueryDocumentSnapshot<Docu
       ...(lastDoc ? [startAfter(lastDoc)] : []),
       limit(pageSize)
     );
- const querySnapshot = await getDocs(q);
- const docs = querySnapshot.docs;
+    const querySnapshot = await getDocs(q);
+    const { docs } = querySnapshot;
 
-const orders = docs.map((doc) => {
+    const orders = docs.map((doc) => {
       const data = doc.data();
       return {
         id: doc.id,
         products: data.products,
         address: data.orderedAt,
-        total:data.total,
+        total: data.total,
         date: data.date.toDate ? data.date.toDate() : new Date(data.date),
       };
     });
@@ -76,5 +87,3 @@ const orders = docs.map((doc) => {
     return { orders: [], lastDoc: null };
   }
 };
- 
- 

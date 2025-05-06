@@ -17,7 +17,7 @@ import {
   removeFromCart,
 } from '../../../Services/Cart/CartService';
 import { Product } from '../../../Shared/Product';
-import { useAuth } from '../../../Services/UserAuth';
+import { useAuth } from '../../../Shared/CustomHooks/userAuth';
 import { ROUTES } from '../../../Shared/Constants';
 import './Cart.scss';
 
@@ -32,8 +32,7 @@ export default function Cart() {
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
   const [loading, setLoading] = useState<boolean>(true);
   const [cartBtnLoading, setCartBtnLoading] = useState<boolean>(false);
-  const [openClearCart,setOpenClearCart]=useState<boolean>(false);
-
+  const [openClearCart, setOpenClearCart] = useState<boolean>(false);
 
   useEffect(() => {
     if (openClearCart) {
@@ -62,7 +61,6 @@ export default function Cart() {
   }, [user]);
 
   const handleRemoveItem = async (product: any) => {
-
     if (cartBtnLoading) return;
     setCartBtnLoading(true);
 
@@ -72,13 +70,11 @@ export default function Cart() {
       setCartItems((prevItems) =>
         prevItems.filter((item) => item.id !== product.id)
       );
-    }
-    catch {
-      toast.error("Failed to remove Item");
+    } catch {
+      toast.error('Failed to remove Item');
     } finally {
       setCartBtnLoading(false);
     }
-
   };
 
   const handleTotalItem = async (product: any) => {
@@ -90,18 +86,15 @@ export default function Cart() {
   };
 
   const handleClearCart = async () => {
-    await Promise.all(
-      cartItems.map(async (item) => await handleRemoveItem(item))
-    );
+    await Promise.all(cartItems.map(async (item) => handleRemoveItem(item)));
     dispatch(updateCartItem(0));
-  }
+  };
 
   const handleQuantityChange = async (
     product: any,
     newQuantity: number,
     totalCartCount: number
   ) => {
-
     if (cartBtnLoading) return;
     setCartBtnLoading(true);
 
@@ -178,11 +171,11 @@ export default function Cart() {
               <div className="cart-row" key={product.id}>
                 <span>
                   <button onClick={() => navigate(`/product/${product.id}`)}>
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="cart-image"
-                  />
+                    <img
+                      src={product.image}
+                      alt={product.title}
+                      className="cart-image"
+                    />
                   </button>
                   <p
                     style={{
@@ -269,22 +262,26 @@ export default function Cart() {
         <button type="button" onClick={returnHome}>
           Return to Shop
         </button>
-        {cartItems.length > 0 && <button onClick={() => setOpenClearCart(true)}>Clear Cart</button>}
+        {cartItems.length > 0 && (
+          <button onClick={() => setOpenClearCart(true)}>Clear Cart</button>
+        )}
       </div>
 
-{cartItems.length > 0 &&  <div className="cart-summary">
-        <div className="cart-total">
-          <h3>Cart Total</h3>
-          <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
-          <p>Shipping: Free</p>
-          <p>Total: ${calculateTotal().toFixed(2)}</p>
-          {cartItems.length != 0 && (
-            <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
-              Proceed to Checkout
-            </button>
-          )}
+      {cartItems.length > 0 && (
+        <div className="cart-summary">
+          <div className="cart-total">
+            <h3>Cart Total</h3>
+            <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
+            <p>Shipping: Free</p>
+            <p>Total: ${calculateTotal().toFixed(2)}</p>
+            {cartItems.length != 0 && (
+              <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
+                Proceed to Checkout
+              </button>
+            )}
+          </div>
         </div>
-      </div> }
+      )}
       {openClearCart && (
         <div className="confirmation-container">
           <div>
@@ -312,7 +309,6 @@ export default function Cart() {
           </div>
         </div>
       )}
-     
     </div>
   );
 }

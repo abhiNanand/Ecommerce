@@ -1,67 +1,25 @@
 import { useEffect, useState } from 'react';
-import { db, auth } from '../../../Services/firebase/firebase';
-
-import {
-  collection,
-  getDocs,
-  orderBy,
-  query,
-} from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
+import { useLogout } from '../../../Shared/CustomHooks/useLogout';
+import { getMessage, Message } from '../../../Services/Message/MessageService';
 import './Admin.scss';
-import { useDispatch } from 'react-redux';
-import { signOut } from 'firebase/auth';
-import { logoutUser } from '../../../Store/Common/index';
-
-interface Message {
-  id: string;
-  name: string;
-  email: string;
-  phone: string;
-  message: string;
-  createdAt?: { seconds: number; nanoseconds: number };
-}
+import { auth } from '../../../Services/firebase/firebase';
 
 export default function AdminMessages() {
   const [messages, setMessages] = useState<Message[]>([]);
-  const dispatch = useDispatch();
+  const logout = useLogout();
   const [openLogout, setOpenLogout] = useState<boolean>(false);
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const q = query(
-          collection(db, 'message'),
-          orderBy('createdAt', 'desc')
-        );
-        const querySnapshot = await getDocs(q);
-        const messagesData = querySnapshot.docs.map(
-          (doc) => {
-            const data = doc.data();
-            return {
-              id: doc.id,
-              name: data.name,
-              email: data.email,
-              phone: data.phone,
-              message: data.message,
-              createdAt: data.createdAt,
-
-            };
-          }
-        );
-
-        setMessages(messagesData);
-      } catch (error) {
-        console.error('Error fetching messages:', error);
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+      if (currentUser) {
+        await currentUser.reload();
+        const fetchMessage = await getMessage();
+        setMessages(fetchMessage);
       }
-    };
-
-    fetchMessages();
+    });
+    return () => unsubscribe();
   }, []);
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    dispatch(logoutUser());
-  };
 
   return (
     <div className="admin-messages-container">
@@ -92,7 +50,9 @@ export default function AdminMessages() {
           ))}
         </tbody>
       </table>
-      <button className="admin-logout-btn" onClick={() => setOpenLogout(true)}>logout</button>
+      <button className="admin-logout-btn" onClick={() => setOpenLogout(true)}>
+        logout
+      </button>
       {openLogout && (
         <div className="confirmation-container">
           <div>
@@ -103,7 +63,7 @@ export default function AdminMessages() {
                 <button
                   className="confirm-btn"
                   onClick={() => {
-                    handleLogout();
+                    logout();
                     setOpenLogout(false);
                   }}
                 >
@@ -123,5 +83,3 @@ export default function AdminMessages() {
     </div>
   );
 }
-
-

@@ -120,4 +120,16 @@ const ROUTES_CONFIG = {
     title: 'Terms Of Use',
   },
 };
-export { ROUTES, ROUTES_CONFIG };
+
+const VALIDATION_CONSTANTS = {
+  NAME_REQUIRED: 'Name is required',
+  EMAIL_REQUIRED: 'Email is required',
+  EMAIL_INVALID: 'Enter a valid email address',
+  PASSWORD_REQUIRED: 'Password is required',
+  PASSWORD_MIN_LENGTH: 'Password must be at least 6 characters',
+  PASSWORD_WEAK: 'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol',
+  PASSWORD_REGEX: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
+  Email_REGEX:/^[\w.-]+@([\w-]+\.)+[\w-]{2,}$/,
+};
+
+export { ROUTES, ROUTES_CONFIG,VALIDATION_CONSTANTS };

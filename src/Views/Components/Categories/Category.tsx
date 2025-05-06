@@ -13,11 +13,13 @@ export default function Category() {
     isLoading,
   } = useGetProductByCategoryQuery(category);
 
-  if (error){
-  return ( <div className="not-found">
-    <Frown strokeWidth={1} size={50} />
-    <p>Error in Loading Products</p>
-  </div>)
+  if (error) {
+    return (
+      <div className="not-found">
+        <Frown strokeWidth={1} size={50} />
+        <p>Error in Loading Products</p>
+      </div>
+    );
   }
   if (relatedProducts?.length === 0) return <p>No related products found.</p>;
 

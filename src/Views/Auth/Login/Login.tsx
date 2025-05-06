@@ -7,14 +7,13 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
 } from 'firebase/auth';
-import { useGoogleSignUp } from '../GoogleSingup/useGoogleSignUp.ts';
-import {  query, where, getDocs, collection } from 'firebase/firestore';
-import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { query, where, getDocs, collection } from 'firebase/firestore';
 import { toast } from 'react-toastify';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
+import { handleChange, handleChangePassword,logToHomePage } from '../../../Shared/Utilities';
 import { auth, db } from '../../../Services/firebase/firebase';
-import { updateAuthTokenRedux } from '../../../Store/Common';
+import Google from '../Google';
 import assets from '../../../assets';
 import './Login.scss';
 
@@ -24,20 +23,17 @@ interface FormValues {
 }
 
 export default function Login() {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [forgetPasswordWindow, setForgetPasswordWindow] =
-    useState<boolean>(false);
+   useState<boolean>(false);
   const [forgetEmail, setForgetEmail] = useState('');
   const [forgetEmailTouched, setForgetEmailTouched] = useState(false);
   const [sendingReset, setSendingReset] = useState(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [logging, setLogging] = useState<boolean>(false);
-  const signInWithGoogle = useGoogleSignUp();
 
   const emailValidation = Yup.string()
-    .matches(/^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/, 'Enter a valid email address')
-    .required('Email is required');
+    .matches(VALIDATION_CONSTANTS.Email_REGEX, VALIDATION_CONSTANTS.EMAIL_INVALID)
+    .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -47,10 +43,10 @@ export default function Login() {
     validationSchema: Yup.object({
       email: emailValidation,
       password: Yup.string()
-        .min(6, 'Password must be at least 6 characters')
-        .required('Password is required'),
+        .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
+        .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED),
     }),
-    onSubmit: async (values,{resetForm}) => {
+    onSubmit: async (values, { resetForm }) => {
       setLogging(true);
       try {
         const userCredential = await signInWithEmailAndPassword(
@@ -62,39 +58,23 @@ export default function Login() {
 
         if (!user.emailVerified) {
           toast.warning('Email not verified. Please check your inbox.');
-            await sendEmailVerification(user);
-            await auth.signOut();  
+          await sendEmailVerification(user);
+          await auth.signOut();
+        } else {
+          const token = await user.getIdToken();
+          logToHomePage({ token, name: user.displayName, email: user.email });
+
         }
-else{
-        const token = await user.getIdToken();
-        navigate(ROUTES.HOMEPAGE);
-        setTimeout(() => {
-          dispatch(
-            updateAuthTokenRedux({
-              token,
-              user: { displayName: user.displayName, email: user.email },
-            })
-          );
-        }, 500)
-      }
       } catch (error: any) {
         if (error.code === 'auth/invalid-credential') {
           toast.error('Login failed. Please check your credentials.');
         }
-        
       } finally {
         resetForm();
         setLogging(false);
       }
     },
   });
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fieldName = e.target.name;
-    let processedValue = e.target.value;
-    processedValue = processedValue.replace(/^\s+/g, '');
-    formik.setFieldValue(fieldName, processedValue);
-  };
 
   const handleForgetPassword = async () => {
     const isValid = emailValidation.isValidSync(forgetEmail);
@@ -106,11 +86,14 @@ else{
     try {
       setSendingReset(true);
       const normalizedEmail = forgetEmail.trim().toLowerCase();
-      const q = query(collection(db, 'users'), where('email', '==', normalizedEmail));
+      const q = query(
+        collection(db, 'users'),
+        where('email', '==', normalizedEmail)
+      );
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
-        toast.error("No user found with this email.");
+        toast.error('No user found with this email.');
         return;
       }
 
@@ -143,7 +126,7 @@ else{
               name="email"
               type="text"
               placeholder="Email address"
-              onChange={handleChange}
+              onChange={(e) => handleChange(e, formik)}
               value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email && (
@@ -152,19 +135,18 @@ else{
           </div>
 
           <div className="input-group">
-
             <div className="input-password-wrapper">
               <input
                 id="password"
                 name="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
-                onChange={handleChange}
+                onChange={(e) => handleChangePassword(e, formik)}
                 value={formik.values.password}
               />
 
-              {formik.values.password && (
-                showPassword ? (
+              {formik.values.password &&
+                (showPassword ? (
                   <EyeOff
                     className="eye-icon"
                     size={20}
@@ -176,8 +158,7 @@ else{
                     size={20}
                     onClick={() => setShowPassword(!showPassword)}
                   />
-                )
-              )}
+                ))}
             </div>
             {formik.touched.password && formik.errors.password && (
               <div className="error-text">{formik.errors.password}</div>
@@ -185,11 +166,7 @@ else{
           </div>
 
           <div className="button-group">
-            <button
-              type="submit"
-              id="login-btn"
-              disabled={logging}
-            >
+            <button type="submit" id="login-btn" disabled={logging}>
               {logging ? 'Logging in...' : 'Log In'}
             </button>
             <button
@@ -200,15 +177,7 @@ else{
               Forgot Password?
             </button>
           </div>
-
-          <button
-            type="button"
-            id="google-btn"
-            onClick={signInWithGoogle}
-          >
-            <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
-            Sign up with Google
-          </button>
+         <Google/>
         </form>
 
         <p>
@@ -230,9 +199,7 @@ else{
             />
             {forgetEmailTouched &&
               !emailValidation.isValidSync(forgetEmail) && (
-                <div className="error-text">
-                  Enter a valid email address
-                </div>
+                <div className="error-text">Enter a valid email address</div>
               )}
 
             <div className="button-group">

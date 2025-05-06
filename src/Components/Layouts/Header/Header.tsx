@@ -1,4 +1,4 @@
- import {
+import {
   Search,
   Heart,
   ShoppingCart,
@@ -10,13 +10,12 @@
 import { toast } from 'react-toastify';
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { signOut, onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ROUTES_CONFIG, ROUTES } from '../../../Shared/Constants';
-import { logoutUser } from '../../../Store/Common';
 import { auth } from '../../../Services/firebase/firebase';
-import { useAuth } from '../../../Services/UserAuth';
+import { useAuth } from '../../../Shared/CustomHooks/userAuth';
 
 import { getCartItems } from '../../../Services/Cart/CartService';
 import { getWishlistItems } from '../../../Services/Wishlist/WishlistService';
@@ -24,6 +23,7 @@ import {
   updateCartItem,
   updateWishlistItem,
 } from '../../../Store/Item/total_item_slice';
+import { useLogout } from '../../../Shared/CustomHooks/useLogout';
 import { RootState } from '../../../Store';
 import './Header.scss';
 
@@ -33,6 +33,7 @@ export default function Header() {
   const [openLogout, setOpenLogout] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const dispatch = useDispatch();
+  const logout = useLogout();
   const { isAuthenticated, user } = useAuth();
 
   const cartCount = useSelector((state: RootState) => state.item.noOfCartItem);
@@ -50,7 +51,7 @@ export default function Header() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         await currentUser.reload();
-        const   wishlistItems  = await getWishlistItems();
+        const wishlistItems = await getWishlistItems();
         const cartItems = await getCartItems();
         const totalQuantity = cartItems.reduce(
           (acc, item) => acc + (item.quantity ?? 1),
@@ -64,12 +65,11 @@ export default function Header() {
       }
     });
 
-    return () => unsubscribe();  
+    return () => unsubscribe();
   }, [user]);
 
   const handleLogout = async () => {
-    await signOut(auth);
-    dispatch(logoutUser());
+    logout();
     navigate(ROUTES.HOMEPAGE);
   };
 
@@ -242,10 +242,6 @@ export default function Header() {
     </header>
   );
 }
-
- 
-
-
 
 // updateProfile(user, { displayName: name })
 

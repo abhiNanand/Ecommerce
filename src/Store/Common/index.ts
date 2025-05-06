@@ -10,7 +10,6 @@ interface User {
   email: string | null;
 }
 
-
 const initialState: AuthState = {
   token: null,
   user: null,

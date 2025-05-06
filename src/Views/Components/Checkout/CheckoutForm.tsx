@@ -4,10 +4,7 @@ import { ArrowLeft } from 'lucide-react';
 import { onAuthStateChanged } from 'firebase/auth';
 import AddressForm from '../AddressForm/AddressForm';
 import { auth } from '../../../Services/firebase/firebase';
-import {
-  getAddress,
-  Address,
-} from '../../../Services/Address/Address';
+import { getAddress, Address } from '../../../Services/Address/Address';
 
 import {
   updateAddress,
@@ -90,14 +87,15 @@ export default function CheckoutForm() {
             Add Another Address
           </button>
         </div>
-      ) : (<>
-        {address.length > 0 && (
-          <button onClick={() => setOpen(true)}>
-            <ArrowLeft size={14} />
-          </button>
-        )}
-        <AddressForm onClose={() => setOpen(true)} />
-      </>
+      ) : (
+        <>
+          {address.length > 0 && (
+            <button onClick={() => setOpen(true)}>
+              <ArrowLeft size={14} />
+            </button>
+          )}
+          <AddressForm onClose={() => setOpen(true)} />
+        </>
       )}
     </div>
   );
@@ -119,4 +117,3 @@ Ab Formik expect karta hai ki input fields kuch is tarah se hon:
 <input name="name" />          // Yeh `initialValues.name` se link hoga
 <input name="emailAddress" />  // Yeh `initialValues.emailAddress` se link hoga
 */
-
