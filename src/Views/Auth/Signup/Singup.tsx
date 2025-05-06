@@ -6,18 +6,15 @@ import * as Yup from 'yup';
 import {
   createUserWithEmailAndPassword,
   updateProfile,
-  signInWithPopup,
   sendEmailVerification,
 } from 'firebase/auth';
-import { useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { doc, setDoc } from 'firebase/firestore';
 
-import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
-import { updateAuthTokenRedux } from '../../../Store/Common';
+import { auth, db } from '../../../Services/firebase/firebase';
 import assets from '../../../assets';
 import { ROUTES } from '../../../Shared/Constants';
-
+import { useGoogleSignUp } from '../GoogleSingup/useGoogleSignUp.ts';
 import '../Login/Login.scss';
 
 interface FormValues {
@@ -28,9 +25,9 @@ interface FormValues {
 
 export default function Signup() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [creating,setCreating]=useState<boolean>(false);
+   const signInWithGoogle = useGoogleSignUp();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -99,40 +96,6 @@ export default function Signup() {
     formik.setFieldValue(fieldName, processedValue);
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const { user } = result;
-      const token = await user.getIdToken();
-
-      navigate(ROUTES.HOMEPAGE);
-      toast.success('Signed in with Google successfully!');
-      setTimeout(() => {
-        dispatch(
-          updateAuthTokenRedux({
-            token,
-            user: {
-              displayName: user.displayName,
-              email: user.email,
-            },
-          })
-        );
-      }, 500);
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName ?? 'Anonymous',
-        });
-      }
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error('Google Sign-In failed! Try again.');
-    }
-  };
   return (
     <div className="login-signup-container">
       <div className="shop-img-container">
@@ -207,7 +170,7 @@ export default function Signup() {
           <button disabled={creating} type="submit" id="create-btn">
            {creating? 'Creating...':'Create Account'}
           </button>
-          <button type="button" id="google-btn" disabled={creating} onClick={handleGoogleSignIn}>
+          <button type="button" id="google-btn" disabled={creating} onClick={signInWithGoogle}>
             <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
             Sign up with Google
           </button>

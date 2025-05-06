@@ -1,19 +1,19 @@
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
-  signInWithPopup,
   sendEmailVerification,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, query, where, getDocs, collection } from 'firebase/firestore';
+import { useGoogleSignUp } from '../GoogleSingup/useGoogleSignUp.ts';
+import {  query, where, getDocs, collection } from 'firebase/firestore';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link, useLocation } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { ROUTES } from '../../../Shared/Constants';
-import { auth, googleProvider, db } from '../../../Services/firebase/firebase';
+import { auth, db } from '../../../Services/firebase/firebase';
 import { updateAuthTokenRedux } from '../../../Store/Common';
 import assets from '../../../assets';
 import './Login.scss';
@@ -33,9 +33,7 @@ export default function Login() {
   const [sendingReset, setSendingReset] = useState(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [logging, setLogging] = useState<boolean>(false);
-
-  const { pathname } = useLocation();
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
+  const signInWithGoogle = useGoogleSignUp();
 
   const emailValidation = Yup.string()
     .matches(/^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/, 'Enter a valid email address')
@@ -98,39 +96,6 @@ else{
     formik.setFieldValue(fieldName, processedValue);
   };
 
-  const handleGoogleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, googleProvider);
-      const { user } = result;
-      navigate(ROUTES.HOMEPAGE);
-      toast.success('Signed in with Google successfully!');
-      const token = await user.getIdToken();
-      setTimeout(() => {
-        dispatch(
-          updateAuthTokenRedux({
-            token,
-            user: {
-              displayName: user.displayName,
-              email: user.email,
-            },
-          })
-        );
-      }, 500);
-      const userRef = doc(db, 'users', user.uid);
-      const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, {
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName ?? 'Anonymous',
-        });
-      }
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error('Google Sign-In failed! Try again.');
-    }
-  };
   const handleForgetPassword = async () => {
     const isValid = emailValidation.isValidSync(forgetEmail);
     if (!forgetEmail || !isValid) {
@@ -239,9 +204,7 @@ else{
           <button
             type="button"
             id="google-btn"
-            onClick={() => {
-              handleGoogleSignIn();
-            }}
+            onClick={signInWithGoogle}
           >
             <img id="google-img" src={assets.icon.googleImg} alt="Google" />{' '}
             Sign up with Google

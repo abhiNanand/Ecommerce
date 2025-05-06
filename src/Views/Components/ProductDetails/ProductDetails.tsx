@@ -36,7 +36,6 @@ function ProductDetails() {
     (state: RootState) => state.item.noOfWishlistItem
   );
   const [loading, setLoading] = useState<boolean>(false);
-  const [wishlistUpdated, setWishlistUpdated] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -105,7 +104,6 @@ function ProductDetails() {
         toast.success('Item added to wishlist');
         dispatch(updateWishlistItem(wishlistCount + 1));
       }
-      setWishlistUpdated((prev) => !prev);
     } catch (wishListError) {
       console.error('Error handling wishlist action:', wishListError);
     } finally {
@@ -130,7 +128,6 @@ function ProductDetails() {
       return (
         <ShowItem
           products={filteredRelatedProducts}
-          wishlistUpdated={wishlistUpdated}
         />
       );
     }

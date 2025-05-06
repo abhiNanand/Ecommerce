@@ -132,7 +132,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
         <div className="place-order-container">
           <div className="place-order">
             <h2>Payment in Progress</h2>
-            <p>Your transaction is being confirmed on the blockchain...</p>
+            <p>Your transaction is processing on the blockchain...</p>
             {hash && (
               <>
                 <div className="spinner"></div>

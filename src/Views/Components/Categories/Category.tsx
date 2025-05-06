@@ -1,5 +1,4 @@
-import { useParams, NavLink, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useParams, NavLink } from 'react-router-dom';
 import { Frown } from 'lucide-react';
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
 import ShowItem from '../ShowItem/ShowItem';
@@ -8,10 +7,6 @@ import './Category.scss';
 
 export default function Category() {
   const { category } = useParams();
-
-  const { pathname } = useLocation();
-  useEffect(() => window.scrollTo(0, 0), [pathname]);
-
   const {
     data: relatedProducts,
     error,
