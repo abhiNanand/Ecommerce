@@ -14,7 +14,7 @@ import { useGetProductQuery } from '../../Services/Api/module/demoApi';
 import './Dashboard.scss';
 
 export default function Dashboard() {
-  const { data: products, error, isLoading } = useGetProductQuery(null);
+  const { data: products, error, isLoading } = useGetProductQuery(null,{refetchOnMountOrArgChange: true});
 
   if (isLoading) {
     return (
