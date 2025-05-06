@@ -47,23 +47,3 @@ export const handleChangePassword = (
   processedValue = processedValue.replace(/\s/g, '');
   formik.setFieldValue(fieldName, processedValue);
 };
-
-import { useNavigate } from "react-router-dom";
-import {ROUTES} from '../Shared/Constants';
-import { useDispatch } from "react-redux";
-import { updateAuthTokenRedux } from "../Store/Common";
-const navigate=useNavigate();
-const dispatch=useDispatch();
-
-
-export const logToHomePage = ({ token, name, email }: { token: string; name: string | null; email: string | null }) => {
-  navigate(ROUTES.HOMEPAGE);
-  setTimeout(() => {
-    dispatch(
-      updateAuthTokenRedux({
-        token,
-        user: { displayName: name, email: email },
-      })
-    );
-  }, 500);
-};

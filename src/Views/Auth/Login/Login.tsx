@@ -7,15 +7,17 @@ import {
   sendPasswordResetEmail,
   sendEmailVerification,
 } from 'firebase/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { query, where, getDocs, collection } from 'firebase/firestore';
 import { toast } from 'react-toastify';
+import { updateAuthTokenRedux } from '../../../Store/Common/index'
 import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
-import { handleChange, handleChangePassword,logToHomePage } from '../../../Shared/Utilities';
+import { handleChange, handleChangePassword } from '../../../Shared/Utilities';
 import { auth, db } from '../../../Services/firebase/firebase';
 import Google from '../Google';
 import assets from '../../../assets';
 import './Login.scss';
+import { useDispatch } from 'react-redux';
 
 interface FormValues {
   email: string;
@@ -30,6 +32,8 @@ export default function Login() {
   const [sendingReset, setSendingReset] = useState(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [logging, setLogging] = useState<boolean>(false);
+  const navigate=useNavigate();
+  const dispatch=useDispatch();
 
   const emailValidation = Yup.string()
     .matches(VALIDATION_CONSTANTS.Email_REGEX, VALIDATION_CONSTANTS.EMAIL_INVALID)
@@ -62,8 +66,15 @@ export default function Login() {
           await auth.signOut();
         } else {
           const token = await user.getIdToken();
-          logToHomePage({ token, name: user.displayName, email: user.email });
-
+          navigate(ROUTES.HOMEPAGE);
+          setTimeout(() => {
+            dispatch(
+              updateAuthTokenRedux({
+                token,
+                user: { displayName: user.displayName, email: user.email },
+              })
+            );
+          }, 500)
         }
       } catch (error: any) {
         if (error.code === 'auth/invalid-credential') {
