@@ -1,91 +1,91 @@
-import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { query, where, getDocs, collection } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
   sendEmailVerification,
 } from 'firebase/auth';
-import { Link, useNavigate } from 'react-router-dom';
-import { query, where, getDocs, collection } from 'firebase/firestore';
-import { toast } from 'react-toastify';
-import { updateAuthTokenRedux } from '../../../Store/Common/index'
 import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
-import { handleChange, handleChangePassword } from '../../../Shared/Utilities';
+import { updateAuthTokenRedux } from '../../../Store/Common/index';
 import { auth, db } from '../../../Services/firebase/firebase';
 import Google from '../Google';
 import assets from '../../../assets';
+import { ReusableForm } from '../ReusableForm';
 import './Login.scss';
-import { useDispatch } from 'react-redux';
-
-interface FormValues {
-  email: string;
-  password: string;
-}
 
 export default function Login() {
-  const [forgetPasswordWindow, setForgetPasswordWindow] =
-   useState<boolean>(false);
+  const [forgetPasswordWindow, setForgetPasswordWindow] = useState<boolean>(false);
   const [forgetEmail, setForgetEmail] = useState('');
   const [forgetEmailTouched, setForgetEmailTouched] = useState(false);
   const [sendingReset, setSendingReset] = useState(false);
-  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [logging, setLogging] = useState<boolean>(false);
-  const navigate=useNavigate();
-  const dispatch=useDispatch();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const emailValidation = Yup.string()
     .matches(VALIDATION_CONSTANTS.Email_REGEX, VALIDATION_CONSTANTS.EMAIL_INVALID)
     .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED);
 
-  const formik = useFormik<FormValues>({
-    initialValues: {
-      email: '',
-      password: '',
+  const formFields = [
+    {
+      name: 'email',
+      type: 'text',
+      placeholder: 'Email address',
+      validation: Yup.string()
+      .matches(VALIDATION_CONSTANTS.Email_REGEX, VALIDATION_CONSTANTS.EMAIL_INVALID)
+      .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED),
+  
     },
-    validationSchema: Yup.object({
-      email: emailValidation,
-      password: Yup.string()
+    {
+      name: 'password',
+      type: 'password',
+      placeholder: 'Password',
+      validation: Yup.string()
         .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
         .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED),
-    }),
-    onSubmit: async (values, { resetForm }) => {
-      setLogging(true);
-      try {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          values.email,
-          values.password
-        );
-        const { user } = userCredential;
-
-        if (!user.emailVerified) {
-          toast.warning('Email not verified. Please check your inbox.');
-          await sendEmailVerification(user);
-          await auth.signOut();
-        } else {
-          const token = await user.getIdToken();
-          navigate(ROUTES.HOMEPAGE);
-          setTimeout(() => {
-            dispatch(
-              updateAuthTokenRedux({
-                token,
-                user: { displayName: user.displayName, email: user.email },
-              })
-            );
-          }, 500)
-        }
-      } catch (error: any) {
-        if (error.code === 'auth/invalid-credential') {
-          toast.error('Login failed. Please check your credentials.');
-        }
-      } finally {
-        resetForm();
-        setLogging(false);
-      }
+      showPasswordToggle: true,
     },
-  });
+  ];
+
+  const handleSubmit = async (values: { email: string; password: string }, { resetForm }: any) => {
+    setLogging(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const { user } = userCredential;
+
+      if (!user.emailVerified) {
+        toast.warning('Email not verified. Please check your inbox.');
+        await sendEmailVerification(user);
+        await auth.signOut();
+      } else {
+        const token = await user.getIdToken();
+        navigate(ROUTES.HOMEPAGE);
+        setTimeout(() => {
+          dispatch(
+            updateAuthTokenRedux({
+              token,
+              user: { displayName: user.displayName, email: user.email },
+            })
+          );
+        }, 500);
+      }
+    } catch (error: any) {
+      if (error.code === 'auth/invalid-credential') {
+        toast.error('Login failed. Please check your credentials.');
+      }
+    } finally {
+      resetForm();
+      setLogging(false);
+    }
+  };
 
   const handleForgetPassword = async () => {
     const isValid = emailValidation.isValidSync(forgetEmail);
@@ -130,66 +130,26 @@ export default function Login() {
         <h1>Log in to Exclusive</h1>
         <p>Enter your details below</p>
 
-        <form onSubmit={formik.handleSubmit}>
-          <div className="input-group">
-            <input
-              id="email"
-              name="email"
-              type="text"
-              placeholder="Email address"
-              onChange={(e) => handleChange(e, formik)}
-              value={formik.values.email}
-            />
-            {formik.touched.email && formik.errors.email && (
-              <div className="error-text">{formik.errors.email}</div>
-            )}
-          </div>
-
-          <div className="input-group">
-            <div className="input-password-wrapper">
-              <input
-                id="password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                onChange={(e) => handleChangePassword(e, formik)}
-                value={formik.values.password}
-              />
-
-              {formik.values.password &&
-                (showPassword ? (
-                  <EyeOff
-                    className="eye-icon"
-                    size={20}
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
-                ) : (
-                  <Eye
-                    className="eye-icon"
-                    size={20}
-                    onClick={() => setShowPassword(!showPassword)}
-                  />
-                ))}
-            </div>
-            {formik.touched.password && formik.errors.password && (
-              <div className="error-text">{formik.errors.password}</div>
-            )}
-          </div>
-
+        <ReusableForm
+          initialValues={{ email: '', password: '' }}
+          validationSchema={Yup.object({
+            email: emailValidation,
+            password: Yup.string()
+              .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
+              .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED),
+          })}
+          onSubmit={handleSubmit}
+          fields={formFields}
+          submitButtonText="Log In"
+          isSubmitting={logging}
+        >
           <div className="button-group">
-            <button type="submit" id="login-btn" disabled={logging}>
-              {logging ? 'Logging in...' : 'Log In'}
-            </button>
-            <button
-              type="button"
-              className="forgot-password"
-              onClick={() => setForgetPasswordWindow(true)}
-            >
+            <button type="button" className="forgot-password" onClick={() => setForgetPasswordWindow(true)}>
               Forgot Password?
             </button>
           </div>
-         <Google/>
-        </form>
+          <Google />
+        </ReusableForm>
 
         <p>
           Don't have an account? <Link to={ROUTES.SIGNUP}>Signup</Link>
@@ -208,10 +168,9 @@ export default function Login() {
               onChange={(e) => setForgetEmail(e.target.value)}
               onBlur={() => setForgetEmailTouched(true)}
             />
-            {forgetEmailTouched &&
-              !emailValidation.isValidSync(forgetEmail) && (
-                <div className="error-text">Enter a valid email address</div>
-              )}
+            {forgetEmailTouched && !emailValidation.isValidSync(forgetEmail) && (
+              <div className="error-text">Enter a valid email address</div>
+            )}
 
             <div className="button-group">
               <button

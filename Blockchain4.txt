@@ -46,6 +46,502 @@ import { auth } from "../Services/firebase";useEffect(() => {
 
 
 
+---------------------------------------------------------
+
+import { useFormik } from 'formik';
+import {
+  handleChange as handleInputChange,
+  handleChangePassword,
+} from '../../Shared/Utilities';
+import * as Yup from 'yup';
+import { ReactNode, useState } from 'react';
+import { Eye, EyeOff } from 'lucide-react';
+
+const getInputType = (
+  showPasswordToggle: boolean | undefined,
+  showPassword: boolean,
+  defaultType: string
+): string => {
+  if (!showPasswordToggle) {
+    return defaultType;
+  }
+  return showPassword ? 'text' : defaultType;
+};
+interface FormField {
+  name: string;
+  type: string;
+  label?: string;
+  placeholder: string;
+  validation: Yup.AnySchema;
+  showPasswordToggle?: boolean;
+}
+
+interface ReusableFormProps {
+  initialValues: Record<string, string>;
+  validationSchema: Yup.ObjectSchema<any>;
+  onSubmit: (values: any, actions: any) => void;
+  fields: FormField[];
+  submitButtonText: string;
+  isSubmitting: boolean;
+  children?: ReactNode;
+  customComponents?: Record<string, ReactNode>;
+}
+
+export const ReusableForm = ({
+  initialValues,
+  validationSchema,
+  onSubmit,
+  fields,
+  submitButtonText,
+  isSubmitting,
+  children,
+  customComponents,
+}: ReusableFormProps) => {
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit,
+  });
+
+  const [showPassword, setShowPassword] = useState<Record<string, boolean>>(
+    fields.reduce(
+      (acc, field) => {
+        if (field.showPasswordToggle) {
+          acc[field.name] = false;
+        }
+        return acc;
+      },
+      {} as Record<string, boolean>
+    )
+  );
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fieldName = e.target.name;
+
+    if (fieldName === 'password') {
+      handleChangePassword(e, formik);
+    } else {
+      handleInputChange(e, formik);
+    }
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    formik.handleBlur(e);
+  };
+
+  const togglePasswordVisibility = (fieldName: string) => {
+    setShowPassword((prev) => ({
+      ...prev,
+      [fieldName]: !prev[fieldName],
+    }));
+  };
+
+  return (
+    <form onSubmit={formik.handleSubmit}>
+      {fields.map((field) => {
+        if (customComponents?.[field.name]) {
+          return customComponents[field.name];
+        }
+
+        return (
+          <div key={field.name} className="input-group">
+            {field.label && <label htmlFor={field.name}>{field.label}</label>}
+            <div
+              className={
+                field.showPasswordToggle ? 'input-password-wrapper' : ''
+              }
+            >
+              <input
+                id={field.name}
+                name={field.name}
+                type={getInputType(
+                  field.showPasswordToggle,
+                  showPassword[field.name],
+                  field.type
+                )}
+                placeholder={field.placeholder}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                value={formik.values[field.name]}
+                className={
+                  formik.touched[field.name] && formik.errors[field.name]
+                    ? 'error'
+                    : ''
+                }
+              />
+              {field.showPasswordToggle &&
+                formik.values[field.name] &&
+                (showPassword[field.name] ? (
+                  <EyeOff
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => togglePasswordVisibility(field.name)}
+                  />
+                ) : (
+                  <Eye
+                    className="eye-icon"
+                    size={20}
+                    onClick={() => togglePasswordVisibility(field.name)}
+                  />
+                ))}
+            </div>
+            {formik.touched[field.name] && formik.errors[field.name] && (
+              <div className="error-text">
+                {String(formik.errors[field.name])}
+              </div>
+            )}
+          </div>
+        );
+      })}
+
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? `${submitButtonText}...` : submitButtonText}
+      </button>
+      {children}
+    </form>
+  );
+};
+
+
+
+==============================================
+
+import * as Yup from 'yup';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { query, where, getDocs, collection } from 'firebase/firestore';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import {
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+  sendEmailVerification,
+} from 'firebase/auth';
+import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
+import { updateAuthTokenRedux } from '../../../Store/Common/index';
+import { auth, db } from '../../../Services/firebase/firebase';
+import Google from '../Google';
+import assets from '../../../assets';
+import { ReusableForm } from '../ReusableForm';
+import './Login.scss';
+
+export default function Login() {
+  const [forgetPasswordWindow, setForgetPasswordWindow] = useState<boolean>(false);
+  const [forgetEmail, setForgetEmail] = useState('');
+  const [forgetEmailTouched, setForgetEmailTouched] = useState(false);
+  const [sendingReset, setSendingReset] = useState(false);
+  const [logging, setLogging] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const emailValidation = Yup.string()
+    .matches(VALIDATION_CONSTANTS.Email_REGEX, VALIDATION_CONSTANTS.EMAIL_INVALID)
+    .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED);
+
+  const formFields = [
+    {
+      name: 'email',
+      type: 'text',
+      placeholder: 'Email address',
+      validation: Yup.string()
+      .matches(VALIDATION_CONSTANTS.Email_REGEX, VALIDATION_CONSTANTS.EMAIL_INVALID)
+      .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED),
+  
+    },
+    {
+      name: 'password',
+      type: 'password',
+      placeholder: 'Password',
+      validation: Yup.string()
+        .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
+        .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED),
+      showPasswordToggle: true,
+    },
+  ];
+
+  const handleSubmit = async (values: { email: string; password: string }, { resetForm }: any) => {
+    setLogging(true);
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const { user } = userCredential;
+
+      if (!user.emailVerified) {
+        toast.warning('Email not verified. Please check your inbox.');
+        await sendEmailVerification(user);
+        await auth.signOut();
+      } else {
+        const token = await user.getIdToken();
+        navigate(ROUTES.HOMEPAGE);
+        setTimeout(() => {
+          dispatch(
+            updateAuthTokenRedux({
+              token,
+              user: { displayName: user.displayName, email: user.email },
+            })
+          );
+        }, 500);
+      }
+    } catch (error: any) {
+      if (error.code === 'auth/invalid-credential') {
+        toast.error('Login failed. Please check your credentials.');
+      }
+    } finally {
+      resetForm();
+      setLogging(false);
+    }
+  };
+
+  const handleForgetPassword = async () => {
+    const isValid = emailValidation.isValidSync(forgetEmail);
+    if (!forgetEmail || !isValid) {
+      toast.warning('Please enter a valid email address');
+      return;
+    }
+
+    try {
+      setSendingReset(true);
+      const normalizedEmail = forgetEmail.trim().toLowerCase();
+      const q = query(
+        collection(db, 'users'),
+        where('email', '==', normalizedEmail)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (querySnapshot.empty) {
+        toast.error('No user found with this email.');
+        return;
+      }
+
+      await sendPasswordResetEmail(auth, normalizedEmail);
+      toast.success('Reset email sent! Check your inbox');
+      setForgetPasswordWindow(false);
+      setForgetEmail('');
+      setForgetEmailTouched(false);
+    } catch {
+      toast('Failed to send reset email');
+    } finally {
+      setSendingReset(false);
+    }
+  };
+
+  return (
+    <div className="login-signup-container">
+      <div className="shop-img-container">
+        <img src={assets.images.shopping} alt="shopping_image" />
+      </div>
+
+      <div className="login-container">
+        <h1>Log in to Exclusive</h1>
+        <p>Enter your details below</p>
+
+        <ReusableForm
+          initialValues={{ email: '', password: '' }}
+          validationSchema={Yup.object({
+            email: emailValidation,
+            password: Yup.string()
+              .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
+              .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED),
+          })}
+          onSubmit={handleSubmit}
+          fields={formFields}
+          submitButtonText="Log In"
+          isSubmitting={logging}
+        >
+          <div className="button-group">
+            <button type="button" className="forgot-password" onClick={() => setForgetPasswordWindow(true)}>
+              Forgot Password?
+            </button>
+          </div>
+          <Google />
+        </ReusableForm>
+
+        <p>
+          Don't have an account? <Link to={ROUTES.SIGNUP}>Signup</Link>
+        </p>
+      </div>
+
+      {forgetPasswordWindow && (
+        <div className="forgetPassword">
+          <div className="forgetPasswordWindow">
+            <label htmlFor="email">Enter Email Address</label>
+            <br />
+            <input
+              type="text"
+              placeholder="Email address"
+              value={forgetEmail}
+              onChange={(e) => setForgetEmail(e.target.value)}
+              onBlur={() => setForgetEmailTouched(true)}
+            />
+            {forgetEmailTouched && !emailValidation.isValidSync(forgetEmail) && (
+              <div className="error-text">Enter a valid email address</div>
+            )}
+
+            <div className="button-group">
+              <button
+                type="button"
+                onClick={() => {
+                  setForgetPasswordWindow(false);
+                  setForgetEmail('');
+                  setForgetEmailTouched(false);
+                }}
+              >
+                Cancel
+              </button>
+
+              <button type="button" onClick={handleForgetPassword}>
+                {sendingReset ? 'Sending...' : 'Send Reset Email Link'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+=============================================
+import { useState } from 'react';
+import * as Yup from 'yup';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  sendEmailVerification,
+} from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
+import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
+import { auth, db } from '../../../Services/firebase/firebase';
+import assets from '../../../assets';
+import Google from '../Google';
+import { ReusableForm } from '../ReusableForm';
+import '../Login/Login.scss';
+
+export default function Signup() {
+  const navigate = useNavigate();
+  const [creating, setCreating] = useState<boolean>(false);
+
+  const formFields = [
+    {
+      name: 'name',
+      type: 'text',
+      placeholder: 'Name',
+      validation: Yup.string().required(VALIDATION_CONSTANTS.NAME_REQUIRED),
+    },
+    {
+      name: 'email',
+      type: 'text',
+      placeholder: 'Email address',
+      validation: Yup.string()
+        .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED)
+        .matches(
+          VALIDATION_CONSTANTS.Email_REGEX,
+          VALIDATION_CONSTANTS.EMAIL_INVALID
+        ),
+    },
+    {
+      name: 'password',
+      type: 'password',
+      placeholder: 'Password',
+      validation: Yup.string()
+        .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
+        .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED)
+        .matches(
+          VALIDATION_CONSTANTS.PASSWORD_REGEX,
+          VALIDATION_CONSTANTS.PASSWORD_WEAK
+        ),
+      showPasswordToggle: true,
+    },
+  ];
+
+  const handleSubmit = async (values: { name: string; email: string; password: string }, { resetForm }: any) => {
+    setCreating(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.email,
+        values.password
+      );
+      const { user } = userCredential;
+
+      await updateProfile(user, { displayName: values.name });
+      toast.success(
+        'A verification link has been sent to your email. Please verify your account before logging in.',
+        { autoClose: 4500 }
+      );
+
+      await sendEmailVerification(user);
+      await setDoc(doc(db, 'users', user.uid), {
+        uid: user.uid,
+        email: user.email,
+        displayName: values.name,
+      });
+
+      setTimeout(() => navigate(ROUTES.LOGIN), 2000);
+    } catch (error: any) {
+      if (error.code === 'auth/email-already-in-use') {
+        toast.error('User already exist');
+      } else {
+        toast.error('Sign-up failed. Please try again.');
+      }
+    } finally {
+      setCreating(false);
+      resetForm();
+    }
+  };
+
+  return (
+    <div className="login-signup-container">
+      <div className="shop-img-container">
+        <img src={assets.images.shopping} alt="shoppingImage" />
+      </div>
+      <div className="login-container">
+        <h1>Create an account</h1>
+        <p>Enter your details below</p>
+        
+        <ReusableForm
+          initialValues={{ name: '', email: '', password: '' }}
+          validationSchema={Yup.object({
+            name: Yup.string().required(VALIDATION_CONSTANTS.NAME_REQUIRED),
+            email: Yup.string()
+              .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED)
+              .matches(
+                VALIDATION_CONSTANTS.Email_REGEX,
+                VALIDATION_CONSTANTS.EMAIL_INVALID
+              ),
+            password: Yup.string()
+              .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
+              .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED)
+              .matches(
+                VALIDATION_CONSTANTS.PASSWORD_REGEX,
+                VALIDATION_CONSTANTS.PASSWORD_WEAK
+              ),
+          })}
+          onSubmit={handleSubmit}
+          fields={formFields}
+          submitButtonText="Create Account"
+          isSubmitting={creating}
+        >
+          <Google />
+        </ReusableForm>
+
+        <p id="go-to-login">
+          Already have an account?{' '}
+          <NavLink to={ROUTES.LOGIN}>
+            <u>Log in</u>
+          </NavLink>
+        </p>
+      </div>
+    </div>
+  );
+}
+==============================================
+
+
 
 
 
