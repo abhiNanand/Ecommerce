@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import assets from '../../../../assets';
 import './JBLBanner.scss';
-import { toast } from 'react-toastify';
 import { ROUTES } from '../../../../Shared/Constants';
 import { useAuth } from '../../../../Shared/CustomHooks/userAuth';
 

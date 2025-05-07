@@ -1,13 +1,12 @@
-import assets from '../../../assets';
 import './Contact.scss';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
-
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { NavLink } from 'react-router-dom';
 import { db } from '../../../Services/firebase/firebase';
 import { ROUTES } from '../../../Shared/Constants';
+import assets from '../../../assets';
 
 interface FormValues {
   name: string;

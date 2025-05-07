@@ -38,8 +38,7 @@ export const useGoogleSignUp = () => {
           displayName: user.displayName ?? 'Anonymous',
         });
       }
-    } catch (error: any) {
-      console.error(error.message);
+    } catch {
       toast.error('Google Sign-In failed! Try again.');
     }
   };

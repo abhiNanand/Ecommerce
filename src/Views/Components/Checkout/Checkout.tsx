@@ -21,7 +21,5 @@ export default function Checkout() {
     });
     return () => unsubscribe();
   }, [user]);
-  return (
-<BuyProduct products={cartItems} />
-  );
+  return <BuyProduct products={cartItems} />;
 }

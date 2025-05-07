@@ -12,6 +12,7 @@ import {
   QueryDocumentSnapshot,
   DocumentData,
 } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
 
@@ -35,8 +36,8 @@ export const addToWishlist = async (product: Product) => {
     } else {
       await setDoc(doc(wishlistRef), { ...product, quantity: 1 });
     }
-  } catch (error) {
-    console.error('error adding to the wishlist:', error);
+  } catch {
+    toast.error('error adding to the wishlist:');
   }
 };
 
@@ -45,7 +46,6 @@ export const removeFromWishlist = async (ProductId: string) => {
   const user = auth.currentUser;
 
   if (!user) {
-    console.error('User not logged in!');
     return;
   }
 
@@ -57,8 +57,8 @@ export const removeFromWishlist = async (ProductId: string) => {
       const docRef = querySnapshot.docs[0].ref;
       await deleteDoc(docRef);
     }
-  } catch (error) {
-    console.error('Error removing item from wishlist:', error);
+  } catch {
+    toast.error('Error removing item from wishlist:');
   }
 };
 
@@ -66,7 +66,6 @@ export const removeFromWishlist = async (ProductId: string) => {
 export const getWishlistItems = async () => {
   const user = auth.currentUser;
   if (!user) {
-    console.error('User not logged in!');
     return [];
   }
 
@@ -81,8 +80,8 @@ export const getWishlistItems = async () => {
         id: data.id,
       };
     });
-  } catch (error) {
-    console.error('Error fetching wishlist items:', error);
+  } catch {
+    toast.error('Error fetching wishlist items:');
     return [];
   }
 };
@@ -97,7 +96,6 @@ export const getPaginatedWishlistItems = async (
 }> => {
   const user = auth.currentUser;
   if (!user) {
-    console.error('User not logged in!');
     return { products: [], lastDoc: null, hasMore: false };
   }
 
@@ -139,8 +137,7 @@ export const getPaginatedWishlistItems = async (
 
     const newLastDoc = docs.length > 0 ? docs[docs.length - 1] : null;
     return { products, lastDoc: newLastDoc, hasMore };
-  } catch (error) {
-    console.error('Error fetching wishlist items:', error);
+  } catch {
     return { products: [], lastDoc: null, hasMore: false };
   }
 };

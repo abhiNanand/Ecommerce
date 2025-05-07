@@ -5,6 +5,7 @@ import {
   getDocs,
   deleteDoc,
 } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 import { db, auth } from '../firebase/firebase';
 
 export interface Address {
@@ -22,14 +23,13 @@ export interface Address {
 export const addAddress = async (values: Address): Promise<void> => {
   const user = auth.currentUser;
   if (!user) {
-    console.log("can't add address user is not logged in ");
     return;
   }
   try {
     const addressRef = doc(collection(db, `users/${user.uid}/address`));
     await setDoc(addressRef, { ...values });
   } catch {
-    console.error('error in adding address');
+    toast.error('error in adding address');
   }
 };
 
@@ -37,7 +37,6 @@ export const addAddress = async (values: Address): Promise<void> => {
 export const getAddress = async (): Promise<Address[]> => {
   const user = auth.currentUser;
   if (!user) {
-    console.log("can't add address user is not logged in ");
     return [];
   }
 
@@ -59,7 +58,6 @@ export const getAddress = async (): Promise<Address[]> => {
       };
     });
   } catch {
-    console.log('error in fetching address');
     return [];
   }
 };
@@ -69,13 +67,12 @@ export const getAddress = async (): Promise<Address[]> => {
 export const removeAddress = async (firebaseId: string): Promise<void> => {
   const user = auth.currentUser;
   if (!user) {
-    console.log("can't delete address user is not logged in ");
     return;
   }
   try {
     const addressRef = doc(db, `users/${user.uid}/address/${firebaseId}`);
     await deleteDoc(addressRef);
   } catch {
-    console.log('error in deleting address');
+    toast.error('error in deleting address');
   }
 };

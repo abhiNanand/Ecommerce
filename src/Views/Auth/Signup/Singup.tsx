@@ -10,10 +10,10 @@ import {
 } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { doc, setDoc } from 'firebase/firestore';
-import {handleChange,handleChangePassword} from '../../../Shared/Utilities';
+import { handleChange, handleChangePassword } from '../../../Shared/Utilities';
 import { auth, db } from '../../../Services/firebase/firebase';
 import assets from '../../../assets';
-import { ROUTES,VALIDATION_CONSTANTS } from '../../../Shared/Constants';
+import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
 import Google from '../Google';
 import '../Login/Login.scss';
 
@@ -39,7 +39,7 @@ export default function Signup() {
       email: Yup.string()
         .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED)
         .matches(
-        VALIDATION_CONSTANTS.Email_REGEX,
+          VALIDATION_CONSTANTS.Email_REGEX,
           VALIDATION_CONSTANTS.EMAIL_INVALID
         ),
       password: Yup.string()
@@ -104,7 +104,7 @@ export default function Signup() {
               type="text"
               placeholder="Name"
               name="name"
-              onChange={(e)=>handleChange(e,formik)}
+              onChange={(e) => handleChange(e, formik)}
               value={formik.values.name}
             />
             {formik.touched.name && formik.errors.name && (
@@ -118,7 +118,7 @@ export default function Signup() {
               type="text"
               placeholder="Email address"
               name="email"
-              onChange={(e)=>handleChange(e,formik)}
+              onChange={(e) => handleChange(e, formik)}
               value={formik.values.email}
             />
             {formik.touched.email && formik.errors.email && (
@@ -133,7 +133,7 @@ export default function Signup() {
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
                 name="password"
-                onChange={(e)=>handleChangePassword(e,formik)}
+                onChange={(e) => handleChangePassword(e, formik)}
                 value={formik.values.password}
               />
 
@@ -161,7 +161,7 @@ export default function Signup() {
           <button disabled={creating} type="submit" id="create-btn">
             {creating ? 'Creating...' : 'Create Account'}
           </button>
-          <Google/>
+          <Google />
         </form>
         <p id="go-to-login">
           Already have an account?{' '}

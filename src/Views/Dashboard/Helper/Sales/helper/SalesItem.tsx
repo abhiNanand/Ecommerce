@@ -29,10 +29,18 @@ export default function ShowItem({ products }: Readonly<ShowItemProps>) {
   return (
     <>
       <div className="arrows">
-        <button className="left-arrow" onClick={() => scrollLeft()}>
+        <button
+          type="button"
+          className="left-arrow"
+          onClick={() => scrollLeft()}
+        >
           <ArrowLeft size={20} />
         </button>
-        <button className="right-arrow" onClick={() => scrollRight()}>
+        <button
+          type="button"
+          className="right-arrow"
+          onClick={() => scrollRight()}
+        >
           <ArrowRight size={20} />
         </button>
       </div>

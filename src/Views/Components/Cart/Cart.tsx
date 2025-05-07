@@ -49,8 +49,8 @@ export default function Cart() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         await currentUser.reload();
-        const cartItems = await getCartItems();
-        setCartItems(cartItems);
+        const cartItem = await getCartItems();
+        setCartItems(cartItem);
         setLoading(false);
       } else {
         setCartItems([]);
@@ -60,7 +60,7 @@ export default function Cart() {
     return () => unsubscribe();
   }, [user]);
 
-  const handleRemoveItem = async (product: any) => {
+  const handleRemoveItem = async (product: Product) => {
     if (cartBtnLoading) return;
     setCartBtnLoading(true);
 
@@ -77,7 +77,7 @@ export default function Cart() {
     }
   };
 
-  const handleTotalItem = async (product: any) => {
+  const handleTotalItem = async (product: Product) => {
     await removeFromCart(product.id);
     dispatch(updateCartItem(cartCount - (product.quantity ?? 1)));
     setCartItems((prevItems) =>
@@ -91,7 +91,7 @@ export default function Cart() {
   };
 
   const handleQuantityChange = async (
-    product: any,
+    product: Product,
     newQuantity: number,
     totalCartCount: number
   ) => {
@@ -113,8 +113,8 @@ export default function Cart() {
           item.id === product.id ? { ...item, quantity: newQuantity } : item
         )
       );
-    } catch (error) {
-      console.error('error updating quantity', error);
+    } catch {
+      toast.error('error updating quantity');
     } finally {
       setCartBtnLoading(false);
     }
@@ -170,7 +170,11 @@ export default function Cart() {
             cartItems.map((product) => (
               <div className="cart-row" key={product.id}>
                 <span>
-                  <button className="product-img-btn" onClick={() => navigate(`/product/${product.id}`)}>
+                  <button
+                    type="button"
+                    className="product-img-btn"
+                    onClick={() => navigate(`/product/${product.id}`)}
+                  >
                     <img
                       src={product.image}
                       alt={product.title}
@@ -191,7 +195,7 @@ export default function Cart() {
                 <span>${product.price}</span>
                 <div className="cart-quantity-controls">
                   <span>
-                    {product.quantity == 1 ? (
+                    {product.quantity === 1 ? (
                       <button
                         type="button"
                         className="cart-delete-button"
@@ -203,6 +207,7 @@ export default function Cart() {
                       </button>
                     ) : (
                       <button
+                        type="button"
                         className="cart-minus-btn"
                         onClick={() => {
                           handleQuantityChange(
@@ -223,6 +228,7 @@ export default function Cart() {
                       disabled
                     />
                     <button
+                      type="button"
                       className="cart-plus-btn"
                       onClick={() => {
                         handleQuantityChange(
@@ -263,7 +269,9 @@ export default function Cart() {
           Return to Shop
         </button>
         {cartItems.length > 0 && (
-          <button onClick={() => setOpenClearCart(true)}>Clear Cart</button>
+          <button type="button" onClick={() => setOpenClearCart(true)}>
+            Clear Cart
+          </button>
         )}
       </div>
 
@@ -274,7 +282,7 @@ export default function Cart() {
             <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
             <p>Shipping: Free</p>
             <p>Total: ${calculateTotal().toFixed(2)}</p>
-            {cartItems.length != 0 && (
+            {cartItems.length !== 0 && (
               <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
                 Proceed to Checkout
               </button>
@@ -290,6 +298,7 @@ export default function Cart() {
               <p>Are you sure you want to clear cart?</p>
               <div className="confirm-n-cancel-btn">
                 <button
+                  type="button"
                   className="confirm-btn"
                   onClick={() => {
                     handleClearCart();
@@ -299,6 +308,7 @@ export default function Cart() {
                   Confirm
                 </button>
                 <button
+                  type="button"
                   className="cancel-btn"
                   onClick={() => setOpenClearCart(false)}
                 >

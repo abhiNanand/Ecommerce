@@ -78,8 +78,7 @@ export default function AddCartButton({
       setTotal(0);
       toast.info('Item removed from cart');
       dispatch(updateCartItem(cartCount - 1));
-    } catch (error) {
-      console.error('Error removing item', error);
+    } catch {
       toast.error('Failed to remove item');
     } finally {
       setIsLoading(false);
@@ -100,8 +99,7 @@ export default function AddCartButton({
       setTotal(1);
       dispatch(updateCartItem(cartCount + 1));
       toast.success('Item added to cart');
-    } catch (error) {
-      console.error('Error adding to cart', error);
+    } catch {
       toast.error('Failed to add to cart');
     } finally {
       setIsLoading(false);
@@ -124,6 +122,7 @@ export default function AddCartButton({
             </button>
           ) : (
             <button
+              type="button"
               disabled={isLoading}
               className="cart-btn-minus"
               onClick={() => {

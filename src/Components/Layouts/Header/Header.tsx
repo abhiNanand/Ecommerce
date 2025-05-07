@@ -220,6 +220,7 @@ export default function Header() {
               <p>Are you sure you want to log out?</p>
               <div className="confirm-n-cancel-btn">
                 <button
+                  type="button"
                   className="confirm-btn"
                   onClick={() => {
                     handleLogout();
@@ -229,6 +230,7 @@ export default function Header() {
                   Confirm
                 </button>
                 <button
+                  type="button"
                   className="cancel-btn"
                   onClick={() => setOpenLogout(false)}
                 >

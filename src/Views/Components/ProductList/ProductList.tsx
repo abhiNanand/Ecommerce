@@ -84,8 +84,8 @@ export default function ProductList({ products }: Readonly<ShowItemProps>) {
         toast.success('Item added to wishlist');
         dispatch(updateWishlistItem(wishlistCount + 1));
       }
-    } catch (wishListError) {
-      console.error('Error handling wishlist action:', wishListError);
+    } catch {
+      toast.error('Error handling wishlist action:');
     } finally {
       setLoading(false);
     }
@@ -94,6 +94,7 @@ export default function ProductList({ products }: Readonly<ShowItemProps>) {
     <>
       {products.map((product: Product) => (
         <button
+          type="button"
           key={product.id}
           className="sales-product-card"
           onClick={() =>
@@ -122,6 +123,7 @@ export default function ProductList({ products }: Readonly<ShowItemProps>) {
           />
           <h3 className="product-title">{product.title}</h3>
           <button
+            type="button"
             className="cart-btn-div"
             onClick={(event) => event.stopPropagation()}
           >

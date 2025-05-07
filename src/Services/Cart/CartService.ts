@@ -8,6 +8,7 @@ import {
   deleteDoc,
   updateDoc,
 } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 import { auth, db } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
 
@@ -15,7 +16,6 @@ import { Product } from '../../Shared/Product';
 export const addToCart = async (product: Product) => {
   const user = auth.currentUser;
   if (!user) {
-    console.log('In cart section- User not logged in ');
     return;
   }
   try {
@@ -32,8 +32,8 @@ export const addToCart = async (product: Product) => {
     } else {
       await setDoc(doc(cartRef), { ...product, quantity: 1 });
     }
-  } catch (error) {
-    console.error('error adding to the cart:', error);
+  } catch {
+    toast.error('error adding to the cart:');
   }
 };
 
@@ -42,7 +42,6 @@ export const removeFromCart = async (ProductId: string) => {
   const user = auth.currentUser;
 
   if (!user) {
-    console.error('User not logged in!');
     return;
   }
 
@@ -55,15 +54,14 @@ export const removeFromCart = async (ProductId: string) => {
       const docRef = querySnapshot.docs[0].ref;
       await deleteDoc(docRef);
     }
-  } catch (error) {
-    console.error('Error removing item from cart:', error);
+  } catch {
+    toast.error('Error removing item from cart:');
   }
 };
 
 export const getCartItems = async (): Promise<Product[]> => {
   const user = auth.currentUser;
   if (!user) {
-    console.error('User not logged in!');
     return [];
   }
 
@@ -84,8 +82,7 @@ export const getCartItems = async (): Promise<Product[]> => {
         category: data.category ?? '',
       };
     });
-  } catch (error) {
-    console.error('Error fetching cart items:', error);
+  } catch {
     return [];
   }
 };

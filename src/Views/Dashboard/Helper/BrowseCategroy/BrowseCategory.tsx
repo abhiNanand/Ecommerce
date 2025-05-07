@@ -48,6 +48,7 @@ export default function BrowseCategory() {
       <div className="category-grid">
         {categories.map((item) => (
           <button
+            type="button"
             className="category-item"
             key={item.name}
             onClick={() => navigate(item.link)}

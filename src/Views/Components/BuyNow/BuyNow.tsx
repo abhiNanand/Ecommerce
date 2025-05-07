@@ -4,9 +4,7 @@ import { useGetProductByIdQuery } from '../../../Services/Api/module/demoApi';
 import BuyProduct from '../BuyProduct/BuyProduct';
 import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 
-
 export default function BuyNow() {
-
   const { productId } = useParams();
   const {
     data: product,
@@ -26,7 +24,5 @@ export default function BuyNow() {
   if (!product) {
     return <p>No product data available.</p>;
   }
-  return (
-    <BuyProduct products={[product]} />
-  );
+  return <BuyProduct products={[product]} />;
 }

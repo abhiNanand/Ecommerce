@@ -10,6 +10,7 @@ import {
   QueryDocumentSnapshot,
   DocumentData,
 } from 'firebase/firestore';
+import { toast } from 'react-toastify';
 import { db, auth } from '../firebase/firebase';
 import { Product } from '../../Shared/Product';
 import { Address } from '../Address/Address';
@@ -21,7 +22,6 @@ export const addToOrderHistory = async (
 ): Promise<void> => {
   const user = auth.currentUser;
   if (!user) {
-    console.log('user not found');
     return;
   }
 
@@ -34,7 +34,7 @@ export const addToOrderHistory = async (
       date: new Date(),
     });
   } catch {
-    console.log("can't update orders");
+    toast.error("can't update orders");
   }
 };
 
@@ -55,7 +55,6 @@ export const fetchOrders = async (
 }> => {
   const user = auth.currentUser;
   if (!user) {
-    console.log('User not found');
     return { orders: [], lastDoc: null };
   }
   try {
@@ -82,8 +81,7 @@ export const fetchOrders = async (
     const newLastDoc = docs.length > 0 ? docs[docs.length - 1] : null;
 
     return { orders, lastDoc: newLastDoc };
-  } catch (error) {
-    console.log('Error fetching paginated orders:', error);
+  } catch {
     return { orders: [], lastDoc: null };
   }
 };

@@ -43,7 +43,7 @@ export default function Category() {
 
       <section className="category-content">
         <h1 className="category-title">
-          {category == 'jewelery' ? 'Jewellery' : <p>{category}</p>}
+          {category === 'jewelery' ? 'Jewellery' : <p>{category}</p>}
         </h1>
         {isLoading ? (
           <div className="loader">

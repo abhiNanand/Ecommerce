@@ -27,8 +27,7 @@ export const getMessage = async (): Promise<Message[]> => {
         createdAt: data.createdAt ?? null,
       };
     });
-  } catch (error) {
-    console.error('Error fetching messages:', error);
+  } catch {
     return [];
   }
 };

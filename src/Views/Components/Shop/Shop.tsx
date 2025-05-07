@@ -1,5 +1,4 @@
-// npm install rc-slider
-
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
@@ -81,7 +80,6 @@ export default function Shop() {
           <h3>Category</h3>
           <form>
             <div className="filter-product-category">
-              {' '}
               <input
                 type="checkbox"
                 id="women"
@@ -90,7 +88,6 @@ export default function Shop() {
               <label htmlFor="women">Women's Fashion</label>
             </div>
             <div className="filter-product-category">
-              {' '}
               <input
                 type="checkbox"
                 id="men"
@@ -99,7 +96,6 @@ export default function Shop() {
               <label htmlFor="men">Men's Fashion</label>
             </div>
             <div className="filter-product-category">
-              {' '}
               <input
                 type="checkbox"
                 id="electronics"

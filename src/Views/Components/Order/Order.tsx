@@ -106,6 +106,7 @@ export default function Order() {
               <div className="product-list">
                 {order.products.map((product) => (
                   <button
+                    type="button"
                     className="product-item"
                     key={product.id}
                     onClick={() => navigate(`/product/${product.id}`)}
@@ -127,6 +128,7 @@ export default function Order() {
       {hasMore && (
         <div className="load-more-btn">
           <button
+            type="button"
             className="load-request-btn"
             onClick={loadMore}
             disabled={loadingMore}

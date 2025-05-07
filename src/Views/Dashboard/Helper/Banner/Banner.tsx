@@ -33,6 +33,7 @@ export default function Banner() {
       <div className="dots-container">
         {images?.map((item, index) => (
           <button
+            type="button"
             key={item.src}
             className={`dot ${index === currentIndex ? 'active' : ''}`}
             onClick={() => setCurrentIndex(index)}

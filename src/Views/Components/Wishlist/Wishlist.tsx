@@ -85,7 +85,7 @@ export default function Wishlist() {
       wishlistItems.map(async (item) => {
         await addToCart(item);
         await handleDelete(item);
-        i++;
+        i += 1;
       })
     );
     dispatch(updateWishlistItem(wishlistCount - i));
@@ -142,6 +142,7 @@ export default function Wishlist() {
       <div className="wishlist-items">
         {wishlistItems.map((item) => (
           <button
+            type="button"
             className="wishlist-item"
             onClick={() => navigate(`/product/${item.id}`)}
             key={item.id}

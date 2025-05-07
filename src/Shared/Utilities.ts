@@ -25,12 +25,9 @@ export const calculateTimeLeft = (
   };
 };
 
-
-
-
 export const handleChange = (
   e: React.ChangeEvent<HTMLInputElement>,
-  formik: any 
+  formik: any
 ) => {
   const fieldName = e.target.name;
   let processedValue = e.target.value;
@@ -40,7 +37,7 @@ export const handleChange = (
 
 export const handleChangePassword = (
   e: React.ChangeEvent<HTMLInputElement>,
-  formik: any 
+  formik: any
 ) => {
   const fieldName = e.target.name;
   let processedValue = e.target.value;

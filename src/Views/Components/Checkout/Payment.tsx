@@ -93,19 +93,6 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
   }, [mintError]);
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'visible' && hash) {
-        console.log('Tab became visible, checking transaction status');
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => {
-      document.removeEventListener('visibilitychange', handleVisibilityChange);
-    };
-  }, [hash]);
-
-  useEffect(() => {
     document.body.style.overflow =
       showPaymentWindow || showOrderConfirmed ? 'hidden' : 'auto';
     return () => {

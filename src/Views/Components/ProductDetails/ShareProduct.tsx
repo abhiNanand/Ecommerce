@@ -50,6 +50,7 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
           </TelegramShareButton>
           <br />
           <button
+            type="button"
             className="copy-link"
             onClick={() => {
               navigator.clipboard.writeText(shareLink);

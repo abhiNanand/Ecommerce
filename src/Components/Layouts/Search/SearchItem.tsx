@@ -18,7 +18,7 @@ export default function SearchItem() {
     );
   }
   if (error) return <h1>Error in loading items</h1>;
-  if (query == 'all') {
+  if (query === 'all') {
     return (
       <div className="show-searched-products">
         {' '}

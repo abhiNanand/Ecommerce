@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
 import { auth } from '../../../../../Services/firebase/firebase';
 import './Address.scss';
 import {
   getAddress,
   removeAddress,
 } from '../../../../../Services/Address/Address';
+import { removePreviousAddress } from '../../../../../Store/Address/AddressSlice';
 import type { Address } from '../../../../../Services/Address/Address';
 import AddressForm from '../../../../../Views/Components/AddressForm/AddressForm';
 
@@ -14,6 +16,7 @@ function Address() {
   const [open, setOpen] = useState<boolean>(false);
   const [deleteIndex, setDeleteIndex] = useState<number>(-1);
   const [openAddress, setOpenAddress] = useState<boolean>(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -33,6 +36,9 @@ function Address() {
     await removeAddress(id);
     setAddresses((prev) => prev.filter((address) => address.firebaseId !== id));
     setOpen(false);
+    if (addresses.length === 1) {
+      dispatch(removePreviousAddress());
+    }
   };
 
   return (
@@ -50,6 +56,7 @@ function Address() {
               <p>Phone Number: {address.phoneNumber}</p>
               <p>Email: {address.emailAddress}</p>
               <button
+                type="button"
                 onClick={() => {
                   setOpen(true);
                   setDeleteIndex(index);
@@ -69,6 +76,7 @@ function Address() {
               <p>Are you sure you want to delete this address?</p>
               <div className="confirm-n-cancel-btn">
                 <button
+                  type="button"
                   className="confirm-btn"
                   onClick={() => {
                     handleDelete(addresses[deleteIndex].firebaseId);
@@ -77,7 +85,11 @@ function Address() {
                 >
                   Confirm
                 </button>
-                <button className="cancel-btn" onClick={() => setOpen(false)}>
+                <button
+                  type="button"
+                  className="cancel-btn"
+                  onClick={() => setOpen(false)}
+                >
                   Cancel
                 </button>
               </div>
@@ -101,6 +113,7 @@ function Address() {
               {' '}
               <AddressForm onClose={() => setOpenAddress(false)} />
               <button
+                type="button"
                 className="close-address-btn"
                 onClick={() => setOpenAddress(false)}
               >

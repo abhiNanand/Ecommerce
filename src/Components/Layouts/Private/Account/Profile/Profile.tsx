@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import './Profile.scss';
 import { useState, useEffect } from 'react';
 import { useFormik } from 'formik';
@@ -50,7 +51,7 @@ export default function Profile() {
       currentPassword: Yup.string().required('Current password is required'),
       newPassword: Yup.string()
         .required('New password is required')
-        .min(6, 'Password must be at least 8 characters')
+        .min(6, 'Password must be at least 6 characters')
         .matches(
           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
           'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'

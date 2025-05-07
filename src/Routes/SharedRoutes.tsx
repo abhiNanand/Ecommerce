@@ -13,6 +13,7 @@ import FAQs from '../Views/Components/QuickLinks/FAQs';
 import PrivacyPolicy from '../Views/Components/QuickLinks/PrivacyPolicy';
 import TermsOfUse from '../Views/Components/QuickLinks/TermsOfUse';
 
+/* eslint-disable import/prefer-default-export */
 export const SHARED_ROUTES: Array<CustomRouter> = [
   {
     path: ROUTES_CONFIG.HOMEPAGE.path,

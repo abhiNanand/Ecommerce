@@ -42,7 +42,7 @@ function ProductDetails() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         const wishlist = await getWishlistItems();
-        const flag = wishlist.some((item) => item.id == productId);
+        const flag = wishlist.some((item) => item.id === productId);
         setIsInWishlist(flag);
       }
     });
@@ -79,7 +79,7 @@ function ProductDetails() {
   }
 
   const filteredRelatedProducts = relatedProducts?.filter(
-    (relatedProduct: Product) => relatedProduct.id != productId
+    (relatedProduct: Product) => relatedProduct.id !== productId
   );
   const handleWishlistClick = async (product: Product) => {
     try {
@@ -104,8 +104,8 @@ function ProductDetails() {
         toast.success('Item added to wishlist');
         dispatch(updateWishlistItem(wishlistCount + 1));
       }
-    } catch (wishListError) {
-      console.error('Error handling wishlist action:', wishListError);
+    } catch {
+      toast.error('Error handling wishlist action:');
     } finally {
       setLoading(false);
     }

@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import './About.scss';
 import { NavLink } from 'react-router-dom';
 import { CircleDollarSign } from 'lucide-react';
@@ -142,15 +143,18 @@ export default function About() {
 
         <div className="profile-scroll-btn">
           <button
-            className={index == 0 ? 'active-index' : ''}
+            type="button"
+            className={index === 0 ? 'active-index' : ''}
             onClick={() => setIndex(0)}
           />
           <button
-            className={index == 3 ? 'active-index' : ''}
+            type="button"
+            className={index === 3 ? 'active-index' : ''}
             onClick={() => setIndex(3)}
           />
           <button
-            className={index == 6 ? 'active-index' : ''}
+            type="button"
+            className={index === 6 ? 'active-index' : ''}
             onClick={() => setIndex(6)}
           />
         </div>

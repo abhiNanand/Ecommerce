@@ -17,6 +17,22 @@ export default function CheckoutForm() {
   const [open, setOpen] = useState<boolean>(true);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState<number>(0);
 
+  const dispatch = useDispatch();
+  const handleRadioClick = (value: Address) => {
+    dispatch(removePreviousAddress());
+    dispatch(
+      updateAddress({
+        name: value.name,
+        companyName: value.companyName,
+        streetAddress: value.streetAddress,
+        apartment: value.apartment,
+        town: value.town,
+        phoneNumber: value.phoneNumber,
+        emailAddress: value.emailAddress,
+      })
+    );
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
@@ -34,22 +50,6 @@ export default function CheckoutForm() {
 
     return () => unsubscribe();
   }, [open]);
-
-  const dispatch = useDispatch();
-  const handleRadioClick = (value: Address) => {
-    dispatch(removePreviousAddress());
-    dispatch(
-      updateAddress({
-        name: value.name,
-        companyName: value.companyName,
-        streetAddress: value.streetAddress,
-        apartment: value.apartment,
-        town: value.town,
-        phoneNumber: value.phoneNumber,
-        emailAddress: value.emailAddress,
-      })
-    );
-  };
   return (
     <div className="billing-form">
       {open ? (
@@ -90,7 +90,11 @@ export default function CheckoutForm() {
       ) : (
         <>
           {address.length > 0 && (
-            <button className="go-back-btn" onClick={() => setOpen(true)}>
+            <button
+              type="button"
+              className="go-back-btn"
+              onClick={() => setOpen(true)}
+            >
               <ArrowLeft size={14} />
             </button>
           )}

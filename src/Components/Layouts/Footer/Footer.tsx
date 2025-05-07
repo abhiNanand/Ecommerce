@@ -15,7 +15,7 @@ export default function Footer() {
   const location = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (isAuthenticated && location.pathname != '/') toast.dismiss();
+    if (isAuthenticated && location.pathname !== '/') toast.dismiss();
   }, [location.pathname]);
   const logout = useLogout();
 
@@ -30,8 +30,7 @@ export default function Footer() {
             toast.error('Your account has been removed.');
             logout();
           }
-        } catch (error) {
-          console.error('Error checking user existence:', error);
+        } catch {
           toast.error('Authentication error. Logging out.');
           logout();
         }

@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Address } from '../../Services/Address/Address';
+/* eslint-disable no-param-reassign */
 
 const initialState: Address = {
   name: '',

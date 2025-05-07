@@ -50,7 +50,11 @@ export default function AdminMessages() {
           ))}
         </tbody>
       </table>
-      <button className="admin-logout-btn" onClick={() => setOpenLogout(true)}>
+      <button
+        type="button"
+        className="admin-logout-btn"
+        onClick={() => setOpenLogout(true)}
+      >
         logout
       </button>
       {openLogout && (
@@ -61,6 +65,7 @@ export default function AdminMessages() {
               <p>Are you sure you want to log out?</p>
               <div className="confirm-n-cancel-btn">
                 <button
+                  type="button"
                   className="confirm-btn"
                   onClick={() => {
                     logout();
@@ -70,6 +75,7 @@ export default function AdminMessages() {
                   Confirm
                 </button>
                 <button
+                  type="button"
                   className="cancel-btn"
                   onClick={() => setOpenLogout(false)}
                 >
