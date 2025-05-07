@@ -90,7 +90,7 @@ export default function CheckoutForm() {
       ) : (
         <>
           {address.length > 0 && (
-            <button onClick={() => setOpen(true)}>
+            <button className="go-back-btn" onClick={() => setOpen(true)}>
               <ArrowLeft size={14} />
             </button>
           )}
