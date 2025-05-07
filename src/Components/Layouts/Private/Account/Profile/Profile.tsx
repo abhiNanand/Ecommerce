@@ -13,6 +13,7 @@ import {
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../../Shared/CustomHooks/userAuth';
 import { auth } from '../../../../../Services/firebase/firebase';
+import { VALIDATION,TOAST } from '../../../../../Shared/Constants';
 
 export default function Profile() {
   const { user } = useAuth();
@@ -48,23 +49,21 @@ export default function Profile() {
     },
 
     validationSchema: Yup.object({
-      currentPassword: Yup.string().required('Current password is required'),
+      currentPassword: Yup.string().required(VALIDATION.CURRENT_PASSWORD_REQUIRED),
       newPassword: Yup.string()
-        .required('New password is required')
-        .min(6, 'Password must be at least 6 characters')
-        .matches(
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]).+$/,
-          'Password must contain at least: 1 uppercase, 1 lowercase, 1 number, and 1 symbol'
+        .required(VALIDATION.NEW_PASSWORD_REQUIRED)
+        .min(6, VALIDATION.PASSWORD_MIN_LENGTH)
+        .matches(VALIDATION.PASSWORD_REGEX, VALIDATION.PASSWORD_WEAK
         )
         .notOneOf(
           [Yup.ref('currentPassword'), null],
-          'New password cannot be the same as current password'
+          VALIDATION.PASSWORD_CANNOT_SAME
         ),
       confirmPassword: Yup.string()
-        .required('Confirm password is required')
+        .required(VALIDATION.CONFIRM_PASSWORD_REQUIRED)
         .oneOf(
           [Yup.ref('newPassword')],
-          'Confirm Passwords must match with new password'
+          VALIDATION.PASSWORD_CANNOT_SAME
         ),
     }),
     onSubmit: async (values, { resetForm }) => {
@@ -82,11 +81,11 @@ export default function Profile() {
           await updatePassword(currentUser, values.newPassword);
         }
 
-        toast.success('Password changed successfully!');
+        toast.success(TOAST.CHANGE_SUCCESFULLY);
         setEditMode(false);
         resetForm();
       } catch {
-        toast.error(' Current password is wrong');
+        toast.error(TOAST.WRONG_PASSWORD);
       }
       setChangePassword(false);
     },

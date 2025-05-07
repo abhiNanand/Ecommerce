@@ -18,7 +18,7 @@ import {
 } from '../../../Services/Cart/CartService';
 import { Product } from '../../../Shared/Product';
 import { useAuth } from '../../../Shared/CustomHooks/userAuth';
-import { ROUTES } from '../../../Shared/Constants';
+import { BREADCRUMB, ROUTES, TEXT } from '../../../Shared/Constants';
 import './Cart.scss';
 
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
@@ -134,8 +134,8 @@ export default function Cart() {
     return (
       <div className="wishlist">
         <div className="empty-state">
-          <h4>Please sign in to view your cart</h4>
-          <p>Sign in to sync your across all devices.</p>
+          <h4>{TEXT.PLEASE_SIGN_IN}</h4>
+          <p>{TEXT.SIGN_IN_SYNC}</p>
         </div>
       </div>
     );
@@ -151,21 +151,21 @@ export default function Cart() {
   return (
     <div className="cart-container">
       <p className="breadcrumb">
-        <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-        <NavLink to={ROUTES.CART}> Cart</NavLink>
+        <NavLink to={ROUTES.HOMEPAGE}>{BREADCRUMB.HOME}</NavLink>
+        <NavLink to={ROUTES.CART}>{BREADCRUMB.CART}</NavLink>
       </p>
       <div className="cart-table">
         <div className="cart-header">
-          <span>Product</span>
-          <span>Price</span>
-          <span>Quantity</span>
-          <span>Subtotal</span>
-          <span>Remove</span>
+          <span>{TEXT.PRODUCT}</span>
+          <span>{TEXT.PRICE}</span>
+          <span>{TEXT.QUANTITY}</span>
+          <span>{TEXT.SUBTOTAL}</span>
+          <span>{TEXT.REMOVE}</span>
         </div>
 
         <div className="cart-items">
           {cartItems.length === 0 ? (
-            <p>No items in the cart</p>
+            <p>{TEXT.NO_ITEMS}</p>
           ) : (
             cartItems.map((product) => (
               <div className="cart-row" key={product.id}>
@@ -266,11 +266,11 @@ export default function Cart() {
 
       <div className="cart-actions">
         <button type="button" onClick={returnHome}>
-          Return to Shop
+        {TEXT.RETURN_TO_SHOP}
         </button>
         {cartItems.length > 0 && (
           <button type="button" onClick={() => setOpenClearCart(true)}>
-            Clear Cart
+            {TEXT.CLEAR_CART}
           </button>
         )}
       </div>
@@ -278,13 +278,13 @@ export default function Cart() {
       {cartItems.length > 0 && (
         <div className="cart-summary">
           <div className="cart-total">
-            <h3>Cart Total</h3>
-            <p>Subtotal: ${calculateTotal().toFixed(2)}</p>
-            <p>Shipping: Free</p>
-            <p>Total: ${calculateTotal().toFixed(2)}</p>
+            <h3>{TEXT.CART_TOTAL}</h3>
+            <p>{TEXT.SUBTOTAL}: ${calculateTotal().toFixed(2)}</p>
+            <p>{TEXT.SHIPPING}: {TEXT.SHIPPING_FREE}</p>
+            <p>{TEXT.TOTAL}: ${calculateTotal().toFixed(2)}</p>
             {cartItems.length !== 0 && (
               <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
-                Proceed to Checkout
+                {TEXT.PROCEED_TO_CHECKOUT}
               </button>
             )}
           </div>
@@ -294,8 +294,8 @@ export default function Cart() {
         <div className="confirmation-container">
           <div>
             <div className="confirm-title-btn">
-              <h3>Clear Cart Confirmation</h3>
-              <p>Are you sure you want to clear cart?</p>
+              <h3>{TEXT.CLEAR_CART_CONFIRMATION}</h3>
+              <p>{TEXT.CLEAR_CART_PROMPT}</p>
               <div className="confirm-n-cancel-btn">
                 <button
                   type="button"
@@ -305,14 +305,14 @@ export default function Cart() {
                     setOpenClearCart(false);
                   }}
                 >
-                  Confirm
+                  {TEXT.CONFIRM}
                 </button>
                 <button
                   type="button"
                   className="cancel-btn"
                   onClick={() => setOpenClearCart(false)}
                 >
-                  Cancel
+                  {TEXT.CANCEL}
                 </button>
               </div>
             </div>

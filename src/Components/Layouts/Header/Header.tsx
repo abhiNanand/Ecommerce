@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { ROUTES_CONFIG, ROUTES } from '../../../Shared/Constants';
+import {  ROUTES, TEXT } from '../../../Shared/Constants';
 import { auth } from '../../../Services/firebase/firebase';
 import { useAuth } from '../../../Shared/CustomHooks/userAuth';
 
@@ -97,17 +97,17 @@ export default function Header() {
 
         <nav className="nav-links">
           <NavLink className="header-nav-link" to={ROUTES.HOMEPAGE}>
-            Home
+            {TEXT.NAV_HOME}
           </NavLink>
           <NavLink className="header-nav-link" to="/contact">
-            Contact
+          {TEXT.NAV_CONTACT}
           </NavLink>
           <NavLink className="header-nav-link" to="/about">
-            About
+            {TEXT.NAV_ABOUT}
           </NavLink>
           {!isAuthenticated && (
             <NavLink className="header-nav-link" to={ROUTES.LOGIN}>
-              Login
+              {TEXT.NAV_LOGIN}
             </NavLink>
           )}
         </nav>
@@ -148,7 +148,7 @@ export default function Header() {
           {isAuthenticated && (
             <>
               <Link
-                to={ROUTES_CONFIG.WISHLIST.path}
+                to={ROUTES.WISHLIST}
                 className="icons-btn"
                 aria-label="Favorites"
               >
@@ -158,7 +158,7 @@ export default function Header() {
                 )}
               </Link>
               <Link
-                to={ROUTES_CONFIG.CART.path}
+                to={ROUTES.CART}
                 className="icons-btn"
                 aria-label="Shopping Cart"
               >
@@ -186,11 +186,11 @@ export default function Header() {
               {open && (
                 <div className="dropdown-content">
                   <Link to={ROUTES.ACCOUNT}>
-                    <User size={24} /> Manage My Account
+                    <User size={24} /> {TEXT.MANAGE_ACCOUNT}
                   </Link>
                   <Link to="/order">
                     <ShoppingBag size={24} />
-                    My Orders
+                    {TEXT.ORDERS}
                   </Link>
                   <button
                     type="button"
@@ -198,7 +198,7 @@ export default function Header() {
                     onClick={() => setOpenLogout(true)}
                   >
                     <LogOut size={24} />{' '}
-                    <span className="logout-title">Logout</span>
+                    <span className="logout-title">{TEXT.LOGOUT}</span>
                   </button>
                 </div>
               )}
@@ -207,7 +207,7 @@ export default function Header() {
 
           {isAuthenticated && (
             <span className="username">
-              Welcome, {user?.displayName ?? 'User'}
+              {TEXT.WELCOME}, {user?.displayName ?? 'User'}
             </span>
           )}
         </div>
@@ -216,8 +216,8 @@ export default function Header() {
         <div className="confirmation-container">
           <div>
             <div className="confirm-title-btn">
-              <h3>Logout Confirmation</h3>
-              <p>Are you sure you want to log out?</p>
+              <h3>{TEXT.LOGOUT_CONFIRM_TITLE}</h3>
+              <p>{TEXT.LOGOUT_CONFIRM_MESSAGE}</p>
               <div className="confirm-n-cancel-btn">
                 <button
                   type="button"
@@ -227,14 +227,14 @@ export default function Header() {
                     setOpenLogout(false);
                   }}
                 >
-                  Confirm
+                  {TEXT.LOGOUT_CONFIRM_BTN}
                 </button>
                 <button
                   type="button"
                   className="cancel-btn"
                   onClick={() => setOpenLogout(false)}
                 >
-                  Cancel
+                  {TEXT.LOGOUT_CANCEL_BTN}
                 </button>
               </div>
             </div>

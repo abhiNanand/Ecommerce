@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-
+import {TEXT} from '../../Shared/Constants';
 import { Frown } from 'lucide-react';
 import Banner from './Helper/Banner/Banner';
 import Sales from './Helper/Sales/Sales';
@@ -31,7 +31,7 @@ export default function Dashboard() {
     return (
       <div className="not-found">
         <Frown strokeWidth={1} size={50} />
-        <p>Error in Loading Products</p>
+        <p>{TEXT.ERROR_LOADING}</p>
       </div>
     );
   }
@@ -40,18 +40,18 @@ export default function Dashboard() {
     <div className="dashboard">
       <div className="top-banner">
         <div className="banner-categories">
-          <h3>Categories</h3>
+          <h3>{TEXT.CATEGORIES}</h3>
           <Link to="/category/women's clothing" className="category-link">
-            Women&apos;s Fashion
+            {TEXT.WOMENS_FASHION}
           </Link>
           <Link to="/category/men's clothing" className="category-link">
-            {`Men's Fashion`}
+            {TEXT.MENS_FASHION}
           </Link>
           <Link to="/category/electronics" className="category-link">
-            Electronics
+            {TEXT.ELECTRONICS}
           </Link>
           <Link to="/category/jewelery" className="category-link">
-            Jewellery
+            {TEXT.JEWELLERY}
           </Link>
         </div>
 

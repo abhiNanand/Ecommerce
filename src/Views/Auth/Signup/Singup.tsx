@@ -13,7 +13,7 @@ import { doc, setDoc } from 'firebase/firestore';
 import { handleChange, handleChangePassword } from '../../../Shared/Utilities';
 import { auth, db } from '../../../Services/firebase/firebase';
 import assets from '../../../assets';
-import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
+import { ROUTES, VALIDATION } from '../../../Shared/Constants';
 import Google from '../Google';
 import '../Login/Login.scss';
 
@@ -35,19 +35,19 @@ export default function Signup() {
       password: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string().required(VALIDATION_CONSTANTS.NAME_REQUIRED),
+      name: Yup.string().required(VALIDATION.NAME_REQUIRED),
       email: Yup.string()
-        .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED)
+        .required(VALIDATION.EMAIL_REQUIRED)
         .matches(
-          VALIDATION_CONSTANTS.Email_REGEX,
-          VALIDATION_CONSTANTS.EMAIL_INVALID
+          VALIDATION.Email_REGEX,
+          VALIDATION.EMAIL_INVALID
         ),
       password: Yup.string()
-        .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
-        .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED)
+        .min(6, VALIDATION.PASSWORD_MIN_LENGTH)
+        .required(VALIDATION.PASSWORD_REQUIRED)
         .matches(
-          VALIDATION_CONSTANTS.PASSWORD_REGEX,
-          VALIDATION_CONSTANTS.PASSWORD_WEAK
+          VALIDATION.PASSWORD_REGEX,
+          VALIDATION.PASSWORD_WEAK
         ),
     }),
     onSubmit: async (values, { resetForm }) => {

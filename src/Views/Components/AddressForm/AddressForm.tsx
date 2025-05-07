@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { VALIDATION } from '../../../Shared/Constants';
 import { addAddress } from '../../../Services/Address/Address';
 import '../Checkout/Checkout.scss';
 
@@ -30,30 +31,28 @@ export default function AddressForm({
 
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(15, 'Must be 20 characters or less')
-        .required('Required'),
+        .max(20, VALIDATION.MAX_LENGTH_20)
+        .required(VALIDATION.REQUIRED),
 
-      companyName: Yup.string().max(15, 'Must be 40 characters or less'),
+      companyName: Yup.string().max(20, VALIDATION.MAX_LENGTH_20),
 
       streetAddress: Yup.string()
-        .max(30, 'Must be 40 characters or less')
-        .required('Required'),
+        .max(30, VALIDATION.MAX_LENGTH_30)
+        .required(VALIDATION.REQUIRED),
 
-      apartment: Yup.string().max(30, 'Must be 30 characters or less'),
+      apartment: Yup.string().max(30, VALIDATION.MAX_LENGTH_30),
 
       town: Yup.string()
-        .max(30, 'Must be 30 character or less')
-        .required('Required'),
+        .max(30, VALIDATION.MAX_LENGTH_30)
+        .required(VALIDATION.REQUIRED),
 
       phoneNumber: Yup.string()
-        .matches(/^\d{10}$/, 'Phone number must have 10 digits')
-        .required('Required'),
+        .matches(VALIDATION.PHONE_NO_REGEX, VALIDATION.PHONE_NO_LENGTH)
+        .required(VALIDATION.REQUIRED),
 
       emailAddress: Yup.string()
-        .required('Required')
-        .matches(
-          /^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/,
-          'Enter a valid email address'
+        .required(VALIDATION.REQUIRED)
+        .matches(VALIDATION.Email_REGEX
         ),
     }),
 

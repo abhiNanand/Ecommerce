@@ -2,6 +2,7 @@ import { useParams, NavLink } from 'react-router-dom';
 import { Frown } from 'lucide-react';
 import { useGetProductByCategoryQuery } from '../../../Services/Api/module/demoApi';
 import ShowItem from '../ShowItem/ShowItem';
+import { TEXT } from '../../../Shared/Constants';
 import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 import './Category.scss';
 
@@ -17,27 +18,27 @@ export default function Category() {
     return (
       <div className="not-found">
         <Frown strokeWidth={1} size={50} />
-        <p>Error in Loading Products</p>
+        <p>{TEXT.ERROR_LOADING}</p>
       </div>
     );
   }
-  if (relatedProducts?.length === 0) return <p>No related products found.</p>;
+  if (relatedProducts?.length === 0) return <p>{TEXT.NOT_FOUND}</p>;
 
   return (
     <div className="category-page-container">
       <aside className="category-sidebar">
-        <h3>Categories</h3>
+        <h3>{TEXT.CATEGORIES}</h3>
         <NavLink to="/category/women's clothing" className="category-nav-link">
-          Women&apos;s Fashion
+          {TEXT.WOMENS_FASHION}
         </NavLink>
         <NavLink to="/category/men's clothing" className="category-nav-link">
-          Men&apos;s Fashion
+          {TEXT.MENS_FASHION}
         </NavLink>
         <NavLink to="/category/electronics" className="category-nav-link">
-          Electronics
+          {TEXT.ELECTRONICS}
         </NavLink>
         <NavLink to="/category/jewelery" className="category-nav-link">
-          Jewellery
+          {TEXT.JEWELLERY}
         </NavLink>
       </aside>
 

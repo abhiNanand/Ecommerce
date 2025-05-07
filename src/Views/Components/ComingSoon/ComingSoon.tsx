@@ -1,18 +1,18 @@
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES, TEXT } from '../../../Shared/Constants';
 
 export default function CommingSoon() {
   const navigate = useNavigate();
 
   return (
     <div className="error-container">
-      <p className="error-heading">Coming Soon </p>
+      <p className="error-heading">{TEXT.COMING_SOON}</p>
       <button
         type="button"
         onClick={() => navigate(ROUTES.HOMEPAGE)}
         className="return-home-btn"
       >
-        Back to home page
+        {TEXT.BACK_TO_HOME}
       </button>
     </div>
   );

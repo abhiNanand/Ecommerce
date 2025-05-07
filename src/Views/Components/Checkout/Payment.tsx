@@ -11,7 +11,7 @@ import { parseEther } from 'viem';
 import { RootState } from '../../../Store';
 import { addToOrderHistory } from '../../../Services/Order/order';
 import { removePreviousAddress } from '../../../Store/Address/AddressSlice';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES, TEXT, TOAST } from '../../../Shared/Constants';
 import { removeFromCart } from '../../../Services/Cart/CartService';
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
 import { Product } from '../../../Shared/Product';
@@ -50,7 +50,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
 
   const handleMint = async () => {
     if (!addressData.name.trim()) {
-      toast.error('Address not selected');
+      toast.error(TOAST.ADDRESS_ERROR);
       return;
     }
 
@@ -65,7 +65,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
       });
     } catch {
       setShowPaymentWindow(false);
-      toast.error('Payment initiation failed');
+      toast.error(TOAST.PAYMENT_FAIL);
     }
   };
 
@@ -88,7 +88,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
   useEffect(() => {
     if (mintError) {
       setShowPaymentWindow(false);
-      toast.error('Payment failed. Please try again.');
+      toast.error(TOAST.PAYMENT_FAIL);
     }
   }, [mintError]);
 
@@ -120,13 +120,13 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
       {showPaymentWindow && (
         <div className="place-order-container">
           <div className="place-order">
-            <h2>Payment in Progress</h2>
-            <p>Your transaction is processing on the blockchain...</p>
+            <h2>{TEXT.PAYMENT_IN_PROGRESS}</h2>
+            <p>{TEXT.TX_PROCESSING}</p>
             {hash && (
               <>
                 <div className="spinner" />
                 <p className="tx-hash">
-                  Transaction: {hash.slice(0, 10)}...{hash.slice(-8)}
+                {TEXT.TX}: {hash.slice(0, 10)}...{hash.slice(-8)}
                 </p>
                 <a
                   href={`https://holesky.etherscan.io/tx/${hash}`}
@@ -134,7 +134,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
                   rel="noopener noreferrer"
                   className="tx-link"
                 >
-                  View on Etherscan
+                  {TEXT.VIEW_ON_ETHERSCAN}
                 </a>
               </>
             )}
@@ -145,8 +145,8 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
       {showOrderConfirmed && (
         <div className="place-order-container">
           <div className="place-order">
-            <h2>Order Confirmed</h2>
-            <p>Your order has been received and will be processed shortly.</p>
+            <h2>{TEXT.ORDER_CONFIRMED}</h2>
+            <p>{TEXT.ORDER_RECEIVED}</p>
             <button
               type="button"
               className="place-order-btn"
@@ -155,7 +155,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
                 setShowOrderConfirmed(false);
               }}
             >
-              View Order
+              {TEXT.VIEW_ORDER}
             </button>
             <br />
             <button
@@ -165,11 +165,11 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
                 setShowOrderConfirmed(false);
               }}
             >
-              Continue Shopping
+              {TEXT.CONTINUE_SHOPPING}
             </button>
             {txHash && (
               <div className="tx-info">
-                <p>Transaction Hash:</p>
+                <p>{TEXT.TX_HASH}:</p>
                 <a
                   href={`https://holesky.etherscan.io/tx/${txHash}`}
                   target="_blank"

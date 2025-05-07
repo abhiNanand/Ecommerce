@@ -3,7 +3,7 @@ import './About.scss';
 import { NavLink } from 'react-router-dom';
 import { CircleDollarSign } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES, WEBLINK, BREADCRUMB, ABOUT_PAGE} from '../../../Shared/Constants';
 import assets from '../../../assets';
 
 const imgArr = [
@@ -48,23 +48,17 @@ export default function About() {
   return (
     <div className="about-container">
       <p className="breadcrumb">
-        <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-        <NavLink to={ROUTES.ABOUT}> About</NavLink>
+        <NavLink to={ROUTES.HOMEPAGE}>{BREADCRUMB.HOME}</NavLink>
+        <NavLink to={ROUTES.ABOUT}>{BREADCRUMB.ABOUT}</NavLink>
       </p>
       <div className="about-header">
         <div className="about-details">
           <h1>Our Story</h1>
           <p>
-            Launched in 2015,Exclusive in South Asia's premier online shopping
-            marketplace with an active presence in Bangladesh. Supported by wide
-            range of tailored marketing, data and service solutions, Exclusive
-            has 10,500 sallers adn 300 brands and serves 3 millions customers
-            across the region.
+            {ABOUT_PAGE.PARAGRAPH_1}
           </p>
           <p>
-            Exclusive has more than 1 Million products to offer, growing at a
-            very fast. Exclusive offers a diverse assessment in categories
-            ranging from consumer.
+          {ABOUT_PAGE.PARAGRAPH_2}
           </p>
         </div>
         <div className="about-img">
@@ -74,25 +68,23 @@ export default function About() {
       <div className="about-stats">
         <div>
           <img src={assets.icon.activeSeller} alt="activeSeller" />
-          <h3>10.5k</h3>
-          <p> Sellers active in our site</p>
+          <h3>{ABOUT_PAGE.STATS[0].count}</h3>
+          <p>{ABOUT_PAGE.STATS[0].label}</p>
         </div>
-
         <div>
-          {' '}
           <CircleDollarSign color="white" fill="black" size={80} />
-          <h3>33k</h3>
-          <p> Monthly Product Sale</p>
+          <h3>{ABOUT_PAGE.STATS[0].count}</h3>
+          <p>{ABOUT_PAGE.STATS[0].label}</p>
         </div>
         <div>
           <img src={assets.icon.activeCustomber} alt="activeCustomber" />
-          <h3>45k</h3>
-          <p> Custombers active in our site</p>
+          <h3>{ABOUT_PAGE.STATS[1].count}</h3>
+          <p>{ABOUT_PAGE.STATS[1].label}</p>
         </div>
         <div>
           <img src={assets.icon.grossSale} alt="grossSale" />
-          <h3>25k</h3>
-          <p> Anual gross sale in our site</p>
+          <h3>{ABOUT_PAGE.STATS[2].count}</h3>
+          <p>{ABOUT_PAGE.STATS[3].label}</p>
         </div>
       </div>
       <div className="about-profile">
@@ -106,12 +98,10 @@ export default function About() {
                 width="100px"
                 height="100px"
               />
-
               <h3>{item.name}</h3>
               <p>{item.occupation}</p>
-
               <span>
-                <a href="https://www.instagram.com/">
+                <a href={WEBLINK.INSTAGRAM}>
                   <img
                     src={assets.images.insta}
                     width="24px"
@@ -119,28 +109,26 @@ export default function About() {
                     alt="instagram"
                   />
                 </a>
-                <a href="https://x.com/?lang=en">
-                  {' '}
+                <a href={WEBLINK.TWITTER}>
                   <img
                     src={assets.images.twitter}
                     width="24px"
                     height="24px"
                     alt="twitter"
                   />
-                </a>{' '}
-                <a href="https://www.linkedin.com">
+                </a>
+                <a href={WEBLINK.LINKEDIN}>
                   <img
                     src={assets.images.linkedin}
                     width="24px"
                     height="24px"
                     alt="linkedin"
                   />
-                </a>{' '}
+                </a>
               </span>
             </div>
           ))}
         </div>
-
         <div className="profile-scroll-btn">
           <button
             type="button"
@@ -162,20 +150,20 @@ export default function About() {
       <div className="about-features">
         <div>
           <img src={assets.icon.delivery} alt="devliveryImg" />
-          <h3> FREE AND FAST DELIVERY</h3>
-          <p> Free delivery for all orders over $140</p>
+          <h3> {ABOUT_PAGE.FEATURES[0].title}</h3>
+          <p> {ABOUT_PAGE.FEATURES[0].description}</p>
         </div>
 
         <div>
           <img src={assets.icon.guarantee} alt="guarantee" />
-          <h3> 24/7 CUSTOMER SERVICE</h3>
-          <p>Friendly 24/7 customer support </p>
+          <h3>{ABOUT_PAGE.FEATURES[1].title}</h3>
+          <p>{ABOUT_PAGE.FEATURES[1].description} </p>
         </div>
 
         <div>
           <img src={assets.icon.service} alt="service" />
-          <h3>MONEY BACK GUARANTEE </h3>
-          <p>We return money within 30 days </p>
+          <h3>{ABOUT_PAGE.FEATURES[2].title}</h3>
+          <p>{ABOUT_PAGE.FEATURES[2].description}</p>
         </div>
       </div>
     </div>

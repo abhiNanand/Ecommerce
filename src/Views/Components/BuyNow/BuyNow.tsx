@@ -2,6 +2,7 @@ import '../Checkout/Checkout.scss';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../../../Services/Api/module/demoApi';
 import BuyProduct from '../BuyProduct/BuyProduct';
+import { TEXT } from '../../../Shared/Constants';
 import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 
 export default function BuyNow() {
@@ -12,7 +13,7 @@ export default function BuyNow() {
     isLoading: productLoading,
   } = useGetProductByIdQuery(productId);
   if (productError) {
-    return <h1>Error loading product</h1>;
+    return <h1>{TEXT.ERROR_LOADING}</h1>;
   }
   if (productLoading) {
     return (
@@ -22,7 +23,7 @@ export default function BuyNow() {
     );
   }
   if (!product) {
-    return <p>No product data available.</p>;
+    return <p>{TEXT.DATA_NOT_AVAILABLE}</p>;
   }
   return <BuyProduct products={[product]} />;
 }

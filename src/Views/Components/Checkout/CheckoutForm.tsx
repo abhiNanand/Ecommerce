@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ArrowLeft } from 'lucide-react';
 import { onAuthStateChanged } from 'firebase/auth';
+import {TEXT} from '../../../Shared/Constants';
 import AddressForm from '../AddressForm/AddressForm';
 import { auth } from '../../../Services/firebase/firebase';
 import { getAddress, Address } from '../../../Services/Address/Address';
@@ -54,7 +55,7 @@ export default function CheckoutForm() {
     <div className="billing-form">
       {open ? (
         <div className="select-address">
-          <h3>Select Address</h3>
+          <h3>{TEXT.SELECT_ADDRESS}</h3>
           <form>
             {address.map((value, index) => (
               <div className="address-option" key={value.firebaseId}>
@@ -84,7 +85,7 @@ export default function CheckoutForm() {
               setOpen(false);
             }}
           >
-            Add Another Address
+            {TEXT.ADD_ANOTHER_ADDRESS}
           </button>
         </div>
       ) : (

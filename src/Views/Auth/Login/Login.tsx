@@ -12,7 +12,7 @@ import { query, where, getDocs, collection } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { updateAuthTokenRedux } from '../../../Store/Common/index';
-import { ROUTES, VALIDATION_CONSTANTS } from '../../../Shared/Constants';
+import { ROUTES, VALIDATION , TOAST} from '../../../Shared/Constants';
 import { handleChange, handleChangePassword } from '../../../Shared/Utilities';
 import { auth, db } from '../../../Services/firebase/firebase';
 import Google from '../Google';
@@ -37,10 +37,10 @@ export default function Login() {
 
   const emailValidation = Yup.string()
     .matches(
-      VALIDATION_CONSTANTS.Email_REGEX,
-      VALIDATION_CONSTANTS.EMAIL_INVALID
+      VALIDATION.Email_REGEX,
+      VALIDATION.EMAIL_INVALID
     )
-    .required(VALIDATION_CONSTANTS.EMAIL_REQUIRED);
+    .required(VALIDATION.EMAIL_REQUIRED);
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -50,8 +50,8 @@ export default function Login() {
     validationSchema: Yup.object({
       email: emailValidation,
       password: Yup.string()
-        .min(6, VALIDATION_CONSTANTS.PASSWORD_MIN_LENGTH)
-        .required(VALIDATION_CONSTANTS.PASSWORD_REQUIRED),
+        .min(6, VALIDATION.PASSWORD_MIN_LENGTH)
+        .required(VALIDATION.PASSWORD_REQUIRED),
     }),
     onSubmit: async (values, { resetForm }) => {
       setLogging(true);
@@ -64,7 +64,7 @@ export default function Login() {
         const { user } = userCredential;
 
         if (!user.emailVerified) {
-          toast.warning('Email not verified. Please check your inbox.');
+          toast.warning(TOAST.EMAIL_NOT_VERIFIED);
           await sendEmailVerification(user);
           await auth.signOut();
         } else {
@@ -81,7 +81,7 @@ export default function Login() {
         }
       } catch (error: any) {
         if (error.code === 'auth/invalid-credential') {
-          toast.error('Login failed. Please check your credentials.');
+          toast.error(TOAST.LOGIN_FAILED);
         }
       } finally {
         resetForm();
@@ -93,7 +93,6 @@ export default function Login() {
   const handleForgetPassword = async () => {
     const isValid = emailValidation.isValidSync(forgetEmail);
     if (!forgetEmail || !isValid) {
-      toast.warning('Please enter a valid email address');
       return;
     }
 
@@ -107,17 +106,17 @@ export default function Login() {
       const querySnapshot = await getDocs(q);
 
       if (querySnapshot.empty) {
-        toast.error('No user found with this email.');
+        toast.error(TOAST.NO_USER_FOUND);
         return;
       }
 
       await sendPasswordResetEmail(auth, normalizedEmail);
-      toast.success('Reset email sent! Check your inbox');
+      toast.success(TOAST.RESET_EMAIL_SEND);
       setForgetPasswordWindow(false);
       setForgetEmail('');
       setForgetEmailTouched(false);
     } catch {
-      toast('Failed to send reset email');
+      toast(TOAST.FAILED_TO_SEND_EMAIL);
     } finally {
       setSendingReset(false);
     }
