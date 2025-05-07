@@ -170,7 +170,7 @@ export default function Cart() {
             cartItems.map((product) => (
               <div className="cart-row" key={product.id}>
                 <span>
-                  <button onClick={() => navigate(`/product/${product.id}`)}>
+                  <button className="product-img-btn" onClick={() => navigate(`/product/${product.id}`)}>
                     <img
                       src={product.image}
                       alt={product.title}
