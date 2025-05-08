@@ -9,6 +9,7 @@ import { Product } from '../../../Shared/Product';
 import { Address } from '../../../Services/Address/Address';
 import { auth } from '../../../Services/firebase/firebase';
 import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
+import { TEXT } from '../../../Shared/Constants';
 
 interface OrderData {
   id: string;
@@ -70,25 +71,25 @@ export default function Order() {
     return (
       <div className="not-found">
         <Frown strokeWidth={1} size={50} />
-        <p>Sorry, we could not find any orders</p>
+        <p>{TEXT.SORRY_NO_ORDERS}</p>
       </div>
     );
   }
 
   return (
     <div className="order-page">
-      <h2>Your Orders</h2>
+      <h2>{TEXT.YOUR_ORDERS}</h2>
       <div className="orders-list">
         {orders.map((order) => (
           <div className="order-card" key={order.id}>
             <div className="order-card-grid">
               <div className="order-summary">
-                <h3>Order Date</h3>
+                <h3>{TEXT.ORDER_DATE}</h3>
                 <p>
                   {order.date.toLocaleDateString()} at{' '}
                   {order.date.toLocaleTimeString()}
                 </p>
-                <h3>Shipping Address</h3>
+                <h3>{TEXT.SHIPPING_ADDRESS}</h3>
                 <p>
                   {order.address.name}
                   <br />
@@ -96,10 +97,10 @@ export default function Order() {
                   <br />
                   {order.address.town}
                   <br />
-                  Phone: {order.address.phoneNumber}
+                  {TEXT.PHONE}: {order.address.phoneNumber}
                 </p>
 
-                <h3>Total</h3>
+                <h3>{TEXT.TOTAL}</h3>
                 <p>{Number(order.total).toFixed(5)} ETH</p>
               </div>
 

@@ -12,7 +12,7 @@ import {
 } from '../../../Services/Wishlist/WishlistService';
 import { addToCart } from '../../../Services/Cart/CartService';
 import { useAuth } from '../../../Shared/CustomHooks/userAuth';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES,TEXT, BREADCRUMB } from '../../../Shared/Constants';
 import './Wishlist.scss';
 import {
   updateCartItem,
@@ -93,17 +93,6 @@ export default function Wishlist() {
     setFetchItem(!fetchItem);
   };
 
-  if (!user) {
-    return (
-      <div className="wishlist">
-        <div className="empty-state">
-          <h4>Please sign in to view your wishlist</h4>
-          <p>Sign in to sync your Wishlist across all devices.</p>
-        </div>
-      </div>
-    );
-  }
-
   if (loading) {
     return (
       <div className="loader">
@@ -117,8 +106,8 @@ export default function Wishlist() {
       <div className="wishlist">
         <div className="empty-state">
           <Heart size={48} />
-          <h4>Your wishlist is empty</h4>
-          <p>Save items you love in your wishlist and review them anytime.</p>
+          <h4>{TEXT.EMPTY_WISHLIST_TITLE}</h4>
+          <p>{TEXT.EMPTY_WISHLIST_DESCRIPTION}</p>
         </div>
       </div>
     );
@@ -126,15 +115,15 @@ export default function Wishlist() {
   return (
     <div className="wishlist">
       <p className="breadcrumb">
-        <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-        <NavLink to={ROUTES.WISHLIST}> Wishlist</NavLink>
+        <NavLink to={ROUTES.HOMEPAGE}>{BREADCRUMB.HOME}</NavLink>
+        <NavLink to={ROUTES.WISHLIST}>{BREADCRUMB.WISHLIST}</NavLink>
       </p>
 
       <div className="wishlist-top">
-        <h3>My Wishlist ({wishlistItems.length} items)</h3>
+        <h3>{TEXT.WISHLIST_HEADING} ({wishlistItems.length} {TEXT.ITEMS})</h3>
         {wishlistItems.length > 0 && (
           <button type="button" onClick={handleMoveAllToBag}>
-            Move All to Cart
+            {TEXT.MOVE_ALL_TO_CART}
           </button>
         )}
       </div>
@@ -162,7 +151,7 @@ export default function Wishlist() {
                 }}
               >
                 <ShoppingCart size={20} />
-                Move to Cart
+                {TEXT.MOVE_TO_CART}
               </button>
               <button
                 type="button"
@@ -173,7 +162,7 @@ export default function Wishlist() {
                 }}
               >
                 <Trash2 size={20} />
-                Remove
+                {TEXT.REMOVE}
               </button>
             </div>
           </button>
@@ -187,7 +176,7 @@ export default function Wishlist() {
             onClick={loadMoreItems}
             disabled={loadingMore}
           >
-            {loadingMore ? 'Loading...' : 'Load More'}
+            {loadingMore ? TEXT.LOADING : TEXT.LOAD_MORE}
           </button>
         </div>
       )}

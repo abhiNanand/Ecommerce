@@ -16,7 +16,7 @@ import { RootState } from '../../../Store/index';
 import { updateCartItem } from '../../../Store/Item/total_item_slice';
 import { addToCart, removeFromCart } from '../../../Services/Cart/CartService';
 import { auth, db } from '../../../Services/firebase/firebase';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES, TEXT } from '../../../Shared/Constants';
 import './ShowItem.scss';
 
 interface CartButtonProps {
@@ -159,7 +159,7 @@ export default function AddCartButton({
           onClick={handleAddToCart}
         >
           <ShoppingCart />
-          Add to Cart
+          {TEXT.ADD_TO_CART}
         </button>
       )}
     </>

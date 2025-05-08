@@ -14,6 +14,7 @@ import {
   RippleLoader,
 } from '../../Dashboard/Helper/Loaders/Loaders';
 import ShowItem from '../ShowItem/ShowItem';
+import { TEXT } from '../../../Shared/Constants';
 
 export default function Shop() {
   const { data: products, error, isLoading } = useGetProductQuery(null);
@@ -35,7 +36,7 @@ export default function Shop() {
     return () => clearTimeout(timeout);
   }, [selectedCategories, selectedRatings, range]);
 
-  if (error) return <h2>Error loading products</h2>;
+  if (error) return <h2>{TEXT.ERROR_LOADING}</h2>;
   if (isLoading) {
     return (
       <div className="loader">
@@ -77,7 +78,7 @@ export default function Shop() {
     <div className="shop-container">
       <div className="filters">
         <div className="category-filter-container">
-          <h3>Category</h3>
+          <h3>{TEXT.CATEGORIES}</h3>
           <form>
             <div className="filter-product-category">
               <input
@@ -85,7 +86,7 @@ export default function Shop() {
                 id="women"
                 onChange={() => handleCategoryChange("women's clothing")}
               />
-              <label htmlFor="women">Women's Fashion</label>
+              <label htmlFor="women">{TEXT.WOMENS_FASHION}</label>
             </div>
             <div className="filter-product-category">
               <input
@@ -93,7 +94,7 @@ export default function Shop() {
                 id="men"
                 onChange={() => handleCategoryChange("men's clothing")}
               />
-              <label htmlFor="men">Men's Fashion</label>
+              <label htmlFor="men">{TEXT.MENS_FASHION}</label>
             </div>
             <div className="filter-product-category">
               <input
@@ -101,7 +102,7 @@ export default function Shop() {
                 id="electronics"
                 onChange={() => handleCategoryChange('electronics')}
               />
-              <label htmlFor="electronics">Electronics</label>{' '}
+              <label htmlFor="electronics">{TEXT.ELECTRONICS}</label>{' '}
             </div>
             <div className="filter-product-category">
               {' '}
@@ -110,12 +111,12 @@ export default function Shop() {
                 id="jewelery"
                 onChange={() => handleCategoryChange('jewelery')}
               />
-              <label htmlFor="jewelery">Jewellery</label>
+              <label htmlFor="jewelery">{TEXT.JEWELLERY}</label>
             </div>
           </form>
         </div>
         <div className="rating-filter-container">
-          <h3>Customer Reviews</h3>
+          <h3>{TEXT.CUSTOMER_REVIEWS}</h3>
           <div className="filter-product-category">
             <input
               type="checkbox"
@@ -124,13 +125,13 @@ export default function Shop() {
             />
             <label htmlFor="rating">
               {' '}
-              <Star rating={4} productId="rating-filter" />& above
+              <Star rating={4} productId="rating-filter" />{TEXT.AND_ABOVE}
             </label>
           </div>
         </div>
 
         <div className="range-slider">
-          <h3>Price</h3>
+          <h3>{TEXT.PRICE}</h3>
           <Slider
             range
             min={minPrice}
@@ -141,15 +142,15 @@ export default function Shop() {
             }}
           />
           <div>
-            <p>Min: ${range[0]}</p>
-            <p>Max: ${range[1]}</p>
+            <p>{TEXT.MIN}: ${range[0]}</p>
+            <p>{TEXT.MAX}: ${range[1]}</p>
           </div>
         </div>
       </div>
 
       <div className="filtered-products">
         {!loading && filteredProducts?.length === 0 && (
-          <p>No products match the selected filters.</p>
+          <p>{TEXT.NO_PRODUCTS_MATCH}</p>
         )}
         {loading ? (
           <div className="loader">

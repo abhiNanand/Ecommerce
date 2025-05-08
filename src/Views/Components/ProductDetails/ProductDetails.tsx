@@ -1,5 +1,4 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { Heart } from 'lucide-react';
@@ -12,8 +11,7 @@ import {
 import './ProductDetails.scss';
 import { useAuth } from '../../../Shared/CustomHooks/userAuth';
 import ShowItem from '../ShowItem/ShowItem';
-import { ROUTES } from '../../../Shared/Constants';
-
+import { ROUTES, TEXT } from '../../../Shared/Constants';
 import { RippleLoader } from '../../Dashboard/Helper/Loaders/Loaders';
 import ShareProduct from './ShareProduct';
 import { auth } from '../../../Services/firebase/firebase';
@@ -166,7 +164,7 @@ function ProductDetails() {
                 }
               }}
             >
-              Buy Now
+              {TEXT.BUY_NOW}
             </button>
 
             <button
@@ -190,7 +188,7 @@ function ProductDetails() {
       <div className="relatedItem">
         <div className="relatedItem-header">
           <div className="relatedItem-highlighter" />
-          <h1 className="relatedItem">Related Items</h1>
+          <h1 className="relatedItem">{TEXT.RELEATED_ITEMS}</h1>
         </div>
 
         {renderRelatedProducts()}

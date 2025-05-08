@@ -169,6 +169,7 @@ const BREADCRUMB = {
   ABOUT: ' About',
   ACCOUNT: ' Account',
   CART: ' Cart',
+  WISHLIST: ' Wishlist',
 };
 
 const TEXT = {
@@ -244,7 +245,38 @@ const TEXT = {
   TX_HASH: 'Transaction Hash:',
   COMING_SOON: 'Coming Soon',
   BACK_TO_HOME: 'Back to home Page',
-  
+
+  //WISHLIST
+  EMPTY_WISHLIST_TITLE: 'Your wishlist is empty',
+  EMPTY_WISHLIST_DESCRIPTION:
+    'Save items you love in your wishlist and review them anytime.',
+  WISHLIST_HEADING: 'My Wishlist',
+  ITEMS: 'items',
+  MOVE_ALL_TO_CART: 'Move All to Cart',
+  MOVE_TO_CART: 'Move to Cart',
+  LOAD_MORE: 'Load More',
+  LOADING: 'Loading...',
+  ADD_TO_CART: 'Add to Cart',
+
+  //SHOP
+  CUSTOMER_REVIEWS: 'Customer Reviews',
+  AND_ABOVE: '& above',
+  MIN: 'Min',
+  MAX: 'Max',
+  NO_PRODUCTS_MATCH: 'No products match the selected filters.',
+  BUY_NOW: 'Buy Now',
+  RELEATED_ITEMS: 'Related Item',
+
+  //Orders
+  SORRY_NO_ORDERS: 'Sorry, we could not find any orders',
+  YOUR_ORDERS: 'Your Orders',
+  ORDER_DATE: 'Order Date',
+  SHIPPING_ADDRESS: 'Shipping Address',
+  PHONE: 'Phone',
+  QTY: 'Qty',
+
+  ERROR_HEADING: '404 Not Found',
+  ERROR_MESSAGE: 'You visited page not found. You may go home page',
 };
 
 const ABOUT_PAGE = {
