@@ -1,6 +1,6 @@
 import './BestSelling.scss';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from '../../../../Shared/Constants';
+import { ROUTES, TEXT } from '../../../../Shared/Constants';
 
 export default function BestSelling() {
   const navigate = useNavigate();
@@ -8,17 +8,17 @@ export default function BestSelling() {
     <section className="best-selling">
       <div className="best-selling-header">
         <div className="best-selling-highlight-bar" />
-        <h3 className="best-selling-title">This Month</h3>
+        <h3 className="best-selling-title">{TEXT.THIS_MONTH}</h3>
       </div>
 
       <div className="best-selling-subtitle">
-        <h1>Best Selling Products</h1>
+        <h1>{TEXT.THIS_MONTH}</h1>
         <button
           type="button"
           className="best-selling-btn"
           onClick={() => navigate(ROUTES.SHOP)}
         >
-          View All
+          {TEXT.VIEW_ALL}
         </button>
       </div>
     </section>

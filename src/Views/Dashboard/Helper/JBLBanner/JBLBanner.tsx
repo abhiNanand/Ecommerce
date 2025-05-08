@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import assets from '../../../../assets';
 import './JBLBanner.scss';
-import { ROUTES } from '../../../../Shared/Constants';
+import { ROUTES, TEXT } from '../../../../Shared/Constants';
 import { useAuth } from '../../../../Shared/CustomHooks/userAuth';
 
 function JblBanner() {
@@ -46,26 +46,26 @@ function JblBanner() {
   return (
     <section className="jbl-banner">
       <div className="jbl-banner__content">
-        <p className="category">Categories</p>
+        <p className="category">{TEXT.CATEGORIES}</p>
         <h2>
           Enhance Your <br /> Music Experience
         </h2>
         <div className="jbl-banner__timer">
           <div className="timer-box">
             <span>{timeLeft.days}</span>
-            <p>Days</p>
+            <p>{TEXT.DAYS}</p>
           </div>
           <div className="timer-box">
             <span>{timeLeft.hours}</span>
-            <p>Hour</p>
+            <p>{TEXT.HOURS}</p>
           </div>
           <div className="timer-box">
             <span>{timeLeft.minutes}</span>
-            <p>Minutes</p>
+            <p>{TEXT.MINUTES}</p>
           </div>
           <div className="timer-box">
             <span>{timeLeft.seconds}</span>
-            <p>Seconds</p>
+            <p>{TEXT.SECONDS}</p>
           </div>
         </div>
         <button
@@ -80,7 +80,7 @@ function JblBanner() {
             }
           }}
         >
-          Buy Now
+          {TEXT.BUY_NOW}
         </button>
       </div>
       <div className="jbl-banner__image">

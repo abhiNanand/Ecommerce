@@ -18,7 +18,17 @@ export default function SearchItem() {
       </div>
     );
   }
-  if (error) return <h1>{TEXT.ERROR_LOADING}</h1>;
+  if (error) {
+    return (
+      <div className="not-found">
+        <Frown strokeWidth={1} size={50} />
+        <p>{TEXT.ERROR_LOADING}</p>
+        <button type="button" className="retry-button" onClick={() => window.location.reload()}>
+          Try Again
+        </button>
+      </div>
+    );
+  }
   if (query === 'all') {
     return (
       <div className="show-searched-products">

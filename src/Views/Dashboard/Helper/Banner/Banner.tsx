@@ -1,6 +1,7 @@
 import './Banner.scss';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {TEXT} from '../../../../Shared/Constants';
 import assets from '../../../../assets';
 
 const images = [
@@ -27,7 +28,7 @@ export default function Banner() {
         className="banner-image"
       />
       <Link to={images[currentIndex].link} className="shop-now-btn">
-        <span>Shop Now</span>
+        <span>{TEXT.SHOW_NOW}</span>
       </Link>
 
       <div className="dots-container">

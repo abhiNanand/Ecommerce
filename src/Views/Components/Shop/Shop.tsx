@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
-
+import { Frown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useGetProductQuery } from '../../../Services/Api/module/demoApi';
 import 'react-toastify/dist/ReactToastify.css';
@@ -36,7 +36,17 @@ export default function Shop() {
     return () => clearTimeout(timeout);
   }, [selectedCategories, selectedRatings, range]);
 
-  if (error) return <h2>{TEXT.ERROR_LOADING}</h2>;
+  if (error) {
+    return (
+      <div className="not-found">
+        <Frown strokeWidth={1} size={50} />
+        <p>{TEXT.ERROR_LOADING}</p>
+        <button type="button" className="retry-button" onClick={() => window.location.reload()}>
+          Try Again
+        </button>
+      </div>
+    );
+  }
   if (isLoading) {
     return (
       <div className="loader">

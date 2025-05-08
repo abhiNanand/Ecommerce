@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import CheckoutForm from '../Checkout/CheckoutForm';
 import { Product } from '../../../Shared/Product';
+import {TEXT,TOAST} from '../../../Shared/Constants';
 import Payment from '../Checkout/Payment';
 
 interface ItemProps {
@@ -23,24 +24,24 @@ export default function BuyProduct({ products }: Readonly<ItemProps>) {
   const handleButtonClick = () => {
     if (coupean === 'SAVE20') {
       if (isCouponApplied) {
-        toast.error('Coupon already applied on this purchase');
+        toast.error(TOAST.COUPON_ALREADY_APPLIED);
       } else {
-        toast.success('Congrats 20% OFF');
+        toast.success(TOAST.SUCCESS_20_OFF);
         const discountAmount = (0.2 * calculateTotal()).toFixed(2);
         setDiscount(Number(discountAmount));
         setIsCouponApplied(true);
       }
     } else {
       const trimCoupon = coupean.trim();
-      if (trimCoupon.length === 0) toast.error('Coupon not found');
-      else toast.error('Enter a valid coupon');
+      if (trimCoupon.length === 0) toast.error(TOAST.COUPON_NOT_FOUND);
+      else toast.error(TOAST.ENTER_VALID_COUPON);
     }
     setCoupean('');
   };
   return (
     <div className="checkout-container">
       <div className="billing">
-        <h1>Billing Details</h1>
+        <h1>{TEXT.BILLING_DETAILS}</h1>
         <CheckoutForm />
         <div />
       </div>
@@ -72,7 +73,7 @@ export default function BuyProduct({ products }: Readonly<ItemProps>) {
           ))}
         </div>
         <div className="checkout-subtotal">
-          <p>Subtotal:</p>
+          <p>{TEXT.SUBTOTAL}:</p>
           <p> ${calculateTotal().toFixed(2)}</p>
         </div>
         <hr />
@@ -80,9 +81,9 @@ export default function BuyProduct({ products }: Readonly<ItemProps>) {
           <>
             <div className="applied-coupon">
               <p>
-                Coupon:{' '}
+                {TEXT.COUPON}:{' '}
                 <button type="button" className="remove-btn">
-                  SAVE20
+                  {TEXT.SAVE20}
                 </button>
               </p>
               <button
@@ -93,24 +94,24 @@ export default function BuyProduct({ products }: Readonly<ItemProps>) {
                   setDiscount(1);
                 }}
               >
-                -${discount} [Remove]
+                -${discount} {TEXT.COUPON_REMOVE}
               </button>
             </div>
             <hr />
           </>
         )}
         <div className="checkout-shipping">
-          <p>Shipping:</p>
-          <span>Free</span>
+          <p>{TEXT.SHIPPING}:</p>
+          <span>{TEXT.SHIPPING_FREE}</span>
         </div>
         <hr />
         <div className="checkout-total">
-          <p>Total:</p>
+          <p>{TEXT.TOTAL}:</p>
           <p>${(calculateTotal() - discount).toFixed(2)}</p>
         </div>
         <hr />
         <div className="ETH">
-          <p>ETH:</p>
+          <p>{TEXT.ETH}:</p>
           <p>{((calculateTotal() - discount) * 0.00001).toFixed(4)}</p>
         </div>
         <hr />
@@ -124,7 +125,7 @@ export default function BuyProduct({ products }: Readonly<ItemProps>) {
               onKeyDown={(e) => e.key === 'Enter' && handleButtonClick()}
             />
             <button type="button" onClick={() => handleButtonClick()}>
-              Apply Coupon
+              {TEXT.APPLY_COUPON}
             </button>
           </div>
           <Payment

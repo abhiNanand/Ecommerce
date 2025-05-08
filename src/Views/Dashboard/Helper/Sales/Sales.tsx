@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { calculateTimeLeft } from '../../../../Shared/Utilities';
-import './Sales.scss';
 import { Product } from '../../../../Shared/Product';
+import {TEXT} from '../../../../Shared/Constants';
 import SalesItem from './helper/SalesItem';
-
+import './Sales.scss';
 interface SalesItemProps {
   products: Product[];
 }
@@ -21,12 +21,12 @@ export default function Sales({ products }: Readonly<SalesItemProps>) {
     <div className="sales-section">
       <div className="sales-heading">
         <div className="sales-highlight-bar" />
-        <h3 className="sales-subtitle">Today&apos;s</h3>
+        <h3 className="sales-subtitle">{TEXT.TODAYS}</h3>
       </div>
 
       <div className="sales-timer">
         <div className="sales-title">
-          <h1 className="sales-main-title">Flash Sales</h1>
+          <h1 className="sales-main-title">{TEXT.FLASH_SALES}</h1>
         </div>
         <div className="show-timer">
           {Object.entries(timeLeft).map(([label, value]) => (

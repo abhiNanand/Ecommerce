@@ -8,6 +8,7 @@ import {
 } from 'react-share';
 import { Share, Link } from 'lucide-react';
 import { useState } from 'react';
+import {TEXT} from '../.../../../../Shared/Constants';
 import { toast } from 'react-toastify';
 
 interface ShareProductProps {
@@ -34,19 +35,19 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
         <div className="share-sites">
           <WhatsappShareButton url={shareLink}>
             <WhatsappIcon size={32} round />
-            <span>Whatsapp</span>
+            <span>{TEXT.WHATSAPP}</span>
           </WhatsappShareButton>
 
           <br />
 
           <EmailShareButton url={shareLink}>
             <EmailIcon size={32} round />
-            <span>Email</span>
+            <span>{TEXT.EMAIL}</span>
           </EmailShareButton>
           <br />
           <TelegramShareButton url={shareLink}>
             <TelegramIcon size={32} round />
-            <span>Telegram</span>
+            <span>{TEXT.TELLEGRAM}</span>
           </TelegramShareButton>
           <br />
           <button
@@ -58,7 +59,7 @@ export default function ShareProduct({ pathname }: ShareProductProps) {
             }}
           >
             <Link size={28} />
-            <span>CopyLink</span>
+            <span>{TEXT.COPYLINK}</span>
           </button>
         </div>
       )}

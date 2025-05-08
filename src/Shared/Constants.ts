@@ -155,6 +155,12 @@ const TOAST = {
   ADDRESS_ERROR: 'Address not selected',
   PAYMENT_FAIL: 'Payment initiation failed',
   MINT_FAIL: 'Payment failed. Please try again.',
+
+  //BUY PRODUCTS
+  COUPON_ALREADY_APPLIED: 'Coupon already applied on this purchase',
+  SUCCESS_20_OFF: 'Congrats 20% OFF',
+  COUPON_NOT_FOUND: 'Coupon not found',
+  ENTER_VALID_COUPON: 'Enter a valid coupon',
 };
 
 const WEBLINK = {
@@ -277,6 +283,36 @@ const TEXT = {
 
   ERROR_HEADING: '404 Not Found',
   ERROR_MESSAGE: 'You visited page not found. You may go home page',
+
+  //BUY PRODUCTS
+  BILLING_DETAILS: 'Billing Details',
+  ETH: 'ETH:',
+  PLACEHOLDER_COUPON: 'Coupon Code',
+  APPLY_COUPON: 'Apply Coupon',
+  COUPON: 'Coupon:',
+  COUPON_REMOVE: '[Remove]',
+  SAVE20: 'SAVE20',
+
+  //SHARE
+  EMAIL: 'Email',
+  WHATSAPP: 'Whatsapp',
+  TELLEGRAM: 'Telegram',
+  COPYLINK: 'CopyLink',
+
+  SHOW_NOW: 'Shop Now',
+  THIS_MONTH:'This Month',
+  BEST_SELLING: 'Best Selling Products',
+  VIEW_ALL: 'View All',
+  BROWSE_BY_CATEGORIES: 'Browse by Categories',
+
+  DAYS: 'Days',
+  HOURS: 'Hours',
+  MINUTES: 'Minutes',
+  SECONDS: 'Second',
+  MUSIC_EXPERIENCE: 'Enhance Your',
+  ENHANCE_YOUR: 'Music Experience',
+  TODAYS: `Today's`,
+  FLASH_SALES: 'Flash Sales',
 };
 
 const ABOUT_PAGE = {

@@ -1,5 +1,6 @@
 import './BrowseCategory.scss';
 import { useNavigate } from 'react-router-dom';
+import {TEXT} from '../../../../Shared/Constants';
 import assets from '../../../../assets';
 
 export default function BrowseCategory() {
@@ -42,9 +43,9 @@ export default function BrowseCategory() {
     <div className="browse-category-container">
       <div className="category-header">
         <div className="category-highlight-bar" />
-        <h3 className="category-titles">Categories</h3>
+        <h3 className="category-titles">{TEXT.CATEGORIES}</h3>
       </div>
-      <h1 className="category-subtitle">Browse By Category</h1>
+      <h1 className="category-subtitle">{TEXT.BROWSE_BY_CATEGORIES}</h1>
       <div className="category-grid">
         {categories.map((item) => (
           <button

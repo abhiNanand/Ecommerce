@@ -65,3 +65,20 @@
     align-items: center;
     height:60vh;
   }
+
+    .retry-button {
+      padding: 0.5rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #d9d9d9;
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+  
+      &:hover {
+        background-color: #bab8b8;
+      }
+    }
+
+  

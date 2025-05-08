@@ -33,11 +33,12 @@ export default function Dashboard() {
         <Frown strokeWidth={1} size={50} />
         <p>{TEXT.ERROR_LOADING}</p>
         <button type="button" className="retry-button" onClick={() => window.location.reload()}>
-        Retry
-      </button>
+          Try Again
+        </button>
       </div>
     );
   }
+  
 
   return (
     <div className="dashboard">
