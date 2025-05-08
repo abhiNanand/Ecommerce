@@ -1,14 +1,14 @@
 import './TopHeader.scss';
 import { Link } from 'react-router-dom';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES, TEXT } from '../../../Shared/Constants';
 
 export default function TopHeader() {
   return (
     <div className="top-header">
       <p className="announcement">
-        Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!{' '}
+        {TEXT.ANNOUNCEMENT}{' '}
         <b>
-          <Link to={ROUTES.SHOP}>Shop Now</Link>
+          <Link to={ROUTES.SHOP}>{TEXT.SHOP_NOW}</Link>
         </b>
       </p>
     </div>

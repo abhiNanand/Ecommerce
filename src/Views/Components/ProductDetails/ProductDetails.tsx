@@ -1,7 +1,7 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
-import { Heart } from 'lucide-react';
+import { Heart, Frown } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import {
@@ -61,7 +61,15 @@ function ProductDetails() {
   } = useGetProductByCategoryQuery(category);
 
   if (productError) {
-    return <h1>Error loading product</h1>;
+    return (
+      <div className="not-found">
+        <Frown strokeWidth={1} size={50} />
+        <p>{TEXT.ERROR_LOADING}</p>
+        <button type="button" className="retry-button" onClick={() => window.location.reload()}>
+          {TEXT.TRY_AGAIN}
+        </button>
+      </div>
+    );
   }
 
   if (productLoading) {

@@ -13,7 +13,7 @@ import {
 import { toast } from 'react-toastify';
 import { useAuth } from '../../../../../Shared/CustomHooks/userAuth';
 import { auth } from '../../../../../Services/firebase/firebase';
-import { VALIDATION,TOAST } from '../../../../../Shared/Constants';
+import { VALIDATION, TOAST, TEXT } from '../../../../../Shared/Constants';
 
 export default function Profile() {
   const { user } = useAuth();
@@ -100,12 +100,12 @@ export default function Profile() {
 
   return (
     <div className="profile-container">
-      <h3 className="profile-title">Edit Your Profile</h3>
+      <h3 className="profile-title">{TEXT.EDIT_PROFILE}</h3>
 
       <form className="profile-form" onSubmit={formik.handleSubmit}>
         <div className="profile-row">
           <div className="profile-field">
-            <label htmlFor="firstName">First Name</label>
+            <label htmlFor="firstName">{TEXT.FIRST_NAME}</label>
             <input
               id="firstName"
               name="firstName"
@@ -116,7 +116,7 @@ export default function Profile() {
           </div>
 
           <div className="profile-field">
-            <label htmlFor="lastName">Last Name</label>
+            <label htmlFor="lastName">{TEXT.LAST_NAME}</label>
             <input
               id="lastName"
               name="lastName"
@@ -129,14 +129,14 @@ export default function Profile() {
 
         <div className="profile-row">
           <div className="profile-field">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{TEXT.EMAIL}</label>
             <input type="email" value={user?.email ?? ''} disabled />
           </div>
         </div>
 
         {editMode && (
           <div className="profile-password-section">
-            <label htmlFor="currentPassoword">Current Password</label>
+            <label htmlFor="currentPassoword">{TEXT.CURRENT_PASSWORD}</label>
 
             <div className="input-wrapper">
               <input
@@ -165,7 +165,7 @@ export default function Profile() {
               formik.errors.currentPassword && (
                 <small className="error">{formik.errors.currentPassword}</small>
               )}
-            <label htmlFor="newPassword">New Password</label>
+            <label htmlFor="newPassword">{TEXT.NEW_PASSWORD}</label>
             <div className="input-wrapper">
               <input
                 type={showPassword2 ? 'text' : 'password'}
@@ -193,7 +193,7 @@ export default function Profile() {
             {formik.touched.newPassword && formik.errors.newPassword && (
               <small className="error">{formik.errors.newPassword}</small>
             )}
-            <label htmlFor="confirmPassoword">Confirm New Password</label>
+            <label htmlFor="confirmPassoword">{TEXT.CONFIRM_PASSWORD}</label>
             <div className="input-wrapper">
               <input
                 type={showPassword3 ? 'text' : 'password'}
@@ -233,7 +233,7 @@ export default function Profile() {
                 className="profile-save"
                 onClick={() => setEditMode(true)}
               >
-                Change Password
+               {TEXT.CHANGE_PASSWORD}
               </button>
             ) : (
               <>
@@ -246,7 +246,7 @@ export default function Profile() {
                     setEditMode(false);
                   }}
                 >
-                  Cancel
+                  {TEXT.CANCEL}
                 </button>
                 <button
                   disabled={changePassword}

@@ -28,7 +28,7 @@ export default function Banner() {
         className="banner-image"
       />
       <Link to={images[currentIndex].link} className="shop-now-btn">
-        <span>{TEXT.SHOW_NOW}</span>
+        <span>{TEXT.SHOP_NOW}</span>
       </Link>
 
       <div className="dots-container">

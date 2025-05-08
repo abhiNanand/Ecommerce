@@ -299,7 +299,7 @@ const TEXT = {
   TELLEGRAM: 'Telegram',
   COPYLINK: 'CopyLink',
 
-  SHOW_NOW: 'Shop Now',
+  SHOP_NOW: 'Shop Now',
   THIS_MONTH:'This Month',
   BEST_SELLING: 'Best Selling Products',
   VIEW_ALL: 'View All',
@@ -313,6 +313,17 @@ const TEXT = {
   ENHANCE_YOUR: 'Music Experience',
   TODAYS: `Today's`,
   FLASH_SALES: 'Flash Sales',
+  TRY_AGAIN: 'Try Again',
+
+  EDIT_PROFILE: 'Edit Your Profile',
+  FIRST_NAME: 'First Name',
+  LAST_NAME: 'Last Name',
+  CURRENT_PASSWORD: 'Current Password',
+  NEW_PASSWORD: 'New Password',
+  CONFIRM_PASSWORD: 'Confirm New Password<',
+  CHANGE_PASSWORD: 'Change Password',
+  ANNOUNCEMENT: 'Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!',
+
 };
 
 const ABOUT_PAGE = {
