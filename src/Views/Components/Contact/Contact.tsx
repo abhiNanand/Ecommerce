@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { NavLink } from 'react-router-dom';
 import { db } from '../../../Services/firebase/firebase';
-import { ROUTES } from '../../../Shared/Constants';
+import { ROUTES, TEXT, BREADCRUMB, TOAST, VALIDATION } from '../../../Shared/Constants';
 import assets from '../../../assets';
 
 interface FormValues {
@@ -25,20 +25,20 @@ export default function Contact() {
     },
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(15, 'Must be 15 characters or less')
-        .required('Name is required'),
+        .max(20, VALIDATION.MAX_LENGTH_20)
+        .required(VALIDATION.NAME_REQUIRED),
       email: Yup.string()
-        .required('Email is required')
+        .required(VALIDATION.EMAIL_REQUIRED)
         .matches(
-          /^[\w,-]+@([\w-]+\.)+[\w-]{2,4}$/,
-          'Enter a valid email address'
+          VALIDATION.Email_REGEX,
+          VALIDATION.EMAIL_INVALID
         ),
       phone: Yup.string()
-        .matches(/^\d{10}$/, 'Phone number must be 10 digits')
-        .required('Phone number is required'),
+        .matches(VALIDATION.PHONE_NO_REGEX, VALIDATION.PHONE_NO_LENGTH)
+        .required(VALIDATION.PHONE_NO_REQUIRED),
       message: Yup.string()
-        .max(50, 'Must be 50 characters or less')
-        .required('Message is required'),
+        .max(50, VALIDATION.MAX_LENGTH_50)
+        .required(VALIDATION.MESSAGE_IS_REQUIRED),
     }),
     onSubmit: async (values: FormValues, { resetForm }) => {
       await addDoc(collection(db, 'message'), {
@@ -48,11 +48,10 @@ export default function Contact() {
         message: values.message,
         createdAt: serverTimestamp(),
       });
-      toast.success('Message sent successfully! We will contact you soon');
+      toast.success(TOAST.MESSAGE_SEND_SUCCESSFULLY);
       resetForm();
     },
   });
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -65,8 +64,8 @@ export default function Contact() {
   return (
     <div className="contact-container">
       <p className="breadcrumb">
-        <NavLink to={ROUTES.HOMEPAGE}>Home /</NavLink>
-        <NavLink to={ROUTES.CONTACT}> Contact</NavLink>
+        <NavLink to={ROUTES.HOMEPAGE}>{BREADCRUMB.HOME}</NavLink>
+        <NavLink to={ROUTES.CONTACT}>{BREADCRUMB.CONTACT}</NavLink>
       </p>
 
       <div className="contact-wrapper">
@@ -75,10 +74,10 @@ export default function Contact() {
             <div className="info-text">
               <div className="icon-with-text">
                 <img src={assets.icon.call} alt="Call Icon" />
-                <h4> Call To Us</h4>
+                <h4>{TEXT.CALL_TO_US}</h4>
               </div>
-              <p>We are available 24/7, 7 days a week.</p>
-              <p className="phone">Phone: +917091400186</p>
+              <p>{TEXT.CALL_TO_US_DESC}</p>
+              <p className="phone">{TEXT.CALL_TO_US_PHONE}</p>
             </div>
           </div>
           <hr />
@@ -86,15 +85,14 @@ export default function Contact() {
             <div className="info-text">
               <div className="icon-with-text">
                 <img src={assets.icon.message} alt="Message Icon" />
-                <h4> Write To Us</h4>
+                <h4>{TEXT.WRITE_TO_US}</h4>
               </div>
-              <p>Fill out our form and we will contact you within 24 hours.</p>
-              <p>Email: customer@exclusive.com</p>
-              <p>Email support@exclusive.com </p>
+              <p>{TEXT.WRITE_TO_US_DESC}</p>
+              <p>{TEXT.EMAIL_1}</p>
+              <p>{TEXT.EMAIL_2}</p>
             </div>
           </div>
         </div>
-
         <div className="contact-form">
           <form onSubmit={formik.handleSubmit} className="inputs-group">
             <div className="form-group">
@@ -161,9 +159,8 @@ export default function Contact() {
                   : ''}
               </div>
             </div>
-
             <button type="submit" className="submit-button">
-              Send Message
+              {TEXT.SEND_MESSAGE}
             </button>
           </form>
         </div>

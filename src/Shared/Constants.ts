@@ -123,15 +123,18 @@ const ROUTES_CONFIG = {
 
 const VALIDATION = {
   REQUIRED: 'Required',
-  MAX_LENGTH_20: 'Must be 20 character or less',
-  MAX_LENGTH_30: 'Must be 30 character or less',
   NAME_REQUIRED: 'Name is required',
   EMAIL_REQUIRED: 'Email is required',
-  EMAIL_INVALID: 'Enter a valid email address',
   PASSWORD_REQUIRED: 'Password is required',
+  PHONE_NO_REQUIRED: 'Phone number is required',
+  EMAIL_INVALID: 'Enter a valid email address',
+  MAX_LENGTH_20: 'Must be 20 character or less',
+  MAX_LENGTH_30: 'Must be 30 character or less',
+  MAX_LENGTH_50: 'Must be 50 character or less',
   NEW_PASSWORD_REQUIRED: 'New Password is required',
   CURRENT_PASSWORD_REQUIRED: 'Current Password is required',
   CONFIRM_PASSWORD_REQUIRED: 'Confirm password is required',
+  MESSAGE_IS_REQUIRED: 'Message is required',
   PASSWORD_CANNOT_SAME: 'New password cannot be the same as current password',
   PASSWORD_MUST_MATCH: 'Confirm Passwords must match with new password',
   PASSWORD_MIN_LENGTH: 'Password must be at least 6 characters',
@@ -161,6 +164,8 @@ const TOAST = {
   SUCCESS_20_OFF: 'Congrats 20% OFF',
   COUPON_NOT_FOUND: 'Coupon not found',
   ENTER_VALID_COUPON: 'Enter a valid coupon',
+  MESSAGE_SEND_SUCCESSFULLY:
+    'Message sent successfully! We will contact you soon',
 };
 
 const WEBLINK = {
@@ -176,6 +181,7 @@ const BREADCRUMB = {
   ACCOUNT: ' Account',
   CART: ' Cart',
   WISHLIST: ' Wishlist',
+  CONTACT: 'Contact',
 };
 
 const TEXT = {
@@ -300,7 +306,7 @@ const TEXT = {
   COPYLINK: 'CopyLink',
 
   SHOP_NOW: 'Shop Now',
-  THIS_MONTH:'This Month',
+  THIS_MONTH: 'This Month',
   BEST_SELLING: 'Best Selling Products',
   VIEW_ALL: 'View All',
   BROWSE_BY_CATEGORIES: 'Browse by Categories',
@@ -322,8 +328,23 @@ const TEXT = {
   NEW_PASSWORD: 'New Password',
   CONFIRM_PASSWORD: 'Confirm New Password<',
   CHANGE_PASSWORD: 'Change Password',
-  ANNOUNCEMENT: 'Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!',
+  ANNOUNCEMENT:
+    'Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!',
 
+  //Contact
+  CALL_TO_US: 'Call To Us',
+  CALL_TO_US_DESC: 'We are available 24/7, 7 days a week.',
+  CALL_TO_US_PHONE: 'Phone: +917091400186',
+  WRITE_TO_US: 'Write To Us',
+  WRITE_TO_US_DESC:
+    'Fill out our form and we will contact you within 24 hours.',
+  EMAIL_1: 'Email: customer@exclusive.com',
+  EMAIL_2: 'Email support@exclusive.com',
+  PLACEHOLDER_NAME: 'Name*',
+  PLACEHOLDER_EMAIL: 'Email*',
+  PLACEHOLDER_PHONE: 'Phone Number*',
+  PLACEHOLDER_MESSAGE: 'Message',
+  SEND_MESSAGE: 'Send Message',
 };
 
 const ABOUT_PAGE = {
@@ -366,6 +387,65 @@ const ABOUT_PAGE = {
   ],
 };
 
+// src/Shared/Constants.ts
+
+const INFO_SECTIONS = {
+  FAQs: [
+    {
+      id: 'order',
+      question: 'How do I place an order?',
+      answer:
+        'Add items to your cart, go to checkout, fill in shipping details, and proceed to payment.',
+    },
+    {
+      id: 'cancel',
+      question: 'Can I cancel or modify my order?',
+      answer:
+        'Yes, orders can be canceled or changed within 2 hours of placement.',
+    },
+    {
+      id: 'payment',
+      question: 'What payment methods are accepted?',
+      answer:
+        'We accept UPI, Credit/Debit Cards, Net Banking, and Wallets.',
+    },
+    {
+      id: 'damaged',
+      question: 'What if my product arrives damaged?',
+      answer:
+        'You can raise a return or replacement request from the "My Orders" section.',
+    },
+  ],
+  PrivacyPolicy: [
+    {
+      id: 'privacy-1',
+      text: `We value your trust and are committed to protecting your personal information. This Privacy Policy explains how we collect, use, and safeguard your data when you visit our website or make a purchase.`,
+    },
+    {
+      id: 'privacy-2',
+      text: `We collect information like your name, email, address, and order history only to process transactions and enhance your experience. Your data is stored securely and is never sold or rented to third-party companies.`,
+    },
+    {
+      id: 'privacy-3',
+      text: `You have full control over your information. You can update, correct, or delete your data at any time by contacting our support team.`,
+    },
+  ],
+  TermsOfUse: [
+    {
+      id: 'terms-1',
+      text: `By accessing this website, you agree to comply with our terms and conditions. These terms govern your usage of the site and all services provided.`,
+    },
+    {
+      id: 'terms-2',
+      text: `You agree not to misuse the website for any unlawful or prohibited activity. Unauthorized use or duplication of content, trademarks, or logos is strictly forbidden.`,
+    },
+    {
+      id: 'terms-3',
+      text: `We reserve the right to change these terms at any time. Continued use of the website after changes implies acceptance of the updated terms.`,
+    },
+  ],
+};
+
 export {
   ROUTES,
   ROUTES_CONFIG,
@@ -375,4 +455,5 @@ export {
   BREADCRUMB,
   ABOUT_PAGE,
   TEXT,
+  INFO_SECTIONS,
 };

@@ -125,7 +125,6 @@ export default function Order() {
           </div>
         ))}
       </div>
-
       {hasMore && (
         <div className="load-more-btn">
           <button
