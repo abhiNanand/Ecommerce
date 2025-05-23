@@ -19,7 +19,11 @@ export default function Category() {
       <div className="not-found">
         <Frown strokeWidth={1} size={50} />
         <p>{TEXT.ERROR_LOADING}</p>
-        <button type="button" className="retry-button" onClick={() => window.location.reload()}>
+        <button
+          type="button"
+          className="retry-button"
+          onClick={() => window.location.reload()}
+        >
           {TEXT.TRY_AGAIN}
         </button>
       </div>

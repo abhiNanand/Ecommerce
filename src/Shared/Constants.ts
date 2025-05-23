@@ -159,7 +159,7 @@ const TOAST = {
   PAYMENT_FAIL: 'Payment initiation failed',
   MINT_FAIL: 'Payment failed. Please try again.',
 
-  //BUY PRODUCTS
+  // BUY PRODUCTS
   COUPON_ALREADY_APPLIED: 'Coupon already applied on this purchase',
   SUCCESS_20_OFF: 'Congrats 20% OFF',
   COUPON_NOT_FOUND: 'Coupon not found',
@@ -208,7 +208,7 @@ const TEXT = {
   SHOWING_RESULT: 'Showing results for:',
   DATA_NOT_AVAILABLE: 'No product data available.',
 
-  //CART TEXT
+  // CART TEXT
   PLEASE_SIGN_IN: 'Please sign in to view your cart',
   SIGN_IN_SYNC: 'Sign in to sync your across all devices.',
   NO_ITEMS: 'No items in the cart',
@@ -232,18 +232,18 @@ const TEXT = {
   REMOVE_FAILED: 'Failed to remove Item',
   UPDATE_QUANTITY_FAILED: 'error updating quantity',
 
-  //CATEGORIES
+  // CATEGORIES
   CATEGORIES: 'Categories',
   WOMENS_FASHION: "Women's Fashion",
   MENS_FASHION: "Men's Fashion",
   ELECTRONICS: 'Electronics',
   JEWELLERY: 'Jewellery',
 
-  //ADDRESS
+  // ADDRESS
   SELECT_ADDRESS: 'Select Address',
   ADD_ANOTHER_ADDRESS: 'Add Another Address',
 
-  //PAYMENT
+  // PAYMENT
   PAY: 'Pay',
   PROCESSING: 'Processing...',
   PAYMENT_IN_PROGRESS: 'Payment in Progress',
@@ -258,7 +258,7 @@ const TEXT = {
   COMING_SOON: 'Coming Soon',
   BACK_TO_HOME: 'Back to home Page',
 
-  //WISHLIST
+  // WISHLIST
   EMPTY_WISHLIST_TITLE: 'Your wishlist is empty',
   EMPTY_WISHLIST_DESCRIPTION:
     'Save items you love in your wishlist and review them anytime.',
@@ -270,7 +270,7 @@ const TEXT = {
   LOADING: 'Loading...',
   ADD_TO_CART: 'Add to Cart',
 
-  //SHOP
+  // SHOP
   CUSTOMER_REVIEWS: 'Customer Reviews',
   AND_ABOVE: '& above',
   MIN: 'Min',
@@ -279,7 +279,7 @@ const TEXT = {
   BUY_NOW: 'Buy Now',
   RELEATED_ITEMS: 'Related Item',
 
-  //Orders
+  // Orders
   SORRY_NO_ORDERS: 'Sorry, we could not find any orders',
   YOUR_ORDERS: 'Your Orders',
   ORDER_DATE: 'Order Date',
@@ -290,7 +290,7 @@ const TEXT = {
   ERROR_HEADING: '404 Not Found',
   ERROR_MESSAGE: 'You visited page not found. You may go home page',
 
-  //BUY PRODUCTS
+  // BUY PRODUCTS
   BILLING_DETAILS: 'Billing Details',
   ETH: 'ETH:',
   PLACEHOLDER_COUPON: 'Coupon Code',
@@ -299,7 +299,7 @@ const TEXT = {
   COUPON_REMOVE: '[Remove]',
   SAVE20: 'SAVE20',
 
-  //SHARE
+  // SHARE
   EMAIL: 'Email',
   WHATSAPP: 'Whatsapp',
   TELLEGRAM: 'Telegram',
@@ -331,7 +331,7 @@ const TEXT = {
   ANNOUNCEMENT:
     'Summer Sale For All Swim Suits And Free Express Delivery - OFF 50%!',
 
-  //Contact
+  // Contact
   CALL_TO_US: 'Call To Us',
   CALL_TO_US_DESC: 'We are available 24/7, 7 days a week.',
   CALL_TO_US_PHONE: 'Phone: +917091400186',
@@ -406,8 +406,7 @@ const INFO_SECTIONS = {
     {
       id: 'payment',
       question: 'What payment methods are accepted?',
-      answer:
-        'We accept UPI, Credit/Debit Cards, Net Banking, and Wallets.',
+      answer: 'We accept UPI, Credit/Debit Cards, Net Banking, and Wallets.',
     },
     {
       id: 'damaged',

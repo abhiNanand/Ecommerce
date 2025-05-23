@@ -126,7 +126,7 @@ function Payment({ Items, deleteCartItems, total }: Readonly<ItemProps>) {
               <>
                 <div className="spinner" />
                 <p className="tx-hash">
-                {TEXT.TX}: {hash.slice(0, 10)}...{hash.slice(-8)}
+                  {TEXT.TX}: {hash.slice(0, 10)}...{hash.slice(-8)}
                 </p>
                 <a
                   href={`https://holesky.etherscan.io/tx/${hash}`}

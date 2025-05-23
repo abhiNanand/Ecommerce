@@ -1,6 +1,6 @@
 import './BrowseCategory.scss';
 import { useNavigate } from 'react-router-dom';
-import {TEXT} from '../../../../Shared/Constants';
+import { TEXT } from '../../../../Shared/Constants';
 import assets from '../../../../assets';
 
 export default function BrowseCategory() {

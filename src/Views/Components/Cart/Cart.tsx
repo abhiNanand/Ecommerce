@@ -266,7 +266,7 @@ export default function Cart() {
 
       <div className="cart-actions">
         <button type="button" onClick={returnHome}>
-        {TEXT.RETURN_TO_SHOP}
+          {TEXT.RETURN_TO_SHOP}
         </button>
         {cartItems.length > 0 && (
           <button type="button" onClick={() => setOpenClearCart(true)}>
@@ -279,9 +279,15 @@ export default function Cart() {
         <div className="cart-summary">
           <div className="cart-total">
             <h3>{TEXT.CART_TOTAL}</h3>
-            <p>{TEXT.SUBTOTAL}: ${calculateTotal().toFixed(2)}</p>
-            <p>{TEXT.SHIPPING}: {TEXT.SHIPPING_FREE}</p>
-            <p>{TEXT.TOTAL}: ${calculateTotal().toFixed(2)}</p>
+            <p>
+              {TEXT.SUBTOTAL}: ${calculateTotal().toFixed(2)}
+            </p>
+            <p>
+              {TEXT.SHIPPING}: {TEXT.SHIPPING_FREE}
+            </p>
+            <p>
+              {TEXT.TOTAL}: ${calculateTotal().toFixed(2)}
+            </p>
             {cartItems.length !== 0 && (
               <button type="button" onClick={() => navigate(ROUTES.CHECKOUT)}>
                 {TEXT.PROCEED_TO_CHECKOUT}

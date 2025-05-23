@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
 import { calculateTimeLeft } from '../../../../Shared/Utilities';
 import { Product } from '../../../../Shared/Product';
-import {TEXT} from '../../../../Shared/Constants';
+import { TEXT } from '../../../../Shared/Constants';
 import SalesItem from './helper/SalesItem';
 import './Sales.scss';
+
 interface SalesItemProps {
   products: Product[];
 }

@@ -12,7 +12,7 @@ import { query, where, getDocs, collection } from 'firebase/firestore';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
 import { updateAuthTokenRedux } from '../../../Store/Common/index';
-import { ROUTES, VALIDATION , TOAST} from '../../../Shared/Constants';
+import { ROUTES, VALIDATION, TOAST } from '../../../Shared/Constants';
 import { handleChange, handleChangePassword } from '../../../Shared/Utilities';
 import { auth, db } from '../../../Services/firebase/firebase';
 import Google from '../Google';
@@ -36,10 +36,7 @@ export default function Login() {
   const dispatch = useDispatch();
 
   const emailValidation = Yup.string()
-    .matches(
-      VALIDATION.Email_REGEX,
-      VALIDATION.EMAIL_INVALID
-    )
+    .matches(VALIDATION.Email_REGEX, VALIDATION.EMAIL_INVALID)
     .required(VALIDATION.EMAIL_REQUIRED);
 
   const formik = useFormik<FormValues>({

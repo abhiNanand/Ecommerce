@@ -41,7 +41,11 @@ export default function Shop() {
       <div className="not-found">
         <Frown strokeWidth={1} size={50} />
         <p>{TEXT.ERROR_LOADING}</p>
-        <button type="button" className="retry-button" onClick={() => window.location.reload()}>
+        <button
+          type="button"
+          className="retry-button"
+          onClick={() => window.location.reload()}
+        >
           {TEXT.TRY_AGAIN}
         </button>
       </div>
@@ -135,7 +139,8 @@ export default function Shop() {
             />
             <label htmlFor="rating">
               {' '}
-              <Star rating={4} productId="rating-filter" />{TEXT.AND_ABOVE}
+              <Star rating={4} productId="rating-filter" />
+              {TEXT.AND_ABOVE}
             </label>
           </div>
         </div>
@@ -152,8 +157,12 @@ export default function Shop() {
             }}
           />
           <div>
-            <p>{TEXT.MIN}: ${range[0]}</p>
-            <p>{TEXT.MAX}: ${range[1]}</p>
+            <p>
+              {TEXT.MIN}: ${range[0]}
+            </p>
+            <p>
+              {TEXT.MAX}: ${range[1]}
+            </p>
           </div>
         </div>
       </div>

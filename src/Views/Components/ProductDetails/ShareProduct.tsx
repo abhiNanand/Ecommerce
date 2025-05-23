@@ -8,8 +8,8 @@ import {
 } from 'react-share';
 import { Share, Link } from 'lucide-react';
 import { useState } from 'react';
-import {TEXT} from '../.../../../../Shared/Constants';
 import { toast } from 'react-toastify';
+import { TEXT } from '../../../Shared/Constants';
 
 interface ShareProductProps {
   readonly pathname: string;

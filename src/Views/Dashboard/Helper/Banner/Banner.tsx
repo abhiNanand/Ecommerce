@@ -1,7 +1,7 @@
 import './Banner.scss';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import {TEXT} from '../../../../Shared/Constants';
+import { TEXT } from '../../../../Shared/Constants';
 import assets from '../../../../assets';
 
 const images = [

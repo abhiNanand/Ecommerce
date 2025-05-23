@@ -12,7 +12,7 @@ import {
 } from '../../../Services/Wishlist/WishlistService';
 import { addToCart } from '../../../Services/Cart/CartService';
 import { useAuth } from '../../../Shared/CustomHooks/userAuth';
-import { ROUTES,TEXT, BREADCRUMB } from '../../../Shared/Constants';
+import { ROUTES, TEXT, BREADCRUMB } from '../../../Shared/Constants';
 import './Wishlist.scss';
 import {
   updateCartItem,
@@ -120,7 +120,9 @@ export default function Wishlist() {
       </p>
 
       <div className="wishlist-top">
-        <h3>{TEXT.WISHLIST_HEADING} ({wishlistItems.length} {TEXT.ITEMS})</h3>
+        <h3>
+          {TEXT.WISHLIST_HEADING} ({wishlistItems.length} {TEXT.ITEMS})
+        </h3>
         {wishlistItems.length > 0 && (
           <button type="button" onClick={handleMoveAllToBag}>
             {TEXT.MOVE_ALL_TO_CART}

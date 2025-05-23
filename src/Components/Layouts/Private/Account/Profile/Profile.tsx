@@ -49,22 +49,20 @@ export default function Profile() {
     },
 
     validationSchema: Yup.object({
-      currentPassword: Yup.string().required(VALIDATION.CURRENT_PASSWORD_REQUIRED),
+      currentPassword: Yup.string().required(
+        VALIDATION.CURRENT_PASSWORD_REQUIRED
+      ),
       newPassword: Yup.string()
         .required(VALIDATION.NEW_PASSWORD_REQUIRED)
         .min(6, VALIDATION.PASSWORD_MIN_LENGTH)
-        .matches(VALIDATION.PASSWORD_REGEX, VALIDATION.PASSWORD_WEAK
-        )
+        .matches(VALIDATION.PASSWORD_REGEX, VALIDATION.PASSWORD_WEAK)
         .notOneOf(
           [Yup.ref('currentPassword'), null],
           VALIDATION.PASSWORD_CANNOT_SAME
         ),
       confirmPassword: Yup.string()
         .required(VALIDATION.CONFIRM_PASSWORD_REQUIRED)
-        .oneOf(
-          [Yup.ref('newPassword')],
-          VALIDATION.PASSWORD_CANNOT_SAME
-        ),
+        .oneOf([Yup.ref('newPassword')], VALIDATION.PASSWORD_CANNOT_SAME),
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
@@ -233,7 +231,7 @@ export default function Profile() {
                 className="profile-save"
                 onClick={() => setEditMode(true)}
               >
-               {TEXT.CHANGE_PASSWORD}
+                {TEXT.CHANGE_PASSWORD}
               </button>
             ) : (
               <>

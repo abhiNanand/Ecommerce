@@ -38,17 +38,11 @@ export default function Signup() {
       name: Yup.string().required(VALIDATION.NAME_REQUIRED),
       email: Yup.string()
         .required(VALIDATION.EMAIL_REQUIRED)
-        .matches(
-          VALIDATION.Email_REGEX,
-          VALIDATION.EMAIL_INVALID
-        ),
+        .matches(VALIDATION.Email_REGEX, VALIDATION.EMAIL_INVALID),
       password: Yup.string()
         .min(6, VALIDATION.PASSWORD_MIN_LENGTH)
         .required(VALIDATION.PASSWORD_REQUIRED)
-        .matches(
-          VALIDATION.PASSWORD_REGEX,
-          VALIDATION.PASSWORD_WEAK
-        ),
+        .matches(VALIDATION.PASSWORD_REGEX, VALIDATION.PASSWORD_WEAK),
     }),
     onSubmit: async (values, { resetForm }) => {
       setCreating(true);

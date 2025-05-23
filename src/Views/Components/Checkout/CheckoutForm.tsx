@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { ArrowLeft } from 'lucide-react';
 import { onAuthStateChanged } from 'firebase/auth';
-import {TEXT} from '../../../Shared/Constants';
+import { TEXT } from '../../../Shared/Constants';
 import AddressForm from '../AddressForm/AddressForm';
 import { auth } from '../../../Services/firebase/firebase';
 import { getAddress, Address } from '../../../Services/Address/Address';

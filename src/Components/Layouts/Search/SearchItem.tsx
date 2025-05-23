@@ -23,7 +23,11 @@ export default function SearchItem() {
       <div className="not-found">
         <Frown strokeWidth={1} size={50} />
         <p>{TEXT.ERROR_LOADING}</p>
-        <button type="button" className="retry-button" onClick={() => window.location.reload()}>
+        <button
+          type="button"
+          className="retry-button"
+          onClick={() => window.location.reload()}
+        >
           {TEXT.TRY_AGAIN}
         </button>
       </div>
@@ -59,7 +63,9 @@ export default function SearchItem() {
   return (
     <div className="show-searched-products">
       {filteredProducts.length > 0 && (
-        <p className="search-tag">{TEXT.SHOWING_RESULT} {query}</p>
+        <p className="search-tag">
+          {TEXT.SHOWING_RESULT} {query}
+        </p>
       )}
 
       {filteredProducts && filteredProducts.length > 0 ? (

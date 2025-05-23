@@ -13,7 +13,7 @@ import { useState, useEffect } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { useDispatch, useSelector } from 'react-redux';
 
-import {  ROUTES, TEXT } from '../../../Shared/Constants';
+import { ROUTES, TEXT } from '../../../Shared/Constants';
 import { auth } from '../../../Services/firebase/firebase';
 import { useAuth } from '../../../Shared/CustomHooks/userAuth';
 
@@ -100,7 +100,7 @@ export default function Header() {
             {TEXT.NAV_HOME}
           </NavLink>
           <NavLink className="header-nav-link" to="/contact">
-          {TEXT.NAV_CONTACT}
+            {TEXT.NAV_CONTACT}
           </NavLink>
           <NavLink className="header-nav-link" to="/about">
             {TEXT.NAV_ABOUT}

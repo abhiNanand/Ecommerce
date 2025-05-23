@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import {TEXT} from '../../Shared/Constants';
 import { Frown } from 'lucide-react';
+import { TEXT } from '../../Shared/Constants';
 import Banner from './Helper/Banner/Banner';
 import Sales from './Helper/Sales/Sales';
 import BrowseCategory from './Helper/BrowseCategroy/BrowseCategory';
@@ -32,8 +32,12 @@ export default function Dashboard() {
       <div className="not-found">
         <Frown strokeWidth={1} size={50} />
         <p>{TEXT.ERROR_LOADING}</p>
-        <button type="button" className="retry-button" onClick={() => window.location.reload()}>
-         {TEXT.TRY_AGAIN}
+        <button
+          type="button"
+          className="retry-button"
+          onClick={() => window.location.reload()}
+        >
+          {TEXT.TRY_AGAIN}
         </button>
       </div>
     );

@@ -1,5 +1,5 @@
 import './QuickLinks.scss';
-import {INFO_SECTIONS} from '../../../Shared/Constants'
+import { INFO_SECTIONS } from '../../../Shared/Constants';
 
 export default function PrivacyPolicy() {
   return (

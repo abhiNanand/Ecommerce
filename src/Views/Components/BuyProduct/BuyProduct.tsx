@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import CheckoutForm from '../Checkout/CheckoutForm';
 import { Product } from '../../../Shared/Product';
-import {TEXT,TOAST} from '../../../Shared/Constants';
+import { TEXT, TOAST } from '../../../Shared/Constants';
 import Payment from '../Checkout/Payment';
 
 interface ItemProps {

@@ -5,7 +5,13 @@ import { toast } from 'react-toastify';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { NavLink } from 'react-router-dom';
 import { db } from '../../../Services/firebase/firebase';
-import { ROUTES, TEXT, BREADCRUMB, TOAST, VALIDATION } from '../../../Shared/Constants';
+import {
+  ROUTES,
+  TEXT,
+  BREADCRUMB,
+  TOAST,
+  VALIDATION,
+} from '../../../Shared/Constants';
 import assets from '../../../assets';
 
 interface FormValues {
@@ -29,10 +35,7 @@ export default function Contact() {
         .required(VALIDATION.NAME_REQUIRED),
       email: Yup.string()
         .required(VALIDATION.EMAIL_REQUIRED)
-        .matches(
-          VALIDATION.Email_REGEX,
-          VALIDATION.EMAIL_INVALID
-        ),
+        .matches(VALIDATION.Email_REGEX, VALIDATION.EMAIL_INVALID),
       phone: Yup.string()
         .matches(VALIDATION.PHONE_NO_REGEX, VALIDATION.PHONE_NO_LENGTH)
         .required(VALIDATION.PHONE_NO_REQUIRED),

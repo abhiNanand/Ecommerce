@@ -1,6 +1,6 @@
 import './MyAccount.scss';
 import { NavLink, Outlet } from 'react-router-dom';
-import { ROUTES, BREADCRUMB,TEXT} from '../../../../Shared/Constants';
+import { ROUTES, BREADCRUMB, TEXT } from '../../../../Shared/Constants';
 
 export default function MyAccount() {
   return (

@@ -3,7 +3,12 @@ import './About.scss';
 import { NavLink } from 'react-router-dom';
 import { CircleDollarSign } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { ROUTES, WEBLINK, BREADCRUMB, ABOUT_PAGE} from '../../../Shared/Constants';
+import {
+  ROUTES,
+  WEBLINK,
+  BREADCRUMB,
+  ABOUT_PAGE,
+} from '../../../Shared/Constants';
 import assets from '../../../assets';
 
 const imgArr = [
@@ -54,12 +59,8 @@ export default function About() {
       <div className="about-header">
         <div className="about-details">
           <h1>Our Story</h1>
-          <p>
-            {ABOUT_PAGE.PARAGRAPH_1}
-          </p>
-          <p>
-          {ABOUT_PAGE.PARAGRAPH_2}
-          </p>
+          <p>{ABOUT_PAGE.PARAGRAPH_1}</p>
+          <p>{ABOUT_PAGE.PARAGRAPH_2}</p>
         </div>
         <div className="about-img">
           <img src={assets.images.aboutImg} alt="about-section-img" />
