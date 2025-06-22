@@ -52,7 +52,7 @@ export default function AddressForm({
 
       emailAddress: Yup.string()
         .required(VALIDATION.REQUIRED)
-        .matches(VALIDATION.Email_REGEX),
+        .matches(VALIDATION.Email_REGEX, VALIDATION.EMAIL_INVALID),
     }),
 
     onSubmit: async (values, { resetForm }) => {
